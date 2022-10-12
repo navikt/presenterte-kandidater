@@ -29,10 +29,11 @@ const configureServerSettings = () => {
 const startServer = () => {
     configureServerSettings();
 
-    app.all("*", handleRequest);
     app.get([`${basePath}/internal/isAlive`, `${basePath}/internal/isReady`], (_, res: Response) =>
         res.sendStatus(200)
     );
+
+    app.all("*", handleRequest);
 
     app.listen(port, () => {
         console.log(`Server kjører på port ${port}`);
