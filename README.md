@@ -1,4 +1,4 @@
-# Presenter-kandidater
+# Presenterte-kandidater
 
 Arbeidsgiverflate for å se kandidater presentert av markedskontakter.
 

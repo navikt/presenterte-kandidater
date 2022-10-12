@@ -1,7 +1,7 @@
 apiVersion: nais.io/v1alpha1
 kind: Application
 metadata:
-    name: presenter-kandidater
+    name: presenterte-kandidater
     namespace: toi
     labels:
         team: toi
@@ -10,7 +10,7 @@ spec:
     image: {{ image }}
     port: 3000
     ingresses:
-        - https://presenter-kandidater.dev.nav.no
+        - https://presenterte-kandidater.dev.nav.no
     liveness:
         initialDelay: 5
         path: /internal/isAlive

@@ -3,7 +3,7 @@ name: Bygg og deploy
 on: [push]
 
 env:
-    IMAGE: ghcr.io/${{ github.repository }}/presenter-kandidater:${{ github.sha }}
+    IMAGE: ghcr.io/${{ github.repository }}/presenterte-kandidater:${{ github.sha }}
 
 jobs:
     bygg-og-push-docker-image:
