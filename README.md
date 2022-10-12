@@ -1,4 +1,6 @@
-# Welcome to Remix!
+# Presenter-kandidater
+
+Arbeidsgiverflate for å se kandidater presentert av markedskontakter.
 
 - [Remix Docs](https://remix.run/docs)
 
