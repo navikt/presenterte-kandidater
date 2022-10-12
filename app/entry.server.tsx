@@ -1,3 +1,5 @@
+/* Bootstrappet av Remix */
+
 import { PassThrough } from "stream";
 import type { EntryContext } from "@remix-run/node";
 import { Response } from "@remix-run/node";
@@ -7,30 +9,30 @@ import { renderToPipeableStream } from "react-dom/server";
 
 const ABORT_DELAY = 5000;
 
-export default function handleRequest(
+const handleRequest = (
     request: Request,
     responseStatusCode: number,
     responseHeaders: Headers,
     remixContext: EntryContext
-) {
+) => {
     return isbot(request.headers.get("user-agent"))
         ? handleBotRequest(request, responseStatusCode, responseHeaders, remixContext)
         : handleBrowserRequest(request, responseStatusCode, responseHeaders, remixContext);
-}
+};
 
-function handleBotRequest(
+const handleBotRequest = (
     request: Request,
     responseStatusCode: number,
     responseHeaders: Headers,
     remixContext: EntryContext
-) {
+) => {
     return new Promise((resolve, reject) => {
         let didError = false;
 
         const { pipe, abort } = renderToPipeableStream(
             <RemixServer context={remixContext} url={request.url} />,
             {
-                onAllReady() {
+                onAllReady: () => {
                     const body = new PassThrough();
 
                     responseHeaders.set("Content-Type", "text/html");
@@ -44,10 +46,10 @@ function handleBotRequest(
 
                     pipe(body);
                 },
-                onShellError(error: unknown) {
+                onShellError: (error: unknown) => {
                     reject(error);
                 },
-                onError(error: unknown) {
+                onError: (error: unknown) => {
                     didError = true;
 
                     console.error(error);
@@ -57,21 +59,21 @@ function handleBotRequest(
 
         setTimeout(abort, ABORT_DELAY);
     });
-}
+};
 
-function handleBrowserRequest(
+const handleBrowserRequest = (
     request: Request,
     responseStatusCode: number,
     responseHeaders: Headers,
     remixContext: EntryContext
-) {
+) => {
     return new Promise((resolve, reject) => {
         let didError = false;
 
         const { pipe, abort } = renderToPipeableStream(
             <RemixServer context={remixContext} url={request.url} />,
             {
-                onShellReady() {
+                onShellReady: () => {
                     const body = new PassThrough();
 
                     responseHeaders.set("Content-Type", "text/html");
@@ -85,10 +87,10 @@ function handleBrowserRequest(
 
                     pipe(body);
                 },
-                onShellError(err: unknown) {
+                onShellError: (err: unknown) => {
                     reject(err);
                 },
-                onError(error: unknown) {
+                onError: (error: unknown) => {
                     didError = true;
 
                     console.error(error);
@@ -98,4 +100,6 @@ function handleBrowserRequest(
 
         setTimeout(abort, ABORT_DELAY);
     });
-}
+};
+
+export default handleRequest;
