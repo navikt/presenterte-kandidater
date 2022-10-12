@@ -1,5 +1,7 @@
-const { createRequestHandler } = require("@remix-run/express");
-const path = require("path");
+import type { RequestHandler } from "express";
+
+import { createRequestHandler } from "@remix-run/express";
+import path from "path";
 
 const buildDir = path.join(process.cwd(), "build");
 
@@ -16,7 +18,7 @@ const purgeRequireCache = () => {
     }
 };
 
-const createRequestHandlerForDevelopment = (req, res, next) => {
+const createRequestHandlerForDevelopment: RequestHandler = (req, res, next) => {
     purgeRequireCache();
 
     return createRequestHandler({
@@ -33,4 +35,4 @@ const handleRequest =
               mode: process.env.NODE_ENV,
           });
 
-module.exports = handleRequest;
+export default handleRequest;

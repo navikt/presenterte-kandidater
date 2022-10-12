@@ -1,7 +1,7 @@
-const express = require("express");
-const compression = require("compression");
-const morgan = require("morgan");
-const handleRequest = require("./handleRequest");
+import express from "express";
+import compression from "compression";
+import morgan from "morgan";
+import handleRequest from "./handleRequest";
 
 const port = process.env.PORT || 3000;
 

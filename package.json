@@ -4,9 +4,9 @@
     "scripts": {
         "build": "remix build",
         "dev": "remix build && run-p \"dev:*\"",
-        "dev:node": "cross-env NODE_ENV=development nodemon ./server/server.js --watch ./server/server.js",
+        "dev:node": "cross-env NODE_ENV=development nodemon ./server/server.ts --watch ./server/server.ts",
         "dev:remix": "remix watch",
-        "start": "cross-env NODE_ENV=production node ./server/server.js",
+        "start": "cross-env NODE_ENV=production ts-node ./server/server.ts",
         "format": "prettier --write .",
         "prepare": "husky install"
     },
