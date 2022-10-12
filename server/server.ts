@@ -2,8 +2,10 @@ import express from "express";
 import compression from "compression";
 import morgan from "morgan";
 import handleRequest from "./handleRequest";
+import type { Response } from "express";
 
 const port = process.env.PORT || 3000;
+const basePath = "";
 
 const app = express();
 
@@ -24,10 +26,17 @@ const configureServerSettings = () => {
     app.use(morgan("tiny"));
 };
 
-configureServerSettings();
+const startServer = () => {
+    configureServerSettings();
 
-app.all("*", handleRequest);
+    app.all("*", handleRequest);
+    app.get([`${basePath}/internal/isAlive`, `${basePath}/internal/isReady`], (_, res: Response) =>
+        res.sendStatus(200)
+    );
 
-app.listen(port, () => {
-    console.log(`Startet server på port ${port}`);
-});
+    app.listen(port, () => {
+        console.log(`Server kjører på port ${port}`);
+    });
+};
+
+startServer();

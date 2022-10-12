@@ -1,0 +1,48 @@
+name: Bygg og deploy
+
+on: [push]
+
+env:
+    IMAGE: ghcr.io/${{ github.repository }}/presenter-kandidater:${{ github.sha }}
+
+jobs:
+    bygg-og-push-docker-image:
+        name: Bygg applikasjon
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - uses: actions/setup-node@v2
+              with:
+                  node-version: 16
+                  cache: "npm"
+                  cache-dependency-path: |
+                      package-lock.json
+            - name: Installer avhengigheter
+              run: npm ci
+            - name: Bygg applikasjon
+              run: npm run build
+            - name: Logg inn til Github
+              uses: docker/login-action@v1
+              with:
+                  registry: ghcr.io
+                  username: ${{ github.actor }}
+                  password: ${{ secrets.GITHUB_TOKEN }}
+            - name: Bygg og publiser Docker-image
+              uses: docker/build-push-action@v2
+              with:
+                  context: .
+                  push: true
+                  tags: ${{ env.IMAGE }}
+
+    deploy-til-dev:
+        name: Deploy til dev-gcp
+        needs: bygg-og-push-docker-image
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev'
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v1
+            - uses: nais/deploy/actions/deploy@v1
+              env:
+                  APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+                  CLUSTER: dev-gcp
+                  RESOURCE: deploy/nais-dev.yaml
