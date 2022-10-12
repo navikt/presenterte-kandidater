@@ -12,8 +12,8 @@ spec:
     ingresses:
         - https://presenterte-kandidater.dev.nav.no
     liveness:
-        initialDelay: 5
+        initialDelay: 20
         path: /internal/isAlive
     readiness:
-        initialDelay: 5
+        initialDelay: 20
         path: /internal/isReady
