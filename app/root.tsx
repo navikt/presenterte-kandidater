@@ -1,6 +1,8 @@
 import type { LinksFunction, MetaFunction } from "@remix-run/node";
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from "@remix-run/react";
-import designsystemCss from "@navikt/ds-css/dist/index.css";
+import Header, { links as headerLinks } from "./components/Header";
+import designsystemStyles from "@navikt/ds-css/dist/index.css";
+import rootStyles from "~/styles/root.css";
 
 export const meta: MetaFunction = () => ({
     charset: "utf-8",
@@ -9,7 +11,11 @@ export const meta: MetaFunction = () => ({
 });
 
 export const links: LinksFunction = () => {
-    return [{ rel: "stylesheet", href: designsystemCss }];
+    return [
+        ...headerLinks(),
+        { rel: "stylesheet", href: rootStyles },
+        { rel: "stylesheet", href: designsystemStyles },
+    ];
 };
 
 const App = () => {
@@ -20,6 +26,7 @@ const App = () => {
                 <Links />
             </head>
             <body>
+                <Header />
                 <Outlet />
                 <ScrollRestoration />
                 <Scripts />
