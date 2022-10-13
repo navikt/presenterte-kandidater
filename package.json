@@ -2,7 +2,8 @@
     "private": true,
     "sideEffects": false,
     "scripts": {
-        "build": "remix build",
+        "build": "remix build && run-p build:server",
+        "build:server": "tsc --project server/tsconfig.json",
         "dev": "remix build && run-p \"dev:*\"",
         "dev:node": "cross-env NODE_ENV=development nodemon ./server/server.ts --watch ./server/server.ts",
         "dev:remix": "remix watch",

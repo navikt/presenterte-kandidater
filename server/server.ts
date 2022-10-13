@@ -29,10 +29,12 @@ const configureServerSettings = () => {
 const startServer = () => {
     configureServerSettings();
 
+    console.log("Setter opp helseendepunkter.");
     app.get([`${basePath}/internal/isAlive`, `${basePath}/internal/isReady`], (_, res: Response) =>
         res.sendStatus(200)
     );
 
+    console.log("Setter opp request handler for Remix.");
     app.all("*", handleRequest);
 
     app.listen(port, () => {
@@ -40,4 +42,5 @@ const startServer = () => {
     });
 };
 
+console.log("Konfigurerer og starter server ...");
 startServer();
