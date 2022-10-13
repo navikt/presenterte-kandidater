@@ -5,7 +5,7 @@ import handleRequest from "./handleRequest";
 import type { Response } from "express";
 
 const port = process.env.PORT || 3000;
-const basePath = "";
+const basePath = "/kandidatliste";
 
 const app = express();
 
@@ -17,7 +17,7 @@ const configureServerSettings = () => {
     app.disable("x-powered-by");
 
     // Remix bygger appen med fingerprinting, så vi kan cache disse filene evig
-    app.use("/build", express.static("public/build", { immutable: true, maxAge: "1y" }));
+    app.use(`${basePath}/build`, express.static("public/build", { immutable: true, maxAge: "1y" }));
 
     // Cache public-filer (som favicon) i én time
     app.use(express.static("public", { maxAge: "1h" }));
