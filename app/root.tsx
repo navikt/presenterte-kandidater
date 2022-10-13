@@ -1,6 +1,6 @@
 import type { LinksFunction, MetaFunction } from "@remix-run/node";
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from "@remix-run/react";
-import Header, { links as headerLinks } from "./components/Header";
+import Header, { links as headerLinks } from "./components/header/Header";
 import designsystemStyles from "@navikt/ds-css/dist/index.css";
 import rootStyles from "~/styles/root.css";
 
