@@ -1,0 +1,9 @@
+.kandidatlister {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.kandidatlister h1 {
+    margin-bottom: 1rem;
+}
