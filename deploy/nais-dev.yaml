@@ -13,7 +13,7 @@ spec:
         - https://presenterte-kandidater.dev.nav.no/kandidatliste
     liveness:
         initialDelay: 20
-        path: /internal/isAlive
+        path: /kandidatliste/internal/isAlive
     readiness:
         initialDelay: 20
-        path: /internal/isReady
+        path: /kandidatliste/internal/isReady
