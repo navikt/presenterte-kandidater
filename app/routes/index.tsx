@@ -1,5 +1,4 @@
 import { Heading, BodyLong } from "@navikt/ds-react";
-import { Link } from "@remix-run/react";
 import type { LinksFunction } from "@remix-run/server-runtime";
 import css from "~/styles/index.css";
 
