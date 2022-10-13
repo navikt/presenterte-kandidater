@@ -1,5 +1,6 @@
 body {
     background-color: var(--navds-global-color-gray-100);
+    min-height: 100vh;
 }
 
 .side {
