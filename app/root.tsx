@@ -3,13 +3,13 @@ import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from "@re
 
 export const meta: MetaFunction = () => ({
     charset: "utf-8",
-    title: "New Remix App",
+    title: "Kandidater",
     viewport: "width=device-width,initial-scale=1",
 });
 
-export default function App() {
+const App = () => {
     return (
-        <html lang="en">
+        <html lang="no">
             <head>
                 <Meta />
                 <Links />
@@ -22,4 +22,6 @@ export default function App() {
             </body>
         </html>
     );
-}
+};
+
+export default App;
