@@ -10,13 +10,11 @@ export const meta: MetaFunction = () => ({
     viewport: "width=device-width,initial-scale=1",
 });
 
-export const links: LinksFunction = () => {
-    return [
-        ...headerLinks(),
-        { rel: "stylesheet", href: rootStyles },
-        { rel: "stylesheet", href: designsystemStyles },
-    ];
-};
+export const links: LinksFunction = () => [
+    ...headerLinks(),
+    { rel: "stylesheet", href: rootStyles },
+    { rel: "stylesheet", href: designsystemStyles },
+];
 
 const App = () => {
     return (
