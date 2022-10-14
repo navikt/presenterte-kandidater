@@ -1,4 +1,4 @@
-import type { LinksFunction, LoaderFunction, MetaFunction } from "@remix-run/node";
+import type { LinksFunction, MetaFunction } from "@remix-run/node";
 import {
     Links,
     LiveReload,
@@ -6,12 +6,11 @@ import {
     Outlet,
     Scripts as RemixScripts,
     ScrollRestoration,
-    useLoaderData,
 } from "@remix-run/react";
 import Header, { links as headerLinks } from "./components/header/Header";
 import designsystemStyles from "@navikt/ds-css/dist/index.css";
 import rootStyles from "~/styles/root.css";
-import hentDekoratør from "./services/dekoratør";
+import * as Dekoratør from "./services/dekoratør";
 
 export const meta: MetaFunction = () => ({
     charset: "utf-8",
@@ -25,31 +24,26 @@ export const links: LinksFunction = () => [
     { rel: "stylesheet", href: designsystemStyles },
 ];
 
-export const loader: LoaderFunction = async () => {
-    return hentDekoratør();
-};
-
 const App = () => {
-    const { Styles, Scripts, Header: NavHeader, Footer } = useLoaderData();
-
     return (
         <html lang="no">
             <head>
-                <div dangerouslySetInnerHTML={{ __html: Styles }} />
-                <div dangerouslySetInnerHTML={{ __html: Scripts }} />
                 <Meta />
                 <Links />
+                <Dekoratør.Styles />
             </head>
             <body>
                 <header>
-                    <div dangerouslySetInnerHTML={{ __html: NavHeader }} />
+                    <Dekoratør.Header />
                     <Header />
                 </header>
                 <Outlet />
                 <ScrollRestoration />
                 <RemixScripts />
                 <LiveReload />
-                <footer dangerouslySetInnerHTML={{ __html: Footer }} />
+                <Dekoratør.Footer />
+                <Dekoratør.Env />
+                <Dekoratør.Scripts />
             </body>
         </html>
     );
