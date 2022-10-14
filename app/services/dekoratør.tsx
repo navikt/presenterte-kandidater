@@ -1,8 +1,8 @@
+import { renderToString } from "react-dom/server";
+import { fetchDecoratorReact } from "@navikt/nav-dekoratoren-moduler/ssr";
 import { hentMiljø, Miljø } from "./miljø";
 
 const hentBrødsmulesti = (miljø: Miljø) => {
-    console.log("Henter brødsmulesti fra miljø", miljø);
-
     if (miljø === Miljø.ProdGcp) {
         return [
             {
@@ -30,25 +30,28 @@ const hentBrødsmulesti = (miljø: Miljø) => {
     }
 };
 
-export const Styles = () => (
-    <link rel="stylesheet" href="https://dekoratoren.ekstern.dev.nav.no/css/client.css" />
-);
-
-export const Header = () => <div id="decorator-header" />;
-export const Footer = () => <div id="decorator-footer" />;
-export const Env = () => {
+const hentDekoratør = async () => {
     const miljø = hentMiljø();
-    const brødsmulesti = hentBrødsmulesti(miljø);
-    const urlEncoded = encodeURIComponent(JSON.stringify(brødsmulesti));
 
-    return (
-        <div
-            id="decorator-env"
-            data-src={`https://dekoratoren.ekstern.dev.nav.no/env?simple=false&chatbot=false&context=arbeidsgiver&breadcrumbs=${urlEncoded}`}
-        ></div>
-    );
+    const decorator = await fetchDecoratorReact({
+        env: process.env.NODE_ENV === "production" ? "prod" : "dev",
+        simple: false,
+        chatbot: false,
+        context: "arbeidsgiver",
+        breadcrumbs: hentBrødsmulesti(miljø),
+    });
+
+    const HeaderHtml = renderToString(<decorator.Header />);
+    const ScriptsHtml = renderToString(<decorator.Scripts />);
+    const FooterHtml = renderToString(<decorator.Footer />);
+    const StylesHtml = renderToString(<decorator.Styles />);
+
+    return {
+        Header: HeaderHtml,
+        Scripts: ScriptsHtml,
+        Footer: FooterHtml,
+        Styles: StylesHtml,
+    };
 };
 
-export const Scripts = () => (
-    <script async src="https://dekoratoren.ekstern.dev.nav.no/client.js"></script>
-);
+export default hentDekoratør;
