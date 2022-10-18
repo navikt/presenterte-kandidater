@@ -23,7 +23,9 @@ const configureServerSettings = () => {
     app.use(express.static("public", { maxAge: "1h" }));
 
     // Request logger
-    app.use(morgan("tiny"));
+    if (process.env.NODE_ENV !== "production") {
+        app.use(morgan("tiny"));
+    }
 };
 
 const startServer = () => {
