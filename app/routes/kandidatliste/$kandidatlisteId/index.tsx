@@ -20,7 +20,7 @@ const Kandidatliste = () => {
                 <Heading size="medium">Kandidatliste {kandidatlisteId}</Heading>
                 <ul>
                     <li>
-                        <Link to={`/kandidatliste/${kandidatlisteId}/456`}>Kandidat "456"</Link>
+                        <Link to={`/kandidatliste/${kandidatlisteId}/ABC`}>Kandidat "ABC"</Link>
                     </li>
                 </ul>
             </main>
