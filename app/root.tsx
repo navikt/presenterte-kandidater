@@ -11,9 +11,8 @@ import {
 import parse from "html-react-parser";
 import Header, { links as headerLinks } from "./components/header/Header";
 import designsystemStyles from "@navikt/ds-css/dist/index.css";
-import hentDekoratør, * as Dekoratør from "./services/dekoratør";
+import hentDekoratør from "./services/dekoratør";
 import rootStyles from "~/styles/root.css";
-import { ReactNode } from "react";
 
 export const meta: MetaFunction = () => ({
     charset: "utf-8",
@@ -39,22 +38,30 @@ const App = () => {
             <head>
                 <Meta />
                 <Links />
-                {parse(Styles)}
+                {renderString(Styles)}
             </head>
             <body>
                 <header>
-                    {parse(NavHeader)}
+                    {renderString(NavHeader)}
                     <Header />
                 </header>
                 <Outlet />
                 <ScrollRestoration />
                 <RemixScripts />
                 <LiveReload />
-                {parse(Footer)}
-                {parse(Scripts)}
+                {renderString(Footer)}
+                {renderString(Scripts)}
             </body>
         </html>
     );
+};
+
+const renderString = (html: string) => {
+    if (process.env.NODE_ENV === "production") {
+        return parse(html);
+    } else {
+        return null;
+    }
 };
 
 export default App;
