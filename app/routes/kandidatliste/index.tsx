@@ -1,7 +1,7 @@
 import { Heading, BodyLong } from "@navikt/ds-react";
 import { Link } from "@remix-run/react";
 import type { LinksFunction } from "@remix-run/server-runtime";
-import css from "~/styles/routes/index.css";
+import css from "./index.css";
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: css }];
 

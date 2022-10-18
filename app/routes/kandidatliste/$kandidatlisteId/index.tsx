@@ -1,7 +1,7 @@
 import type { LinksFunction } from "@remix-run/node";
 import { Link, useParams } from "@remix-run/react";
 import { Heading } from "@navikt/ds-react";
-import styles from "~/styles/routes/liste/kandidatlisteId.css";
+import styles from "./index.css";
 
 export const links: LinksFunction = () => [
     {

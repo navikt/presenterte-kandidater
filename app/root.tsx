@@ -12,7 +12,7 @@ import parse from "html-react-parser";
 import Header, { links as headerLinks } from "./components/header/Header";
 import designsystemStyles from "@navikt/ds-css/dist/index.css";
 import hentDekoratør from "./services/dekoratør";
-import rootStyles from "~/styles/root.css";
+import rootStyles from "./root.css";
 
 export const meta: MetaFunction = () => ({
     charset: "utf-8",
@@ -57,11 +57,7 @@ const App = () => {
 };
 
 const renderString = (html: string) => {
-    if (process.env.NODE_ENV === "production") {
-        return parse(html);
-    } else {
-        return null;
-    }
+    return parse(html);
 };
 
 export default App;
