@@ -24,3 +24,6 @@ spec:
         sidecar:
             enabled: true
             level: Level4
+            autoLogin: true
+            autoLoginIgnorePaths:
+                - /kandidatliste/internal/*
