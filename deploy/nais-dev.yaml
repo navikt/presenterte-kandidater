@@ -17,3 +17,5 @@ spec:
     readiness:
         initialDelay: 20
         path: /kandidatliste/internal/isReady
+    idporten:
+        enabled: true
