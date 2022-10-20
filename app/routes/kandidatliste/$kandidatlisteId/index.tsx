@@ -1,12 +1,12 @@
 import type { LinksFunction } from "@remix-run/node";
 import { Link, useParams } from "@remix-run/react";
 import { Heading } from "@navikt/ds-react";
-import styles from "./index.css";
+import css from "./index.css";
 
 export const links: LinksFunction = () => [
     {
         rel: "stylesheet",
-        href: styles,
+        href: css,
     },
 ];
 

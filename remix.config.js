@@ -1,5 +1,5 @@
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
-    ignoredRouteFiles: ["**/.*", "*.css"],
+    ignoredRouteFiles: ["**/.*", "**/*.css"],
     publicPath: "/kandidatliste/build/",
 };

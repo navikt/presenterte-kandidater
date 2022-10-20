@@ -24,6 +24,7 @@
         "express": "^4.18.1",
         "html-react-parser": "^3.0.4",
         "isbot": "^3.5.4",
+        "load-js": "^3.0.3",
         "morgan": "^1.10.0",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",

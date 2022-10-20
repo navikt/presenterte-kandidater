@@ -12,7 +12,9 @@ import parse from "html-react-parser";
 import Header, { links as headerLinks } from "./components/header/Header";
 import designsystemStyles from "@navikt/ds-css/dist/index.css";
 import hentDekoratør from "./services/dekoratør";
-import rootStyles from "./root.css";
+import rootCss from "./root.css";
+import type { Dekoratørfragmenter } from "./services/dekoratør";
+import { hentMiljø, Miljø } from "./services/miljø";
 
 export const meta: MetaFunction = () => ({
     charset: "utf-8",
@@ -22,7 +24,7 @@ export const meta: MetaFunction = () => ({
 
 export const links: LinksFunction = () => [
     ...headerLinks(),
-    { rel: "stylesheet", href: rootStyles },
+    { rel: "stylesheet", href: rootCss },
     { rel: "stylesheet", href: designsystemStyles },
 ];
 
@@ -31,33 +33,29 @@ export const loader: LoaderFunction = async () => {
 };
 
 const App = () => {
-    const { Styles, Header: NavHeader, Footer, Scripts } = useLoaderData();
+    const { styles, header, footer, scripts } = useLoaderData<Dekoratørfragmenter>();
 
     return (
         <html lang="no">
             <head>
                 <Meta />
                 <Links />
-                {renderString(Styles)}
+                {parse(styles)}
             </head>
             <body>
                 <header>
-                    {renderString(NavHeader)}
+                    {parse(header)}
                     <Header />
                 </header>
                 <Outlet />
                 <ScrollRestoration />
                 <RemixScripts />
                 <LiveReload />
-                {renderString(Footer)}
-                {renderString(Scripts)}
+                {parse(footer)}
+                {parse(scripts)}
             </body>
         </html>
     );
-};
-
-const renderString = (html: string) => {
-    return parse(html);
 };
 
 export default App;
