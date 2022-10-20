@@ -46,7 +46,7 @@ const hentBrødsmulesti = (miljø: Miljø) => {
     if (miljø === Miljø.ProdGcp) {
         return [
             {
-                title: "Min side - arbeidsgiver",
+                title: "Min side – arbeidsgiver",
                 url: "https://arbeidsgiver.nav.no/min-side-arbeidsgiver/",
             },
             {
@@ -57,7 +57,7 @@ const hentBrødsmulesti = (miljø: Miljø) => {
     } else if (miljø === Miljø.DevGcp) {
         return [
             {
-                title: "Min side - arbeidsgiver",
+                title: "Min side – arbeidsgiver",
                 url: "https://min-side-arbeidsgiver.dev.nav.no/min-side-arbeidsgiver/",
             },
             {

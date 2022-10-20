@@ -17,3 +17,13 @@ spec:
     readiness:
         initialDelay: 20
         path: /kandidatliste/internal/isReady
+    idporten:
+        enabled: true
+        redirectPath: "/kandidatliste/oauth2/callback"
+        frontchannelLogoutPath: "/kandidatliste/oauth2/logout"
+        sidecar:
+            enabled: true
+            level: Level4
+            autoLogin: true
+            autoLoginIgnorePaths:
+                - /kandidatliste/internal/*
