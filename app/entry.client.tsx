@@ -1,4 +1,4 @@
-/* Bootstrappet av Remix */
+/* Remix krever denne filen */
 
 import { RemixBrowser } from "@remix-run/react";
 import { startTransition, StrictMode } from "react";

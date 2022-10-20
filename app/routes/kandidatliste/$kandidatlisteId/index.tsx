@@ -1,12 +1,12 @@
 import type { LinksFunction } from "@remix-run/node";
 import { Link, useParams } from "@remix-run/react";
 import { Heading } from "@navikt/ds-react";
-import styles from "~/styles/routes/liste/kandidatlisteId.css";
+import css from "./index.css";
 
 export const links: LinksFunction = () => [
     {
         rel: "stylesheet",
-        href: styles,
+        href: css,
     },
 ];
 
@@ -20,7 +20,7 @@ const Kandidatliste = () => {
                 <Heading size="medium">Kandidatliste {kandidatlisteId}</Heading>
                 <ul>
                     <li>
-                        <Link to={`/kandidatliste/${kandidatlisteId}/456`}>Kandidat "456"</Link>
+                        <Link to={`/kandidatliste/${kandidatlisteId}/ABC`}>Kandidat "ABC"</Link>
                     </li>
                 </ul>
             </main>

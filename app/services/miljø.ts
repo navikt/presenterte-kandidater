@@ -4,10 +4,10 @@ export enum Miljø {
     Lokalt = "lokalt",
 }
 
-const kjørerPåServer = () => typeof document !== "undefined";
+const erHosKlient = () => typeof document !== "undefined";
 
 export const hentMiljø = () => {
-    return kjørerPåServer() ? hentMiljøFraKlient(window) : hentMiljøFraServer();
+    return erHosKlient() ? hentMiljøFraKlient(window) : hentMiljøFraServer();
 };
 
 const hentMiljøFraServer = () => {
