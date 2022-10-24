@@ -34,7 +34,7 @@ const discoverTokenXIssuer = async () => {
     }
 };
 
-export const requireAuthorizationHeader: RequestHandler = async (request, response, next) => {
+export const krevAuthorizationHeader: RequestHandler = async (request, response, next) => {
     if (request.headers.authorization) {
         next();
     } else {

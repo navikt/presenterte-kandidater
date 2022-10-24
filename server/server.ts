@@ -3,9 +3,13 @@ import compression from "compression";
 import morgan from "morgan";
 import handleRequest from "./handleRequest";
 import type { Response } from "express";
+import { krevAuthorizationHeader, setExchangeToken } from "./tokenx";
 
 const port = process.env.PORT || 3000;
 const basePath = "/kandidatliste";
+
+const cluster = process.env.NAIS_CLUSTER_NAME;
+const apiScope = `api://${cluster}.toi.presenterte-kandidater-api/.default`;
 
 const app = express();
 
@@ -34,6 +38,8 @@ const startServer = () => {
     app.get([`${basePath}/internal/isAlive`, `${basePath}/internal/isReady`], (_, res: Response) =>
         res.sendStatus(200)
     );
+
+    app.all(`${basePath}/api`, krevAuthorizationHeader, setExchangeToken(apiScope));
 
     app.all("*", handleRequest);
 
