@@ -1,22 +1,5 @@
 import { client } from "server/tokenx";
 
-export const setExchangeToken =
-    (scope: string): RequestHandler =>
-    async (request, response, next) => {
-        const accessToken = retrieveToken(request);
-
-        if (accessToken) {
-            const exchangeToken = await hentExchangeToken(accessToken, scope);
-
-            request.headers.authorization = `Bearer ${exchangeToken.access_token}`;
-            return next();
-        } else {
-            response
-                .status(500)
-                .send("Kan ikke be om exchange-token siden access-token ikke finnes");
-        }
-    };
-
 export const hentExchangeToken = async (accessToken: string, scope: string) => {
     const now = Math.floor(Date.now() / 1000);
     const additionalClaims = {

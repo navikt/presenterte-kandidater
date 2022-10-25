@@ -2,9 +2,9 @@ import { json } from "@remix-run/node";
 import { Link, useLoaderData, useParams } from "@remix-run/react";
 import { Heading } from "@navikt/ds-react";
 import type { LinksFunction, LoaderFunction } from "@remix-run/node";
-import css from "./index.css";
-import { harAuthorizationHeader, hentExchangeToken, retrieveToken } from "~/services/tokenx.server";
+import { hentExchangeToken, retrieveToken } from "~/services/tokenx.server";
 import { logger } from "server/logger";
+import css from "./index.css";
 
 export const links: LinksFunction = () => [
     {
