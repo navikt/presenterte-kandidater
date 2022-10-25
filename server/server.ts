@@ -1,11 +1,10 @@
 import express from "express";
 import compression from "compression";
-import morgan from "morgan";
 import handleRequest from "./handleRequest";
 import type { Response } from "express";
 import { krevAuthorizationHeader, setExchangeToken } from "./tokenx";
 import { setupProxy } from "./proxy";
-import { logger } from "./logger";
+import { logger, logRequests } from "./logger";
 
 const port = process.env.PORT || 3000;
 const basePath = "/kandidatliste";
@@ -28,11 +27,6 @@ const configureServerSettings = () => {
 
     // Cache public-filer (som favicon) i én time
     app.use(express.static("public", { maxAge: "1h" }));
-
-    // Request logger
-    if (process.env.NODE_ENV !== "production") {
-        app.use(morgan("tiny"));
-    }
 };
 
 const startServer = () => {
@@ -42,6 +36,9 @@ const startServer = () => {
         res.sendStatus(200)
     );
 
+    app.use(logRequests);
+    app.all("*", handleRequest);
+
     if (process.env.NODE_ENV === "production") {
         app.all(
             `${basePath}/api`,
@@ -50,8 +47,6 @@ const startServer = () => {
             setupProxy(`${basePath}/api`, apiUrl)
         );
     }
-
-    app.all("*", handleRequest);
 
     app.listen(port, () => {
         logger.info(`Server kjører på port ${port}`);
