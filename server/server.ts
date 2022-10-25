@@ -1,11 +1,17 @@
 import express from "express";
 import compression from "compression";
-import morgan from "morgan";
 import handleRequest from "./handleRequest";
 import type { Response } from "express";
+import { krevAuthorizationHeader, setExchangeToken } from "./tokenx";
+import { setupProxy } from "./proxy";
+import { logger, logRequests } from "./logger";
 
 const port = process.env.PORT || 3000;
 const basePath = "/kandidatliste";
+
+const cluster = process.env.NAIS_CLUSTER_NAME;
+const apiScope = `api://${cluster}.toi.presenterte-kandidater-api/.default`;
+const apiUrl = process.env.API_URL;
 
 const app = express();
 
@@ -21,11 +27,6 @@ const configureServerSettings = () => {
 
     // Cache public-filer (som favicon) i én time
     app.use(express.static("public", { maxAge: "1h" }));
-
-    // Request logger
-    if (process.env.NODE_ENV !== "production") {
-        app.use(morgan("tiny"));
-    }
 };
 
 const startServer = () => {
@@ -35,10 +36,20 @@ const startServer = () => {
         res.sendStatus(200)
     );
 
+    app.use(logRequests);
     app.all("*", handleRequest);
 
+    if (process.env.NODE_ENV === "production") {
+        app.all(
+            `${basePath}/api`,
+            krevAuthorizationHeader,
+            setExchangeToken(apiScope),
+            setupProxy(`${basePath}/api`, apiUrl)
+        );
+    }
+
     app.listen(port, () => {
-        console.log(`Server kjører på port ${port}`);
+        logger.info(`Server kjører på port ${port}`);
     });
 };
 
