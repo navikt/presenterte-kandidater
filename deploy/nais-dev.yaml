@@ -17,6 +17,8 @@ spec:
     readiness:
         initialDelay: 20
         path: /kandidatliste/internal/isReady
+    tokenx:
+        enabled: true
     idporten:
         enabled: true
         redirectPath: "/kandidatliste/oauth2/callback"
