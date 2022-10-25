@@ -39,14 +39,12 @@ const startServer = () => {
     app.use(logRequests);
     app.all("*", handleRequest);
 
-    if (process.env.NODE_ENV === "production") {
-        app.all(
-            `${basePath}/api`,
-            krevAuthorizationHeader,
-            setExchangeToken(apiScope),
-            setupProxy(`${basePath}/api`, apiUrl)
-        );
-    }
+    app.use(
+        `${basePath}/api/*`,
+        krevAuthorizationHeader,
+        setExchangeToken(apiScope),
+        setupProxy(`${basePath}/api`, apiUrl)
+    );
 
     app.listen(port, () => {
         logger.info(`Server kjører på port ${port}`);

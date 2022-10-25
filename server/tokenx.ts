@@ -3,7 +3,7 @@ import type { Client } from "openid-client";
 import type { RequestHandler } from "@remix-run/express";
 import type { Request } from "express";
 
-let client: Client;
+export let client: Client;
 
 const config = {
     discoveryUrl: process.env.TOKEN_X_WELL_KNOWN_URL,
