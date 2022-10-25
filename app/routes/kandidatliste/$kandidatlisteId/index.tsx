@@ -1,5 +1,5 @@
-import type { LinksFunction } from "@remix-run/node";
-import { Link, useParams } from "@remix-run/react";
+import type { LinksFunction, LoaderFunction } from "@remix-run/node";
+import { Link, useLoaderData, useParams } from "@remix-run/react";
 import { Heading } from "@navikt/ds-react";
 import css from "./index.css";
 
@@ -10,8 +10,15 @@ export const links: LinksFunction = () => [
     },
 ];
 
+export const loader: LoaderFunction = async () => {
+    await fetch("/api/kandidater");
+};
+
 const Kandidatliste = () => {
     const { kandidatlisteId } = useParams();
+    const kandidater = useLoaderData<any>();
+
+    console.log("Kandidater:", kandidater);
 
     return (
         <>

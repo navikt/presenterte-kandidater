@@ -5,13 +5,14 @@ import handleRequest from "./handleRequest";
 import type { Response } from "express";
 import { krevAuthorizationHeader, setExchangeToken } from "./tokenx";
 import { setupProxy } from "./proxy";
+import { logger } from "./logger";
 
 const port = process.env.PORT || 3000;
 const basePath = "/kandidatliste";
 
 const cluster = process.env.NAIS_CLUSTER_NAME;
 const apiScope = `api://${cluster}.toi.presenterte-kandidater-api/.default`;
-const apiUrl = process.env.NODE_ENV === "development" ? "placeholder" : process.env.API_URL;
+const apiUrl = process.env.API_URL;
 
 const app = express();
 
@@ -41,17 +42,19 @@ const startServer = () => {
         res.sendStatus(200)
     );
 
-    app.all(
-        `${basePath}/api`,
-        krevAuthorizationHeader,
-        setExchangeToken(apiScope),
-        setupProxy(`${basePath}/api`, apiUrl)
-    );
+    if (process.env.NODE_ENV === "production") {
+        app.all(
+            `${basePath}/api`,
+            krevAuthorizationHeader,
+            setExchangeToken(apiScope),
+            setupProxy(`${basePath}/api`, apiUrl)
+        );
+    }
 
     app.all("*", handleRequest);
 
     app.listen(port, () => {
-        console.log(`Server kjører på port ${port}`);
+        logger.info(`Server kjører på port ${port}`);
     });
 };
 
