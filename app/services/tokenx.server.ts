@@ -2,11 +2,6 @@ import client from "server/tokenx";
 
 export const hentExchangeToken = async (accessToken: string, scope: string) => {
     const now = Math.floor(Date.now() / 1000);
-    const additionalClaims = {
-        clientAssertionPayload: {
-            nbf: now,
-        },
-    };
 
     // TODO: Cache exchange token med gitt scope
     const tokenXClient = await client.hent();
@@ -18,7 +13,12 @@ export const hentExchangeToken = async (accessToken: string, scope: string) => {
             audience: scope,
             subject_token: accessToken,
         },
-        additionalClaims
+        {
+            clientAssertionPayload: {
+                nbf: now,
+                aud: [process.env.TOKEN_X_TOKEN_ENDPOINT],
+            },
+        }
     );
 
     return exchangeToken;
