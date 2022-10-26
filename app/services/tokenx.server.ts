@@ -9,7 +9,8 @@ export const hentExchangeToken = async (accessToken: string, scope: string) => {
     };
 
     // TODO: Cache exchange token med gitt scope
-    const exchangeToken = await client.hent().grant(
+    const tokenXClient = await client.hent();
+    const exchangeToken = await tokenXClient.grant(
         {
             grant_type: "urn:ietf:params:oauth:grant-type:token-exchange",
             client_assertion_type: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
@@ -24,5 +25,9 @@ export const hentExchangeToken = async (accessToken: string, scope: string) => {
 };
 
 export const retrieveToken = (request: Request) => {
+    if (process.env.NODE_ENV === "development") {
+        return "token";
+    }
+
     return request.headers.get("authorization")?.replace("Bearer", "");
 };

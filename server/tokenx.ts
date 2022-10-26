@@ -11,16 +11,18 @@ const config = {
 class TokenClient {
     private client?: Client;
 
-    hent = (): Client => {
+    hent = async (): Promise<Client> => {
         if (this.client === undefined) {
-            logger.error("Forsøkte å hente TokenX-klient før den er konfigurert");
-            throw new Error("TokenX-klient er ikke konfigurert");
+            const issuerClient = await this.configure();
+
+            this.client = issuerClient;
+            return issuerClient;
         }
 
         return this.client;
     };
 
-    initialize = async () => {
+    configure = async (): Promise<Client> => {
         logger.info(
             `Konfigurerer TokenX med clientId ${config.clientId} og discoveryUrl ${config.discoveryUrl} ...`
         );
@@ -28,7 +30,7 @@ class TokenClient {
         const issuer = await this.discoverTokenXIssuer();
 
         const jwk = JSON.parse(config.privateJwk);
-        this.client = new issuer.Client(
+        const issuerClient = new issuer.Client(
             {
                 client_id: config.clientId,
                 token_endpoint_auth_method: "private_key_jwt",
@@ -39,6 +41,8 @@ class TokenClient {
         );
 
         logger.info("TokenX er konfigurert!");
+
+        return issuerClient;
     };
 
     discoverTokenXIssuer = async () => {
