@@ -9,9 +9,16 @@ const config = {
 };
 
 class TokenClient {
-    private client: Client;
+    private client?: Client;
 
-    hent = () => this.client;
+    hent = (): Client => {
+        if (client === undefined) {
+            logger.error("Forsøkte å hente TokenX-klient før den er konfigurert");
+            throw new Error("TokenX-klient er ikke konfigurert");
+        }
+
+        return this.client;
+    };
 
     initialize = async () => {
         logger.info(
