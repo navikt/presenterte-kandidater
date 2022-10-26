@@ -43,4 +43,6 @@ class TokenClient {
     };
 }
 
-export default new TokenClient();
+let client = new TokenClient();
+
+export default client;
