@@ -15,7 +15,7 @@ export const links: LinksFunction = () => [
 
 export const loader: LoaderFunction = async ({ request }) => {
     const cluster = process.env.NAIS_CLUSTER_NAME;
-    const apiScope = `api://${cluster}.toi.presenterte-kandidater-api/.default`;
+    const apiScope = `${cluster}:toi:presenterte-kandidater-api`;
     const accessToken = retrieveToken(request);
 
     if (!accessToken) {
