@@ -1,11 +1,12 @@
 import { Issuer } from "openid-client";
 import type { Client } from "openid-client";
-import { logger } from "./logger";
+import { logger } from "server/logger";
 
 const config = {
-    discoveryUrl: process.env.TOKEN_X_WELL_KNOWN_URL,
-    clientId: process.env.TOKEN_X_CLIENT_ID,
-    privateJwk: process.env.TOKEN_X_PRIVATE_JWK,
+    discoveryUrl: process.env.TOKEN_X_WELL_KNOWN_URL!,
+    clientId: process.env.TOKEN_X_CLIENT_ID!,
+    privateJwk: process.env.TOKEN_X_PRIVATE_JWK!,
+    tokenEndpoint: process.env.TOKEN_X_TOKEN_ENDPOINT!,
 };
 
 class TokenClient {
@@ -27,7 +28,7 @@ class TokenClient {
             `Konfigurerer TokenX med clientId ${config.clientId} og discoveryUrl ${config.discoveryUrl} ...`
         );
 
-        const issuer = await this.discoverTokenXIssuer();
+        const issuer = await this.discoverIssuer();
 
         const jwk = JSON.parse(config.privateJwk);
         const issuerClient = new issuer.Client(
@@ -45,7 +46,30 @@ class TokenClient {
         return issuerClient;
     };
 
-    discoverTokenXIssuer = async () => {
+    veksleToken = async (accessToken: string, scope: string) => {
+        const now = Math.floor(Date.now() / 1000);
+        const tokenXClient = await this.hent();
+
+        logger.info(`Veksler inn brukerens accessToken til exchangeToken for scope ${scope}`);
+
+        return tokenXClient.grant(
+            {
+                grant_type: "urn:ietf:params:oauth:grant-type:token-exchange",
+                client_assertion_type: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
+                subject_token_type: "urn:ietf:params:oauth:token-type:jwt",
+                audience: scope,
+                subject_token: accessToken,
+            },
+            {
+                clientAssertionPayload: {
+                    nbf: now,
+                    aud: [config.tokenEndpoint],
+                },
+            }
+        );
+    };
+
+    discoverIssuer = async () => {
         if (config.discoveryUrl) {
             return await Issuer.discover(config.discoveryUrl);
         } else {
@@ -54,6 +78,4 @@ class TokenClient {
     };
 }
 
-let client = new TokenClient();
-
-export default client;
+export default TokenClient;
