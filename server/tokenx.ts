@@ -12,7 +12,7 @@ class TokenClient {
     private client?: Client;
 
     hent = (): Client => {
-        if (client === undefined) {
+        if (this.client === undefined) {
             logger.error("Forsøkte å hente TokenX-klient før den er konfigurert");
             throw new Error("TokenX-klient er ikke konfigurert");
         }
