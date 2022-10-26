@@ -24,10 +24,14 @@ export const loader: LoaderFunction = async ({ request }) => {
         return null;
     } else {
         const exchangeToken = await hentExchangeToken(accessToken, apiScope);
-        request.headers.set("authorization", `Bearer ${exchangeToken.access_token}`);
 
         const response = await fetch(
-            `https://presenterte-kandidater-api.dev.intern.nav.no/kandidater`
+            `https://presenterte-kandidater-api.dev.intern.nav.no/kandidater`,
+            {
+                headers: {
+                    authorization: `Bearer ${exchangeToken.access_token}`,
+                },
+            }
         );
 
         const data = await response.text();
