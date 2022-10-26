@@ -2,8 +2,9 @@ import { json } from "@remix-run/node";
 import { Link, useLoaderData, useParams } from "@remix-run/react";
 import { Heading } from "@navikt/ds-react";
 import type { LinksFunction, LoaderFunction } from "@remix-run/node";
-import css from "./index.css";
+import { hentExchangeToken, retrieveToken } from "~/services/tokenx.server";
 import { logger } from "server/logger";
+import css from "./index.css";
 
 export const links: LinksFunction = () => [
     {
@@ -12,20 +13,31 @@ export const links: LinksFunction = () => [
     },
 ];
 
-export const loader: LoaderFunction = async () => {
-    const publicPath = "/kandidatliste";
-    const basePath =
-        process.env.NODE_ENV === "production"
-            ? `https://presenterte-kandidater.dev.nav.no${publicPath}`
-            : `http://localhost:3000${publicPath}`;
+export const loader: LoaderFunction = async ({ request }) => {
+    const cluster = process.env.NAIS_CLUSTER_NAME;
+    const apiScope = `${cluster}:toi:presenterte-kandidater-api`;
+    const accessToken = retrieveToken(request);
 
-    // Kaller vår egen server. Er dette innafor?
-    const response = await fetch(`${basePath}/api/kandidater`);
-    const data = await response.text();
+    if (!accessToken) {
+        logger.error("Bruker har ikke auth token");
 
-    logger.info("Data:", data);
+        return null;
+    } else {
+        const exchangeToken = await hentExchangeToken(accessToken, apiScope);
 
-    return json(data);
+        const response = await fetch(
+            `https://presenterte-kandidater-api.dev.intern.nav.no/kandidater`,
+            {
+                headers: {
+                    authorization: `Bearer ${exchangeToken.access_token}`,
+                },
+            }
+        );
+
+        const data = await response.text();
+
+        return json(data);
+    }
 };
 
 const Kandidatliste = () => {
