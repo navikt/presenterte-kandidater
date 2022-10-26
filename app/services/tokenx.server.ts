@@ -1,4 +1,4 @@
-import { client } from "server/tokenx";
+import client from "server/tokenx";
 
 export const hentExchangeToken = async (accessToken: string, scope: string) => {
     const now = Math.floor(Date.now() / 1000);
@@ -9,7 +9,7 @@ export const hentExchangeToken = async (accessToken: string, scope: string) => {
     };
 
     // TODO: Cache exchange token med gitt scope
-    const exchangeToken = await client.grant(
+    const exchangeToken = await client.hent().grant(
         {
             grant_type: "urn:ietf:params:oauth:grant-type:token-exchange",
             client_assertion_type: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",

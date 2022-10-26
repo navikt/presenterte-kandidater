@@ -3,7 +3,7 @@ import compression from "compression";
 import handleRequest from "./handleRequest";
 import type { Response } from "express";
 import { logger, logRequests } from "./logger";
-import { initializeTokenX } from "./tokenx";
+import client from "./tokenx";
 
 const port = process.env.PORT || 3000;
 const basePath = "/kandidatliste";
@@ -24,8 +24,11 @@ const configureServerSettings = () => {
     app.use(express.static("public", { maxAge: "1h" }));
 };
 
-const startServer = () => {
-    initializeTokenX();
+const startServer = async () => {
+    if (process.env.NODE_ENV !== "development") {
+        await client.initialize();
+    }
+
     configureServerSettings();
 
     app.get([`${basePath}/internal/isAlive`, `${basePath}/internal/isReady`], (_, res: Response) =>
