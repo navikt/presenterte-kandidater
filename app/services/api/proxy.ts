@@ -4,7 +4,7 @@ export const client = new TokenClient();
 
 const naisCluster = process.env.NAIS_CLUSTER_NAME;
 
-const apiConfig = {
+export const apiConfig = {
     scope: `${naisCluster}:toi:presenterte-kandidater-api`,
     url: `https://presenterte-kandidater-api.dev.intern.nav.no`,
 };

@@ -13,7 +13,9 @@ export const links: LinksFunction = () => [
 ];
 
 export const loader: LoaderFunction = async ({ request }) => {
-    return json(await proxyTilApi(request, "/kandidater"));
+    const respons = await proxyTilApi(request, "/kandidater");
+
+    return json(await respons.text());
 };
 
 const Kandidatliste = () => {

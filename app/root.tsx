@@ -14,7 +14,7 @@ import designsystemStyles from "@navikt/ds-css/dist/index.css";
 import hentDekoratør from "./services/dekoratør";
 import rootCss from "./root.css";
 import type { Dekoratørfragmenter } from "./services/dekoratør";
-import { hentMiljø, Miljø } from "./services/miljø";
+import { initializeMock } from "./mocks";
 
 export const meta: MetaFunction = () => ({
     charset: "utf-8",
@@ -29,6 +29,8 @@ export const links: LinksFunction = () => [
 ];
 
 export const loader: LoaderFunction = async () => {
+    initializeMock();
+
     return await hentDekoratør();
 };
 
