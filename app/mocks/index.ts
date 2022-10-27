@@ -1,9 +1,10 @@
-export const initializeMock = () => {
+import { configureMockServer } from "./server";
+import { configureMockWorker } from "./worker";
+
+export const configureMock = () => {
     if (typeof document === "undefined") {
-        const { server } = require("./server");
-        server.listen();
+        configureMockServer().listen();
     } else {
-        const { worker } = require("./browser");
-        worker.start();
+        configureMockWorker().start();
     }
 };
