@@ -9,7 +9,9 @@ export const links: LinksFunction = () => {
 const Header = () => {
     return (
         <div className="arbeidsgiver-header">
-            <Heading size="large">Kandidater</Heading>
+            <div className="arbeidsgiver-header--inner">
+                <Heading size="large">Kandidater</Heading>
+            </div>
         </div>
     );
 };

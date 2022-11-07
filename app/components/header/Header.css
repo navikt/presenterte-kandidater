@@ -3,7 +3,13 @@
     justify-content: space-between;
     align-items: center;
     height: 8rem;
-    padding: 1rem 2rem;
     background-color: var(--navds-global-color-blue-100);
     border-bottom: 4px solid var(--navds-global-color-deepblue-200);
+}
+
+.arbeidsgiver-header--inner {
+    max-width: 56rem;
+    margin: 0 auto;
+    width: 100%;
+    padding: 1rem 2rem;
 }

@@ -1,0 +1,10 @@
+.kandidatlisteforhandsvisning {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1rem;
+    padding: 1.5rem;
+}
+
+.kandidatlisteforhandsvisning a {
+    font-size: var(--navds-font-size-xlarge);
+}

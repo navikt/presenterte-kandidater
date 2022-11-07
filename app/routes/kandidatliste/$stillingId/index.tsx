@@ -12,6 +12,7 @@ export type Kandidatliste = {
     status: string;
     slettet: boolean;
     virksomhetsnummer: string;
+    opprettetTidspunkt: string;
     kandidater: Kandidat[];
 };
 

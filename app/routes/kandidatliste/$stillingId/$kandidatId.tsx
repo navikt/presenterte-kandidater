@@ -3,11 +3,11 @@ import { Detail, Heading } from "@navikt/ds-react";
 import { json } from "@remix-run/node";
 import { proxyTilApi } from "~/services/api/proxy";
 import type { LoaderFunction } from "@remix-run/node";
-import { Kandidatliste } from ".";
+import type { Kandidatliste } from ".";
 
 export type Kandidat = {
     kandidatId: string;
-    hendelsestidspunkt: Date;
+    hendelsestidspunkt: string;
     arbeidsgiversStatus: ArbeidsgiversStatus;
 
     // Fra ElasticSearch
@@ -49,7 +49,7 @@ type LoaderData = {
 const Kandidatvisning = () => {
     const { stillingId } = useParams();
 
-    const { kandidat, kandidatliste } = useLoaderData<LoaderData>();
+    const { kandidat } = useLoaderData<LoaderData>();
     const { kandidatId, arbeidsgiversStatus } = kandidat;
 
     return (
