@@ -18,9 +18,11 @@ const Kandidatlisteforhåndsvisning: FunctionComponent<Props> = ({ kandidatliste
 
     return (
         <Panel as="li" className="kandidatlisteforhandsvisning">
-            <Link to={`/kandidatliste/${stillingId}`} className="navds-link">
-                {tittel}
-            </Link>
+            <span>
+                <Link to={`/kandidatliste/${stillingId}`} className="navds-link">
+                    {tittel}
+                </Link>
+            </span>
             <BodyShort>Opprettet {formaterOpprettetTidspunkt(opprettetTidspunkt)}</BodyShort>
             <BodyShort>
                 {kandidater.length} kandidat{kandidater.length === 1 ? "" : "er"}

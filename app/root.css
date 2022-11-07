@@ -14,3 +14,7 @@ header {
     padding: 2rem;
     max-width: 56rem;
 }
+
+.side a {
+    align-self: flex-start;
+}

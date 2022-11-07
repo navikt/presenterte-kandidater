@@ -4,6 +4,7 @@ import { json } from "@remix-run/node";
 import { proxyTilApi } from "~/services/api/proxy";
 import type { LoaderFunction } from "@remix-run/node";
 import type { Kandidatliste } from ".";
+import { Back } from "@navikt/ds-icons";
 
 export type Kandidat = {
     kandidatId: string;
@@ -54,7 +55,10 @@ const Kandidatvisning = () => {
 
     return (
         <main className="side">
-            <Link to={`/kandidatliste/${stillingId}`}>Tilbake</Link>
+            <Link to={`/kandidatliste/${stillingId}`} className="navds-link">
+                <Back />
+                Tilbake
+            </Link>
             <Detail>Kandidat med kandidatId {kandidatId}</Detail>
             <Heading size="medium">
                 <span>{kandidat.kandidat.fornavn} </span>

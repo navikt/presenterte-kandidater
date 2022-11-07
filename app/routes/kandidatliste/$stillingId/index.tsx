@@ -6,7 +6,7 @@ import { ArbeidsgiversStatus, Kandidat, visArbeidsgiversStatus } from "./$kandid
 import { Link as NavLink } from "@navikt/ds-react";
 import type { LinksFunction, LoaderFunction } from "@remix-run/node";
 import css from "./index.css";
-import { Close, Helptext, Like, Next } from "@navikt/ds-icons";
+import { Back, Close, Helptext, Like, Next } from "@navikt/ds-icons";
 import { ReactNode } from "react";
 
 export type Kandidatliste = {
@@ -47,7 +47,10 @@ const Kandidatlistevisning = () => {
     return (
         <>
             <Panel as="main" className="side kandidatlistevisning">
-                <Link to="/kandidatliste">Tilbake</Link>
+                <Link to="/kandidatliste" className="navds-link">
+                    <Back />
+                    Tilbake
+                </Link>
                 <Heading size="medium">{tittel}</Heading>
 
                 <NavLink href={`https://www.nav.no/arbeid/stilling/${stillingId}`}>
