@@ -54,7 +54,14 @@ export const handlers = [
     }),
 
     rest.get(`${apiConfig.url}/kandidatlister/:stillingId`, (req, res, ctx) => {
-        return res(ctx.json(mocketKandidatliste(req.params.stillingId as string)));
+        return res(
+            ctx.json(
+                mocketKandidatliste(
+                    "Volleyballskuespillere til Pascara Beach",
+                    req.params.stillingId as string
+                )
+            )
+        );
     }),
 
     rest.get(`${apiConfig.url}/kandidatlister/:stillingId/:kandidatId`, (req, res, ctx) => {

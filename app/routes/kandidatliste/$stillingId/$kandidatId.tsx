@@ -65,7 +65,7 @@ const Kandidatvisning = () => {
     );
 };
 
-const visArbeidsgiversStatus = (arbeidsgiversStatus: ArbeidsgiversStatus) => {
+export const visArbeidsgiversStatus = (arbeidsgiversStatus: ArbeidsgiversStatus) => {
     switch (arbeidsgiversStatus) {
         case ArbeidsgiversStatus.ÅVurdere:
             return "Å vurdere";
