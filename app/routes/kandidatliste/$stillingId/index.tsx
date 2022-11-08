@@ -1,6 +1,6 @@
 import { Accordion, Heading, Panel } from "@navikt/ds-react";
 import { visArbeidsgiversStatus } from "./$kandidatId";
-import { Back, Close, Helptext, Like, Next } from "@navikt/ds-icons";
+import { Back, Close, ExternalLink, Helptext, Like } from "@navikt/ds-icons";
 import { json } from "@remix-run/node";
 import { Link as NavLink } from "@navikt/ds-react";
 import { Link, useLoaderData } from "@remix-run/react";
@@ -33,17 +33,17 @@ const Kandidatlistevisning = () => {
     const { tittel, stillingId, kandidater } = kandidatliste;
 
     return (
-        <>
-            <Panel as="main" className="side kandidatlistevisning">
-                <Link to="/kandidatliste" className="navds-link">
-                    <Back />
-                    Tilbake
-                </Link>
+        <main className="side">
+            <Link to="/kandidatliste" className="navds-link">
+                <Back />
+                Alle oppdrag
+            </Link>
+            <Panel className="kandidatlistevisning">
                 <Heading size="medium">{tittel}</Heading>
 
-                <NavLink href={`https://www.nav.no/arbeid/stilling/${stillingId}`}>
+                <NavLink href={`https://www.nav.no/arbeid/stilling/${stillingId}`} target="__blank">
                     Se stilling
-                    <Next />
+                    <ExternalLink />
                 </NavLink>
 
                 <GruppeMedKandidater
@@ -67,7 +67,7 @@ const Kandidatlistevisning = () => {
                     stillingId={stillingId}
                 />
             </Panel>
-        </>
+        </main>
     );
 };
 

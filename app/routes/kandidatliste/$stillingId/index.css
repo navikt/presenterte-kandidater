@@ -1,6 +1,5 @@
 .kandidatlistevisning {
     margin-top: 2rem;
-    padding: 2.5rem;
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
@@ -35,4 +34,10 @@
     border-bottom: 2px solid lightgrey;
     padding-bottom: 1rem;
     margin-bottom: 1rem;
+}
+
+@media (min-width: 40rem) {
+    .kandidatlistevisning {
+        padding: 2.5rem;
+    }
 }
