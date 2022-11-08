@@ -101,6 +101,10 @@ const GruppeMedKandidater = ({
         (kandidat) => kandidat.arbeidsgiversStatus === status
     );
 
+    if (kandidaterMedGittStatus.length === 0) {
+        return null;
+    }
+
     return (
         <Accordion className="gruppe-med-kandidater">
             <Accordion.Item defaultOpen={kandidaterMedGittStatus.length > 0}>
