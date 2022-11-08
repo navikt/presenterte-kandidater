@@ -78,6 +78,12 @@ const Kandidatvisning = () => {
                 Alle kandidater
             </Link>
             <div className="kandidatside--navigering">
+                <BodyShort>
+                    <b>
+                        {visArbeidsgiversStatus(kandidat.arbeidsgiversStatus)} (
+                        {kandidaterMedSammeStatus.length})
+                    </b>
+                </BodyShort>
                 {forrigeKandidatMedSammeStatus && (
                     <Link
                         to={`/kandidatliste/${stillingId}/${forrigeKandidatMedSammeStatus.kandidatId}`}
@@ -87,12 +93,6 @@ const Kandidatvisning = () => {
                         Forrige
                     </Link>
                 )}
-                <BodyShort>
-                    <b>
-                        {visArbeidsgiversStatus(kandidat.arbeidsgiversStatus)} (
-                        {kandidaterMedSammeStatus.length})
-                    </b>
-                </BodyShort>
                 {nesteKandidatMedSammeStatus && (
                     <Link
                         to={`/kandidatliste/${stillingId}/${nesteKandidatMedSammeStatus.kandidatId}`}
@@ -124,7 +124,11 @@ const Kandidatvisning = () => {
                     Fått jobben
                 </ToggleGroup.Item>
             </ToggleGroup>
-            <ReadMore header="Slik virker statusene">Bla bla bla</ReadMore>
+            <ReadMore header="Slik virker statusene">
+                Statusene hjelper deg å holde styr på kandidatene NAV sendt deg.
+                <br />
+                Informasjonen blir ikke sendt over til kandidat eller NAV.
+            </ReadMore>
             <Panel className="kandidatside--cv">
                 <Heading size="large" level="2">
                     <span>
