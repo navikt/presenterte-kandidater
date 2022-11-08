@@ -2,7 +2,7 @@ import { BodyShort, Panel } from "@navikt/ds-react";
 import { Link } from "@remix-run/react";
 import type { LinksFunction } from "@remix-run/node";
 import type { FunctionComponent } from "react";
-import type { Kandidatliste } from "~/routes/kandidatliste/$stillingId";
+import type { Kandidatlisteoppsummering as Oppsummering } from "~/services/domene";
 import css from "./Kandidatlisteoppsummering.css";
 
 export const links: LinksFunction = () => {
@@ -10,11 +10,12 @@ export const links: LinksFunction = () => {
 };
 
 type Props = {
-    kandidatliste: Kandidatliste;
+    oppsummering: Oppsummering;
 };
 
-const Kandidatlisteoppsummering: FunctionComponent<Props> = ({ kandidatliste }) => {
-    const { stillingId, tittel, opprettetTidspunkt, kandidater } = kandidatliste;
+const Kandidatlisteoppsummering: FunctionComponent<Props> = ({ oppsummering }) => {
+    const { kandidatliste, antallKandidater } = oppsummering;
+    const { stillingId, tittel, opprettetTidspunkt } = kandidatliste;
 
     return (
         <Panel as="li" className="kandidatlisteoppsummering">
@@ -25,7 +26,7 @@ const Kandidatlisteoppsummering: FunctionComponent<Props> = ({ kandidatliste }) 
             </span>
             <BodyShort>Opprettet {formaterOpprettetTidspunkt(opprettetTidspunkt)}</BodyShort>
             <BodyShort>
-                {kandidater.length} kandidat{kandidater.length === 1 ? "" : "er"}
+                {antallKandidater} kandidat{antallKandidater === 1 ? "" : "er"}
             </BodyShort>
         </Panel>
     );

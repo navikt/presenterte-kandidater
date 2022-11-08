@@ -2,7 +2,7 @@ import { Dialog, FileContent, Heart, Office1, Office2, Star } from "@navikt/ds-i
 import { BodyLong, Heading, Panel } from "@navikt/ds-react";
 import type { LinksFunction } from "@remix-run/node";
 import type { FunctionComponent, ReactNode } from "react";
-import type { Cv } from "~/routes/kandidatliste/$stillingId/$kandidatId/index";
+import type { Cv } from "~/services/domene";
 import css from "./KandidatCv.css";
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: css }];

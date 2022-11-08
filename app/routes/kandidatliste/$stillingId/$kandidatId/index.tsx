@@ -7,28 +7,7 @@ import KandidatCv, { links as kandidatCvLinks } from "~/components/kandidat-cv/K
 import type { LoaderFunction, LinksFunction } from "@remix-run/node";
 import type { Kandidatliste } from "../index";
 import css from "./index.css";
-
-export type Kandidat = {
-    kandidatId: string;
-    hendelsestidspunkt: string;
-    arbeidsgiversStatus: ArbeidsgiversStatus;
-    kandidat: Cv;
-};
-
-export type Cv = {
-    fornavn: string;
-    etternavn: string;
-    epostadresse: string | null;
-    telefon: string | null;
-    harKontaktinformasjon: boolean;
-};
-
-export enum ArbeidsgiversStatus {
-    ÅVurdere = "Å_VURDERE",
-    IkkeAktuell = "IKKE_AKTUELL",
-    Aktuell = "AKTUELL",
-    FåttJobben = "FÅTT_JOBBEN",
-}
+import { Kandidatstatus } from "~/services/domene";
 
 export const links: LinksFunction = () => [
     ...kandidatCvLinks(),
@@ -110,18 +89,18 @@ const Kandidatvisning = () => {
                 label={`For stilling: ${kandidatliste.tittel}`}
                 onChange={console.log}
             >
-                <ToggleGroup.Item value={ArbeidsgiversStatus.ÅVurdere}>
+                <ToggleGroup.Item value="Å_VURDERE">
                     <Helptext aria-hidden={true} />Å vurdere
                 </ToggleGroup.Item>
-                <ToggleGroup.Item value={ArbeidsgiversStatus.IkkeAktuell}>
+                <ToggleGroup.Item value="IKKE_AKTUELL">
                     <Close aria-hidden={true} />
                     Ikke aktuell
                 </ToggleGroup.Item>
-                <ToggleGroup.Item value={ArbeidsgiversStatus.Aktuell}>
+                <ToggleGroup.Item value="AKTUELL">
                     <Like aria-hidden={true} />
                     Aktuell
                 </ToggleGroup.Item>
-                <ToggleGroup.Item value={ArbeidsgiversStatus.FåttJobben}>
+                <ToggleGroup.Item value="FÅTT_JOBBEN">
                     <AddPerson aria-hidden={true} />
                     Fått jobben
                 </ToggleGroup.Item>
@@ -136,15 +115,15 @@ const Kandidatvisning = () => {
     );
 };
 
-export const visArbeidsgiversStatus = (arbeidsgiversStatus: ArbeidsgiversStatus) => {
+export const visArbeidsgiversStatus = (arbeidsgiversStatus: Kandidatstatus) => {
     switch (arbeidsgiversStatus) {
-        case ArbeidsgiversStatus.ÅVurdere:
+        case "Å_VURDERE":
             return "Å vurdere";
-        case ArbeidsgiversStatus.IkkeAktuell:
+        case "IKKE_AKTUELL":
             return "Ikke aktuell";
-        case ArbeidsgiversStatus.Aktuell:
+        case "AKTUELL":
             return "Aktuell";
-        case ArbeidsgiversStatus.FåttJobben:
+        case "FÅTT_JOBBEN":
             return "Fått jobben";
         default:
             return "Ukjent status";

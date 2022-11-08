@@ -1,28 +1,32 @@
 import { rest } from "msw";
 import { apiConfig } from "~/services/api/proxy";
-import { Kandidatlistestatus } from "~/routes/kandidatliste/$stillingId";
-import { ArbeidsgiversStatus } from "~/routes/kandidatliste/$stillingId/$kandidatId";
-import type { Kandidatliste } from "~/routes/kandidatliste/$stillingId";
-import type { Kandidat } from "~/routes/kandidatliste/$stillingId/$kandidatId";
+import type {
+    Kandidat,
+    Kandidatliste,
+    Kandidatlistestatus,
+    Kandidatstatus,
+} from "~/services/domene";
 
 const mocketKandidatliste = (
     stillingId: string,
     tittel: string,
-    status = Kandidatlistestatus.Åpen
-): Kandidatliste => ({
-    stillingId,
-    tittel,
-    status,
-    slettet: false,
-    virksomhetsnummer: "123456789",
-    opprettetTidspunkt: new Date().toISOString(),
-    kandidater: mockedeKandidater,
-});
+    status: Kandidatlistestatus = "ÅPEN"
+): Kandidatliste => {
+    return {
+        stillingId,
+        tittel,
+        status,
+        slettet: false,
+        virksomhetsnummer: "123456789",
+        opprettetTidspunkt: new Date().toISOString(),
+        kandidater: mockedeKandidater,
+    };
+};
 
 const mocketKandidat = (
     kandidatId: string,
     kandidat: object = {},
-    arbeidsgiversStatus: ArbeidsgiversStatus = ArbeidsgiversStatus.ÅVurdere
+    arbeidsgiversStatus: Kandidatstatus = "Å_VURDERE"
 ): Kandidat => ({
     kandidatId,
     arbeidsgiversStatus,
@@ -49,7 +53,7 @@ const mockedeKandidater = [
             fornavn: "Ola",
             etternavn: "Nordmann",
         },
-        ArbeidsgiversStatus.Aktuell
+        "AKTUELL"
     ),
 ];
 
@@ -62,9 +66,14 @@ const mockedeKandidatlister = [
     mocketKandidatliste("720696c9-0077-464f-b0dc-c12b95db32d4", "Misjonærer for Gather Town"),
 ];
 
+const mockedeKandidatlisteoppsummeringer = mockedeKandidatlister.map((kandidatliste) => ({
+    kandidatliste,
+    antallKandidater: kandidatliste.kandidater.length,
+}));
+
 export const handlers = [
     rest.get(`${apiConfig.url}/kandidatlister`, (req, res, ctx) => {
-        return res(ctx.json(mockedeKandidatlister));
+        return res(ctx.json(mockedeKandidatlisteoppsummeringer));
     }),
 
     rest.get(`${apiConfig.url}/kandidatlister/:stillingId`, (req, res, ctx) => {

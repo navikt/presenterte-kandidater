@@ -1,32 +1,17 @@
 import { Accordion, Heading, Panel } from "@navikt/ds-react";
-import { ArbeidsgiversStatus, visArbeidsgiversStatus } from "./$kandidatId";
+import { visArbeidsgiversStatus } from "./$kandidatId";
 import { Back, Close, Helptext, Like, Next } from "@navikt/ds-icons";
 import { json } from "@remix-run/node";
 import { Link as NavLink } from "@navikt/ds-react";
 import { Link, useLoaderData } from "@remix-run/react";
 import { proxyTilApi } from "~/services/api/proxy";
-import type { Kandidat } from "./$kandidatId";
 import type { LinksFunction, LoaderFunction } from "@remix-run/node";
 import type { ReactNode } from "react";
+import type { Kandidat, Kandidatliste, Kandidatstatus } from "~/services/domene";
 import Kandidatoppsummering, {
     links as kandidatoppsumeringLinks,
 } from "~/components/kandidatoppsummering/Kandidatoppsummering";
 import css from "./index.css";
-
-export type Kandidatliste = {
-    stillingId: string;
-    tittel: string;
-    status: string;
-    slettet: boolean;
-    virksomhetsnummer: string;
-    opprettetTidspunkt: string;
-    kandidater: Kandidat[];
-};
-
-export enum Kandidatlistestatus {
-    Åpen = "ÅPEN",
-    Lukket = "LUKKET",
-}
 
 export const links: LinksFunction = () => [
     ...kandidatoppsumeringLinks(),
@@ -62,21 +47,21 @@ const Kandidatlistevisning = () => {
                 </NavLink>
 
                 <GruppeMedKandidater
-                    status={ArbeidsgiversStatus.ÅVurdere}
+                    status="Å_VURDERE"
                     icon={<Helptext />}
                     kandidater={kandidater}
                     stillingId={stillingId}
                 />
 
                 <GruppeMedKandidater
-                    status={ArbeidsgiversStatus.Aktuell}
+                    status="AKTUELL"
                     icon={<Like />}
                     kandidater={kandidater}
                     stillingId={stillingId}
                 />
 
                 <GruppeMedKandidater
-                    status={ArbeidsgiversStatus.IkkeAktuell}
+                    status="IKKE_AKTUELL"
                     icon={<Close />}
                     kandidater={kandidater}
                     stillingId={stillingId}
@@ -92,7 +77,7 @@ const GruppeMedKandidater = ({
     kandidater,
     stillingId,
 }: {
-    status: ArbeidsgiversStatus;
+    status: Kandidatstatus;
     icon: ReactNode;
     kandidater: Kandidat[];
     stillingId: string;

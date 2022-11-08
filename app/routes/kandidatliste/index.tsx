@@ -2,13 +2,12 @@ import { Heading } from "@navikt/ds-react";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { proxyTilApi } from "~/services/api/proxy";
-import { Kandidatlistestatus } from "./$stillingId";
-import type { LoaderFunction } from "@remix-run/node";
-import type { LinksFunction } from "@remix-run/server-runtime";
-import type { Kandidatliste } from "./$stillingId";
 import Kandidatoppsummering, {
     links as kandidatoppsummeringCss,
 } from "~/components/kandidatlisteoppsummering/Kandidatlisteoppsummering";
+import type { LoaderFunction } from "@remix-run/node";
+import type { LinksFunction } from "@remix-run/server-runtime";
+import type { Kandidatlisteoppsummering } from "~/services/domene";
 import css from "./index.css";
 
 export const links: LinksFunction = () => [
@@ -23,9 +22,8 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 const Kandidatlister = () => {
-    const kandidatlister = useLoaderData<Kandidatliste[]>();
-
-    const { pågående, avsluttede } = fordelPåStatus(kandidatlister);
+    const oppsummeringer = useLoaderData<Kandidatlisteoppsummering[]>();
+    const { pågående, avsluttede } = fordelPåStatus(oppsummeringer);
 
     return (
         <main className="side kandidatlister">
@@ -34,10 +32,10 @@ const Kandidatlister = () => {
             </Heading>
 
             <ul className="kandidatlister--gruppe">
-                {pågående.map((kandidatliste) => (
+                {pågående.map((oppsummering) => (
                     <Kandidatoppsummering
-                        key={kandidatliste.stillingId}
-                        kandidatliste={kandidatliste}
+                        key={oppsummering.kandidatliste.stillingId}
+                        oppsummering={oppsummering}
                     />
                 ))}
             </ul>
@@ -47,10 +45,10 @@ const Kandidatlister = () => {
             </Heading>
 
             <ul className="kandidatlister--gruppe">
-                {avsluttede.map((kandidatliste) => (
+                {avsluttede.map((oppsummering) => (
                     <Kandidatoppsummering
-                        key={kandidatliste.stillingId}
-                        kandidatliste={kandidatliste}
+                        key={oppsummering.kandidatliste.stillingId}
+                        oppsummering={oppsummering}
                     />
                 ))}
             </ul>
@@ -58,15 +56,15 @@ const Kandidatlister = () => {
     );
 };
 
-const fordelPåStatus = (kandidatlister: Kandidatliste[]) => {
-    const pågående: Kandidatliste[] = [];
-    const avsluttede: Kandidatliste[] = [];
+const fordelPåStatus = (oppsummeringer: Kandidatlisteoppsummering[]) => {
+    const pågående: Kandidatlisteoppsummering[] = [];
+    const avsluttede: Kandidatlisteoppsummering[] = [];
 
-    kandidatlister.forEach((kandidatliste) => {
-        if (kandidatliste.status === Kandidatlistestatus.Åpen) {
-            pågående.push(kandidatliste);
+    oppsummeringer.forEach((oppsummering) => {
+        if (oppsummering.kandidatliste.status === "ÅPEN") {
+            pågående.push(oppsummering);
         } else {
-            avsluttede.push(kandidatliste);
+            avsluttede.push(oppsummering);
         }
     });
 

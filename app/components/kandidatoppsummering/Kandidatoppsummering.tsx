@@ -1,9 +1,9 @@
 import { Link } from "@remix-run/react";
 import type { LinksFunction } from "@remix-run/node";
 import type { FunctionComponent } from "react";
-import type { Kandidat } from "~/routes/kandidatliste/$stillingId/$kandidatId";
 import css from "./Kandidatoppsummering.css";
 import { BodyShort } from "@navikt/ds-react";
+import type { Kandidat } from "~/services/domene";
 
 export const links: LinksFunction = () => {
     return [{ rel: "stylesheet", href: css }];
