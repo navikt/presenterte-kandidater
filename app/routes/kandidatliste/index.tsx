@@ -1,4 +1,4 @@
-import { Heading } from "@navikt/ds-react";
+import { BodyShort, Heading } from "@navikt/ds-react";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { proxyTilApi } from "~/services/api/proxy";
@@ -44,6 +44,11 @@ const Kandidatlister = () => {
                 Avsluttede oppdrag
             </Heading>
 
+            {avsluttede.length === 0 && (
+                <BodyShort>
+                    <em>Ingen avsluttede oppdrag</em>
+                </BodyShort>
+            )}
             <ul className="kandidatlister--gruppe">
                 {avsluttede.map((oppsummering) => (
                     <Kandidatoppsummering

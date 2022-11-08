@@ -11,10 +11,16 @@ header {
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    padding: 2rem;
     max-width: 56rem;
+    padding: 1rem;
 }
 
 .side a {
     align-self: flex-start;
+}
+
+@media (min-width: 40rem) {
+    .side {
+        padding: 2rem;
+    }
 }
