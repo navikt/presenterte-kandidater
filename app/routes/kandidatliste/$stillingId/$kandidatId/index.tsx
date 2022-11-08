@@ -1,5 +1,5 @@
 import { Link, useLoaderData, useParams } from "@remix-run/react";
-import { BodyShort, ReadMore, ToggleGroup } from "@navikt/ds-react";
+import { BodyShort, Radio, RadioGroup, ReadMore, Select, ToggleGroup } from "@navikt/ds-react";
 import { json } from "@remix-run/node";
 import { proxyTilApi } from "~/services/api/proxy";
 import { AddPerson, Back, Close, Helptext, Like, Next } from "@navikt/ds-icons";
@@ -85,6 +85,7 @@ const Kandidatvisning = () => {
                 )}
             </div>
             <ToggleGroup
+                className="kandidatside--velg-status-desktop"
                 defaultValue={kandidat.arbeidsgiversStatus}
                 label={`For stilling: ${kandidatliste.tittel}`}
                 onChange={console.log}
@@ -105,6 +106,17 @@ const Kandidatvisning = () => {
                     Fått jobben
                 </ToggleGroup.Item>
             </ToggleGroup>
+            <RadioGroup
+                className="kandidatside--velg-status-mobil"
+                legend={`For stilling: ${kandidatliste.tittel}`}
+                defaultValue={kandidat.arbeidsgiversStatus}
+                onChange={console.log}
+            >
+                <Radio value="Å_VURDERE">Å vurdere</Radio>
+                <Radio value="IKKE_AKTUELL">Ikke aktuell</Radio>
+                <Radio value="AKTUELL">Aktuell</Radio>
+                <Radio value="FÅTT_JOBBEN">Fått jobben</Radio>
+            </RadioGroup>
             <ReadMore header="Slik virker statusene">
                 Statusene hjelper deg å holde styr på kandidatene NAV sendt deg.
                 <br />

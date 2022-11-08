@@ -10,3 +10,17 @@
     align-items: center;
     gap: 1rem;
 }
+
+.kandidatside--velg-status-desktop {
+    display: none;
+}
+
+@media (min-width: 40rem) {
+    .kandidatside--velg-status-desktop {
+        display: unset;
+    }
+
+    .kandidatside--velg-status-mobil {
+        display: none;
+    }
+}
