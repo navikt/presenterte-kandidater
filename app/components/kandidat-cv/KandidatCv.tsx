@@ -1,5 +1,5 @@
-import { Star } from "@navikt/ds-icons";
-import { BodyLong, BodyShort, Heading, Panel } from "@navikt/ds-react";
+import { Dialog, FileContent, Heart, Office1, Office2, Star } from "@navikt/ds-icons";
+import { BodyLong, Heading, Panel } from "@navikt/ds-react";
 import type { LinksFunction } from "@remix-run/node";
 import type { FunctionComponent, ReactNode } from "react";
 import type { Cv } from "~/routes/kandidatliste/$stillingId/$kandidatId/index";
@@ -29,6 +29,21 @@ const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
                     <li>Kassaerfaring</li>
                 </ul>
             </Gruppe>
+            <Gruppe icon={<Office1 />} tittel="Arbeidserfaring">
+                Arbeidserfaring
+            </Gruppe>
+            <Gruppe icon={<Heart />} tittel="Ønsket yrke">
+                Ønsket yrke
+            </Gruppe>
+            <Gruppe icon={<FileContent />} tittel="Sammendrag">
+                Sammendrag
+            </Gruppe>
+            <Gruppe icon={<Office2 />} tittel="Utdanning">
+                Utdanning
+            </Gruppe>
+            <Gruppe icon={<Dialog />} tittel="Språk">
+                Språk
+            </Gruppe>
         </Panel>
     );
 };
@@ -46,7 +61,7 @@ const Gruppe: FunctionComponent<{
                     {tittel}
                 </Heading>
             </div>
-            {children}
+            <div className="kandidat-cv--gruppe-body">{children}</div>
         </div>
     );
 };
