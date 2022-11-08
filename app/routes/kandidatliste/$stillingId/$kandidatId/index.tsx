@@ -1,8 +1,9 @@
 import { Link, useLoaderData, useParams } from "@remix-run/react";
-import { BodyShort, Heading, Panel, ReadMore, ToggleGroup } from "@navikt/ds-react";
+import { BodyShort, ReadMore, ToggleGroup } from "@navikt/ds-react";
 import { json } from "@remix-run/node";
 import { proxyTilApi } from "~/services/api/proxy";
 import { AddPerson, Back, Close, Helptext, Like, Next } from "@navikt/ds-icons";
+import KandidatCv, { links as kandidatCvLinks } from "~/components/kandidat-cv/KandidatCv";
 import type { LoaderFunction, LinksFunction } from "@remix-run/node";
 import type { Kandidatliste } from "../index";
 import css from "./index.css";
@@ -11,15 +12,15 @@ export type Kandidat = {
     kandidatId: string;
     hendelsestidspunkt: string;
     arbeidsgiversStatus: ArbeidsgiversStatus;
+    kandidat: Cv;
+};
 
-    // Fra ElasticSearch
-    kandidat: {
-        fornavn: string;
-        etternavn: string;
-        epostadresse: string | null;
-        telefon: string | null;
-        harKontaktinformasjon: boolean;
-    };
+export type Cv = {
+    fornavn: string;
+    etternavn: string;
+    epostadresse: string | null;
+    telefon: string | null;
+    harKontaktinformasjon: boolean;
 };
 
 export enum ArbeidsgiversStatus {
@@ -30,6 +31,7 @@ export enum ArbeidsgiversStatus {
 }
 
 export const links: LinksFunction = () => [
+    ...kandidatCvLinks(),
     {
         rel: "stylesheet",
         href: css,
@@ -129,14 +131,7 @@ const Kandidatvisning = () => {
                 <br />
                 Informasjonen blir ikke sendt over til kandidat eller NAV.
             </ReadMore>
-            <Panel className="kandidatside--cv">
-                <Heading size="large" level="2">
-                    <span>
-                        {kandidat.kandidat.fornavn} {kandidat.kandidat.etternavn}
-                    </span>
-                </Heading>
-                <BodyShort>Cv</BodyShort>
-            </Panel>
+            <KandidatCv cv={kandidat.kandidat} />
         </main>
     );
 };

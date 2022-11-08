@@ -1,0 +1,31 @@
+.kandidat-cv {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 2.5rem 3rem;
+}
+
+.kandidat-cv h2 {
+    align-self: center;
+    margin-bottom: 2rem;
+}
+
+.kandidat-cv--gruppe {
+    align-self: stretch;
+    margin: 2rem 0;
+}
+
+.kandidat-cv--gruppe-header {
+    display: flex;
+    align-items: center;
+    background-color: var(--navds-global-color-gray-50);
+    gap: 1rem;
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid var(--navds-global-color-gray-400);
+}
+
+.kandidat-cv--gruppe-header svg {
+    width: 1.5rem;
+    height: 1.5rem;
+}

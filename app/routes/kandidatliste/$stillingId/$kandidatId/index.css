@@ -10,16 +10,3 @@
     align-items: center;
     gap: 1rem;
 }
-
-.kandidatside--cv {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 2.5rem 3rem;
-}
-
-.kandidatside--cv h2 {
-    align-self: center;
-    margin-bottom: 2rem;
-}
