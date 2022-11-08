@@ -1,10 +1,10 @@
 import { Link, useLoaderData, useParams } from "@remix-run/react";
-import { BodyShort, Detail, Heading, Panel, ReadMore, ToggleGroup } from "@navikt/ds-react";
-import { json, LinksFunction } from "@remix-run/node";
+import { BodyShort, Heading, Panel, ReadMore, ToggleGroup } from "@navikt/ds-react";
+import { json } from "@remix-run/node";
 import { proxyTilApi } from "~/services/api/proxy";
-import type { LoaderFunction } from "@remix-run/node";
-import type { Kandidatliste } from "../index";
 import { AddPerson, Back, Close, Helptext, Like, Next } from "@navikt/ds-icons";
+import type { LoaderFunction, LinksFunction } from "@remix-run/node";
+import type { Kandidatliste } from "../index";
 import css from "./index.css";
 
 export type Kandidat = {
@@ -59,7 +59,7 @@ const Kandidatvisning = () => {
     const { stillingId } = useParams();
 
     const { kandidat, kandidatliste } = useLoaderData<LoaderData>();
-    const { kandidatId, arbeidsgiversStatus } = kandidat;
+    const { kandidatId } = kandidat;
 
     const kandidaterMedSammeStatus = kandidatliste.kandidater.filter(
         (annenKandidat) => annenKandidat.arbeidsgiversStatus === kandidat.arbeidsgiversStatus
