@@ -16,21 +16,30 @@ const mocketKandidatliste = (
     slettet: false,
     virksomhetsnummer: "123456789",
     opprettetTidspunkt: new Date().toISOString(),
-    kandidater: [mocketKandidat("23d45ba2-ce9e-446e-9137-5ebb44bf6490")],
+    kandidater: mockedeKandidater,
 });
 
-const mocketKandidat = (kandidatId: string): Kandidat => ({
+const mocketKandidat = (kandidatId: string, kandidat: object = {}): Kandidat => ({
     kandidatId,
     arbeidsgiversStatus: ArbeidsgiversStatus.ÅVurdere,
     hendelsestidspunkt: new Date().toISOString(),
     kandidat: {
-        fornavn: "Joare",
-        etternavn: "Mossby",
-        epostadresse: "joare@mossby.no",
-        telefon: "+47 90000000",
+        fornavn: "Kristoffer",
+        etternavn: "Kandidat",
+        epostadresse: "kristoffer@kandidat.no",
+        telefon: "+47 91234567",
         harKontaktinformasjon: true,
+        ...kandidat,
     },
 });
+
+const mockedeKandidater = [
+    mocketKandidat("23d45ba2-ce9e-446e-9137-5ebb44bf6490", {
+        fornavn: "Joare",
+        etternavn: "Mossby",
+    }),
+    mocketKandidat("2f122c9f-24c3-4a6b-bd01-56a38825dfcf"),
+];
 
 const mockedeKandidatlister = [
     mocketKandidatliste(

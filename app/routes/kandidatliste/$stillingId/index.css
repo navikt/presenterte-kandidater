@@ -3,11 +3,36 @@
     padding: 2.5rem;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 1.5rem;
+}
+
+.gruppe-med-kandidater .navds-accordion__content {
+    padding: 0;
 }
 
 .gruppe-med-kandidater--header {
     display: flex;
     align-items: center;
     gap: 1rem;
+}
+
+.gruppe-med-kandidater--header svg {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.gruppe-med-kandidater--kandidater {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.gruppe-med-kandidater--kandidater .kandidatoppsummering {
+    padding: 1rem;
+}
+
+.gruppe-med-kandidater--kandidater .kandidatoppsummering:not(:last-child) {
+    border-bottom: 2px solid lightgrey;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
 }

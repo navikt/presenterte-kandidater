@@ -3,7 +3,7 @@ import { Link } from "@remix-run/react";
 import type { LinksFunction } from "@remix-run/node";
 import type { FunctionComponent } from "react";
 import type { Kandidatliste } from "~/routes/kandidatliste/$stillingId";
-import css from "./Kandidatlisteforhåndsvisning.css";
+import css from "./Kandidatlisteoppsummering.css";
 
 export const links: LinksFunction = () => {
     return [{ rel: "stylesheet", href: css }];
@@ -13,11 +13,11 @@ type Props = {
     kandidatliste: Kandidatliste;
 };
 
-const Kandidatlisteforhåndsvisning: FunctionComponent<Props> = ({ kandidatliste }) => {
+const Kandidatlisteoppsummering: FunctionComponent<Props> = ({ kandidatliste }) => {
     const { stillingId, tittel, opprettetTidspunkt, kandidater } = kandidatliste;
 
     return (
-        <Panel as="li" className="kandidatlisteforhandsvisning">
+        <Panel as="li" className="kandidatlisteoppsummering">
             <span>
                 <Link to={`/kandidatliste/${stillingId}`} className="navds-link">
                     {tittel}
@@ -39,4 +39,4 @@ const formaterOpprettetTidspunkt = (tidspunkt: string) => {
     });
 };
 
-export default Kandidatlisteforhåndsvisning;
+export default Kandidatlisteoppsummering;

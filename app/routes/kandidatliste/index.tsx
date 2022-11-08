@@ -6,13 +6,13 @@ import { Kandidatlistestatus } from "./$stillingId";
 import type { LoaderFunction } from "@remix-run/node";
 import type { LinksFunction } from "@remix-run/server-runtime";
 import type { Kandidatliste } from "./$stillingId";
-import Kandidatlisteforhåndsvisning, {
-    links as forhåndsvisningCss,
-} from "~/components/kandidatlisteforhåndsvisning/Kandidatlisteforhåndsvisning";
+import Kandidatoppsummering, {
+    links as kandidatoppsummeringCss,
+} from "~/components/kandidatlisteoppsummering/Kandidatlisteoppsummering";
 import css from "./index.css";
 
 export const links: LinksFunction = () => [
-    ...forhåndsvisningCss(),
+    ...kandidatoppsummeringCss(),
     { rel: "stylesheet", href: css },
 ];
 
@@ -35,7 +35,7 @@ const Kandidatlister = () => {
 
             <ul className="kandidatlister--gruppe">
                 {pågående.map((kandidatliste) => (
-                    <Kandidatlisteforhåndsvisning
+                    <Kandidatoppsummering
                         key={kandidatliste.stillingId}
                         kandidatliste={kandidatliste}
                     />
@@ -48,7 +48,7 @@ const Kandidatlister = () => {
 
             <ul className="kandidatlister--gruppe">
                 {avsluttede.map((kandidatliste) => (
-                    <Kandidatlisteforhåndsvisning
+                    <Kandidatoppsummering
                         key={kandidatliste.stillingId}
                         kandidatliste={kandidatliste}
                     />

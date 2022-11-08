@@ -1,13 +1,17 @@
-import { json } from "@remix-run/node";
-import { Link, useLoaderData } from "@remix-run/react";
-import { Accordion, Detail, Heading, Panel } from "@navikt/ds-react";
-import { proxyTilApi } from "~/services/api/proxy";
-import { ArbeidsgiversStatus, Kandidat, visArbeidsgiversStatus } from "./$kandidatId";
-import { Link as NavLink } from "@navikt/ds-react";
-import type { LinksFunction, LoaderFunction } from "@remix-run/node";
-import css from "./index.css";
+import { Accordion, Heading, Panel } from "@navikt/ds-react";
+import { ArbeidsgiversStatus, visArbeidsgiversStatus } from "./$kandidatId";
 import { Back, Close, Helptext, Like, Next } from "@navikt/ds-icons";
-import { ReactNode } from "react";
+import { json } from "@remix-run/node";
+import { Link as NavLink } from "@navikt/ds-react";
+import { Link, useLoaderData } from "@remix-run/react";
+import { proxyTilApi } from "~/services/api/proxy";
+import type { Kandidat } from "./$kandidatId";
+import type { LinksFunction, LoaderFunction } from "@remix-run/node";
+import type { ReactNode } from "react";
+import Kandidatoppsummering, {
+    links as kandidatoppsumeringLinks,
+} from "~/components/kandidatoppsummering/Kandidatoppsummering";
+import css from "./index.css";
 
 export type Kandidatliste = {
     stillingId: string;
@@ -25,6 +29,7 @@ export enum Kandidatlistestatus {
 }
 
 export const links: LinksFunction = () => [
+    ...kandidatoppsumeringLinks(),
     {
         rel: "stylesheet",
         href: css,
@@ -41,8 +46,6 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 const Kandidatlistevisning = () => {
     const kandidatliste = useLoaderData<Kandidatliste>();
     const { tittel, stillingId, kandidater } = kandidatliste;
-
-    const { åVurdere, ikkeAktuelle, aktuelle } = fordelPåStatus(kandidater);
 
     return (
         <>
@@ -61,21 +64,21 @@ const Kandidatlistevisning = () => {
                 <GruppeMedKandidater
                     status={ArbeidsgiversStatus.ÅVurdere}
                     icon={<Helptext />}
-                    kandidater={åVurdere}
+                    kandidater={kandidater}
                     stillingId={stillingId}
                 />
 
                 <GruppeMedKandidater
                     status={ArbeidsgiversStatus.Aktuell}
                     icon={<Like />}
-                    kandidater={aktuelle}
+                    kandidater={kandidater}
                     stillingId={stillingId}
                 />
 
                 <GruppeMedKandidater
                     status={ArbeidsgiversStatus.IkkeAktuell}
                     icon={<Close />}
-                    kandidater={ikkeAktuelle}
+                    kandidater={kandidater}
                     stillingId={stillingId}
                 />
             </Panel>
@@ -94,51 +97,35 @@ const GruppeMedKandidater = ({
     kandidater: Kandidat[];
     stillingId: string;
 }) => {
+    const kandidaterMedGittStatus = kandidater.filter(
+        (kandidat) => kandidat.arbeidsgiversStatus === status
+    );
+
     return (
         <Accordion className="gruppe-med-kandidater">
-            <Accordion.Item defaultOpen={kandidater.length > 0}>
+            <Accordion.Item defaultOpen={kandidaterMedGittStatus.length > 0}>
                 <Accordion.Header>
                     <div className="gruppe-med-kandidater--header">
                         {icon}
                         <span>
-                            {visArbeidsgiversStatus(status)} ({kandidater.length})
+                            {visArbeidsgiversStatus(status)} ({kandidaterMedGittStatus.length})
                         </span>
                     </div>
                 </Accordion.Header>
                 <Accordion.Content>
-                    <ul>
-                        {kandidater.map((kandidat) => (
-                            <li key={kandidat.kandidatId}>
-                                <Link to={`/kandidatliste/${stillingId}/${kandidat.kandidatId}`}>
-                                    <span>{kandidat.kandidat.fornavn} </span>
-                                    <span>{kandidat.kandidat.etternavn} </span>
-                                    <span>({kandidat.kandidatId})</span>
-                                </Link>
-                            </li>
+                    <ul className="gruppe-med-kandidater--kandidater">
+                        {kandidaterMedGittStatus.map((kandidat) => (
+                            <Kandidatoppsummering
+                                key={kandidat.kandidatId}
+                                kandidat={kandidat}
+                                stillingId={stillingId}
+                            />
                         ))}
                     </ul>
                 </Accordion.Content>
             </Accordion.Item>
         </Accordion>
     );
-};
-
-const fordelPåStatus = (kandidater: Kandidat[]) => {
-    const åVurdere: Kandidat[] = [];
-    const aktuelle: Kandidat[] = [];
-    const ikkeAktuelle: Kandidat[] = [];
-
-    kandidater.forEach((kandidat) => {
-        if (kandidat.arbeidsgiversStatus === ArbeidsgiversStatus.ÅVurdere) {
-            åVurdere.push(kandidat);
-        } else if (kandidat.arbeidsgiversStatus === ArbeidsgiversStatus.Aktuell) {
-            aktuelle.push(kandidat);
-        } else if (kandidat.arbeidsgiversStatus === ArbeidsgiversStatus.IkkeAktuell) {
-            ikkeAktuelle.push(kandidat);
-        }
-    });
-
-    return { åVurdere, aktuelle, ikkeAktuelle };
 };
 
 export default Kandidatlistevisning;

@@ -1,0 +1,9 @@
+.kandidatoppsummering {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.kandidatoppsummering a {
+    margin-bottom: 0.5rem;
+}
