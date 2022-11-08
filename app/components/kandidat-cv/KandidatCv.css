@@ -1,13 +1,13 @@
 .kandidat-cv {
-    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    padding: 2.5rem 3rem;
+    align-self: stretch;
+    padding: 1rem;
+    margin: 0 -1rem;
 }
 
 .kandidat-cv h2 {
-    align-self: center;
     margin-bottom: 2rem;
 }
 
@@ -31,10 +31,25 @@
 }
 
 .kandidat-cv--gruppe-body {
-    padding: 1.5rem;
+    padding: 1rem 0;
 }
 
 .kandidat-cv--gruppe-body ul {
     margin: 0;
     padding: 0 1rem;
+}
+
+@media (min-width: 40rem) {
+    .kandidat-cv {
+        padding: 2.5rem 3rem;
+        margin: 0;
+    }
+
+    .kandidat-cv h2 {
+        align-self: center;
+    }
+
+    .kandidat-cv--gruppe-body {
+        padding: 1.5rem;
+    }
 }
