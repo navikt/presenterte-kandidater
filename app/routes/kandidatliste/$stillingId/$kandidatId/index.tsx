@@ -2,7 +2,7 @@ import { Link, useLoaderData, useParams } from "@remix-run/react";
 import { BodyShort, Radio, RadioGroup, ReadMore, Select, ToggleGroup } from "@navikt/ds-react";
 import { json } from "@remix-run/node";
 import { proxyTilApi } from "~/services/api/proxy";
-import { AddPerson, Back, Close, Helptext, Like, Next } from "@navikt/ds-icons";
+import { AddPerson, Back, Close, DecisionCheck, Helptext, Like, Next } from "@navikt/ds-icons";
 import KandidatCv, { links as kandidatCvLinks } from "~/components/kandidat-cv/KandidatCv";
 import type { LoaderFunction, LinksFunction } from "@remix-run/node";
 import type { Kandidatliste } from "../index";
@@ -102,7 +102,7 @@ const Kandidatvisning = () => {
                     Aktuell
                 </ToggleGroup.Item>
                 <ToggleGroup.Item value="FÅTT_JOBBEN">
-                    <AddPerson aria-hidden={true} />
+                    <DecisionCheck aria-hidden={true} />
                     Fått jobben
                 </ToggleGroup.Item>
             </ToggleGroup>

@@ -1,6 +1,6 @@
 import { Accordion, Heading, Panel } from "@navikt/ds-react";
 import { visArbeidsgiversStatus } from "./$kandidatId";
-import { Back, Close, ExternalLink, Helptext, Like } from "@navikt/ds-icons";
+import { Back, Close, DecisionCheck, ExternalLink, Helptext, Like } from "@navikt/ds-icons";
 import { json } from "@remix-run/node";
 import { Link as NavLink } from "@navikt/ds-react";
 import { Link, useLoaderData } from "@remix-run/react";
@@ -56,6 +56,13 @@ const Kandidatlistevisning = () => {
                 <GruppeMedKandidater
                     status="AKTUELL"
                     icon={<Like />}
+                    kandidater={kandidater}
+                    stillingId={stillingId}
+                />
+
+                <GruppeMedKandidater
+                    status="FÅTT_JOBBEN"
+                    icon={<DecisionCheck />}
                     kandidater={kandidater}
                     stillingId={stillingId}
                 />
