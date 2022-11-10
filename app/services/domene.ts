@@ -22,7 +22,7 @@ export type Kandidat = {
     kandidat: Cv;
 };
 
-export type Kandidatstatus = "Å_VURDERE" | "IKKE_AKTUELL" | "AKTUELL" | "FÅTT_JOBBEN";
+export type Kandidatstatus = "TIL_VURDERING" | "IKKE_AKTUELL" | "AKTUELL" | "FÅTT_JOBBEN";
 
 export type Cv = {
     fornavn: string;

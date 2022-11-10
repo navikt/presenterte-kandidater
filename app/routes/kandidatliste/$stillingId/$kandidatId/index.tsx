@@ -1,13 +1,12 @@
 import { Link, useLoaderData, useParams } from "@remix-run/react";
-import { BodyShort, Radio, RadioGroup, ReadMore, Select, ToggleGroup } from "@navikt/ds-react";
+import { BodyShort, Radio, RadioGroup, ReadMore, ToggleGroup } from "@navikt/ds-react";
 import { json } from "@remix-run/node";
 import { proxyTilApi } from "~/services/api/proxy";
-import { AddPerson, Back, Close, DecisionCheck, Helptext, Like, Next } from "@navikt/ds-icons";
+import { Back, Close, DecisionCheck, Helptext, Like, Next } from "@navikt/ds-icons";
 import KandidatCv, { links as kandidatCvLinks } from "~/components/kandidat-cv/KandidatCv";
 import type { LoaderFunction, LinksFunction } from "@remix-run/node";
-import type { Kandidatliste } from "../index";
+import type { Kandidat, Kandidatliste, Kandidatstatus } from "~/services/domene";
 import css from "./index.css";
-import { Kandidatstatus } from "~/services/domene";
 
 export const links: LinksFunction = () => [
     ...kandidatCvLinks(),
@@ -129,8 +128,8 @@ const Kandidatvisning = () => {
 
 export const visArbeidsgiversStatus = (arbeidsgiversStatus: Kandidatstatus) => {
     switch (arbeidsgiversStatus) {
-        case "Å_VURDERE":
-            return "Å vurdere";
+        case "TIL_VURDERING":
+            return "Til vurdering";
         case "IKKE_AKTUELL":
             return "Ikke aktuell";
         case "AKTUELL":
