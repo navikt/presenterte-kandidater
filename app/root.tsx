@@ -9,12 +9,14 @@ import {
     useLoaderData,
 } from "@remix-run/react";
 import parse from "html-react-parser";
-import Header, { links as headerLinks } from "./components/header/Header";
-import designsystemStyles from "@navikt/ds-css/dist/index.css";
+import Header from "./components/header/Header";
 import hentDekoratør from "./services/dekoratør";
-import rootCss from "./root.css";
 import type { Dekoratørfragmenter } from "./services/dekoratør";
 import { configureMock } from "./mocks";
+
+import rootCss from "./root.css";
+import designsystemStyles from "@navikt/ds-css/dist/index.css";
+import bedriftsmenyStyles from "@navikt/bedriftsmeny/lib/index.css";
 
 export const meta: MetaFunction = () => ({
     charset: "utf-8",
@@ -23,9 +25,9 @@ export const meta: MetaFunction = () => ({
 });
 
 export const links: LinksFunction = () => [
-    ...headerLinks(),
     { rel: "stylesheet", href: rootCss },
     { rel: "stylesheet", href: designsystemStyles },
+    { rel: "stylesheet", href: bedriftsmenyStyles },
 ];
 
 export const loader: LoaderFunction = async () => {

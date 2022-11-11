@@ -1,19 +1,186 @@
-import type { LinksFunction } from "@remix-run/node";
-import { Heading } from "@navikt/ds-react";
-import css from "./Header.css";
+import Bedriftsmeny from "@navikt/bedriftsmeny";
+import { useCallback, useState } from "react";
 
-export const links: LinksFunction = () => {
-    return [{ rel: "stylesheet", href: css }];
-};
+export const MOCK_ORGANISASJONER = [
+    {
+        Name: "BALLSTAD OG EIDSLANDET",
+        Type: "Business",
+        OrganizationNumber: "811076422",
+        ParentOrganizationNumber: "811076112",
+        OrganizationForm: "AAFY",
+        Status: "Active",
+    },
+    {
+        Name: "BALLSTAD OG HAMARØY",
+        Type: "Business",
+        OrganizationNumber: "811076732",
+        ParentOrganizationNumber: "811076112",
+        OrganizationForm: "BEDR",
+        Status: "Active",
+    },
+    {
+        Name: "BALLSTAD OG HORTEN",
+        Type: "Enterprise",
+        OrganizationNumber: "811076112",
+        ParentOrganizationNumber: "",
+        OrganizationForm: "FLI",
+        Status: "Active",
+    },
+    {
+        Name: "BALLSTAD OG SÆTERVIK",
+        Type: "Business",
+        OrganizationNumber: "811076902",
+        ParentOrganizationNumber: "811076112",
+        OrganizationForm: "BEDR",
+        Status: "Active",
+    },
+    {
+        Name: "BAREKSTAD OG YTTERVÅG REGNSKAP",
+        Type: "Enterprise",
+        ParentOrganizationNumber: "",
+        OrganizationNumber: "810514442",
+        OrganizationForm: "AS",
+        Status: "Active",
+    },
+    {
+        Name: "BIRI OG VANNAREID REVISJON",
+        Type: "Enterprise",
+        ParentOrganizationNumber: "",
+        OrganizationNumber: "910998250",
+        OrganizationForm: "AS",
+        Status: "Active",
+    },
+    {
+        Name: "EIDSNES OG AUSTRE ÅMØY",
+        Type: "Business",
+        OrganizationNumber: "910521551",
+        ParentOrganizationNumber: "910998250",
+        OrganizationForm: "BEDR",
+        Status: "Active",
+    },
+    {
+        Name: "FRØNNINGEN OG LAUVSTAD REVISJON",
+        Type: "Enterprise",
+        ParentOrganizationNumber: "",
+        OrganizationNumber: "910223208",
+        OrganizationForm: "AS",
+        Status: "Active",
+    },
+    {
+        Name: "HARSTAD OG TYSSEDAL REVISJON",
+        Type: "Enterprise",
+        ParentOrganizationNumber: "",
+        OrganizationNumber: "810989572",
+        OrganizationForm: "AS",
+        Status: "Active",
+    },
+    {
+        Name: "HAVNNES OG ÅGSKARDET",
+        Type: "Enterprise",
+        ParentOrganizationNumber: "",
+        OrganizationNumber: "910646176",
+        OrganizationForm: "AS",
+        Status: "Active",
+    },
+    {
+        Name: "KJØLLEFJORD OG ØKSFJORD",
+        Type: "Enterprise",
+        ParentOrganizationNumber: "",
+        OrganizationNumber: "910175777",
+        OrganizationForm: "AS",
+        Status: "Active",
+    },
+    {
+        Name: "KYSTBASEN ÅGOTNES OG ILSENG REGNSKAP",
+        Type: "Enterprise",
+        OrganizationNumber: "910514318",
+        ParentOrganizationNumber: "910175777",
+        OrganizationForm: "ASA",
+        Status: "Active",
+    },
+    {
+        Name: "SANDVÆR OG HOV",
+        Type: "Business",
+        OrganizationNumber: "910793829",
+        OrganizationForm: "BEDR",
+        ParentOrganizationNumber: "910720120",
+        Status: "Active",
+    },
+    {
+        Name: "SKOTSELV OG HJELSET",
+        Type: "Enterprise",
+        ParentOrganizationNumber: "",
+        OrganizationNumber: "910720120",
+        OrganizationForm: "AS",
+        Status: "Active",
+    },
+    {
+        Name: "STOL PÅ TORE",
+        Type: "Enterprise",
+        ParentOrganizationNumber: "",
+        OrganizationNumber: "810771852",
+        OrganizationForm: "AS",
+        Status: "Active",
+    },
+    {
+        Name: "SØR-HIDLE OG STRAUMGJERDE OG SØNNER OG DØTRE",
+        Type: "Enterprise",
+        ParentOrganizationNumber: "",
+        OrganizationNumber: "910167200",
+        OrganizationForm: "AS",
+        Status: "Active",
+    },
+    {
+        Name: "TROMVIK OG SPARBU REVISJON",
+        Type: "Business",
+        OrganizationNumber: "910989626",
+        ParentOrganizationNumber: "910167200",
+        OrganizationForm: "BEDR",
+        Status: "Active",
+    },
+    {
+        Name: "Tore sitt testselskap",
+        Type: "Enterprise",
+        ParentOrganizationNumber: "",
+        OrganizationNumber: "910820834",
+        OrganizationForm: "AS",
+        Status: "Active",
+    },
+    {
+        Name: "UGGDAL OG STEINSDALEN",
+        Type: "Business",
+        OrganizationNumber: "910521616",
+        ParentOrganizationNumber: "910820834",
+        OrganizationForm: "BEDR",
+        Status: "Active",
+    },
+    {
+        Name: "VALESTRANDSFOSSEN OG SØRLI OG SØNN REVISJON",
+        Type: "Business",
+        OrganizationNumber: "810989602",
+        ParentOrganizationNumber: "910820834",
+        OrganizationForm: "BEDR",
+        Status: "Active",
+    },
+    {
+        Name: "VESTBY OG LOEN OG ALEKSANDERSEN REVISJON",
+        Type: "Business",
+        OrganizationNumber: "910989642",
+        ParentOrganizationNumber: "910820834",
+        OrganizationForm: "BEDR",
+        Status: "Active",
+    },
+];
 
 const Header = () => {
-    return (
-        <div className="arbeidsgiver-header">
-            <div className="arbeidsgiver-header--inner">
-                <Heading size="large">Kandidater</Heading>
-            </div>
-        </div>
+    const [orgnummer, setOrgnummer] = useState<string | null>();
+
+    const useOrgnrHook: () => [string | null, (orgnr: string) => void] = useCallback(
+        () => [orgnummer || null, setOrgnummer],
+        [orgnummer]
     );
+
+    return <Bedriftsmeny organisasjoner={MOCK_ORGANISASJONER} orgnrSearchParam={useOrgnrHook} />;
 };
 
 export default Header;
