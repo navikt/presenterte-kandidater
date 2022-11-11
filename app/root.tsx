@@ -1,4 +1,4 @@
-import type { LinksFunction, LoaderFunction, MetaFunction } from "@remix-run/node";
+import { json, LinksFunction, LoaderFunction, MetaFunction } from "@remix-run/node";
 import {
     Links,
     LiveReload,
@@ -12,11 +12,13 @@ import parse from "html-react-parser";
 import Header from "./components/header/Header";
 import hentDekoratør from "./services/dekoratør";
 import type { Dekoratørfragmenter } from "./services/dekoratør";
+import type { Organisasjon } from "@navikt/bedriftsmeny/lib/organisasjon";
 import { configureMock } from "./mocks";
 
 import rootCss from "./root.css";
 import designsystemStyles from "@navikt/ds-css/dist/index.css";
 import bedriftsmenyStyles from "@navikt/bedriftsmeny/lib/index.css";
+import { proxyTilApi } from "./services/api/proxy";
 
 export const meta: MetaFunction = () => ({
     charset: "utf-8",
@@ -30,14 +32,25 @@ export const links: LinksFunction = () => [
     { rel: "stylesheet", href: bedriftsmenyStyles },
 ];
 
-export const loader: LoaderFunction = async () => {
+export const loader: LoaderFunction = async ({ request }) => {
     configureMock();
 
-    return await hentDekoratør();
+    const respons = await proxyTilApi(request, "/organisasjoner");
+
+    return json({
+        dekoratør: await hentDekoratør(),
+        organisasjoner: await respons.json(),
+    });
+};
+
+type LoaderData = {
+    dekoratør: Dekoratørfragmenter;
+    organisasjoner: Organisasjon[];
 };
 
 const App = () => {
-    const { styles, header, footer, scripts } = useLoaderData<Dekoratørfragmenter>();
+    const { dekoratør, organisasjoner } = useLoaderData<LoaderData>();
+    const { styles, header, footer, scripts } = dekoratør;
 
     return (
         <html lang="no">
@@ -49,7 +62,7 @@ const App = () => {
             <body>
                 <header>
                     {parse(header)}
-                    <Header />
+                    <Header organisasjoner={organisasjoner} />
                 </header>
                 <Outlet />
                 <ScrollRestoration />
