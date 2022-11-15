@@ -26,11 +26,11 @@
     margin: 0;
 }
 
-.gruppe-med-kandidater--kandidater .kandidatoppsummering {
+.gruppe-med-kandidater--kandidater .kandidatsammendrag {
     padding: 1rem;
 }
 
-.gruppe-med-kandidater--kandidater .kandidatoppsummering:not(:last-child) {
+.gruppe-med-kandidater--kandidater .kandidatsammendrag:not(:last-child) {
     border-bottom: 2px solid lightgrey;
     padding-bottom: 1rem;
     margin-bottom: 1rem;

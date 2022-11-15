@@ -121,7 +121,7 @@ const Kandidatvisning = () => {
                 <br />
                 Informasjonen blir ikke sendt over til kandidat eller NAV.
             </ReadMore>
-            <KandidatCv cv={kandidat.kandidat} />
+            <KandidatCv cv={kandidat.cv} />
         </main>
     );
 };

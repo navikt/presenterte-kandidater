@@ -2,17 +2,19 @@ import { BodyShort, Heading } from "@navikt/ds-react";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { proxyTilApi } from "~/services/api/proxy";
-import Kandidatoppsummering, {
-    links as kandidatoppsummeringCss,
-} from "~/components/kandidatlisteoppsummering/Kandidatlisteoppsummering";
+import { logger } from "server/logger";
+import Kandidatsammendrag, {
+    links as kandidatsammendragCss,
+} from "~/components/kandidatlistesammendrag/Kandidatlistesammendrag";
+import Kandidatlistesammendrag from "~/components/kandidatlistesammendrag/Kandidatlistesammendrag";
 import type { LoaderFunction } from "@remix-run/node";
 import type { LinksFunction } from "@remix-run/server-runtime";
-import type { Kandidatlisteoppsummering } from "~/services/domene";
+import type { Kandidatlistesammendrag as Listesammendrag } from "~/services/domene";
+
 import css from "./index.css";
-import { logger } from "server/logger";
 
 export const links: LinksFunction = () => [
-    ...kandidatoppsummeringCss(),
+    ...kandidatsammendragCss(),
     { rel: "stylesheet", href: css },
 ];
 
@@ -34,8 +36,8 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 const Kandidatlister = () => {
-    const oppsummeringer = useLoaderData<Kandidatlisteoppsummering[]>();
-    const { pågående, avsluttede } = fordelPåStatus(oppsummeringer);
+    const sammendrag = useLoaderData<Listesammendrag[]>();
+    const { pågående, avsluttede } = fordelPåStatus(sammendrag);
 
     return (
         <main className="side kandidatlister">
@@ -44,10 +46,10 @@ const Kandidatlister = () => {
             </Heading>
 
             <ul className="kandidatlister--gruppe">
-                {pågående.map((oppsummering) => (
-                    <Kandidatoppsummering
-                        key={oppsummering.kandidatliste.stillingId}
-                        oppsummering={oppsummering}
+                {pågående.map((sammendrag) => (
+                    <Kandidatlistesammendrag
+                        key={sammendrag.kandidatliste.stillingId}
+                        sammendrag={sammendrag}
                     />
                 ))}
             </ul>
@@ -62,10 +64,10 @@ const Kandidatlister = () => {
                 </BodyShort>
             )}
             <ul className="kandidatlister--gruppe">
-                {avsluttede.map((oppsummering) => (
-                    <Kandidatoppsummering
-                        key={oppsummering.kandidatliste.stillingId}
-                        oppsummering={oppsummering}
+                {avsluttede.map((sammendrag) => (
+                    <Kandidatlistesammendrag
+                        key={sammendrag.kandidatliste.stillingId}
+                        sammendrag={sammendrag}
                     />
                 ))}
             </ul>
@@ -73,15 +75,15 @@ const Kandidatlister = () => {
     );
 };
 
-const fordelPåStatus = (oppsummeringer: Kandidatlisteoppsummering[]) => {
-    const pågående: Kandidatlisteoppsummering[] = [];
-    const avsluttede: Kandidatlisteoppsummering[] = [];
+const fordelPåStatus = (sammendrag: Listesammendrag[]) => {
+    const pågående: Listesammendrag[] = [];
+    const avsluttede: Listesammendrag[] = [];
 
-    oppsummeringer.forEach((oppsummering) => {
-        if (oppsummering.kandidatliste.status === "ÅPEN") {
-            pågående.push(oppsummering);
+    sammendrag.forEach((sammendrag) => {
+        if (sammendrag.kandidatliste.status === "ÅPEN") {
+            pågående.push(sammendrag);
         } else {
-            avsluttede.push(oppsummering);
+            avsluttede.push(sammendrag);
         }
     });
 

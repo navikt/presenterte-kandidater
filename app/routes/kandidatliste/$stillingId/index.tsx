@@ -7,14 +7,18 @@ import { Link, useLoaderData } from "@remix-run/react";
 import { proxyTilApi } from "~/services/api/proxy";
 import type { LinksFunction, LoaderFunction } from "@remix-run/node";
 import type { ReactNode } from "react";
-import type { Kandidat, Kandidatliste, Kandidatstatus } from "~/services/domene";
-import Kandidatoppsummering, {
-    links as kandidatoppsumeringLinks,
-} from "~/components/kandidatoppsummering/Kandidatoppsummering";
+import type {
+    Kandidatliste,
+    Kandidatsammendrag as Sammendrag,
+    Kandidatstatus,
+} from "~/services/domene";
+import Kandidatsammendrag, {
+    links as kandidatsammendragLinks,
+} from "~/components/kandidatsammendrag/Kandidatsammendrag";
 import css from "./index.css";
 
 export const links: LinksFunction = () => [
-    ...kandidatoppsumeringLinks(),
+    ...kandidatsammendragLinks(),
     {
         rel: "stylesheet",
         href: css,
@@ -86,7 +90,7 @@ const GruppeMedKandidater = ({
 }: {
     status: Kandidatstatus;
     icon: ReactNode;
-    kandidater: Kandidat[];
+    kandidater: Sammendrag[];
     stillingId: string;
 }) => {
     const kandidaterMedGittStatus = kandidater.filter(
@@ -111,9 +115,9 @@ const GruppeMedKandidater = ({
                 <Accordion.Content>
                     <ul className="gruppe-med-kandidater--kandidater">
                         {kandidaterMedGittStatus.map((kandidat) => (
-                            <Kandidatoppsummering
+                            <Kandidatsammendrag
                                 key={kandidat.kandidatId}
-                                kandidat={kandidat}
+                                sammendrag={kandidat}
                                 stillingId={stillingId}
                             />
                         ))}

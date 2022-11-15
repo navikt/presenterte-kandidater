@@ -3,6 +3,7 @@ import type {
     Kandidatliste,
     Kandidatstatus,
     Kandidat,
+    Cv,
 } from "~/services/domene";
 
 const mocketKandidatliste = (
@@ -23,19 +24,22 @@ const mocketKandidatliste = (
 
 const mocketKandidat = (
     kandidatId: string,
-    kandidat: object = {},
+    cv: Partial<Cv> = {},
     arbeidsgiversStatus: Kandidatstatus = "TIL_VURDERING"
 ): Kandidat => ({
     kandidatId,
     arbeidsgiversStatus,
     hendelsestidspunkt: new Date().toISOString(),
-    kandidat: {
+    cv: {
         fornavn: "Kristoffer",
         etternavn: "Kandidat",
         epostadresse: "kristoffer@kandidat.no",
         telefon: "+47 91234567",
         harKontaktinformasjon: true,
-        ...kandidat,
+        kompetanse: ["Kniv"],
+        arbeidserfaring: ["Kokkerier AS"],
+        ønsketYrke: ["Kokk"],
+        ...cv,
     },
 });
 
@@ -64,7 +68,7 @@ export const mockedeKandidatlister = [
     mocketKandidatliste("720696c9-0077-464f-b0dc-c12b95db32d4", "Misjonærer for Gather Town"),
 ];
 
-export const mockedeKandidatlisteoppsummeringer = mockedeKandidatlister.map((kandidatliste) => ({
+export const mockedeKandidatlistesammendrag = mockedeKandidatlister.map((kandidatliste) => ({
     kandidatliste,
     antallKandidater: kandidatliste.kandidater.length,
 }));

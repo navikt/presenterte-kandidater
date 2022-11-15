@@ -1,16 +1,16 @@
-.kandidatlisteoppsummering {
+.kandidatlistesammendrag {
     display: flex;
     flex-direction: column;
     gap: 1rem;
     margin: 0 -1rem;
 }
 
-.kandidatlisteoppsummering a {
+.kandidatlistesammendrag a {
     font-size: var(--navds-font-size-xlarge);
 }
 
 @media (min-width: 40rem) {
-    .kandidatlisteoppsummering {
+    .kandidatlistesammendrag {
         display: grid;
         grid-template-columns: 1fr auto;
         padding: 1.5rem;

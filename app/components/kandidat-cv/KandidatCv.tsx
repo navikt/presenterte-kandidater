@@ -24,25 +24,22 @@ const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
             <BodyLong>Telefon: {cv.telefon}</BodyLong>
             <BodyLong>E-post: {cv.epostadresse}</BodyLong>
             <Gruppe icon={<Star />} tittel="Kompetanse">
-                <ul>
-                    <li>Digital markedsføring</li>
-                    <li>Kassaerfaring</li>
-                </ul>
+                <Liste elementer={cv.kompetanse} />
             </Gruppe>
             <Gruppe icon={<Office1 />} tittel="Arbeidserfaring">
-                Arbeidserfaring
+                <Liste elementer={cv.arbeidserfaring} />
             </Gruppe>
             <Gruppe icon={<Heart />} tittel="Ønsket yrke">
-                Ønsket yrke
+                <Liste elementer={cv.ønsketYrke} />
             </Gruppe>
             <Gruppe icon={<FileContent />} tittel="Sammendrag">
-                Sammendrag
+                «Sammendrag»
             </Gruppe>
             <Gruppe icon={<Office2 />} tittel="Utdanning">
-                Utdanning
+                «Utdanning»
             </Gruppe>
             <Gruppe icon={<Dialog />} tittel="Språk">
-                Språk
+                «Språk»
             </Gruppe>
         </Panel>
     );
@@ -65,5 +62,15 @@ const Gruppe: FunctionComponent<{
         </div>
     );
 };
+
+const Liste: FunctionComponent<{
+    elementer: string[];
+}> = ({ elementer }) => (
+    <ul>
+        {elementer.map((e) => (
+            <li key={e}>{e}</li>
+        ))}
+    </ul>
+);
 
 export default KandidatCv;

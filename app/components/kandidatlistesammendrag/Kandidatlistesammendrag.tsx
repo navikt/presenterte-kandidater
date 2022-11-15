@@ -2,23 +2,23 @@ import { BodyShort, Panel } from "@navikt/ds-react";
 import { Link } from "@remix-run/react";
 import type { LinksFunction } from "@remix-run/node";
 import type { FunctionComponent } from "react";
-import type { Kandidatlisteoppsummering as Oppsummering } from "~/services/domene";
-import css from "./Kandidatlisteoppsummering.css";
+import type { Kandidatlistesammendrag as Sammendrag } from "~/services/domene";
+import css from "./Kandidatlistesammendrag.css";
 
 export const links: LinksFunction = () => {
     return [{ rel: "stylesheet", href: css }];
 };
 
 type Props = {
-    oppsummering: Oppsummering;
+    sammendrag: Sammendrag;
 };
 
-const Kandidatlisteoppsummering: FunctionComponent<Props> = ({ oppsummering }) => {
-    const { kandidatliste, antallKandidater } = oppsummering;
+const Kandidatlistesammendrag: FunctionComponent<Props> = ({ sammendrag }) => {
+    const { kandidatliste, antallKandidater } = sammendrag;
     const { stillingId, tittel, opprettetTidspunkt } = kandidatliste;
 
     return (
-        <Panel as="li" className="kandidatlisteoppsummering">
+        <Panel as="li" className="kandidatlistesammendrag">
             <span>
                 <Link to={`/kandidatliste/${stillingId}`} className="navds-link">
                     {tittel}
@@ -40,4 +40,4 @@ const formaterOpprettetTidspunkt = (tidspunkt: string) => {
     });
 };
 
-export default Kandidatlisteoppsummering;
+export default Kandidatlistesammendrag;
