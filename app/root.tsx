@@ -19,6 +19,7 @@ import rootCss from "./root.css";
 import designsystemStyles from "@navikt/ds-css/dist/index.css";
 import bedriftsmenyStyles from "@navikt/bedriftsmeny/lib/index.css";
 import { proxyTilApi } from "./services/api/proxy";
+import { hentMiljø, Miljø } from "./services/miljø";
 
 export const meta: MetaFunction = () => ({
     charset: "utf-8",
@@ -33,7 +34,9 @@ export const links: LinksFunction = () => [
 ];
 
 export const loader: LoaderFunction = async ({ request }) => {
-    configureMock();
+    if (hentMiljø() === Miljø.Lokalt) {
+        configureMock();
+    }
 
     const respons = await proxyTilApi(request, "/organisasjoner");
 
