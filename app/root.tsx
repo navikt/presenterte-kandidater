@@ -20,6 +20,7 @@ import designsystemStyles from "@navikt/ds-css/dist/index.css";
 import bedriftsmenyStyles from "@navikt/bedriftsmeny/lib/index.css";
 import { proxyTilApi } from "./services/api/proxy";
 import { hentMiljø, Miljø } from "./services/miljø";
+import mockedeOrganisasjoner from "./mocks/mockOrganisasjoner";
 
 export const meta: MetaFunction = () => ({
     charset: "utf-8",
@@ -38,11 +39,11 @@ export const loader: LoaderFunction = async ({ request }) => {
         configureMock();
     }
 
-    const respons = await proxyTilApi(request, "/organisasjoner");
+    const respons = mockedeOrganisasjoner; // await proxyTilApi(request, "/organisasjoner");
 
     return json({
         dekoratør: await hentDekoratør(),
-        organisasjoner: await respons.json(),
+        organisasjoner: respons, // await respons.json(),
     });
 };
 

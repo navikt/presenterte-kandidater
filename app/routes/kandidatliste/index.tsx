@@ -16,7 +16,13 @@ export const links: LinksFunction = () => [
 ];
 
 export const loader: LoaderFunction = async ({ request }) => {
-    const respons = await proxyTilApi(request, "/kandidatlister");
+    // TODO: Bruk virksomhet fra bedriftsmeny
+    const virksomhetsnummer = "912998827";
+
+    const respons = await proxyTilApi(
+        request,
+        `/kandidatlister?virksomhetsnummer=${virksomhetsnummer}`
+    );
 
     return json(await respons.json());
 };
