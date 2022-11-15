@@ -1,19 +1,21 @@
-import type { LinksFunction } from "@remix-run/node";
-import { Heading } from "@navikt/ds-react";
-import css from "./Header.css";
+import Bedriftsmeny from "@navikt/bedriftsmeny";
+import { useCallback, useState } from "react";
+import type { Organisasjon } from "@navikt/bedriftsmeny/lib/organisasjon";
+import type { FunctionComponent } from "react";
 
-export const links: LinksFunction = () => {
-    return [{ rel: "stylesheet", href: css }];
+type Props = {
+    organisasjoner: Organisasjon[];
 };
 
-const Header = () => {
-    return (
-        <div className="arbeidsgiver-header">
-            <div className="arbeidsgiver-header--inner">
-                <Heading size="large">Kandidater</Heading>
-            </div>
-        </div>
+const Header: FunctionComponent<Props> = ({ organisasjoner }) => {
+    const [orgnummer, setOrgnummer] = useState<string | null>();
+
+    const useOrgnrHook: () => [string | null, (orgnr: string) => void] = useCallback(
+        () => [orgnummer || null, setOrgnummer],
+        [orgnummer]
     );
+
+    return <Bedriftsmeny organisasjoner={organisasjoner} orgnrSearchParam={useOrgnrHook} />;
 };
 
 export default Header;
