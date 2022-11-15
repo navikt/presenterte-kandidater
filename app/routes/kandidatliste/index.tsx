@@ -9,6 +9,7 @@ import type { LoaderFunction } from "@remix-run/node";
 import type { LinksFunction } from "@remix-run/server-runtime";
 import type { Kandidatlisteoppsummering } from "~/services/domene";
 import css from "./index.css";
+import { logger } from "server/logger";
 
 export const links: LinksFunction = () => [
     ...kandidatoppsummeringCss(),
@@ -24,7 +25,12 @@ export const loader: LoaderFunction = async ({ request }) => {
         `/kandidatlister?virksomhetsnummer=${virksomhetsnummer}`
     );
 
-    return json(await respons.json());
+    try {
+        const data = await respons.json();
+        return json(data);
+    } catch (e) {
+        logger.error("Klarte ikke å hente kandidatliste:", e);
+    }
 };
 
 const Kandidatlister = () => {
