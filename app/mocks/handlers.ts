@@ -12,7 +12,7 @@ export const handlers = [
         return res(ctx.json(mockedeKandidatlistesammendrag));
     }),
 
-    rest.get(`${apiConfig.url}/kandidatlister/:stillingId`, (req, res, ctx) => {
+    rest.get(`${apiConfig.url}/kandidatliste/:stillingId`, (req, res, ctx) => {
         return res(
             ctx.json(
                 mockedeKandidatlister.find(

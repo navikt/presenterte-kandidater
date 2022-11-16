@@ -23,7 +23,7 @@ export const links: LinksFunction = () => [
 
 export const loader: LoaderFunction = async ({ request, params }) => {
     const stillingId = params.stillingId;
-    const respons = await proxyTilApi(request, `/kandidatlister/${stillingId}`);
+    const respons = await proxyTilApi(request, `/kandidatliste/${stillingId}`);
 
     return json(await respons.json());
 };

@@ -19,7 +19,7 @@ export const links: LinksFunction = () => [
 export const loader: LoaderFunction = async ({ request, params }) => {
     const { stillingId, kandidatId } = params;
 
-    const respons = await proxyTilApi(request, `/kandidatlister/${stillingId}`);
+    const respons = await proxyTilApi(request, `/kandidatliste/${stillingId}`);
     const kandidatliste: Kandidatliste = await respons.json();
     const kandidat = kandidatliste.kandidater.find(
         (kandidat) => kandidat.kandidat.uuid === kandidatId
