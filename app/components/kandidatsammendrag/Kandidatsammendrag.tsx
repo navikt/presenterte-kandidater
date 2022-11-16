@@ -11,16 +11,16 @@ export const links: LinksFunction = () => {
 
 type Props = {
     kandidat: Kandidat;
-    kandidatlisteId: string;
+    stillingId: string;
 };
 
-const Kandidatsammendrag: FunctionComponent<Props> = ({ kandidat, kandidatlisteId }) => {
+const Kandidatsammendrag: FunctionComponent<Props> = ({ kandidat, stillingId }) => {
     const { kompetanse, arbeidserfaring, ønsketYrke } = kandidat.cv;
 
     return (
         <li className="kandidatsammendrag">
             <Link
-                to={`/kandidatliste/${kandidatlisteId}/kandidat/${kandidat.kandidat.uuid}`}
+                to={`/kandidatliste/${stillingId}/kandidat/${kandidat.kandidat.uuid}`}
                 className="navds-link"
             >
                 <span>{visKandidatnavn(kandidat.cv)} </span>

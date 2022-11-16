@@ -30,7 +30,6 @@ export type Kandidat = {
 
 type Kandidatbase = {
     uuid: string;
-    kandidatlisteId: string;
     opprettet: string;
 };
 

@@ -22,15 +22,17 @@ export const links: LinksFunction = () => [
 ];
 
 export const loader: LoaderFunction = async ({ request, params }) => {
-    const kandidatlisteId = params.kandidatlisteId;
-    const respons = await proxyTilApi(request, `/kandidatlister/${kandidatlisteId}`);
+    const stillingId = params.stillingId;
+    const respons = await proxyTilApi(request, `/kandidatlister/${stillingId}`);
 
     return json(await respons.json());
 };
 
 const Kandidatlistevisning = () => {
     const { kandidatliste, kandidater } = useLoaderData<Kandidatliste>();
-    const { tittel, stillingId, uuid: kandidatlisteId } = kandidatliste;
+    const { tittel, stillingId } = kandidatliste;
+
+    console.log("ALLE", kandidatliste, kandidater);
 
     return (
         <main className="side">
@@ -50,28 +52,28 @@ const Kandidatlistevisning = () => {
                     vurdering="TIL_VURDERING"
                     icon={<Helptext />}
                     kandidater={kandidater}
-                    kandidatlisteId={kandidatlisteId}
+                    stillingId={stillingId}
                 />
 
                 <GruppeMedKandidater
                     vurdering="AKTUELL"
                     icon={<Like />}
                     kandidater={kandidater}
-                    kandidatlisteId={kandidatlisteId}
+                    stillingId={stillingId}
                 />
 
                 <GruppeMedKandidater
                     vurdering="FÅTT_JOBBEN"
                     icon={<DecisionCheck />}
                     kandidater={kandidater}
-                    kandidatlisteId={kandidatlisteId}
+                    stillingId={stillingId}
                 />
 
                 <GruppeMedKandidater
                     vurdering="IKKE_AKTUELL"
                     icon={<Close />}
                     kandidater={kandidater}
-                    kandidatlisteId={kandidatlisteId}
+                    stillingId={stillingId}
                 />
             </Panel>
         </main>
@@ -82,12 +84,12 @@ const GruppeMedKandidater = ({
     vurdering,
     icon,
     kandidater,
-    kandidatlisteId,
+    stillingId,
 }: {
     vurdering: Kandidatvurdering;
     icon: ReactNode;
     kandidater: Kandidat[];
-    kandidatlisteId: string;
+    stillingId: string;
 }) => {
     const kandidaterMedGittStatus = kandidater.filter(
         (kandidat) => kandidat.vurdering === vurdering
@@ -114,7 +116,7 @@ const GruppeMedKandidater = ({
                             <Kandidatsammendrag
                                 key={kandidat.kandidat.uuid}
                                 kandidat={kandidat}
-                                kandidatlisteId={kandidatlisteId}
+                                stillingId={stillingId}
                             />
                         ))}
                     </ul>

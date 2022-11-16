@@ -17,16 +17,17 @@ export const links: LinksFunction = () => [
 ];
 
 export const loader: LoaderFunction = async ({ request, params }) => {
-    const { kandidatId, kandidatlisteId } = params;
+    const { stillingId, kandidatId } = params;
 
-    const [kandidat, kandidatliste] = await Promise.all([
-        proxyTilApi(request, `/kandidatlister/${kandidatlisteId}/kandidat/${kandidatId}`),
-        proxyTilApi(request, `/kandidatlister/${kandidatlisteId}`),
-    ]);
+    const respons = await proxyTilApi(request, `/kandidatlister/${stillingId}`);
+    const kandidatliste: Kandidatliste = await respons.json();
+    const kandidat = kandidatliste.kandidater.find(
+        (kandidat) => kandidat.kandidat.uuid === kandidatId
+    );
 
     return json({
-        kandidat: await kandidat.json(),
-        kandidatliste: await kandidatliste.json(),
+        kandidat,
+        kandidatliste,
     });
 };
 
@@ -36,7 +37,7 @@ type LoaderData = {
 };
 
 const Kandidatvisning = () => {
-    const { kandidatlisteId } = useParams();
+    const { stillingId } = useParams();
     const { kandidat, kandidatliste } = useLoaderData<LoaderData>();
 
     const kandidaterMedSammeStatus = kandidatliste.kandidater.filter(
@@ -51,7 +52,7 @@ const Kandidatvisning = () => {
 
     return (
         <main className="side kandidatside">
-            <Link to={`/kandidatliste/${kandidatlisteId}`} className="navds-link">
+            <Link to={`/kandidatliste/${stillingId}`} className="navds-link">
                 <Back />
                 Alle kandidater
             </Link>
@@ -63,7 +64,7 @@ const Kandidatvisning = () => {
                 </BodyShort>
                 {forrigeKandidatMedSammeStatus && (
                     <Link
-                        to={`/kandidatliste/${kandidatlisteId}/kandidat/${forrigeKandidatMedSammeStatus.kandidat.uuid}`}
+                        to={`/kandidatliste/${stillingId}/kandidat/${forrigeKandidatMedSammeStatus.kandidat.uuid}`}
                         className="navds-link"
                     >
                         <Back />
@@ -72,7 +73,7 @@ const Kandidatvisning = () => {
                 )}
                 {nesteKandidatMedSammeStatus && (
                     <Link
-                        to={`/kandidatliste/${kandidatlisteId}/kandidat/${nesteKandidatMedSammeStatus.kandidat.uuid}`}
+                        to={`/kandidatliste/${stillingId}/kandidat/${nesteKandidatMedSammeStatus.kandidat.uuid}`}
                         className="navds-link"
                     >
                         Neste

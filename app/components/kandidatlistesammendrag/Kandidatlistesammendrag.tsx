@@ -15,12 +15,12 @@ type Props = {
 
 const Kandidatlistesammendrag: FunctionComponent<Props> = ({ sammendrag }) => {
     const { kandidatliste, antallKandidater } = sammendrag;
-    const { tittel, opprettet, uuid } = kandidatliste;
+    const { tittel, opprettet, stillingId } = kandidatliste;
 
     return (
         <Panel as="li" className="kandidatlistesammendrag">
             <span>
-                <Link to={`/kandidatliste/${uuid}`} className="navds-link">
+                <Link to={`/kandidatliste/${stillingId}`} className="navds-link">
                     {tittel}
                 </Link>
             </span>

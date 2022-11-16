@@ -8,14 +8,14 @@ import type {
 } from "~/services/domene";
 
 const mocketKandidatliste = (
-    kandidatlisteId: string,
+    stillingId: string,
     tittel: string,
     status: Kandidatlistestatus = "ÅPEN"
 ): Kandidatliste => {
     return {
         kandidatliste: {
-            stillingId: "123",
-            uuid: kandidatlisteId,
+            stillingId,
+            uuid: "123",
             tittel,
             status,
             slettet: false,
@@ -27,8 +27,6 @@ const mocketKandidatliste = (
     };
 };
 
-// Jævli rart å bruke kandidatlisteId
-
 const mocketKandidat = (
     kandidatId: string,
     cv: Partial<Cv> = {},
@@ -36,7 +34,6 @@ const mocketKandidat = (
 ): Kandidat => ({
     kandidat: {
         uuid: kandidatId,
-        kandidatlisteId: "",
         opprettet: new Date().toISOString(),
     },
     vurdering,
