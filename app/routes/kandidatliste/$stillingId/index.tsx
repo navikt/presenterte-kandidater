@@ -75,6 +75,12 @@ const Kandidatlistevisning = () => {
                     kandidater={kandidater}
                     stillingId={stillingId}
                 />
+
+                <GruppeMedKandidater
+                    icon={<Close />}
+                    kandidater={kandidater}
+                    stillingId={stillingId}
+                />
             </Panel>
         </main>
     );
@@ -86,7 +92,7 @@ const GruppeMedKandidater = ({
     kandidater,
     stillingId,
 }: {
-    vurdering: Kandidatvurdering;
+    vurdering?: Kandidatvurdering;
     icon: ReactNode;
     kandidater: Kandidat[];
     stillingId: string;

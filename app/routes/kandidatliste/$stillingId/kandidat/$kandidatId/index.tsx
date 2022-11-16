@@ -124,7 +124,7 @@ const Kandidatvisning = () => {
     );
 };
 
-export const visVurdering = (vurdering: Kandidatvurdering) => {
+export const visVurdering = (vurdering?: Kandidatvurdering) => {
     switch (vurdering) {
         case "TIL_VURDERING":
             return "Til vurdering";
@@ -135,7 +135,7 @@ export const visVurdering = (vurdering: Kandidatvurdering) => {
         case "FÅTT_JOBBEN":
             return "Fått jobben";
         default:
-            return "Ukjent status";
+            return "Ikke vurdert";
     }
 };
 
