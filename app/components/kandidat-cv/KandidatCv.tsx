@@ -19,8 +19,8 @@ const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
                     {cv.fornavn} {cv.etternavn}
                 </span>
             </Heading>
-            <BodyLong>Alder:</BodyLong>
-            <BodyLong>Bosted:</BodyLong>
+            <BodyLong>Alder: {cv.alder}</BodyLong>
+            <BodyLong>Bosted: {cv.bosted}</BodyLong>
             <BodyLong>Telefon: {cv.mobiltelefonnummer}</BodyLong>
             <BodyLong>E-post: {cv.epostadresse}</BodyLong>
             <Gruppe icon={<Star />} tittel="Kompetanse">
