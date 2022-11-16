@@ -1,45 +1,75 @@
+export type Kandidatlistestatus = "ÅPEN" | "LUKKET";
+export type Kandidatvurdering = "TIL_VURDERING" | "IKKE_AKTUELL" | "AKTUELL" | "FÅTT_JOBBEN";
+
+export type Kandidatliste = {
+    kandidatliste: Kandidatlistebase;
+    kandidater: Kandidat[];
+};
+
 export type Kandidatlistesammendrag = {
-    kandidatliste: Omit<Kandidatliste, "kandidater">;
+    kandidatliste: Kandidatlistebase;
     antallKandidater: number;
 };
 
-export type Kandidatliste = {
+type Kandidatlistebase = {
     stillingId: string;
+    uuid: string;
     tittel: string;
     status: Kandidatlistestatus;
     slettet: boolean;
     virksomhetsnummer: string;
-    opprettetTidspunkt: string;
-    kandidater: Kandidatsammendrag[];
+    sistEndret: string;
+    opprettet: string;
 };
 
-export type Kandidatlistestatus = "ÅPEN" | "LUKKET";
-export type Kandidatstatus = "TIL_VURDERING" | "IKKE_AKTUELL" | "AKTUELL" | "FÅTT_JOBBEN";
-
 export type Kandidat = {
-    kandidatId: string;
-    hendelsestidspunkt: string;
-    arbeidsgiversStatus: Kandidatstatus;
+    kandidat: Kandidatbase;
+    vurdering: Kandidatvurdering;
     cv: Cv;
 };
 
-export type Kandidatsammendrag = {
-    kandidatId: string;
-    hendelsestidspunkt: string;
-    arbeidsgiversStatus: Kandidatstatus;
-    cv: CvSammendrag;
+type Kandidatbase = {
+    uuid: string;
+    kandidatlisteId: string;
+    opprettet: string;
 };
 
-export type CvSammendrag = {
+export type Cv = {
     fornavn: string;
     etternavn: string;
     kompetanse: string[];
-    arbeidserfaring: string[];
+    arbeidserfaring: Arbeidserfaring[];
+    utdanning: Utdanning[];
     ønsketYrke: string[];
-};
+    språk: Språk[];
+    sammendrag: string;
+    alder: number;
+    bosted: string;
 
-export type Cv = CvSammendrag & {
     harKontaktinformasjon: boolean;
     epostadresse: string | null;
-    telefon: string | null;
+    mobiltelefonnummer: string | null;
+};
+
+type Arbeidserfaring = {
+    fraDato: string;
+    tilDato: string;
+    arbeidsgiver: string;
+    sted: string;
+    stillingstittel: string;
+    beskrivelse: string;
+};
+
+type Utdanning = {
+    utdanningsretning: string;
+    beskrivelse: string;
+    utdannelsessted: string;
+    fra: string;
+    til: string;
+};
+
+type Språk = {
+    navn: string;
+    muntlig: string;
+    skriftlig: string;
 };

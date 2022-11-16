@@ -3,13 +3,11 @@ import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { proxyTilApi } from "~/services/api/proxy";
 import { logger } from "server/logger";
-import Kandidatsammendrag, {
-    links as kandidatsammendragCss,
-} from "~/components/kandidatlistesammendrag/Kandidatlistesammendrag";
-import Kandidatlistesammendrag from "~/components/kandidatlistesammendrag/Kandidatlistesammendrag";
+import { links as kandidatsammendragCss } from "~/components/kandidatlistesammendrag/Kandidatlistesammendrag";
+import VisKandidatlistesammendrag from "~/components/kandidatlistesammendrag/Kandidatlistesammendrag";
 import type { LoaderFunction } from "@remix-run/node";
 import type { LinksFunction } from "@remix-run/server-runtime";
-import type { Kandidatlistesammendrag as Listesammendrag } from "~/services/domene";
+import type { Kandidatlistesammendrag } from "~/services/domene";
 
 import css from "./index.css";
 
@@ -36,7 +34,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 const Kandidatlister = () => {
-    const sammendrag = useLoaderData<Listesammendrag[]>();
+    const sammendrag = useLoaderData<Kandidatlistesammendrag[]>();
     const { pågående, avsluttede } = fordelPåStatus(sammendrag);
 
     return (
@@ -47,8 +45,8 @@ const Kandidatlister = () => {
 
             <ul className="kandidatlister--gruppe">
                 {pågående.map((sammendrag) => (
-                    <Kandidatlistesammendrag
-                        key={sammendrag.kandidatliste.stillingId}
+                    <VisKandidatlistesammendrag
+                        key={sammendrag.kandidatliste.uuid}
                         sammendrag={sammendrag}
                     />
                 ))}
@@ -65,7 +63,7 @@ const Kandidatlister = () => {
             )}
             <ul className="kandidatlister--gruppe">
                 {avsluttede.map((sammendrag) => (
-                    <Kandidatlistesammendrag
+                    <VisKandidatlistesammendrag
                         key={sammendrag.kandidatliste.stillingId}
                         sammendrag={sammendrag}
                     />
@@ -75,9 +73,9 @@ const Kandidatlister = () => {
     );
 };
 
-const fordelPåStatus = (sammendrag: Listesammendrag[]) => {
-    const pågående: Listesammendrag[] = [];
-    const avsluttede: Listesammendrag[] = [];
+const fordelPåStatus = (sammendrag: Kandidatlistesammendrag[]) => {
+    const pågående: Kandidatlistesammendrag[] = [];
+    const avsluttede: Kandidatlistesammendrag[] = [];
 
     sammendrag.forEach((sammendrag) => {
         if (sammendrag.kandidatliste.status === "ÅPEN") {

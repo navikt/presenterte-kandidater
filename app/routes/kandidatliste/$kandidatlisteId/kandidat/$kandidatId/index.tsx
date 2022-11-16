@@ -5,7 +5,7 @@ import { proxyTilApi } from "~/services/api/proxy";
 import { Back, Close, DecisionCheck, Helptext, Like, Next } from "@navikt/ds-icons";
 import KandidatCv, { links as kandidatCvLinks } from "~/components/kandidat-cv/KandidatCv";
 import type { LoaderFunction, LinksFunction } from "@remix-run/node";
-import type { Kandidat, Kandidatliste, Kandidatstatus } from "~/services/domene";
+import type { Kandidat, Kandidatliste, Kandidatvurdering } from "~/services/domene";
 import css from "./index.css";
 
 export const links: LinksFunction = () => [
@@ -17,11 +17,11 @@ export const links: LinksFunction = () => [
 ];
 
 export const loader: LoaderFunction = async ({ request, params }) => {
-    const { kandidatId, stillingId } = params;
+    const { kandidatId, kandidatlisteId } = params;
 
     const [kandidat, kandidatliste] = await Promise.all([
-        proxyTilApi(request, `/kandidatlister/${stillingId}/${kandidatId}`),
-        proxyTilApi(request, `/kandidatlister/${stillingId}`),
+        proxyTilApi(request, `/kandidatlister/${kandidatlisteId}/kandidat/${kandidatId}`),
+        proxyTilApi(request, `/kandidatlister/${kandidatlisteId}`),
     ]);
 
     return json({
@@ -36,37 +36,34 @@ type LoaderData = {
 };
 
 const Kandidatvisning = () => {
-    const { stillingId } = useParams();
-
+    const { kandidatlisteId } = useParams();
     const { kandidat, kandidatliste } = useLoaderData<LoaderData>();
-    const { kandidatId } = kandidat;
 
     const kandidaterMedSammeStatus = kandidatliste.kandidater.filter(
-        (annenKandidat) => annenKandidat.arbeidsgiversStatus === kandidat.arbeidsgiversStatus
+        (annenKandidat) => annenKandidat.vurdering === kandidat.vurdering
     );
 
     const plasseringTilKandidat = kandidaterMedSammeStatus.findIndex(
-        (annenKandidat) => annenKandidat.kandidatId === kandidatId
+        (annenKandidat) => annenKandidat.kandidat.uuid === kandidat.kandidat.uuid
     );
     const nesteKandidatMedSammeStatus = kandidaterMedSammeStatus[plasseringTilKandidat + 1];
     const forrigeKandidatMedSammeStatus = kandidaterMedSammeStatus[plasseringTilKandidat - 1];
 
     return (
         <main className="side kandidatside">
-            <Link to={`/kandidatliste/${stillingId}`} className="navds-link">
+            <Link to={`/kandidatliste/${kandidatlisteId}`} className="navds-link">
                 <Back />
                 Alle kandidater
             </Link>
             <div className="kandidatside--navigering">
                 <BodyShort>
                     <b>
-                        {visArbeidsgiversStatus(kandidat.arbeidsgiversStatus)} (
-                        {kandidaterMedSammeStatus.length})
+                        {visVurdering(kandidat.vurdering)} ({kandidaterMedSammeStatus.length})
                     </b>
                 </BodyShort>
                 {forrigeKandidatMedSammeStatus && (
                     <Link
-                        to={`/kandidatliste/${stillingId}/${forrigeKandidatMedSammeStatus.kandidatId}`}
+                        to={`/kandidatliste/${kandidatlisteId}/kandidat/${forrigeKandidatMedSammeStatus.kandidat.uuid}`}
                         className="navds-link"
                     >
                         <Back />
@@ -75,7 +72,7 @@ const Kandidatvisning = () => {
                 )}
                 {nesteKandidatMedSammeStatus && (
                     <Link
-                        to={`/kandidatliste/${stillingId}/${nesteKandidatMedSammeStatus.kandidatId}`}
+                        to={`/kandidatliste/${kandidatlisteId}/kandidat/${nesteKandidatMedSammeStatus.kandidat.uuid}`}
                         className="navds-link"
                     >
                         Neste
@@ -85,8 +82,8 @@ const Kandidatvisning = () => {
             </div>
             <ToggleGroup
                 className="kandidatside--velg-status-desktop"
-                defaultValue={kandidat.arbeidsgiversStatus}
-                label={`For stilling: ${kandidatliste.tittel}`}
+                defaultValue={kandidat.vurdering}
+                label={`For stilling: ${kandidatliste.kandidatliste.tittel}`}
                 onChange={console.log}
             >
                 <ToggleGroup.Item value="Å_VURDERE">
@@ -107,8 +104,8 @@ const Kandidatvisning = () => {
             </ToggleGroup>
             <RadioGroup
                 className="kandidatside--velg-status-mobil"
-                legend={`For stilling: ${kandidatliste.tittel}`}
-                defaultValue={kandidat.arbeidsgiversStatus}
+                legend={`For stilling: ${kandidatliste.kandidatliste.tittel}`}
+                defaultValue={kandidat.vurdering}
                 onChange={console.log}
             >
                 <Radio value="Å_VURDERE">Å vurdere</Radio>
@@ -126,8 +123,8 @@ const Kandidatvisning = () => {
     );
 };
 
-export const visArbeidsgiversStatus = (arbeidsgiversStatus: Kandidatstatus) => {
-    switch (arbeidsgiversStatus) {
+export const visVurdering = (vurdering: Kandidatvurdering) => {
+    switch (vurdering) {
         case "TIL_VURDERING":
             return "Til vurdering";
         case "IKKE_AKTUELL":

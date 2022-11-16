@@ -1,5 +1,5 @@
 import { Accordion, Heading, Panel } from "@navikt/ds-react";
-import { visArbeidsgiversStatus } from "./$kandidatId";
+import { visVurdering } from "./kandidat/$kandidatId";
 import { Back, Close, DecisionCheck, ExternalLink, Helptext, Like } from "@navikt/ds-icons";
 import { json } from "@remix-run/node";
 import { Link as NavLink } from "@navikt/ds-react";
@@ -7,11 +7,7 @@ import { Link, useLoaderData } from "@remix-run/react";
 import { proxyTilApi } from "~/services/api/proxy";
 import type { LinksFunction, LoaderFunction } from "@remix-run/node";
 import type { ReactNode } from "react";
-import type {
-    Kandidatliste,
-    Kandidatsammendrag as Sammendrag,
-    Kandidatstatus,
-} from "~/services/domene";
+import type { Kandidat, Kandidatliste, Kandidatvurdering } from "~/services/domene";
 import Kandidatsammendrag, {
     links as kandidatsammendragLinks,
 } from "~/components/kandidatsammendrag/Kandidatsammendrag";
@@ -26,15 +22,15 @@ export const links: LinksFunction = () => [
 ];
 
 export const loader: LoaderFunction = async ({ request, params }) => {
-    const stillingId = params.stillingId;
-    const respons = await proxyTilApi(request, `/kandidatlister/${stillingId}`);
+    const kandidatlisteId = params.kandidatlisteId;
+    const respons = await proxyTilApi(request, `/kandidatlister/${kandidatlisteId}`);
 
     return json(await respons.json());
 };
 
 const Kandidatlistevisning = () => {
-    const kandidatliste = useLoaderData<Kandidatliste>();
-    const { tittel, stillingId, kandidater } = kandidatliste;
+    const { kandidatliste, kandidater } = useLoaderData<Kandidatliste>();
+    const { tittel, stillingId, uuid: kandidatlisteId } = kandidatliste;
 
     return (
         <main className="side">
@@ -51,31 +47,31 @@ const Kandidatlistevisning = () => {
                 </NavLink>
 
                 <GruppeMedKandidater
-                    status="Å_VURDERE"
+                    vurdering="TIL_VURDERING"
                     icon={<Helptext />}
                     kandidater={kandidater}
-                    stillingId={stillingId}
+                    kandidatlisteId={kandidatlisteId}
                 />
 
                 <GruppeMedKandidater
-                    status="AKTUELL"
+                    vurdering="AKTUELL"
                     icon={<Like />}
                     kandidater={kandidater}
-                    stillingId={stillingId}
+                    kandidatlisteId={kandidatlisteId}
                 />
 
                 <GruppeMedKandidater
-                    status="FÅTT_JOBBEN"
+                    vurdering="FÅTT_JOBBEN"
                     icon={<DecisionCheck />}
                     kandidater={kandidater}
-                    stillingId={stillingId}
+                    kandidatlisteId={kandidatlisteId}
                 />
 
                 <GruppeMedKandidater
-                    status="IKKE_AKTUELL"
+                    vurdering="IKKE_AKTUELL"
                     icon={<Close />}
                     kandidater={kandidater}
-                    stillingId={stillingId}
+                    kandidatlisteId={kandidatlisteId}
                 />
             </Panel>
         </main>
@@ -83,18 +79,18 @@ const Kandidatlistevisning = () => {
 };
 
 const GruppeMedKandidater = ({
-    status,
+    vurdering,
     icon,
     kandidater,
-    stillingId,
+    kandidatlisteId,
 }: {
-    status: Kandidatstatus;
+    vurdering: Kandidatvurdering;
     icon: ReactNode;
-    kandidater: Sammendrag[];
-    stillingId: string;
+    kandidater: Kandidat[];
+    kandidatlisteId: string;
 }) => {
     const kandidaterMedGittStatus = kandidater.filter(
-        (kandidat) => kandidat.arbeidsgiversStatus === status
+        (kandidat) => kandidat.vurdering === vurdering
     );
 
     if (kandidaterMedGittStatus.length === 0) {
@@ -108,7 +104,7 @@ const GruppeMedKandidater = ({
                     <div className="gruppe-med-kandidater--header">
                         {icon}
                         <span>
-                            {visArbeidsgiversStatus(status)} ({kandidaterMedGittStatus.length})
+                            {visVurdering(vurdering)} ({kandidaterMedGittStatus.length})
                         </span>
                     </div>
                 </Accordion.Header>
@@ -116,9 +112,9 @@ const GruppeMedKandidater = ({
                     <ul className="gruppe-med-kandidater--kandidater">
                         {kandidaterMedGittStatus.map((kandidat) => (
                             <Kandidatsammendrag
-                                key={kandidat.kandidatId}
-                                sammendrag={kandidat}
-                                stillingId={stillingId}
+                                key={kandidat.kandidat.uuid}
+                                kandidat={kandidat}
+                                kandidatlisteId={kandidatlisteId}
                             />
                         ))}
                     </ul>

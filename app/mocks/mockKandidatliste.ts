@@ -1,44 +1,82 @@
 import type {
     Kandidatlistestatus,
     Kandidatliste,
-    Kandidatstatus,
+    Kandidatvurdering,
     Kandidat,
     Cv,
+    Kandidatlistesammendrag,
 } from "~/services/domene";
 
 const mocketKandidatliste = (
-    stillingId: string,
+    kandidatlisteId: string,
     tittel: string,
     status: Kandidatlistestatus = "ÅPEN"
 ): Kandidatliste => {
     return {
-        stillingId,
-        tittel,
-        status,
-        slettet: false,
-        virksomhetsnummer: "123456789",
-        opprettetTidspunkt: new Date().toISOString(),
+        kandidatliste: {
+            stillingId: "123",
+            uuid: kandidatlisteId,
+            tittel,
+            status,
+            slettet: false,
+            virksomhetsnummer: "123456789",
+            opprettet: new Date().toISOString(),
+            sistEndret: new Date().toISOString(),
+        },
         kandidater: mockedeKandidater,
     };
 };
 
+// Jævli rart å bruke kandidatlisteId
+
 const mocketKandidat = (
     kandidatId: string,
     cv: Partial<Cv> = {},
-    arbeidsgiversStatus: Kandidatstatus = "TIL_VURDERING"
+    vurdering: Kandidatvurdering = "TIL_VURDERING"
 ): Kandidat => ({
-    kandidatId,
-    arbeidsgiversStatus,
-    hendelsestidspunkt: new Date().toISOString(),
+    kandidat: {
+        uuid: kandidatId,
+        kandidatlisteId: "",
+        opprettet: new Date().toISOString(),
+    },
+    vurdering,
     cv: {
         fornavn: "Kristoffer",
         etternavn: "Kandidat",
+        alder: 30,
         epostadresse: "kristoffer@kandidat.no",
-        telefon: "+47 91234567",
+        mobiltelefonnummer: "+47 91234567",
         harKontaktinformasjon: true,
         kompetanse: ["Kniv"],
-        arbeidserfaring: ["Kokkerier AS"],
+        arbeidserfaring: [
+            {
+                arbeidsgiver: "Kokkerier AS",
+                stillingstittel: "Kokk i Kokkerier",
+                beskrivelse: "Kokkerier i Kokkerier",
+                fraDato: new Date().toISOString(),
+                tilDato: new Date().toISOString(),
+                sted: "Kokkestad",
+            },
+        ],
+        bosted: "Kokkestad",
         ønsketYrke: ["Kokk"],
+        utdanning: [
+            {
+                fra: "2021-09",
+                til: "2021-11",
+                beskrivelse: "Generell utdanning",
+                utdannelsessted: "Generellandia",
+                utdanningsretning: "Generalitet",
+            },
+        ],
+        språk: [
+            {
+                navn: "Engelsk",
+                muntlig: "Godt",
+                skriftlig: "Svært godt",
+            },
+        ],
+        sammendrag: "Ønsker å jobbe som kokk",
         ...cv,
     },
 });
@@ -68,7 +106,9 @@ export const mockedeKandidatlister = [
     mocketKandidatliste("720696c9-0077-464f-b0dc-c12b95db32d4", "Misjonærer for Gather Town"),
 ];
 
-export const mockedeKandidatlistesammendrag = mockedeKandidatlister.map((kandidatliste) => ({
-    kandidatliste,
-    antallKandidater: kandidatliste.kandidater.length,
-}));
+export const mockedeKandidatlistesammendrag: Kandidatlistesammendrag[] = mockedeKandidatlister.map(
+    (kandidatliste) => ({
+        kandidatliste: kandidatliste.kandidatliste,
+        antallKandidater: kandidatliste.kandidater.length,
+    })
+);
