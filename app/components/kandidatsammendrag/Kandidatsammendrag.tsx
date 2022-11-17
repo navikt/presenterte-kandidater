@@ -15,6 +15,10 @@ type Props = {
 };
 
 const Kandidatsammendrag: FunctionComponent<Props> = ({ kandidat, stillingId }) => {
+    if (kandidat.cv === null) {
+        return <KandidatsammendragUtenCv kandidat={kandidat} stillingId={stillingId} />;
+    }
+
     const { kompetanse, arbeidserfaring, ønsketYrke } = kandidat.cv;
 
     return (
@@ -23,7 +27,7 @@ const Kandidatsammendrag: FunctionComponent<Props> = ({ kandidat, stillingId }) 
                 to={`/kandidatliste/${stillingId}/kandidat/${kandidat.kandidat.uuid}`}
                 className="navds-link"
             >
-                <span>{visKandidatnavn(kandidat.cv)} </span>
+                <span>{visKandidatnavn(kandidat.cv)}</span>
             </Link>
             <BodyShort>
                 <b>Kompetanse: </b>
@@ -39,6 +43,20 @@ const Kandidatsammendrag: FunctionComponent<Props> = ({ kandidat, stillingId }) 
                 <b>Ønsket yrke: </b>
                 <span>{ønsketYrke.join(", ")}</span>
             </BodyShort>
+        </li>
+    );
+};
+
+export const KandidatsammendragUtenCv: FunctionComponent<Props> = ({ kandidat, stillingId }) => {
+    return (
+        <li className="kandidatsammendrag">
+            <Link
+                to={`/kandidatliste/${stillingId}/kandidat/${kandidat.kandidat.uuid}`}
+                className="navds-link"
+            >
+                <span>Utdatert kandidat</span>
+            </Link>
+            <BodyShort>Ikke lenger tilgjengelig</BodyShort>
         </li>
     );
 };

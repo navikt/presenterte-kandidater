@@ -29,7 +29,7 @@ const mocketKandidatliste = (
 
 const mocketKandidat = (
     kandidatId: string,
-    cv: Partial<Cv> = {},
+    cv: Partial<Cv> | null = {},
     vurdering: Kandidatvurdering = "TIL_VURDERING"
 ): Kandidat => ({
     kandidat: {
@@ -37,46 +37,53 @@ const mocketKandidat = (
         opprettet: new Date().toISOString(),
     },
     vurdering,
-    cv: {
-        fornavn: "Kristoffer",
-        etternavn: "Kandidat",
-        alder: 30,
-        epostadresse: "kristoffer@kandidat.no",
-        mobiltelefonnummer: "+47 91234567",
-        harKontaktinformasjon: true,
-        kompetanse: ["Kniv"],
-        arbeidserfaring: [
-            {
-                arbeidsgiver: "Kokkerier AS",
-                stillingstittel: "Kokk i Kokkerier",
-                beskrivelse: "Kokkerier i Kokkerier",
-                fraDato: new Date().toISOString(),
-                tilDato: new Date().toISOString(),
-                sted: "Kokkestad",
-            },
-        ],
-        bosted: "Kokkestad",
-        ønsketYrke: ["Kokk"],
-        utdanning: [
-            {
-                fra: "2021-09",
-                til: "2021-11",
-                beskrivelse: "Generell utdanning",
-                utdannelsessted: "Generellandia",
-                utdanningsretning: "Generalitet",
-            },
-        ],
-        språk: [
-            {
-                navn: "Engelsk",
-                muntlig: "Godt",
-                skriftlig: "Svært godt",
-            },
-        ],
-        sammendrag: "Ønsker å jobbe som kokk",
-        ...cv,
-    },
+    cv:
+        cv === null
+            ? null
+            : {
+                  ...mocketCv,
+                  ...cv,
+              },
 });
+
+const mocketCv = {
+    fornavn: "Kristoffer",
+    etternavn: "Kandidat",
+    alder: 30,
+    epostadresse: "kristoffer@kandidat.no",
+    mobiltelefonnummer: "+47 91234567",
+    harKontaktinformasjon: true,
+    kompetanse: ["Kniv"],
+    arbeidserfaring: [
+        {
+            arbeidsgiver: "Kokkerier AS",
+            stillingstittel: "Kokk i Kokkerier",
+            beskrivelse: "Kokkerier i Kokkerier",
+            fraDato: new Date().toISOString(),
+            tilDato: new Date().toISOString(),
+            sted: "Kokkestad",
+        },
+    ],
+    bosted: "Kokkestad",
+    ønsketYrke: ["Kokk"],
+    utdanning: [
+        {
+            fra: "2021-09",
+            til: "2021-11",
+            beskrivelse: "Generell utdanning",
+            utdannelsessted: "Generellandia",
+            utdanningsretning: "Generalitet",
+        },
+    ],
+    språk: [
+        {
+            navn: "Engelsk",
+            muntlig: "Godt",
+            skriftlig: "Svært godt",
+        },
+    ],
+    sammendrag: "Ønsker å jobbe som kokk",
+};
 
 export const mockedeKandidater = [
     mocketKandidat("23d45ba2-ce9e-446e-9137-5ebb44bf6490", {
@@ -92,6 +99,7 @@ export const mockedeKandidater = [
         },
         "AKTUELL"
     ),
+    mocketKandidat("4b175a91-5ee8-4811-be11-5a5d2d33b967", null, "IKKE_AKTUELL"),
 ];
 
 export const mockedeKandidatlister = [

@@ -15,6 +15,10 @@
     display: none;
 }
 
+.kandidatside--velg-status-desktop .navds-toggle-group {
+    margin-top: 0.5rem;
+}
+
 @media (min-width: 40rem) {
     .kandidatside--velg-status-desktop {
         display: unset;

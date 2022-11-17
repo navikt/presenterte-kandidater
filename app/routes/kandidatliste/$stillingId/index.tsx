@@ -32,8 +32,6 @@ const Kandidatlistevisning = () => {
     const { kandidatliste, kandidater } = useLoaderData<Kandidatliste>();
     const { tittel, stillingId } = kandidatliste;
 
-    console.log("ALLE", kandidatliste, kandidater);
-
     return (
         <main className="side">
             <Link to="/kandidatliste" className="navds-link">

@@ -25,7 +25,7 @@ type Kandidatlistebase = {
 export type Kandidat = {
     kandidat: Kandidatbase;
     vurdering: Kandidatvurdering;
-    cv: Cv;
+    cv: Cv | null;
 };
 
 type Kandidatbase = {

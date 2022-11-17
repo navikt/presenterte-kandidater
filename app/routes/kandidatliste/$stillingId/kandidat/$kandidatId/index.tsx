@@ -3,7 +3,10 @@ import { BodyShort, Radio, RadioGroup, ReadMore, ToggleGroup } from "@navikt/ds-
 import { json } from "@remix-run/node";
 import { proxyTilApi } from "~/services/api/proxy";
 import { Back, Close, DecisionCheck, Helptext, Like, Next } from "@navikt/ds-icons";
-import KandidatCv, { links as kandidatCvLinks } from "~/components/kandidat-cv/KandidatCv";
+import KandidatCv, {
+    KandidatUtenCv,
+    links as kandidatCvLinks,
+} from "~/components/kandidat-cv/KandidatCv";
 import type { LoaderFunction, LinksFunction } from "@remix-run/node";
 import type { Kandidat, Kandidatliste, Kandidatvurdering } from "~/services/domene";
 import css from "./index.css";
@@ -115,11 +118,11 @@ const Kandidatvisning = () => {
                 <Radio value="FÅTT_JOBBEN">Fått jobben</Radio>
             </RadioGroup>
             <ReadMore header="Slik virker statusene">
-                Statusene hjelper deg å holde styr på kandidatene NAV sendt deg.
+                Statusene hjelper deg å holde oversikt over kandidatene NAV har sendt deg.
                 <br />
-                Informasjonen blir ikke sendt over til kandidat eller NAV.
+                Informasjonen blir ikke formidlet videre til kandidaten eller NAV.
             </ReadMore>
-            <KandidatCv cv={kandidat.cv} />
+            {kandidat.cv ? <KandidatCv cv={kandidat.cv} /> : <KandidatUtenCv />}
         </main>
     );
 };

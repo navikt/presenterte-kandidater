@@ -73,4 +73,10 @@ const Liste: FunctionComponent<{
     </ul>
 );
 
+export const KandidatUtenCv: FunctionComponent = () => (
+    <Panel className="kandidat-cv">
+        <BodyLong>Kandidaten er ikke lenger tilgjengelig.</BodyLong>
+    </Panel>
+);
+
 export default KandidatCv;
