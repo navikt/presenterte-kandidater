@@ -12,6 +12,7 @@ import type { Kandidat, Kandidatliste } from "~/services/domene";
 import { Kandidatvurdering } from "~/services/domene";
 import css from "./index.css";
 import { logger } from "../../../../../../server/logger";
+import { useState } from "react";
 
 export const links: LinksFunction = () => [
     ...kandidatCvLinks(),
@@ -65,6 +66,9 @@ type LoaderData = {
 const Kandidatvisning = () => {
     const { stillingId } = useParams();
     const { kandidat, kandidatliste } = useLoaderData<LoaderData>();
+    const [arbeidsgiversVurdering, setArbeidsgiversVurdering] = useState<Kandidatvurdering>(
+        kandidat.kandidat.arbeidsgiversVurdering
+    );
 
     const kandidaterMedSammeStatus = kandidatliste.kandidater.filter(
         (annenKandidat) =>
@@ -114,8 +118,8 @@ const Kandidatvisning = () => {
                 <ToggleGroup
                     className="kandidatside--velg-status-desktop"
                     label={`For stilling: ${kandidatliste.kandidatliste.tittel}`}
-                    defaultValue={kandidat.kandidat.arbeidsgiversVurdering}
-                    onChange={() => {}}
+                    value={arbeidsgiversVurdering}
+                    onChange={(value) => setArbeidsgiversVurdering(value as Kandidatvurdering)}
                 >
                     <ToggleGroup.Item
                         // @ts-ignore
@@ -124,11 +128,6 @@ const Kandidatvisning = () => {
                     >
                         <Helptext aria-hidden={true} />
                         Til vurdering
-                        <input
-                            type="hidden"
-                            name="arbeidsgiversVurdering"
-                            value={Kandidatvurdering.TilVurdering}
-                        />
                     </ToggleGroup.Item>
                     <ToggleGroup.Item
                         // @ts-ignore
@@ -137,11 +136,6 @@ const Kandidatvisning = () => {
                     >
                         <Close aria-hidden={true} />
                         Ikke aktuell
-                        <input
-                            type="hidden"
-                            name="arbeidsgiversVurdering"
-                            value={Kandidatvurdering.IkkeAktuell}
-                        />
                     </ToggleGroup.Item>
                     <ToggleGroup.Item
                         // @ts-ignore
@@ -150,11 +144,6 @@ const Kandidatvisning = () => {
                     >
                         <Like aria-hidden={true} />
                         Aktuell
-                        <input
-                            type="hidden"
-                            name="arbeidsgiversVurdering"
-                            value={Kandidatvurdering.Aktuell}
-                        />
                     </ToggleGroup.Item>
                     <ToggleGroup.Item
                         // @ts-ignore
@@ -163,18 +152,14 @@ const Kandidatvisning = () => {
                     >
                         <DecisionCheck aria-hidden={true} />
                         Fått jobben
-                        <input
-                            type="hidden"
-                            name="arbeidsgiversVurdering"
-                            value={Kandidatvurdering.FåttJobben}
-                        />
                     </ToggleGroup.Item>
                 </ToggleGroup>
                 <RadioGroup
                     className="kandidatside--velg-status-mobil"
                     legend={`For stilling: ${kandidatliste.kandidatliste.tittel}`}
-                    defaultValue={kandidat.kandidat.arbeidsgiversVurdering}
+                    value={arbeidsgiversVurdering}
                     name="vurdering"
+                    onChange={(value) => setArbeidsgiversVurdering(value as Kandidatvurdering)}
                 >
                     <Radio value={Kandidatvurdering.TilVurdering}>Til vurdering</Radio>
                     <Radio value={Kandidatvurdering.IkkeAktuell}>Ikke aktuell</Radio>
@@ -184,6 +169,7 @@ const Kandidatvisning = () => {
                         Endre vurdering
                     </Button>
                 </RadioGroup>
+                <input type="hidden" name="arbeidsgiversVurdering" value={arbeidsgiversVurdering} />
             </Form>
             <ReadMore header="Slik virker statusene">
                 Statusene hjelper deg å holde oversikt over kandidatene NAV har sendt deg.
