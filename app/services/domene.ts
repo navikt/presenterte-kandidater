@@ -30,12 +30,12 @@ type Kandidatlistebase = {
 
 export type Kandidat = {
     kandidat: Kandidatbase;
-    vurdering: Kandidatvurdering;
     cv: Cv | null;
 };
 
 type Kandidatbase = {
     uuid: string;
+    vurdering: Kandidatvurdering;
     opprettet: string;
 };
 

@@ -103,7 +103,7 @@ const GruppeMedKandidater = ({
     stillingId: string;
 }) => {
     const kandidaterMedGittStatus = kandidater.filter(
-        (kandidat) => kandidat.vurdering === vurdering
+        (kandidat) => kandidat.kandidat.vurdering === vurdering
     );
 
     if (kandidaterMedGittStatus.length === 0) {

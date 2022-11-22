@@ -34,9 +34,9 @@ const mocketKandidat = (
 ): Kandidat => ({
     kandidat: {
         uuid: kandidatId,
+        vurdering,
         opprettet: new Date().toISOString(),
     },
-    vurdering,
     cv:
         cv === null
             ? null

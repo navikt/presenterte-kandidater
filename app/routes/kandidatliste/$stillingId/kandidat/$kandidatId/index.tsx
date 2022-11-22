@@ -56,7 +56,7 @@ const Kandidatvisning = () => {
     const { kandidat, kandidatliste } = useLoaderData<LoaderData>();
 
     const kandidaterMedSammeStatus = kandidatliste.kandidater.filter(
-        (annenKandidat) => annenKandidat.vurdering === kandidat.vurdering
+        (annenKandidat) => annenKandidat.kandidat.vurdering === kandidat.kandidat.vurdering
     );
 
     const plasseringTilKandidat = kandidaterMedSammeStatus.findIndex(
@@ -74,7 +74,8 @@ const Kandidatvisning = () => {
             <div className="kandidatside--navigering">
                 <BodyShort>
                     <b>
-                        {visVurdering(kandidat.vurdering)} ({kandidaterMedSammeStatus.length})
+                        {visVurdering(kandidat.kandidat.vurdering)} (
+                        {kandidaterMedSammeStatus.length})
                     </b>
                 </BodyShort>
                 {forrigeKandidatMedSammeStatus && (
@@ -98,7 +99,7 @@ const Kandidatvisning = () => {
             </div>
             <ToggleGroup
                 className="kandidatside--velg-status-desktop"
-                defaultValue={kandidat.vurdering}
+                defaultValue={kandidat.kandidat.vurdering}
                 label={`For stilling: ${kandidatliste.kandidatliste.tittel}`}
                 onChange={console.log}
             >
@@ -122,7 +123,7 @@ const Kandidatvisning = () => {
             <RadioGroup
                 className="kandidatside--velg-status-mobil"
                 legend={`For stilling: ${kandidatliste.kandidatliste.tittel}`}
-                defaultValue={kandidat.vurdering}
+                defaultValue={kandidat.kandidat.vurdering}
                 onChange={console.log}
             >
                 <Radio value="Å_VURDERE">Å vurdere</Radio>
