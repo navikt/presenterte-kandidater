@@ -42,7 +42,7 @@ export const action: ActionFunction = async ({ request, context, params }) => {
     const arbeidsgiversVurdering = data.get("arbeidsgiversVurdering");
 
     const respons = await proxyTilApi(request, `/kandidat/${kandidatId}/vurdering`, "PUT", {
-        arbeidsgiversVurdering,
+        arbeidsgiversVurdering: arbeidsgiversVurdering,
     });
 
     if (respons.ok) {
@@ -119,6 +119,11 @@ const Kandidatvisning = () => {
                     >
                         <Helptext aria-hidden={true} />
                         Til vurdering
+                        <input
+                            type="hidden"
+                            name="arbeidsgiversVurdering"
+                            value={Kandidatvurdering.TilVurdering}
+                        />
                     </ToggleGroup.Item>
                     <ToggleGroup.Item
                         // @ts-ignore
@@ -127,6 +132,11 @@ const Kandidatvisning = () => {
                     >
                         <Close aria-hidden={true} />
                         Ikke aktuell
+                        <input
+                            type="hidden"
+                            name="arbeidsgiversVurdering"
+                            value={Kandidatvurdering.IkkeAktuell}
+                        />
                     </ToggleGroup.Item>
                     <ToggleGroup.Item
                         // @ts-ignore
@@ -135,6 +145,11 @@ const Kandidatvisning = () => {
                     >
                         <Like aria-hidden={true} />
                         Aktuell
+                        <input
+                            type="hidden"
+                            name="arbeidsgiversVurdering"
+                            value={Kandidatvurdering.Aktuell}
+                        />
                     </ToggleGroup.Item>
                     <ToggleGroup.Item
                         // @ts-ignore
@@ -143,6 +158,11 @@ const Kandidatvisning = () => {
                     >
                         <DecisionCheck aria-hidden={true} />
                         Fått jobben
+                        <input
+                            type="hidden"
+                            name="arbeidsgiversVurdering"
+                            value={Kandidatvurdering.FåttJobben}
+                        />
                     </ToggleGroup.Item>
                 </ToggleGroup>
                 <RadioGroup
