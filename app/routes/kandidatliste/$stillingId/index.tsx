@@ -7,7 +7,8 @@ import { Link, useLoaderData } from "@remix-run/react";
 import { proxyTilApi } from "~/services/api/proxy";
 import type { LinksFunction, LoaderFunction } from "@remix-run/node";
 import type { ReactNode } from "react";
-import type { Kandidat, Kandidatliste, Kandidatvurdering } from "~/services/domene";
+import type { Kandidat, Kandidatliste } from "~/services/domene";
+import { Kandidatvurdering } from "~/services/domene";
 import Kandidatsammendrag, {
     links as kandidatsammendragLinks,
 } from "~/components/kandidatsammendrag/Kandidatsammendrag";
@@ -51,28 +52,28 @@ const Kandidatlistevisning = () => {
                 ) : (
                     <>
                         <GruppeMedKandidater
-                            vurdering="TIL_VURDERING"
+                            vurdering={Kandidatvurdering.TilVurdering}
                             icon={<Helptext />}
                             kandidater={kandidater}
                             stillingId={stillingId}
                         />
 
                         <GruppeMedKandidater
-                            vurdering="AKTUELL"
+                            vurdering={Kandidatvurdering.Aktuell}
                             icon={<Like />}
                             kandidater={kandidater}
                             stillingId={stillingId}
                         />
 
                         <GruppeMedKandidater
-                            vurdering="FÅTT_JOBBEN"
+                            vurdering={Kandidatvurdering.FåttJobben}
                             icon={<DecisionCheck />}
                             kandidater={kandidater}
                             stillingId={stillingId}
                         />
 
                         <GruppeMedKandidater
-                            vurdering="IKKE_AKTUELL"
+                            vurdering={Kandidatvurdering.IkkeAktuell}
                             icon={<Close />}
                             kandidater={kandidater}
                             stillingId={stillingId}

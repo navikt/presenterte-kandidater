@@ -1,5 +1,11 @@
 export type Kandidatlistestatus = "ÅPEN" | "LUKKET";
-export type Kandidatvurdering = "TIL_VURDERING" | "IKKE_AKTUELL" | "AKTUELL" | "FÅTT_JOBBEN";
+
+export enum Kandidatvurdering {
+    TilVurdering = "TIL_VURDERING",
+    IkkeAktuell = "IKKE_AKTUELL",
+    Aktuell = "AKTUELL",
+    FåttJobben = "FÅTT_JOBBEN",
+}
 
 export type Kandidatliste = {
     kandidatliste: Kandidatlistebase;

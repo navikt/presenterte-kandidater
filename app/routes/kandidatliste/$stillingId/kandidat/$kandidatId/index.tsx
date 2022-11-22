@@ -7,8 +7,9 @@ import KandidatCv, {
     KandidatUtenCv,
     links as kandidatCvLinks,
 } from "~/components/kandidat-cv/KandidatCv";
-import type { LoaderFunction, LinksFunction } from "@remix-run/node";
-import type { Kandidat, Kandidatliste, Kandidatvurdering } from "~/services/domene";
+import type { LoaderFunction, LinksFunction, ActionFunction } from "@remix-run/node";
+import type { Kandidat, Kandidatliste } from "~/services/domene";
+import { Kandidatvurdering } from "~/services/domene";
 import css from "./index.css";
 
 export const links: LinksFunction = () => [
@@ -31,6 +32,17 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     return json({
         kandidat,
         kandidatliste,
+    });
+};
+
+export const action: ActionFunction = async ({ request, context, params }) => {
+    const { stillingId, kandidatId } = params;
+
+    const data = await request.formData();
+    const vurdering = data.get("vurdering");
+
+    proxyTilApi(request, `/kandidatliste/${stillingId}/kandidat/${kandidatId}/vurdering`, "POST", {
+        vurdering,
     });
 };
 
@@ -90,18 +102,19 @@ const Kandidatvisning = () => {
                 label={`For stilling: ${kandidatliste.kandidatliste.tittel}`}
                 onChange={console.log}
             >
-                <ToggleGroup.Item value="Å_VURDERE">
-                    <Helptext aria-hidden={true} />Å vurdere
+                <ToggleGroup.Item value={Kandidatvurdering.TilVurdering}>
+                    <Helptext aria-hidden={true} />
+                    Til vurdering
                 </ToggleGroup.Item>
-                <ToggleGroup.Item value="IKKE_AKTUELL">
+                <ToggleGroup.Item value={Kandidatvurdering.IkkeAktuell}>
                     <Close aria-hidden={true} />
                     Ikke aktuell
                 </ToggleGroup.Item>
-                <ToggleGroup.Item value="AKTUELL">
+                <ToggleGroup.Item value={Kandidatvurdering.Aktuell}>
                     <Like aria-hidden={true} />
                     Aktuell
                 </ToggleGroup.Item>
-                <ToggleGroup.Item value="FÅTT_JOBBEN">
+                <ToggleGroup.Item value={Kandidatvurdering.FåttJobben}>
                     <DecisionCheck aria-hidden={true} />
                     Fått jobben
                 </ToggleGroup.Item>

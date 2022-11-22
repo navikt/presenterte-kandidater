@@ -1,11 +1,11 @@
 import type {
     Kandidatlistestatus,
     Kandidatliste,
-    Kandidatvurdering,
     Kandidat,
     Cv,
     Kandidatlistesammendrag,
 } from "~/services/domene";
+import { Kandidatvurdering } from "~/services/domene";
 
 const mocketKandidatliste = (
     stillingId: string,
@@ -30,7 +30,7 @@ const mocketKandidatliste = (
 const mocketKandidat = (
     kandidatId: string,
     cv: Partial<Cv> | null = {},
-    vurdering: Kandidatvurdering = "TIL_VURDERING"
+    vurdering: Kandidatvurdering = Kandidatvurdering.TilVurdering
 ): Kandidat => ({
     kandidat: {
         uuid: kandidatId,
@@ -97,9 +97,9 @@ export const mockedeKandidater = [
             fornavn: "Ola",
             etternavn: "Nordmann",
         },
-        "AKTUELL"
+        Kandidatvurdering.Aktuell
     ),
-    mocketKandidat("4b175a91-5ee8-4811-be11-5a5d2d33b967", null, "IKKE_AKTUELL"),
+    mocketKandidat("4b175a91-5ee8-4811-be11-5a5d2d33b967", null, Kandidatvurdering.IkkeAktuell),
 ];
 
 export const mockedeKandidatlister = [
