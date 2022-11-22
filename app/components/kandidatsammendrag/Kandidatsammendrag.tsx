@@ -54,9 +54,9 @@ export const KandidatsammendragUtenCv: FunctionComponent<Props> = ({ kandidat, s
                 to={`/kandidatliste/${stillingId}/kandidat/${kandidat.kandidat.uuid}`}
                 className="navds-link"
             >
-                <span>Utdatert kandidat</span>
+                <span>Utilgjengelig kandidat</span>
             </Link>
-            <BodyShort>Ikke lenger tilgjengelig</BodyShort>
+            <BodyShort>Kandidaten er ikke lenger tilgjengelig</BodyShort>
         </li>
     );
 };
