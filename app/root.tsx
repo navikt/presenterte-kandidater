@@ -1,4 +1,5 @@
-import { json, LinksFunction, LoaderFunction, MetaFunction } from "@remix-run/node";
+import type { LinksFunction, LoaderFunction, MetaFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import {
     Links,
     LiveReload,
@@ -18,7 +19,6 @@ import { configureMock } from "./mocks";
 import rootCss from "./root.css";
 import designsystemStyles from "@navikt/ds-css/dist/index.css";
 import bedriftsmenyStyles from "@navikt/bedriftsmeny/lib/bedriftsmeny.css";
-import { proxyTilApi } from "./services/api/proxy";
 import { hentMiljø, Miljø } from "./services/miljø";
 import mockedeOrganisasjoner from "./mocks/mockOrganisasjoner";
 

@@ -19,7 +19,7 @@ const Kandidatsammendrag: FunctionComponent<Props> = ({ kandidat, stillingId }) 
         return <KandidatsammendragUtenCv kandidat={kandidat} stillingId={stillingId} />;
     }
 
-    const { kompetanse, arbeidserfaring, ønsketYrke } = kandidat.cv;
+    const { kompetanse, arbeidserfaring } = kandidat.cv;
 
     return (
         <li className="kandidatsammendrag">
