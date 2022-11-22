@@ -39,10 +39,6 @@ const Kandidatsammendrag: FunctionComponent<Props> = ({ kandidat, stillingId }) 
                     {arbeidserfaring.map((erfaring) => erfaring.stillingstittel).join(", ")}
                 </span>
             </BodyShort>
-            <BodyShort>
-                <b>Ønsket yrke: </b>
-                <span>{ønsketYrke.join(", ")}</span>
-            </BodyShort>
         </li>
     );
 };
