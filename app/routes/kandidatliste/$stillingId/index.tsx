@@ -1,4 +1,4 @@
-import { Accordion, Heading, Panel } from "@navikt/ds-react";
+import { Accordion, BodyLong, Heading, Panel } from "@navikt/ds-react";
 import { visVurdering } from "./kandidat/$kandidatId";
 import { Back, Close, DecisionCheck, ExternalLink, Helptext, Like } from "@navikt/ds-icons";
 import { json } from "@remix-run/node";
@@ -46,39 +46,45 @@ const Kandidatlistevisning = () => {
                     <ExternalLink />
                 </NavLink>
 
-                <GruppeMedKandidater
-                    vurdering="TIL_VURDERING"
-                    icon={<Helptext />}
-                    kandidater={kandidater}
-                    stillingId={stillingId}
-                />
+                {kandidater.length === 0 ? (
+                    <BodyLong>Det er foreløbig ingen kandidater i denne kandidatlisten.</BodyLong>
+                ) : (
+                    <>
+                        <GruppeMedKandidater
+                            vurdering="TIL_VURDERING"
+                            icon={<Helptext />}
+                            kandidater={kandidater}
+                            stillingId={stillingId}
+                        />
 
-                <GruppeMedKandidater
-                    vurdering="AKTUELL"
-                    icon={<Like />}
-                    kandidater={kandidater}
-                    stillingId={stillingId}
-                />
+                        <GruppeMedKandidater
+                            vurdering="AKTUELL"
+                            icon={<Like />}
+                            kandidater={kandidater}
+                            stillingId={stillingId}
+                        />
 
-                <GruppeMedKandidater
-                    vurdering="FÅTT_JOBBEN"
-                    icon={<DecisionCheck />}
-                    kandidater={kandidater}
-                    stillingId={stillingId}
-                />
+                        <GruppeMedKandidater
+                            vurdering="FÅTT_JOBBEN"
+                            icon={<DecisionCheck />}
+                            kandidater={kandidater}
+                            stillingId={stillingId}
+                        />
 
-                <GruppeMedKandidater
-                    vurdering="IKKE_AKTUELL"
-                    icon={<Close />}
-                    kandidater={kandidater}
-                    stillingId={stillingId}
-                />
+                        <GruppeMedKandidater
+                            vurdering="IKKE_AKTUELL"
+                            icon={<Close />}
+                            kandidater={kandidater}
+                            stillingId={stillingId}
+                        />
 
-                <GruppeMedKandidater
-                    icon={<Close />}
-                    kandidater={kandidater}
-                    stillingId={stillingId}
-                />
+                        <GruppeMedKandidater
+                            icon={<Close />}
+                            kandidater={kandidater}
+                            stillingId={stillingId}
+                        />
+                    </>
+                )}
             </Panel>
         </main>
     );
