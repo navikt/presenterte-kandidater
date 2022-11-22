@@ -11,7 +11,6 @@ import type { LoaderFunction, LinksFunction, ActionFunction } from "@remix-run/n
 import type { Kandidat, Kandidatliste } from "~/services/domene";
 import { Kandidatvurdering } from "~/services/domene";
 import css from "./index.css";
-import ToggleItem from "@navikt/ds-react/esm/toggle-group/ToggleItem";
 
 export const links: LinksFunction = () => [
     ...kandidatCvLinks(),
@@ -111,19 +110,35 @@ const Kandidatvisning = () => {
                     defaultValue={kandidat.kandidat.vurdering}
                     onChange={() => {}}
                 >
-                    <ToggleGroup.Item type="submit" value={Kandidatvurdering.TilVurdering}>
+                    <ToggleGroup.Item
+                        // @ts-ignore
+                        type="submit"
+                        value={Kandidatvurdering.TilVurdering}
+                    >
                         <Helptext aria-hidden={true} />
                         Til vurdering
                     </ToggleGroup.Item>
-                    <ToggleGroup.Item type="submit" value={Kandidatvurdering.IkkeAktuell}>
+                    <ToggleGroup.Item
+                        // @ts-ignore
+                        type="submit"
+                        value={Kandidatvurdering.IkkeAktuell}
+                    >
                         <Close aria-hidden={true} />
                         Ikke aktuell
                     </ToggleGroup.Item>
-                    <ToggleGroup.Item type="submit" value={Kandidatvurdering.Aktuell}>
+                    <ToggleGroup.Item
+                        // @ts-ignore
+                        type="submit"
+                        value={Kandidatvurdering.Aktuell}
+                    >
                         <Like aria-hidden={true} />
                         Aktuell
                     </ToggleGroup.Item>
-                    <ToggleGroup.Item type="submit" value={Kandidatvurdering.FåttJobben}>
+                    <ToggleGroup.Item
+                        // @ts-ignore
+                        type="submit"
+                        value={Kandidatvurdering.FåttJobben}
+                    >
                         <DecisionCheck aria-hidden={true} />
                         Fått jobben
                     </ToggleGroup.Item>
