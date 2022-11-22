@@ -39,10 +39,10 @@ export const action: ActionFunction = async ({ request, context, params }) => {
     const { kandidatId } = params;
 
     const data = await request.formData();
-    const vurdering = data.get("vurdering");
+    const arbeidsgiversVurdering = data.get("arbeidsgiversVurdering");
 
     const respons = await proxyTilApi(request, `/kandidat/${kandidatId}/vurdering`, "PUT", {
-        vurdering,
+        arbeidsgiversVurdering,
     });
 
     if (respons.ok) {
@@ -62,7 +62,9 @@ const Kandidatvisning = () => {
     const { kandidat, kandidatliste } = useLoaderData<LoaderData>();
 
     const kandidaterMedSammeStatus = kandidatliste.kandidater.filter(
-        (annenKandidat) => annenKandidat.kandidat.vurdering === kandidat.kandidat.vurdering
+        (annenKandidat) =>
+            annenKandidat.kandidat.arbeidsgiversVurdering ===
+            kandidat.kandidat.arbeidsgiversVurdering
     );
 
     const plasseringTilKandidat = kandidaterMedSammeStatus.findIndex(
@@ -80,7 +82,7 @@ const Kandidatvisning = () => {
             <div className="kandidatside--navigering">
                 <BodyShort>
                     <b>
-                        {visVurdering(kandidat.kandidat.vurdering)} (
+                        {visVurdering(kandidat.kandidat.arbeidsgiversVurdering)} (
                         {kandidaterMedSammeStatus.length})
                     </b>
                 </BodyShort>
@@ -107,7 +109,7 @@ const Kandidatvisning = () => {
                 <ToggleGroup
                     className="kandidatside--velg-status-desktop"
                     label={`For stilling: ${kandidatliste.kandidatliste.tittel}`}
-                    defaultValue={kandidat.kandidat.vurdering}
+                    defaultValue={kandidat.kandidat.arbeidsgiversVurdering}
                     onChange={() => {}}
                 >
                     <ToggleGroup.Item
@@ -146,7 +148,7 @@ const Kandidatvisning = () => {
                 <RadioGroup
                     className="kandidatside--velg-status-mobil"
                     legend={`For stilling: ${kandidatliste.kandidatliste.tittel}`}
-                    defaultValue={kandidat.kandidat.vurdering}
+                    defaultValue={kandidat.kandidat.arbeidsgiversVurdering}
                     name="vurdering"
                 >
                     <Radio value={Kandidatvurdering.TilVurdering}>Til vurdering</Radio>

@@ -30,11 +30,11 @@ const mocketKandidatliste = (
 const mocketKandidat = (
     kandidatId: string,
     cv: Partial<Cv> | null = {},
-    vurdering: Kandidatvurdering = Kandidatvurdering.TilVurdering
+    arbeidsgiversVurdering: Kandidatvurdering = Kandidatvurdering.TilVurdering
 ): Kandidat => ({
     kandidat: {
         uuid: kandidatId,
-        vurdering,
+        arbeidsgiversVurdering,
         opprettet: new Date().toISOString(),
     },
     cv:

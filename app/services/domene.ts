@@ -35,7 +35,7 @@ export type Kandidat = {
 
 type Kandidatbase = {
     uuid: string;
-    vurdering: Kandidatvurdering;
+    arbeidsgiversVurdering: Kandidatvurdering;
     opprettet: string;
 };
 
