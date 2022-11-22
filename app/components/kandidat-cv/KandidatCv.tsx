@@ -29,9 +29,6 @@ const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
             <Gruppe icon={<Office1 />} tittel="Arbeidserfaring">
                 <Liste elementer={cv.arbeidserfaring.map((erfaring) => erfaring.stillingstittel)} />
             </Gruppe>
-            <Gruppe icon={<Heart />} tittel="Ønsket yrke">
-                <Liste elementer={cv.ønsketYrke} />
-            </Gruppe>
             <Gruppe icon={<FileContent />} tittel="Sammendrag">
                 {cv.sammendrag}
             </Gruppe>
