@@ -21,4 +21,8 @@ export const handlers = [
             )
         );
     }),
+
+    rest.put(`${apiConfig.url}/kandidat/:kandidatId/vurdering`, (req, res, ctx) => {
+        return res(ctx.status(200));
+    }),
 ];

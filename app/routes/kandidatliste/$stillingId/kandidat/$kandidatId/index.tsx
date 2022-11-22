@@ -1,4 +1,4 @@
-import { Link, useLoaderData, useParams } from "@remix-run/react";
+import { Form, Link, useLoaderData, useParams } from "@remix-run/react";
 import { BodyShort, Radio, RadioGroup, ReadMore, ToggleGroup } from "@navikt/ds-react";
 import { json } from "@remix-run/node";
 import { proxyTilApi } from "~/services/api/proxy";
@@ -11,6 +11,7 @@ import type { LoaderFunction, LinksFunction, ActionFunction } from "@remix-run/n
 import type { Kandidat, Kandidatliste } from "~/services/domene";
 import { Kandidatvurdering } from "~/services/domene";
 import css from "./index.css";
+import ToggleItem from "@navikt/ds-react/esm/toggle-group/ToggleItem";
 
 export const links: LinksFunction = () => [
     ...kandidatCvLinks(),
@@ -36,14 +37,20 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 };
 
 export const action: ActionFunction = async ({ request, context, params }) => {
-    const { stillingId, kandidatId } = params;
+    const { kandidatId } = params;
 
     const data = await request.formData();
     const vurdering = data.get("vurdering");
 
-    proxyTilApi(request, `/kandidatliste/${stillingId}/kandidat/${kandidatId}/vurdering`, "POST", {
+    const respons = await proxyTilApi(request, `/kandidat/${kandidatId}/vurdering`, "PUT", {
         vurdering,
     });
+
+    if (respons.ok) {
+        return null;
+    } else {
+        throw new Error("Klarte ikke å endre vurdering");
+    }
 };
 
 type LoaderData = {
@@ -97,40 +104,42 @@ const Kandidatvisning = () => {
                     </Link>
                 )}
             </div>
-            <ToggleGroup
-                className="kandidatside--velg-status-desktop"
-                defaultValue={kandidat.kandidat.vurdering}
-                label={`For stilling: ${kandidatliste.kandidatliste.tittel}`}
-                onChange={console.log}
-            >
-                <ToggleGroup.Item value={Kandidatvurdering.TilVurdering}>
-                    <Helptext aria-hidden={true} />
-                    Til vurdering
-                </ToggleGroup.Item>
-                <ToggleGroup.Item value={Kandidatvurdering.IkkeAktuell}>
-                    <Close aria-hidden={true} />
-                    Ikke aktuell
-                </ToggleGroup.Item>
-                <ToggleGroup.Item value={Kandidatvurdering.Aktuell}>
-                    <Like aria-hidden={true} />
-                    Aktuell
-                </ToggleGroup.Item>
-                <ToggleGroup.Item value={Kandidatvurdering.FåttJobben}>
-                    <DecisionCheck aria-hidden={true} />
-                    Fått jobben
-                </ToggleGroup.Item>
-            </ToggleGroup>
-            <RadioGroup
-                className="kandidatside--velg-status-mobil"
-                legend={`For stilling: ${kandidatliste.kandidatliste.tittel}`}
-                defaultValue={kandidat.kandidat.vurdering}
-                onChange={console.log}
-            >
-                <Radio value="Å_VURDERE">Å vurdere</Radio>
-                <Radio value="IKKE_AKTUELL">Ikke aktuell</Radio>
-                <Radio value="AKTUELL">Aktuell</Radio>
-                <Radio value="FÅTT_JOBBEN">Fått jobben</Radio>
-            </RadioGroup>
+            <Form method="put">
+                <ToggleGroup
+                    className="kandidatside--velg-status-desktop"
+                    label={`For stilling: ${kandidatliste.kandidatliste.tittel}`}
+                    defaultValue={kandidat.kandidat.vurdering}
+                    onChange={() => {}}
+                >
+                    <ToggleGroup.Item type="submit" value={Kandidatvurdering.TilVurdering}>
+                        <Helptext aria-hidden={true} />
+                        Til vurdering
+                    </ToggleGroup.Item>
+                    <ToggleGroup.Item type="submit" value={Kandidatvurdering.IkkeAktuell}>
+                        <Close aria-hidden={true} />
+                        Ikke aktuell
+                    </ToggleGroup.Item>
+                    <ToggleGroup.Item type="submit" value={Kandidatvurdering.Aktuell}>
+                        <Like aria-hidden={true} />
+                        Aktuell
+                    </ToggleGroup.Item>
+                    <ToggleGroup.Item type="submit" value={Kandidatvurdering.FåttJobben}>
+                        <DecisionCheck aria-hidden={true} />
+                        Fått jobben
+                    </ToggleGroup.Item>
+                </ToggleGroup>
+                <RadioGroup
+                    className="kandidatside--velg-status-mobil"
+                    legend={`For stilling: ${kandidatliste.kandidatliste.tittel}`}
+                    defaultValue={kandidat.kandidat.vurdering}
+                    onChange={console.log}
+                >
+                    <Radio value="Å_VURDERE">Å vurdere</Radio>
+                    <Radio value="IKKE_AKTUELL">Ikke aktuell</Radio>
+                    <Radio value="AKTUELL">Aktuell</Radio>
+                    <Radio value="FÅTT_JOBBEN">Fått jobben</Radio>
+                </RadioGroup>
+            </Form>
             <ReadMore header="Slik virker statusene">
                 Statusene hjelper deg å holde oversikt over kandidatene NAV har sendt deg.
                 <br />
