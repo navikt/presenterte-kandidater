@@ -11,6 +11,7 @@ import type { LoaderFunction, LinksFunction, ActionFunction } from "@remix-run/n
 import type { Kandidat, Kandidatliste } from "~/services/domene";
 import { Kandidatvurdering } from "~/services/domene";
 import css from "./index.css";
+import { logger } from "../../../../../../server/logger";
 
 export const links: LinksFunction = () => [
     ...kandidatCvLinks(),
@@ -40,6 +41,10 @@ export const action: ActionFunction = async ({ request, context, params }) => {
 
     const data = await request.formData();
     const arbeidsgiversVurdering = data.get("arbeidsgiversVurdering");
+
+    logger.info(
+        `Oppdaterer kandidat '${kandidatId}' med arbeidsgiversVurdering '${arbeidsgiversVurdering}'`
+    );
 
     const respons = await proxyTilApi(request, `/kandidat/${kandidatId}/vurdering`, "PUT", {
         arbeidsgiversVurdering: arbeidsgiversVurdering,
