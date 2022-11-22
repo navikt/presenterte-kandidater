@@ -1,5 +1,5 @@
 import { Form, Link, useLoaderData, useParams } from "@remix-run/react";
-import { BodyShort, Radio, RadioGroup, ReadMore, ToggleGroup } from "@navikt/ds-react";
+import { BodyShort, Button, Radio, RadioGroup, ReadMore, ToggleGroup } from "@navikt/ds-react";
 import { json } from "@remix-run/node";
 import { proxyTilApi } from "~/services/api/proxy";
 import { Back, Close, DecisionCheck, Helptext, Like, Next } from "@navikt/ds-icons";
@@ -132,12 +132,15 @@ const Kandidatvisning = () => {
                     className="kandidatside--velg-status-mobil"
                     legend={`For stilling: ${kandidatliste.kandidatliste.tittel}`}
                     defaultValue={kandidat.kandidat.vurdering}
-                    onChange={console.log}
+                    name="vurdering"
                 >
-                    <Radio value="Å_VURDERE">Å vurdere</Radio>
-                    <Radio value="IKKE_AKTUELL">Ikke aktuell</Radio>
-                    <Radio value="AKTUELL">Aktuell</Radio>
-                    <Radio value="FÅTT_JOBBEN">Fått jobben</Radio>
+                    <Radio value={Kandidatvurdering.TilVurdering}>Til vurdering</Radio>
+                    <Radio value={Kandidatvurdering.IkkeAktuell}>Ikke aktuell</Radio>
+                    <Radio value={Kandidatvurdering.Aktuell}>Aktuell</Radio>
+                    <Radio value={Kandidatvurdering.FåttJobben}>Fått jobben</Radio>
+                    <Button type="submit" variant="primary">
+                        Endre vurdering
+                    </Button>
                 </RadioGroup>
             </Form>
             <ReadMore header="Slik virker statusene">
@@ -152,13 +155,13 @@ const Kandidatvisning = () => {
 
 export const visVurdering = (vurdering?: Kandidatvurdering) => {
     switch (vurdering) {
-        case "TIL_VURDERING":
+        case Kandidatvurdering.TilVurdering:
             return "Til vurdering";
-        case "IKKE_AKTUELL":
+        case Kandidatvurdering.IkkeAktuell:
             return "Ikke aktuell";
-        case "AKTUELL":
+        case Kandidatvurdering.Aktuell:
             return "Aktuell";
-        case "FÅTT_JOBBEN":
+        case Kandidatvurdering.FåttJobben:
             return "Fått jobben";
         default:
             return "Ikke vurdert";
