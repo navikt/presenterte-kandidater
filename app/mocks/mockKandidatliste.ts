@@ -65,7 +65,6 @@ const mocketCv = {
         },
     ],
     bosted: "Kokkestad",
-    ønsketYrke: ["Kokk"],
     utdanning: [
         {
             fra: "2021-09",

@@ -45,7 +45,6 @@ export type Cv = {
     kompetanse: string[];
     arbeidserfaring: Arbeidserfaring[];
     utdanning: Utdanning[];
-    ønsketYrke: string[];
     språk: Språk[];
     sammendrag: string;
     alder: number;
