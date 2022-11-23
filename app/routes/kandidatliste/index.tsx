@@ -43,6 +43,12 @@ const Kandidatlister = () => {
                 Pågående oppdrag
             </Heading>
 
+            {pågående.length === 0 && (
+                <BodyShort>
+                    <em>Ingen pågående oppdrag</em>
+                </BodyShort>
+            )}
+
             <ul className="kandidatlister--gruppe">
                 {pågående.map((sammendrag) => (
                     <VisKandidatlistesammendrag
