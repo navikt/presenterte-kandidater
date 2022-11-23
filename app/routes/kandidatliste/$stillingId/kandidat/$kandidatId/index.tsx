@@ -1,18 +1,20 @@
+import { useState } from "react";
 import { Form, Link, useLoaderData, useParams } from "@remix-run/react";
 import { BodyShort, Button, Radio, RadioGroup, ReadMore, ToggleGroup } from "@navikt/ds-react";
 import { json } from "@remix-run/node";
 import { proxyTilApi } from "~/services/api/proxy";
-import { Back, Close, DecisionCheck, Helptext, Like, Next } from "@navikt/ds-icons";
+import { Back, Next } from "@navikt/ds-icons";
 import KandidatCv, {
     KandidatUtenCv,
     links as kandidatCvLinks,
 } from "~/components/kandidat-cv/KandidatCv";
-import type { LoaderFunction, LinksFunction, ActionFunction } from "@remix-run/node";
-import type { Kandidat, Kandidatliste } from "~/services/domene";
 import { Kandidatvurdering } from "~/services/domene";
-import css from "./index.css";
 import { logger } from "../../../../../../server/logger";
-import { useState } from "react";
+import Vurderingsikon from "~/components/Vurderingsikon";
+import type { FunctionComponent } from "react";
+import type { Kandidat, Kandidatliste } from "~/services/domene";
+import type { LoaderFunction, LinksFunction, ActionFunction } from "@remix-run/node";
+import css from "./index.css";
 
 export const links: LinksFunction = () => [
     ...kandidatCvLinks(),
@@ -41,14 +43,12 @@ export const action: ActionFunction = async ({ request, context, params }) => {
     const { kandidatId } = params;
 
     const data = await request.formData();
-    const arbeidsgiversVurdering = data.get("arbeidsgiversVurdering");
+    const vurdering = data.get("vurdering");
 
-    logger.info(
-        `Oppdaterer kandidat '${kandidatId}' med arbeidsgiversVurdering '${arbeidsgiversVurdering}'`
-    );
+    logger.info(`Oppdaterer kandidat '${kandidatId}' med vurdering '${vurdering}'`);
 
     const respons = await proxyTilApi(request, `/kandidat/${kandidatId}/vurdering`, "PUT", {
-        arbeidsgiversVurdering: arbeidsgiversVurdering,
+        arbeidsgiversVurdering: vurdering,
     });
 
     if (respons.ok) {
@@ -66,7 +66,8 @@ type LoaderData = {
 const Kandidatvisning = () => {
     const { stillingId } = useParams();
     const { kandidat, kandidatliste } = useLoaderData<LoaderData>();
-    const [arbeidsgiversVurdering, setArbeidsgiversVurdering] = useState<Kandidatvurdering>(
+
+    const [kandidatvurdering, setKandidatvurdering] = useState<Kandidatvurdering>(
         kandidat.kandidat.arbeidsgiversVurdering
     );
 
@@ -118,59 +119,36 @@ const Kandidatvisning = () => {
                 <ToggleGroup
                     className="kandidatside--velg-status-desktop"
                     label={`For stilling: ${kandidatliste.kandidatliste.tittel}`}
-                    value={arbeidsgiversVurdering}
-                    onChange={(value) => setArbeidsgiversVurdering(value as Kandidatvurdering)}
+                    value={kandidatvurdering}
+                    onChange={(value) => setKandidatvurdering(value as Kandidatvurdering)}
                 >
-                    <ToggleGroup.Item
-                        // @ts-ignore
-                        type="submit"
-                        value={Kandidatvurdering.TilVurdering}
-                    >
-                        <Helptext aria-hidden={true} />
-                        Til vurdering
-                    </ToggleGroup.Item>
-                    <ToggleGroup.Item
-                        // @ts-ignore
-                        type="submit"
-                        value={Kandidatvurdering.IkkeAktuell}
-                    >
-                        <Close aria-hidden={true} />
-                        Ikke aktuell
-                    </ToggleGroup.Item>
-                    <ToggleGroup.Item
-                        // @ts-ignore
-                        type="submit"
-                        value={Kandidatvurdering.Aktuell}
-                    >
-                        <Like aria-hidden={true} />
-                        Aktuell
-                    </ToggleGroup.Item>
-                    <ToggleGroup.Item
-                        // @ts-ignore
-                        type="submit"
-                        value={Kandidatvurdering.FåttJobben}
-                    >
-                        <DecisionCheck aria-hidden={true} />
-                        Fått jobben
-                    </ToggleGroup.Item>
+                    {Object.values(Kandidatvurdering).map((vurdering) => (
+                        <Vurderingsvalg
+                            key={vurdering}
+                            vurdering={vurdering}
+                            valgtVurdering={kandidatvurdering}
+                        />
+                    ))}
                 </ToggleGroup>
+
                 <RadioGroup
                     className="kandidatside--velg-status-mobil"
                     legend={`For stilling: ${kandidatliste.kandidatliste.tittel}`}
-                    value={arbeidsgiversVurdering}
-                    name="vurdering"
-                    onChange={(value) => setArbeidsgiversVurdering(value as Kandidatvurdering)}
+                    value={kandidatvurdering}
+                    onChange={setKandidatvurdering}
                 >
-                    <Radio value={Kandidatvurdering.TilVurdering}>Til vurdering</Radio>
-                    <Radio value={Kandidatvurdering.IkkeAktuell}>Ikke aktuell</Radio>
-                    <Radio value={Kandidatvurdering.Aktuell}>Aktuell</Radio>
-                    <Radio value={Kandidatvurdering.FåttJobben}>Fått jobben</Radio>
+                    {Object.values(Kandidatvurdering).map((vurdering) => (
+                        <Radio key={vurdering} value={vurdering}>
+                            {visVurdering(vurdering)}
+                        </Radio>
+                    ))}
                     <Button type="submit" variant="primary">
                         Endre vurdering
                     </Button>
                 </RadioGroup>
-                <input type="hidden" name="arbeidsgiversVurdering" value={arbeidsgiversVurdering} />
+                <input type="hidden" name="vurdering" value={kandidatvurdering} />
             </Form>
+
             <ReadMore header="Slik virker statusene">
                 Statusene hjelper deg å holde oversikt over kandidatene NAV har sendt deg.
                 <br />
@@ -178,6 +156,25 @@ const Kandidatvisning = () => {
             </ReadMore>
             {kandidat.cv ? <KandidatCv cv={kandidat.cv} /> : <KandidatUtenCv />}
         </main>
+    );
+};
+
+type VurderingsvalgProps = {
+    valgtVurdering: Kandidatvurdering;
+    vurdering: Kandidatvurdering;
+};
+
+const Vurderingsvalg: FunctionComponent<VurderingsvalgProps> = ({ vurdering }) => {
+    return (
+        <ToggleGroup.Item
+            // @ts-ignore
+            type="submit"
+            name="vurdering"
+            value={vurdering}
+        >
+            <Vurderingsikon vurdering={vurdering} />
+            {visVurdering(vurdering)}
+        </ToggleGroup.Item>
     );
 };
 
