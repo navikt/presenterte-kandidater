@@ -8,6 +8,7 @@ import VisKandidatlistesammendrag from "~/components/kandidatlistesammendrag/Kan
 import type { LoaderFunction } from "@remix-run/node";
 import type { LinksFunction } from "@remix-run/server-runtime";
 import type { Kandidatlistesammendrag } from "~/services/domene";
+import type { Organisasjon } from "@navikt/bedriftsmeny/lib/organisasjon";
 
 import css from "./index.css";
 
@@ -20,21 +21,42 @@ export const loader: LoaderFunction = async ({ request }) => {
     // TODO: Bruk virksomhet fra bedriftsmeny
     const virksomhetsnummer = "912998827";
 
+    const organisasjonerRespons = await proxyTilApi(request, "/organisasjoner");
+    const organisasjoner = await organisasjonerRespons.json();
+
     const respons = await proxyTilApi(
         request,
         `/kandidatlister?virksomhetsnummer=${virksomhetsnummer}`
     );
 
+    console.log("Fikk organisasjoner fra Altinn:", organisasjoner);
+
     try {
-        const data = await respons.json();
-        return json(data);
+        return json({
+            sammendrag: await respons.json(),
+            organisasjoner,
+        });
     } catch (e) {
         logger.error("Klarte ikke å hente kandidatliste:", e);
     }
 };
 
+type LoaderData = {
+    sammendrag: Kandidatlistesammendrag[];
+    organisasjoner: Organisasjon[];
+};
+
 const Kandidatlister = () => {
-    const sammendrag = useLoaderData<Kandidatlistesammendrag[]>();
+    const { sammendrag, organisasjoner } = useLoaderData<LoaderData>();
+
+    if (organisasjoner.length === 0) {
+        return (
+            <main className="side kandidatlister">
+                <BodyShort>Du representerer ingen organisasjoner</BodyShort>
+            </main>
+        );
+    }
+
     const { pågående, avsluttede } = fordelPåStatus(sammendrag);
 
     return (
