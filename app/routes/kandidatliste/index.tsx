@@ -17,23 +17,29 @@ export const links: LinksFunction = () => [
     { rel: "stylesheet", href: css },
 ];
 
-export const loader: LoaderFunction = async ({ request }) => {
-    // TODO: Bruk virksomhet fra bedriftsmeny
-    const virksomhetsnummer = "912998827";
+export const loader: LoaderFunction = async ({ request, params }) => {
+    const respons = await proxyTilApi(request, "/organisasjoner");
+    const organisasjoner: Organisasjon[] = await respons.json();
 
-    const organisasjonerRespons = await proxyTilApi(request, "/organisasjoner");
-    const organisasjoner = await organisasjonerRespons.json();
+    const virksomhetSomSearchParam = new URL(request.url).searchParams.get("virksomhet");
+    const virksomhetsnummer =
+        virksomhetSomSearchParam || hentFørsteVirksomhetsnummer(organisasjoner);
 
-    const respons = await proxyTilApi(
-        request,
-        `/kandidatlister?virksomhetsnummer=${virksomhetsnummer}`
-    );
+    let sammendrag = [];
 
-    console.log("Fikk organisasjoner fra Altinn:", organisasjoner);
+    if (virksomhetsnummer) {
+        const respons = await proxyTilApi(
+            request,
+            `/kandidatlister?virksomhetsnummer=${virksomhetsnummer}`
+        );
+
+        sammendrag = await respons.json();
+        console.log(`Fikk ${sammendrag.length} kandidatlister på virksomhet ${virksomhetsnummer}`);
+    }
 
     try {
         return json({
-            sammendrag: await respons.json(),
+            sammendrag,
             organisasjoner,
         });
     } catch (e) {
@@ -74,7 +80,7 @@ const Kandidatlister = () => {
             <ul className="kandidatlister--gruppe">
                 {pågående.map((sammendrag) => (
                     <VisKandidatlistesammendrag
-                        key={sammendrag.kandidatliste.uuid}
+                        key={sammendrag.kandidatliste.stillingId}
                         sammendrag={sammendrag}
                     />
                 ))}
@@ -118,5 +124,8 @@ const fordelPåStatus = (sammendrag: Kandidatlistesammendrag[]) => {
         avsluttede,
     };
 };
+
+const hentFørsteVirksomhetsnummer = (organisasjoner: Organisasjon[]) =>
+    organisasjoner.filter((org) => org.Type === "Business")[0]?.OrganizationNumber;
 
 export default Kandidatlister;

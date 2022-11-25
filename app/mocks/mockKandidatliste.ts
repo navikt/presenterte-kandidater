@@ -19,7 +19,7 @@ const mocketKandidatliste = (
             tittel,
             status,
             slettet: false,
-            virksomhetsnummer: "123456789",
+            virksomhetsnummer: "811076902",
             opprettet: new Date().toISOString(),
             sistEndret: new Date().toISOString(),
         },
@@ -110,9 +110,12 @@ export const mockedeKandidatlister = [
     mocketKandidatliste("720696c9-0077-464f-b0dc-c12b95db32d4", "Misjonærer for Gather Town"),
 ];
 
-export const mockedeKandidatlistesammendrag: Kandidatlistesammendrag[] = mockedeKandidatlister.map(
-    (kandidatliste) => ({
-        kandidatliste: kandidatliste.kandidatliste,
-        antallKandidater: kandidatliste.kandidater.length,
-    })
-);
+export const mockedeKandidatlistesammendrag = (
+    virksomhet: string | null
+): Kandidatlistesammendrag[] =>
+    mockedeKandidatlister
+        .filter((kandidatliste) => kandidatliste.kandidatliste.virksomhetsnummer === virksomhet)
+        .map((kandidatliste) => ({
+            kandidatliste: kandidatliste.kandidatliste,
+            antallKandidater: kandidatliste.kandidater.length,
+        }));
