@@ -4,6 +4,7 @@
         "noEmitOnError": true,
         "target": "es5",
         "esModuleInterop": true,
+        "skipLibCheck": true,
         "outDir": "build"
     }
 }
