@@ -9,9 +9,7 @@ import {
     ScrollRestoration,
     useLoaderData,
 } from "@remix-run/react";
-import parse from "html-react-parser";
 import Header from "./components/header/Header";
-import hentDekoratør from "./services/dekoratør";
 import type { Dekoratørfragmenter } from "./services/dekoratør";
 import type { Organisasjon } from "@navikt/bedriftsmeny/lib/organisasjon";
 import { configureMock } from "./mocks";
@@ -21,6 +19,9 @@ import designsystemStyles from "@navikt/ds-css/dist/index.css";
 import bedriftsmenyStyles from "@navikt/bedriftsmeny/lib/bedriftsmeny.css";
 import { hentMiljø, Miljø } from "./services/miljø";
 import { proxyTilApi } from "./services/api/proxy";
+import { useEffect } from "react";
+
+import { injectDecoratorClientSide } from "@navikt/nav-dekoratoren-moduler";
 
 export const meta: MetaFunction = () => ({
     charset: "utf-8",
@@ -42,7 +43,7 @@ export const loader: LoaderFunction = async ({ request }) => {
     const respons = await proxyTilApi(request, "/organisasjoner");
 
     return json({
-        dekoratør: await hentDekoratør(),
+        dekoratør: {}, //await hentDekoratør(),
         organisasjoner: await respons.json(),
     });
 };
@@ -53,27 +54,30 @@ type LoaderData = {
 };
 
 const App = () => {
-    const { dekoratør, organisasjoner } = useLoaderData<LoaderData>();
-    const { styles, header, footer, scripts } = dekoratør;
+    const { organisasjoner } = useLoaderData<LoaderData>();
+
+    useEffect(() => {
+        injectDecoratorClientSide({
+            env: hentMiljø() === Miljø.ProdGcp ? "prod" : "dev",
+            simple: false,
+            chatbot: false,
+        });
+    }, []);
 
     return (
         <html lang="no">
             <head>
                 <Meta />
                 <Links />
-                {parse(styles)}
             </head>
             <body>
                 <header>
-                    {parse(header)}
                     <Header organisasjoner={organisasjoner} />
                 </header>
                 <Outlet />
                 <ScrollRestoration />
                 <RemixScripts />
                 <LiveReload />
-                {parse(footer)}
-                {parse(scripts)}
             </body>
         </html>
     );
