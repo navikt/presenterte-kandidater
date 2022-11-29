@@ -57,11 +57,15 @@ const App = () => {
     const { organisasjoner } = useLoaderData<LoaderData>();
 
     useEffect(() => {
-        injectDecoratorClientSide({
-            env: hentMiljø() === Miljø.ProdGcp ? "prod" : "dev",
-            simple: false,
-            chatbot: false,
-        });
+        const miljø = hentMiljø();
+
+        if (miljø !== Miljø.Lokalt) {
+            injectDecoratorClientSide({
+                env: miljø === Miljø.ProdGcp ? "prod" : "dev",
+                simple: false,
+                chatbot: false,
+            });
+        }
     }, []);
 
     return (
