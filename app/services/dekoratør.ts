@@ -1,5 +1,5 @@
 import { injectDecoratorClientSide } from "@navikt/nav-dekoratoren-moduler";
-import { fetchDecoratorHtml } from "@navikt/nav-dekoratoren-moduler/ssr";
+// import { fetchDecoratorHtml } from "@navikt/nav-dekoratoren-moduler/ssr";
 import { hentMiljø, Miljø } from "./miljø";
 
 let dekoratør: Dekoratørfragmenter;
@@ -25,20 +25,20 @@ const hentDekoratør = async (): Promise<Dekoratørfragmenter> => {
         };
     }
 
-    const decorator = await fetchDecoratorHtml({
-        env: hentDekoratørMiljø(miljø),
-        simple: false,
-        chatbot: false,
-        context: "arbeidsgiver",
-        breadcrumbs: hentBrødsmulesti(miljø),
-    });
+    // const decorator = await fetchDecoratorHtml({
+    //     env: hentDekoratørMiljø(miljø),
+    //     simple: false,
+    //     chatbot: false,
+    //     context: "arbeidsgiver",
+    //     breadcrumbs: hentBrødsmulesti(miljø),
+    // });
 
-    dekoratør = {
-        styles: decorator.DECORATOR_STYLES,
-        header: decorator.DECORATOR_HEADER,
-        footer: decorator.DECORATOR_FOOTER,
-        scripts: decorator.DECORATOR_SCRIPTS,
-    };
+    // dekoratør = {
+    //     styles: decorator.DECORATOR_STYLES,
+    //     header: decorator.DECORATOR_HEADER,
+    //     footer: decorator.DECORATOR_FOOTER,
+    //     scripts: decorator.DECORATOR_SCRIPTS,
+    // };
 
     return dekoratør;
 };
