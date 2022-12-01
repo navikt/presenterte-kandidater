@@ -1,3 +1,4 @@
+import { injectDecoratorClientSide } from "@navikt/nav-dekoratoren-moduler";
 import { fetchDecoratorHtml } from "@navikt/nav-dekoratoren-moduler/ssr";
 import { hentMiljø, Miljø } from "./miljø";
 
@@ -40,6 +41,20 @@ const hentDekoratør = async (): Promise<Dekoratørfragmenter> => {
     };
 
     return dekoratør;
+};
+
+export const settInnDekoratørHosKlienten = () => {
+    const miljø = hentMiljø();
+
+    if (miljø !== Miljø.Lokalt) {
+        injectDecoratorClientSide({
+            env: hentDekoratørMiljø(miljø),
+            simple: false,
+            chatbot: false,
+            context: "arbeidsgiver",
+            breadcrumbs: hentBrødsmulesti(miljø),
+        });
+    }
 };
 
 const hentBrødsmulesti = (miljø: Miljø) => {

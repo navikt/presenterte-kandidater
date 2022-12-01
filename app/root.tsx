@@ -10,7 +10,6 @@ import {
     useLoaderData,
 } from "@remix-run/react";
 import Header from "./components/header/Header";
-import type { Dekoratørfragmenter } from "./services/dekoratør";
 import type { Organisasjon } from "@navikt/bedriftsmeny/lib/organisasjon";
 import { configureMock } from "./mocks";
 
@@ -20,8 +19,7 @@ import bedriftsmenyStyles from "@navikt/bedriftsmeny/lib/bedriftsmeny.css";
 import { hentMiljø, Miljø } from "./services/miljø";
 import { proxyTilApi } from "./services/api/proxy";
 import { useEffect } from "react";
-
-import { injectDecoratorClientSide } from "@navikt/nav-dekoratoren-moduler";
+import { settInnDekoratørHosKlienten } from "./services/dekoratør";
 
 export const meta: MetaFunction = () => ({
     charset: "utf-8",
@@ -43,13 +41,11 @@ export const loader: LoaderFunction = async ({ request }) => {
     const respons = await proxyTilApi(request, "/organisasjoner");
 
     return json({
-        dekoratør: {}, //await hentDekoratør(),
         organisasjoner: await respons.json(),
     });
 };
 
 type LoaderData = {
-    dekoratør: Dekoratørfragmenter;
     organisasjoner: Organisasjon[];
 };
 
@@ -57,15 +53,7 @@ const App = () => {
     const { organisasjoner } = useLoaderData<LoaderData>();
 
     useEffect(() => {
-        const miljø = hentMiljø();
-
-        if (miljø !== Miljø.Lokalt) {
-            injectDecoratorClientSide({
-                env: miljø === Miljø.ProdGcp ? "prod" : "dev",
-                simple: false,
-                chatbot: false,
-            });
-        }
+        settInnDekoratørHosKlienten();
     }, []);
 
     return (
