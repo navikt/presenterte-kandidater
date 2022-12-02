@@ -1,4 +1,9 @@
-import type { LinksFunction, LoaderFunction, MetaFunction } from "@remix-run/node";
+import type {
+    ErrorBoundaryComponent,
+    LinksFunction,
+    LoaderFunction,
+    MetaFunction,
+} from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
     Links,
@@ -18,8 +23,9 @@ import designsystemStyles from "@navikt/ds-css/dist/index.css";
 import bedriftsmenyStyles from "@navikt/bedriftsmeny/lib/bedriftsmeny.css";
 import { hentMiljø, Miljø } from "./services/miljø";
 import { proxyTilApi } from "./services/api/proxy";
-import { useEffect } from "react";
+import { FunctionComponent, useEffect } from "react";
 import { settInnDekoratørHosKlienten } from "./services/dekoratør";
+import { Panel } from "@navikt/ds-react";
 
 export const meta: MetaFunction = () => ({
     charset: "utf-8",
@@ -70,6 +76,24 @@ const App = () => {
                 <ScrollRestoration />
                 <RemixScripts />
                 <LiveReload />
+            </body>
+        </html>
+    );
+};
+
+export const ErrorBoundary: ErrorBoundaryComponent = ({ error }) => {
+    return (
+        <html lang="no">
+            <head>
+                <Meta />
+                <Links />
+            </head>
+            <body>
+                <header>
+                    <Header organisasjoner={[]} />
+                </header>
+                <Panel>Det skjedde en feil: {error.message}</Panel>
+                <RemixScripts />
             </body>
         </html>
     );
