@@ -23,7 +23,7 @@ import designsystemStyles from "@navikt/ds-css/dist/index.css";
 import bedriftsmenyStyles from "@navikt/bedriftsmeny/lib/bedriftsmeny.css";
 import { hentMiljø, Miljø } from "./services/miljø";
 import { proxyTilApi } from "./services/api/proxy";
-import { FunctionComponent, useEffect } from "react";
+import { useEffect } from "react";
 import { settInnDekoratørHosKlienten } from "./services/dekoratør";
 import { Panel } from "@navikt/ds-react";
 
