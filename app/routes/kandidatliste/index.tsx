@@ -26,39 +26,41 @@ export const loader: LoaderFunction = async ({ request, params }) => {
         virksomhetSomSearchParam || hentFørsteVirksomhetsnummer(organisasjoner);
 
     let sammendrag = [];
+    let httpStatusCode: number | null = null;
 
     if (virksomhetsnummer) {
         const respons = await proxyTilApi(
             request,
             `/kandidatlister?virksomhetsnummer=${virksomhetsnummer}`
         );
+        httpStatusCode = respons.status;
         console.log(
-            `/kandidatlister?virksomhetsnummer=${virksomhetsnummer} git status kode: ${respons.status}`
+            `/kandidatlister?virksomhetsnummer=${virksomhetsnummer} git status kode: ${httpStatusCode}`
         );
 
-        if (respons.status == 200) {
+        if (httpStatusCode == 200) {
             sammendrag = await respons.json();
             console.log(
                 `Fikk ${sammendrag.length} kandidatlister på virksomhet ${virksomhetsnummer}`
             );
         }
+    }
 
-        try {
-            return json({
-                sammendrag,
-                organisasjoner,
-                httpStatusCode: respons.status,
-            });
-        } catch (e) {
-            logger.error("Klarte ikke å hente kandidatliste:", e);
-        }
+    try {
+        return json({
+            sammendrag,
+            organisasjoner,
+            httpStatusCode,
+        });
+    } catch (e) {
+        logger.error("Klarte ikke å hente kandidatliste:", e);
     }
 };
 
 type LoaderData = {
     sammendrag: Kandidatlistesammendrag[];
     organisasjoner: Organisasjon[];
-    httpStatusCode: number;
+    httpStatusCode: number | null;
 };
 
 const Kandidatlister = () => {
@@ -73,19 +75,6 @@ const Kandidatlister = () => {
     }
 
     const { pågående, avsluttede } = fordelPåStatus(sammendrag);
-
-    if (organisasjoner.length === 0) {
-        return (
-            <main className="side kandidatlister">
-                <Heading level="2" size="small">
-                    Ikke tilgang
-                </Heading>
-                <BodyShort>
-                    <em>Du representer ingen bedrifter</em>
-                </BodyShort>
-            </main>
-        );
-    }
 
     if (httpStatusCode === 403) {
         return (
