@@ -36,8 +36,12 @@ export const loader: LoaderFunction = async ({ request, params }) => {
             `/kandidatlister?virksomhetsnummer=${virksomhetsnummer} git status kode: ${respons.status}`
         );
 
-        sammendrag = await respons.json();
-        console.log(`Fikk ${sammendrag.length} kandidatlister på virksomhet ${virksomhetsnummer}`);
+        if (respons.status == 200) {
+            sammendrag = await respons.json();
+            console.log(
+                `Fikk ${sammendrag.length} kandidatlister på virksomhet ${virksomhetsnummer}`
+            );
+        }
     }
 
     try {
