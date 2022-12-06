@@ -42,25 +42,27 @@ export const loader: LoaderFunction = async ({ request, params }) => {
                 `Fikk ${sammendrag.length} kandidatlister på virksomhet ${virksomhetsnummer}`
             );
         }
-    }
 
-    try {
-        return json({
-            sammendrag,
-            organisasjoner,
-        });
-    } catch (e) {
-        logger.error("Klarte ikke å hente kandidatliste:", e);
+        try {
+            return json({
+                sammendrag,
+                organisasjoner,
+                httpStatusCode: respons.status,
+            });
+        } catch (e) {
+            logger.error("Klarte ikke å hente kandidatliste:", e);
+        }
     }
 };
 
 type LoaderData = {
     sammendrag: Kandidatlistesammendrag[];
     organisasjoner: Organisasjon[];
+    httpStatusCode: number;
 };
 
 const Kandidatlister = () => {
-    const { sammendrag, organisasjoner } = useLoaderData<LoaderData>();
+    const { sammendrag, organisasjoner, httpStatusCode } = useLoaderData<LoaderData>();
 
     if (organisasjoner.length === 0) {
         return (
@@ -71,6 +73,32 @@ const Kandidatlister = () => {
     }
 
     const { pågående, avsluttede } = fordelPåStatus(sammendrag);
+
+    if (organisasjoner.length === 0) {
+        return (
+            <main className="side kandidatlister">
+                <Heading level="2" size="small">
+                    Ikke tilgang
+                </Heading>
+                <BodyShort>
+                    <em>Du representer ingen bedrifter</em>
+                </BodyShort>
+            </main>
+        );
+    }
+
+    if (httpStatusCode === 403) {
+        return (
+            <main className="side kandidatlister">
+                <Heading level="2" size="small">
+                    Ikke tilgang
+                </Heading>
+                <BodyShort>
+                    <em>Du mangler korrekt rolle eller enkeltrettighet</em>
+                </BodyShort>
+            </main>
+        );
+    }
 
     return (
         <main className="side kandidatlister">
