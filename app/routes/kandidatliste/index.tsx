@@ -11,6 +11,7 @@ import type { Kandidatlistesammendrag } from "~/services/domene";
 import type { Organisasjon } from "@navikt/bedriftsmeny/lib/organisasjon";
 
 import css from "./index.css";
+import { virksomhetErFeatureTogglet } from "~/services/api/featureToggle";
 
 export const links: LinksFunction = () => [
     ...kandidatsammendragCss(),
@@ -18,44 +19,61 @@ export const links: LinksFunction = () => [
 ];
 
 export const loader: LoaderFunction = async ({ request, params }) => {
-    const respons = await proxyTilApi(request, "/organisasjoner");
-    const organisasjoner: Organisasjon[] = await respons.json();
+    const organisasjonerRespons = await proxyTilApi(request, "/organisasjoner");
+    const organisasjoner: Organisasjon[] = await organisasjonerRespons.json();
 
     const virksomhetSomSearchParam = new URL(request.url).searchParams.get("virksomhet");
     const virksomhetsnummer =
         virksomhetSomSearchParam || hentFørsteVirksomhetsnummer(organisasjoner);
 
-    let sammendrag = [];
-
-    if (virksomhetsnummer) {
-        const respons = await proxyTilApi(
-            request,
-            `/kandidatlister?virksomhetsnummer=${virksomhetsnummer}`
-        );
-
-        sammendrag = await respons.json();
-        console.log(`Fikk ${sammendrag.length} kandidatlister på virksomhet ${virksomhetsnummer}`);
+    if (!virksomhetErFeatureTogglet(virksomhetsnummer)) {
+        return json({
+            harRettigheterIAltinn: false,
+            organisasjoner,
+        });
     }
+
+    const kandidatlisterRespons = await proxyTilApi(
+        request,
+        `/kandidatlister?virksomhetsnummer=${virksomhetsnummer}`
+    );
+
+    const sammendrag = await kandidatlisterRespons.json();
 
     try {
         return json({
             sammendrag,
             organisasjoner,
+            harRettigheterIAltinn: true,
         });
     } catch (e) {
         logger.error("Klarte ikke å hente kandidatliste:", e);
     }
 };
 
-type LoaderData = {
-    sammendrag: Kandidatlistesammendrag[];
-    organisasjoner: Organisasjon[];
-};
+type LoaderData =
+    | {
+          harRettigheterIAltinn: false;
+          organisasjoner: Organisasjon[];
+      }
+    | {
+          harRettigheterIAltinn: true;
+          sammendrag: Kandidatlistesammendrag[];
+          organisasjoner: Organisasjon[];
+      };
 
 const Kandidatlister = () => {
-    const { sammendrag, organisasjoner } = useLoaderData<LoaderData>();
+    const loaderData = useLoaderData<LoaderData>();
 
-    if (organisasjoner.length === 0) {
+    if (!loaderData.harRettigheterIAltinn) {
+        return (
+            <main className="side kandidatlister">
+                <BodyShort>Du mangler rettigheter i Altinn</BodyShort>
+            </main>
+        );
+    }
+
+    if (loaderData.organisasjoner.length === 0) {
         return (
             <main className="side kandidatlister">
                 <BodyShort>Du representerer ingen organisasjoner</BodyShort>
@@ -63,7 +81,7 @@ const Kandidatlister = () => {
         );
     }
 
-    const { pågående, avsluttede } = fordelPåStatus(sammendrag);
+    const { pågående, avsluttede } = fordelPåStatus(loaderData.sammendrag);
 
     return (
         <main className="side kandidatlister">
