@@ -28,11 +28,11 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
     if (!virksomhetErFeatureTogglet(virksomhetsnummer)) {
         return json({
-            harRettigheterIAltinn: false,
+            harRiktigRolleIAltinn: false,
             organisasjoner,
         });
     } else {
-        let harRettigheterIAltinn = false;
+        let harRiktigRolleIAltinn = false;
         const kandidatlisterRespons = await proxyTilApi(
             request,
             `/kandidatlister?virksomhetsnummer=${virksomhetsnummer}`
@@ -44,7 +44,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
         let sammendrag = [];
         if (kandidatlisterRespons.ok) {
-            harRettigheterIAltinn = true;
+            harRiktigRolleIAltinn = true;
             sammendrag = await kandidatlisterRespons.json();
         }
 
@@ -52,7 +52,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
             return json({
                 sammendrag,
                 organisasjoner,
-                harRettigheterIAltinn,
+                harRiktigRolleIAltinn,
             });
         } catch (e) {
             logger.error("Klarte ikke å hente kandidatliste:", e);
@@ -62,11 +62,11 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
 type LoaderData =
     | {
-          harRettigheterIAltinn: false;
+          harRiktigRolleIAltinn: false;
           organisasjoner: Organisasjon[];
       }
     | {
-          harRettigheterIAltinn: true;
+          harRiktigRolleIAltinn: true;
           sammendrag: Kandidatlistesammendrag[];
           organisasjoner: Organisasjon[];
       };
@@ -74,21 +74,24 @@ type LoaderData =
 const Kandidatlister = () => {
     const loaderData = useLoaderData<LoaderData>();
 
-    if (!loaderData.harRettigheterIAltinn) {
+    if (loaderData.organisasjoner.length === 0) {
+        return (
+            <main className="side kandidatlister">
+                <Heading level="2" size="small">
+                    Ikke tilgang
+                </Heading>
+                <BodyShort>Du representerer ingen organisasjoner</BodyShort>
+            </main>
+        );
+    }
+
+    if (!loaderData.harRiktigRolleIAltinn) {
         return (
             <main className="side kandidatlister">
                 <Heading level="2" size="small">
                     Ikke tilgang
                 </Heading>
                 <BodyShort>Du mangler korrekt rolle eller enkeltrettighet</BodyShort>
-            </main>
-        );
-    }
-
-    if (loaderData.organisasjoner.length === 0) {
-        return (
-            <main className="side kandidatlister">
-                <BodyShort>Du representerer ingen organisasjoner</BodyShort>
             </main>
         );
     }
