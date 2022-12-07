@@ -11,7 +11,7 @@ export const handlers = [
     rest.get(`${apiConfig.url}/kandidatlister`, (req, res, ctx) => {
         const virksomhet = new URL(req.url).searchParams.get("virksomhetsnummer");
 
-        return res(ctx.status(403)); // ctx.json(mockedeKandidatlistesammendrag(virksomhet)));
+        return res(ctx.json(mockedeKandidatlistesammendrag(virksomhet)));
     }),
 
     rest.get(`${apiConfig.url}/kandidatliste/:stillingId`, (req, res, ctx) => {
