@@ -31,23 +31,32 @@ export const loader: LoaderFunction = async ({ request, params }) => {
             harRettigheterIAltinn: false,
             organisasjoner,
         });
-    }
+    } else {
+        let harRettigheterIAltinn = false;
+        const kandidatlisterRespons = await proxyTilApi(
+            request,
+            `/kandidatlister?virksomhetsnummer=${virksomhetsnummer}`
+        );
 
-    const kandidatlisterRespons = await proxyTilApi(
-        request,
-        `/kandidatlister?virksomhetsnummer=${virksomhetsnummer}`
-    );
+        logger.info(
+            `Henting av kandidatlister med url "/kandidatlister?virksomhetsnummer=${virksomhetsnummer}" gav statuskode ${kandidatlisterRespons.status}`
+        );
 
-    const sammendrag = await kandidatlisterRespons.json();
+        let sammendrag = [];
+        if (kandidatlisterRespons.ok) {
+            harRettigheterIAltinn = true;
+            sammendrag = await kandidatlisterRespons.json();
+        }
 
-    try {
-        return json({
-            sammendrag,
-            organisasjoner,
-            harRettigheterIAltinn: true,
-        });
-    } catch (e) {
-        logger.error("Klarte ikke å hente kandidatliste:", e);
+        try {
+            return json({
+                sammendrag,
+                organisasjoner,
+                harRettigheterIAltinn,
+            });
+        } catch (e) {
+            logger.error("Klarte ikke å hente kandidatliste:", e);
+        }
     }
 };
 
@@ -68,7 +77,10 @@ const Kandidatlister = () => {
     if (!loaderData.harRettigheterIAltinn) {
         return (
             <main className="side kandidatlister">
-                <BodyShort>Du mangler rettigheter i Altinn</BodyShort>
+                <Heading level="2" size="small">
+                    Ikke tilgang
+                </Heading>
+                <BodyShort>Du mangler korrekt rolle eller enkeltrettighet</BodyShort>
             </main>
         );
     }
