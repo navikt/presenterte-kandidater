@@ -11,6 +11,7 @@ import type { Kandidatlistesammendrag } from "~/services/domene";
 import type { Organisasjon } from "@navikt/bedriftsmeny/lib/organisasjon";
 
 import css from "./index.css";
+import { virksomhetErFeatureTogglet } from "~/services/api/featureToggle";
 
 export const links: LinksFunction = () => [
     ...kandidatsammendragCss(),
@@ -18,55 +19,73 @@ export const links: LinksFunction = () => [
 ];
 
 export const loader: LoaderFunction = async ({ request, params }) => {
-    const respons = await proxyTilApi(request, "/organisasjoner");
-    const organisasjoner: Organisasjon[] = await respons.json();
+    const organisasjonerRespons = await proxyTilApi(request, "/organisasjoner");
+    const organisasjoner: Organisasjon[] = await organisasjonerRespons.json();
 
     const virksomhetSomSearchParam = new URL(request.url).searchParams.get("virksomhet");
     const virksomhetsnummer =
         virksomhetSomSearchParam || hentFørsteVirksomhetsnummer(organisasjoner);
 
-    let sammendrag = [];
-    let httpStatusCode: number | null = null;
-
-    if (virksomhetsnummer) {
-        const respons = await proxyTilApi(
+    if (!virksomhetErFeatureTogglet(virksomhetsnummer)) {
+        return json({
+            harRettigheterIAltinn: false,
+            organisasjoner,
+        });
+    } else {
+        let harRettigheterIAltinn = false;
+        const kandidatlisterRespons = await proxyTilApi(
             request,
             `/kandidatlister?virksomhetsnummer=${virksomhetsnummer}`
         );
-        httpStatusCode = respons.status;
-        console.log(
-            `/kandidatlister?virksomhetsnummer=${virksomhetsnummer} git status kode: ${httpStatusCode}`
+
+        logger.info(
+            `Henting av kandidatlister med url "/kandidatlister?virksomhetsnummer=${virksomhetsnummer}" gav statuskode ${kandidatlisterRespons.status}`
         );
 
-        if (httpStatusCode == 200) {
-            sammendrag = await respons.json();
-            console.log(
-                `Fikk ${sammendrag.length} kandidatlister på virksomhet ${virksomhetsnummer}`
-            );
+        let sammendrag = [];
+        if (kandidatlisterRespons.ok) {
+            harRettigheterIAltinn = true;
+            sammendrag = await kandidatlisterRespons.json();
+        }
+
+        try {
+            return json({
+                sammendrag,
+                organisasjoner,
+                harRettigheterIAltinn,
+            });
+        } catch (e) {
+            logger.error("Klarte ikke å hente kandidatliste:", e);
         }
     }
-
-    try {
-        return json({
-            sammendrag,
-            organisasjoner,
-            httpStatusCode,
-        });
-    } catch (e) {
-        logger.error("Klarte ikke å hente kandidatliste:", e);
-    }
 };
 
-type LoaderData = {
-    sammendrag: Kandidatlistesammendrag[];
-    organisasjoner: Organisasjon[];
-    httpStatusCode: number | null;
-};
+type LoaderData =
+    | {
+          harRettigheterIAltinn: false;
+          organisasjoner: Organisasjon[];
+      }
+    | {
+          harRettigheterIAltinn: true;
+          sammendrag: Kandidatlistesammendrag[];
+          organisasjoner: Organisasjon[];
+      };
 
 const Kandidatlister = () => {
-    const { sammendrag, organisasjoner, httpStatusCode } = useLoaderData<LoaderData>();
+    const loaderData = useLoaderData<LoaderData>();
 
-    if (organisasjoner.length === 0) {
+    if (!loaderData.harRettigheterIAltinn) {
+        return (
+            <main className="side kandidatlister">
+                <Heading level="2" size="small">
+                    Ikke tilgang
+                </Heading>
+                <BodyShort>Du mangler korrekt rolle eller enkeltrettighet</BodyShort>
+            </main>
+        );
+    }
+
+    if (loaderData.organisasjoner.length === 0) {
         return (
             <main className="side kandidatlister">
                 <BodyShort>Du representerer ingen organisasjoner</BodyShort>
@@ -74,20 +93,7 @@ const Kandidatlister = () => {
         );
     }
 
-    const { pågående, avsluttede } = fordelPåStatus(sammendrag);
-
-    if (httpStatusCode === 403) {
-        return (
-            <main className="side kandidatlister">
-                <Heading level="2" size="small">
-                    Ikke tilgang
-                </Heading>
-                <BodyShort>
-                    <em>Du mangler korrekt rolle eller enkeltrettighet</em>
-                </BodyShort>
-            </main>
-        );
-    }
+    const { pågående, avsluttede } = fordelPåStatus(loaderData.sammendrag);
 
     return (
         <main className="side kandidatlister">
