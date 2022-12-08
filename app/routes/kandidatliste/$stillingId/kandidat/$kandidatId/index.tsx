@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Form, Link, useLoaderData, useParams } from "@remix-run/react";
 import { BodyShort, Button, Radio, RadioGroup, ReadMore, ToggleGroup } from "@navikt/ds-react";
-import { json } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import { proxyTilApi } from "~/services/api/proxy";
 import { Back, Next } from "@navikt/ds-icons";
 import KandidatCv, {
@@ -26,12 +26,20 @@ export const links: LinksFunction = () => [
 
 export const loader: LoaderFunction = async ({ request, params }) => {
     const { stillingId, kandidatId } = params;
-
     const respons = await proxyTilApi(request, `/kandidatliste/${stillingId}`);
     const kandidatliste: Kandidatliste = await respons.json();
     const kandidat = kandidatliste.kandidater.find(
         (kandidat) => kandidat.kandidat.uuid === kandidatId
     );
+
+    const valgtVirksomhet = new URL(request.url).searchParams.get("virksomhet");
+    const harEndretValgtVirksomhet =
+        valgtVirksomhet != null &&
+        valgtVirksomhet !== kandidatliste.kandidatliste.virksomhetsnummer;
+
+    if (harEndretValgtVirksomhet) {
+        return redirect(`/kandidatliste?virksomhet=${valgtVirksomhet}`);
+    }
 
     return json({
         kandidat,

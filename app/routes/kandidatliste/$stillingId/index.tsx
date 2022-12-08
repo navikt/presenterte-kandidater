@@ -1,7 +1,7 @@
 import { Accordion, BodyLong, Heading, Panel } from "@navikt/ds-react";
 import { visVurdering } from "./kandidat/$kandidatId";
 import { Back, Close, DecisionCheck, ExternalLink, Helptext, Like } from "@navikt/ds-icons";
-import { json } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import { Link as NavLink } from "@navikt/ds-react";
 import { Link, useLoaderData } from "@remix-run/react";
 import { proxyTilApi } from "~/services/api/proxy";
@@ -25,8 +25,18 @@ export const links: LinksFunction = () => [
 export const loader: LoaderFunction = async ({ request, params }) => {
     const stillingId = params.stillingId;
     const respons = await proxyTilApi(request, `/kandidatliste/${stillingId}`);
+    const kandidatliste: Kandidatliste = await respons.json();
 
-    return json(await respons.json());
+    const valgtVirksomhet = new URL(request.url).searchParams.get("virksomhet");
+    const harEndretValgtVirksomhet =
+        valgtVirksomhet != null &&
+        valgtVirksomhet !== kandidatliste.kandidatliste.virksomhetsnummer;
+
+    if (harEndretValgtVirksomhet) {
+        return redirect(`/kandidatliste?virksomhet=${valgtVirksomhet}`);
+    }
+
+    return json(kandidatliste);
 };
 
 const Kandidatlistevisning = () => {
