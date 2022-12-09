@@ -4,6 +4,7 @@ import type { LinksFunction } from "@remix-run/node";
 import type { FunctionComponent } from "react";
 import type { Cv, Kandidat } from "~/services/domene";
 import css from "./Kandidatsammendrag.css";
+import useVirksomhet from "~/services/useVirksomhet";
 
 export const links: LinksFunction = () => {
     return [{ rel: "stylesheet", href: css }];
@@ -15,6 +16,8 @@ type Props = {
 };
 
 const Kandidatsammendrag: FunctionComponent<Props> = ({ kandidat, stillingId }) => {
+    const virksomhet = useVirksomhet();
+
     if (kandidat.cv === null) {
         return <KandidatsammendragUtenCv kandidat={kandidat} stillingId={stillingId} />;
     }
@@ -24,7 +27,7 @@ const Kandidatsammendrag: FunctionComponent<Props> = ({ kandidat, stillingId }) 
     return (
         <li className="kandidatsammendrag">
             <Link
-                to={`/kandidatliste/${stillingId}/kandidat/${kandidat.kandidat.uuid}`}
+                to={`/kandidatliste/${stillingId}/kandidat/${kandidat.kandidat.uuid}?virksomhet=${virksomhet}`}
                 className="navds-link"
             >
                 <span>{visKandidatnavn(kandidat.cv)}</span>
@@ -44,10 +47,12 @@ const Kandidatsammendrag: FunctionComponent<Props> = ({ kandidat, stillingId }) 
 };
 
 export const KandidatsammendragUtenCv: FunctionComponent<Props> = ({ kandidat, stillingId }) => {
+    const virksomhet = useVirksomhet();
+
     return (
         <li className="kandidatsammendrag">
             <Link
-                to={`/kandidatliste/${stillingId}/kandidat/${kandidat.kandidat.uuid}`}
+                to={`/kandidatliste/${stillingId}/kandidat/${kandidat.kandidat.uuid}?virksomhet=${virksomhet}`}
                 className="navds-link"
             >
                 <span>Utilgjengelig kandidat</span>

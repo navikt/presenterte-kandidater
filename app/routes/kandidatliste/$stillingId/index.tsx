@@ -1,7 +1,7 @@
 import { Accordion, BodyLong, Heading, Panel } from "@navikt/ds-react";
 import { visVurdering } from "./kandidat/$kandidatId";
 import { Back, Close, DecisionCheck, ExternalLink, Helptext, Like } from "@navikt/ds-icons";
-import { json, redirect } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import { Link as NavLink } from "@navikt/ds-react";
 import { Link, useLoaderData } from "@remix-run/react";
 import { proxyTilApi } from "~/services/api/proxy";
@@ -13,6 +13,7 @@ import Kandidatsammendrag, {
     links as kandidatsammendragLinks,
 } from "~/components/kandidatsammendrag/Kandidatsammendrag";
 import css from "./index.css";
+import useVirksomhet from "~/services/useVirksomhet";
 
 export const links: LinksFunction = () => [
     ...kandidatsammendragLinks(),
@@ -27,25 +28,17 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     const respons = await proxyTilApi(request, `/kandidatliste/${stillingId}`);
     const kandidatliste: Kandidatliste = await respons.json();
 
-    const valgtVirksomhet = new URL(request.url).searchParams.get("virksomhet");
-    const harEndretValgtVirksomhet =
-        valgtVirksomhet != null &&
-        valgtVirksomhet !== kandidatliste.kandidatliste.virksomhetsnummer;
-
-    if (harEndretValgtVirksomhet) {
-        return redirect(`/kandidatliste?virksomhet=${valgtVirksomhet}`);
-    }
-
     return json(kandidatliste);
 };
 
 const Kandidatlistevisning = () => {
     const { kandidatliste, kandidater } = useLoaderData<Kandidatliste>();
     const { tittel, stillingId } = kandidatliste;
+    const virksomhet = useVirksomhet();
 
     return (
         <main className="side">
-            <Link to="/kandidatliste" className="navds-link">
+            <Link to={`/kandidatliste?virksomhet=${virksomhet}`} className="navds-link">
                 <Back />
                 Alle oppdrag
             </Link>

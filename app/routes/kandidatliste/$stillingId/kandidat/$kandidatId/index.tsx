@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Form, Link, useLoaderData, useParams } from "@remix-run/react";
 import { BodyShort, Button, Radio, RadioGroup, ReadMore, ToggleGroup } from "@navikt/ds-react";
-import { json, redirect } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import { proxyTilApi } from "~/services/api/proxy";
 import { Back, Next } from "@navikt/ds-icons";
 import KandidatCv, {
@@ -9,11 +9,11 @@ import KandidatCv, {
     links as kandidatCvLinks,
 } from "~/components/kandidat-cv/KandidatCv";
 import { Kandidatvurdering } from "~/services/domene";
-import { logger } from "../../../../../../server/logger";
 import Vurderingsikon from "~/components/Vurderingsikon";
 import type { FunctionComponent } from "react";
 import type { Kandidat, Kandidatliste } from "~/services/domene";
 import type { LoaderFunction, LinksFunction, ActionFunction } from "@remix-run/node";
+import useVirksomhet from "~/services/useVirksomhet";
 import css from "./index.css";
 
 export const links: LinksFunction = () => [
@@ -32,15 +32,6 @@ export const loader: LoaderFunction = async ({ request, params }) => {
         (kandidat) => kandidat.kandidat.uuid === kandidatId
     );
 
-    const valgtVirksomhet = new URL(request.url).searchParams.get("virksomhet");
-    const harEndretValgtVirksomhet =
-        valgtVirksomhet != null &&
-        valgtVirksomhet !== kandidatliste.kandidatliste.virksomhetsnummer;
-
-    if (harEndretValgtVirksomhet) {
-        return redirect(`/kandidatliste?virksomhet=${valgtVirksomhet}`);
-    }
-
     return json({
         kandidat,
         kandidatliste,
@@ -52,9 +43,6 @@ export const action: ActionFunction = async ({ request, context, params }) => {
 
     const data = await request.formData();
     const vurdering = data.get("vurdering");
-
-    logger.info(`Oppdaterer kandidat '${kandidatId}' med vurdering '${vurdering}'`);
-
     const respons = await proxyTilApi(request, `/kandidat/${kandidatId}/vurdering`, "PUT", {
         arbeidsgiversVurdering: vurdering,
     });
@@ -74,6 +62,7 @@ type LoaderData = {
 const Kandidatvisning = () => {
     const { stillingId } = useParams();
     const { kandidat, kandidatliste } = useLoaderData<LoaderData>();
+    const virksomhet = useVirksomhet();
 
     const [kandidatvurdering, setKandidatvurdering] = useState<Kandidatvurdering>(
         kandidat.kandidat.arbeidsgiversVurdering
@@ -93,7 +82,10 @@ const Kandidatvisning = () => {
 
     return (
         <main className="side kandidatside">
-            <Link to={`/kandidatliste/${stillingId}`} className="navds-link">
+            <Link
+                to={`/kandidatliste/${stillingId}?virksomhet=${virksomhet}`}
+                className="navds-link"
+            >
                 <Back />
                 Alle kandidater
             </Link>
@@ -106,7 +98,7 @@ const Kandidatvisning = () => {
                 </BodyShort>
                 {forrigeKandidatMedSammeStatus && (
                     <Link
-                        to={`/kandidatliste/${stillingId}/kandidat/${forrigeKandidatMedSammeStatus.kandidat.uuid}`}
+                        to={`/kandidatliste/${stillingId}/kandidat/${forrigeKandidatMedSammeStatus.kandidat.uuid}?virksomhet=${virksomhet}`}
                         className="navds-link"
                     >
                         <Back />
@@ -115,7 +107,7 @@ const Kandidatvisning = () => {
                 )}
                 {nesteKandidatMedSammeStatus && (
                     <Link
-                        to={`/kandidatliste/${stillingId}/kandidat/${nesteKandidatMedSammeStatus.kandidat.uuid}`}
+                        to={`/kandidatliste/${stillingId}/kandidat/${nesteKandidatMedSammeStatus.kandidat.uuid}?virksomhet=${virksomhet}`}
                         className="navds-link"
                     >
                         Neste
