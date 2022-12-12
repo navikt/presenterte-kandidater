@@ -26,6 +26,8 @@ import { proxyTilApi } from "./services/api/proxy";
 import { useEffect } from "react";
 import { settInnDekoratørHosKlienten } from "./services/dekoratør";
 import { Panel } from "@navikt/ds-react";
+import HentSamtykke from "./components/samtykke/HentSamtykke";
+import IngenOrganisasjoner from "./components/IngenOrganisasjoner";
 
 export const meta: MetaFunction = () => ({
     charset: "utf-8",
@@ -44,23 +46,36 @@ export const loader: LoaderFunction = async ({ request }) => {
         configureMock();
     }
 
-    const respons = await proxyTilApi(request, "/organisasjoner");
+    const [samtykke, organisasjoner] = await Promise.all([
+        proxyTilApi(request, "/samtykke"),
+        proxyTilApi(request, "/organisasjoner"),
+    ]);
 
     return json({
-        organisasjoner: await respons.json(),
+        harSamtykke: samtykke.ok,
+        organisasjoner: await organisasjoner.json(),
     });
 };
 
 type LoaderData = {
+    harSamtykke: boolean;
     organisasjoner: Organisasjon[];
 };
 
 const App = () => {
-    const { organisasjoner } = useLoaderData<LoaderData>();
+    const { harSamtykke, organisasjoner } = useLoaderData<LoaderData>();
 
     useEffect(() => {
         settInnDekoratørHosKlienten();
     }, []);
+
+    let visning = <Outlet />;
+
+    if (organisasjoner.length === 0) {
+        visning = <IngenOrganisasjoner />;
+    } else if (!harSamtykke) {
+        visning = <HentSamtykke />;
+    }
 
     return (
         <html lang="no">
@@ -72,7 +87,7 @@ const App = () => {
                 <header>
                     <Header organisasjoner={organisasjoner} />
                 </header>
-                <Outlet />
+                {visning}
                 <ScrollRestoration />
                 <RemixScripts />
                 <LiveReload />

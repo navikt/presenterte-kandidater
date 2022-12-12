@@ -19,7 +19,6 @@ const Header: FunctionComponent<Props> = ({ organisasjoner }) => {
             const orgnummerFraUrl = searchParams.get("virksomhet");
 
             if (orgnummerFraUrl !== null && orgnummer !== orgnummerFraUrl) {
-                console.log("Redirecter til forsiden");
                 navigate(`/kandidatliste?virksomhet=${orgnummer}`);
             } else {
                 setSearchParams(

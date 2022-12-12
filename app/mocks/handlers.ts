@@ -4,6 +4,10 @@ import { mockedeKandidatlistesammendrag, mockedeKandidatlister } from "./mockKan
 import mockedeOrganisasjoner from "./mockOrganisasjoner";
 
 export const handlers = [
+    rest.get(`${apiConfig.url}/samtykke`, (_, res, ctx) => {
+        return res(ctx.status(401));
+    }),
+
     rest.get(`${apiConfig.url}/organisasjoner`, (_, res, ctx) => {
         return res(ctx.json(mockedeOrganisasjoner));
     }),

@@ -2,7 +2,6 @@ import { BodyShort, Heading } from "@navikt/ds-react";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { proxyTilApi } from "~/services/api/proxy";
-import { logger } from "server/logger";
 import { links as kandidatsammendragCss } from "~/components/kandidatlistesammendrag/Kandidatlistesammendrag";
 import VisKandidatlistesammendrag from "~/components/kandidatlistesammendrag/Kandidatlistesammendrag";
 import type { LoaderFunction } from "@remix-run/node";
@@ -18,74 +17,47 @@ export const links: LinksFunction = () => [
     { rel: "stylesheet", href: css },
 ];
 
-export const loader: LoaderFunction = async ({ request, params }) => {
-    const organisasjonerRespons = await proxyTilApi(request, "/organisasjoner");
-    const organisasjoner: Organisasjon[] = await organisasjonerRespons.json();
+export const loader: LoaderFunction = async ({ request }) => {
+    let virksomhet = hentValgtVirksomhet(request.url);
 
-    const virksomhetSomSearchParam = new URL(request.url).searchParams.get("virksomhet");
-    const virksomhetsnummer =
-        virksomhetSomSearchParam || hentFørsteVirksomhetsnummer(organisasjoner);
+    if (!virksomhet) {
+        const organisasjoner = await proxyTilApi(request, "/organisasjoner");
+        virksomhet = hentFørsteVirksomhetsnummer(await organisasjoner.json());
+    }
 
-    if (!virksomhetErFeatureTogglet(virksomhetsnummer)) {
+    // Feature-toggle
+    if (!virksomhetErFeatureTogglet(virksomhet)) {
         return json({
             harRiktigRolleIAltinn: false,
-            organisasjoner,
         });
-    } else {
-        let harRiktigRolleIAltinn = false;
-        const kandidatlisterRespons = await proxyTilApi(
-            request,
-            `/kandidatlister?virksomhetsnummer=${virksomhetsnummer}`
-        );
-
-        logger.info(
-            `Henting av kandidatlister med url "/kandidatlister?virksomhetsnummer=${virksomhetsnummer}" gav statuskode ${kandidatlisterRespons.status}`
-        );
-
-        let sammendrag = [];
-        if (kandidatlisterRespons.ok) {
-            harRiktigRolleIAltinn = true;
-            sammendrag = await kandidatlisterRespons.json();
-        }
-
-        try {
-            return json({
-                sammendrag,
-                organisasjoner,
-                harRiktigRolleIAltinn,
-            });
-        } catch (e) {
-            logger.error("Klarte ikke å hente kandidatliste:", e);
-        }
     }
+
+    const kandidatlister = await proxyTilApi(
+        request,
+        `/kandidatlister?virksomhetsnummer=${virksomhet}`
+    );
+
+    if (!kandidatlister.ok) {
+        return json({
+            harRiktigRolleIAltinn: false,
+        });
+    }
+
+    return json({
+        harRiktigRolleIAltinn: true,
+        sammendrag: await kandidatlister.json(),
+    });
 };
 
-type LoaderData =
-    | {
-          harRiktigRolleIAltinn: false;
-          organisasjoner: Organisasjon[];
-      }
-    | {
-          harRiktigRolleIAltinn: true;
-          sammendrag: Kandidatlistesammendrag[];
-          organisasjoner: Organisasjon[];
-      };
+type LoaderData = {
+    harRiktigRolleIAltinn: boolean;
+    sammendrag: Kandidatlistesammendrag[];
+};
 
 const Kandidatlister = () => {
-    const loaderData = useLoaderData<LoaderData>();
+    const { harRiktigRolleIAltinn, sammendrag } = useLoaderData<LoaderData>();
 
-    if (loaderData.organisasjoner.length === 0) {
-        return (
-            <main className="side kandidatlister">
-                <Heading level="2" size="small">
-                    Ikke tilgang
-                </Heading>
-                <BodyShort>Du representerer ingen organisasjoner</BodyShort>
-            </main>
-        );
-    }
-
-    if (!loaderData.harRiktigRolleIAltinn) {
+    if (!harRiktigRolleIAltinn) {
         return (
             <main className="side kandidatlister">
                 <Heading level="2" size="small">
@@ -96,7 +68,7 @@ const Kandidatlister = () => {
         );
     }
 
-    const { pågående, avsluttede } = fordelPåStatus(loaderData.sammendrag);
+    const { pågående, avsluttede } = fordelPåStatus(sammendrag);
 
     return (
         <main className="side kandidatlister">
@@ -157,6 +129,8 @@ const fordelPåStatus = (sammendrag: Kandidatlistesammendrag[]) => {
         avsluttede,
     };
 };
+
+const hentValgtVirksomhet = (url: string) => new URL(url).searchParams.get("virksomhet");
 
 const hentFørsteVirksomhetsnummer = (organisasjoner: Organisasjon[]) =>
     organisasjoner.filter((org) => org.Type === "Business")[0]?.OrganizationNumber;
