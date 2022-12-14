@@ -1,4 +1,5 @@
 import type {
+    ActionFunction,
     ErrorBoundaryComponent,
     LinksFunction,
     LoaderFunction,
@@ -55,6 +56,22 @@ export const loader: LoaderFunction = async ({ request }) => {
         harSamtykke: samtykke.ok,
         organisasjoner: await organisasjoner.json(),
     });
+};
+
+export const action: ActionFunction = async ({ request }) => {
+    const body = await request.formData();
+    const harGodkjent = body.get("samtykke") === "true";
+
+    if (!harGodkjent) {
+        return json(
+            {
+                error: "Du må huke av for å godta vilkårene.",
+            },
+            { status: 422 }
+        );
+    } else {
+        return await proxyTilApi(request, "/samtykke", "POST");
+    }
 };
 
 type LoaderData = {
