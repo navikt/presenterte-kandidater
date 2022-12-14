@@ -7,25 +7,28 @@ import {
     Heading,
     Panel,
 } from "@navikt/ds-react";
-import { Form, useActionData } from "@remix-run/react";
+import { Form, Link, useActionData, useLoaderData } from "@remix-run/react";
 import type { FunctionComponent } from "react";
-import { ActionFunction, json, LinksFunction, redirect } from "@remix-run/node";
+import type { ActionFunction, LinksFunction, LoaderFunction } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import { proxyTilApi } from "~/services/api/proxy";
 import css from "./index.css";
+import useVirksomhet from "~/services/useVirksomhet";
+import { Back } from "@navikt/ds-icons";
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: css }];
+
+export const loader: LoaderFunction = async ({ request }) => {
+    const respons = await proxyTilApi(request, "/samtykke");
+    return respons.ok;
+};
 
 export const action: ActionFunction = async ({ request }) => {
     const body = await request.formData();
     const harGodkjent = body.get("samtykke") === "true";
 
     if (!harGodkjent) {
-        return json(
-            {
-                error: "Du må huke av for å godta vilkårene.",
-            },
-            { status: 422 }
-        );
+        return json("Du må huke av for å godta vilkårene.", { status: 422 });
     } else {
         const respons = await proxyTilApi(request, "/samtykke", "POST");
 
@@ -40,14 +43,28 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 const Samtykke: FunctionComponent = () => {
-    const action = useActionData();
+    const virksomhet = useVirksomhet();
+    const feilmelding = useActionData<string | undefined>();
+    const harSamtykket = useLoaderData<boolean>();
 
     return (
         <main className="side">
-            <Panel>
-                <Heading level="2" size="large">
-                    Vilkår
-                </Heading>
+            <Panel className="samtykkeside">
+                <div className="samtykkeside__topp">
+                    <div className="samtykkeside__tilbakelenke">
+                        {harSamtykket && (
+                            <Link
+                                to={`/kandidatliste?virksomhet=${virksomhet}`}
+                                className="navds-link"
+                            >
+                                <Back /> Tilbake
+                            </Link>
+                        )}
+                    </div>
+                    <Heading level="2" size="large">
+                        Vilkår
+                    </Heading>
+                </div>
                 <Heading level="3" size="medium">
                     Hvem kan bruke tjenestene?
                 </Heading>
@@ -79,8 +96,8 @@ const Samtykke: FunctionComponent = () => {
                             Jeg har lest og godtar vilkårene.
                         </Checkbox>
                     </CheckboxGroup>
-                    {action?.error && (
-                        <BodyShort className="samtykke-feilmelding">{action?.error}</BodyShort>
+                    {feilmelding && (
+                        <BodyShort className="samtykkeside__feilmelding">{feilmelding}</BodyShort>
                     )}
                     <Button type="submit">Godta vilkår</Button>
                 </Form>

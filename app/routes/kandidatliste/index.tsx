@@ -1,16 +1,15 @@
 import { BodyShort, Heading } from "@navikt/ds-react";
-import { ActionFunction, json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import { proxyTilApi } from "~/services/api/proxy";
+import { json } from "@remix-run/node";
 import { links as kandidatsammendragCss } from "~/components/kandidatlistesammendrag/Kandidatlistesammendrag";
-import VisKandidatlistesammendrag from "~/components/kandidatlistesammendrag/Kandidatlistesammendrag";
-import type { LoaderFunction } from "@remix-run/node";
-import type { LinksFunction } from "@remix-run/server-runtime";
-import type { Kandidatlistesammendrag } from "~/services/domene";
-import type { Organisasjon } from "@navikt/bedriftsmeny/lib/organisasjon";
-
-import css from "./index.css";
+import { proxyTilApi } from "~/services/api/proxy";
+import { useLoaderData } from "@remix-run/react";
 import { virksomhetErFeatureTogglet } from "~/services/api/featureToggle";
+import type { Kandidatlistesammendrag } from "~/services/domene";
+import type { LinksFunction } from "@remix-run/server-runtime";
+import type { LoaderFunction } from "@remix-run/node";
+import type { Organisasjon } from "@navikt/bedriftsmeny/lib/organisasjon";
+import VisKandidatlistesammendrag from "~/components/kandidatlistesammendrag/Kandidatlistesammendrag";
+import css from "./index.css";
 
 export const links: LinksFunction = () => [
     ...kandidatsammendragCss(),

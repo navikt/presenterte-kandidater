@@ -1,11 +1,10 @@
-import {
-    ActionFunction,
+import type {
     ErrorBoundaryComponent,
     LinksFunction,
     LoaderFunction,
     MetaFunction,
-    redirect,
 } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
     Links,
@@ -16,23 +15,22 @@ import {
     ScrollRestoration,
     useLoaderData,
 } from "@remix-run/react";
-import Header from "./components/header/Header";
-import type { Organisasjon } from "@navikt/bedriftsmeny/lib/organisasjon";
 import { configureMock } from "./mocks";
-
-import rootCss from "./root.css";
-import designsystemStyles from "@navikt/ds-css/dist/index.css";
-import bedriftsmenyStyles from "@navikt/bedriftsmeny/lib/bedriftsmeny.css";
 import { hentMiljø, Miljø } from "./services/miljø";
-import { proxyTilApi } from "./services/api/proxy";
-import { useEffect } from "react";
-import { settInnDekoratørHosKlienten } from "./services/dekoratør";
 import { Panel } from "@navikt/ds-react";
+import { proxyTilApi } from "./services/api/proxy";
+import { settInnDekoratørHosKlienten } from "./services/dekoratør";
+import { useEffect } from "react";
+import bedriftsmenyStyles from "@navikt/bedriftsmeny/lib/bedriftsmeny.css";
+import designsystemStyles from "@navikt/ds-css/dist/index.css";
+import Header from "./components/header/Header";
 import IngenOrganisasjoner from "./components/IngenOrganisasjoner";
+import type { Organisasjon } from "@navikt/bedriftsmeny/lib/organisasjon";
+import rootCss from "./root.css";
 
 export const meta: MetaFunction = () => ({
     charset: "utf-8",
-    title: "Kandidater",
+    title: "Foreslåtte kandidater",
     viewport: "width=device-width,initial-scale=1",
 });
 
@@ -51,11 +49,11 @@ export const loader: LoaderFunction = async ({ request }) => {
         proxyTilApi(request, "/samtykke"),
         proxyTilApi(request, "/organisasjoner"),
     ]);
-    console.log("samtykke", samtykke);
-    console.log("request.url", request.url);
 
-    if (!samtykke.ok && new URL(request.url).pathname !== "/kandidatliste/samtykke") {
-        return redirect("/kandidatliste/samtykke");
+    const samtykkeside = "/kandidatliste/samtykke";
+    const erPåSamtykkeside = new URL(request.url).pathname !== samtykkeside;
+    if (!samtykke.ok && erPåSamtykkeside) {
+        return redirect(samtykkeside);
     }
 
     return json({
@@ -74,11 +72,7 @@ const App = () => {
         settInnDekoratørHosKlienten();
     }, []);
 
-    let visning = <Outlet />;
-
-    if (organisasjoner.length === 0) {
-        visning = <IngenOrganisasjoner />;
-    }
+    const visning = organisasjoner.length === 0 ? <IngenOrganisasjoner /> : <Outlet />;
 
     return (
         <html lang="no">

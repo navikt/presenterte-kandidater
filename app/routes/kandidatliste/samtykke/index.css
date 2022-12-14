@@ -1,5 +1,46 @@
-.samtykke-feilmelding {
+.samtykkeside {
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+    gap: 1rem;
+    padding: 2rem;
+}
+
+.samtykkeside__topp {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.samtykkeside__tilbakelenke {
+    line-height: 2rem;
+}
+
+.samtykkeside__feilmelding {
     color: var(--a-text-danger);
     font-style: italic;
-    margin-bottom: 1.5rem;
+}
+
+.samtykkeside form button {
+    margin-top: 2rem;
+}
+
+@media (min-width: 500px) {
+    .samtykkeside__topp {
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        align-self: stretch;
+        justify-content: space-between;
+    }
+
+    .samtykkeside__tilbakelenke {
+        flex: 1;
+        align-self: center;
+    }
+
+    .samtykkeside__topp::after {
+        content: "";
+        flex: 1;
+    }
 }
