@@ -1,9 +1,10 @@
-import type {
+import {
     ActionFunction,
     ErrorBoundaryComponent,
     LinksFunction,
     LoaderFunction,
     MetaFunction,
+    redirect,
 } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
@@ -70,7 +71,15 @@ export const action: ActionFunction = async ({ request }) => {
             { status: 422 }
         );
     } else {
-        return await proxyTilApi(request, "/samtykke", "POST");
+        const respons = await proxyTilApi(request, "/samtykke", "POST");
+
+        if (respons.ok) {
+            const virksomhet = new URL(request.url).searchParams.get("virksomhet");
+
+            redirect(`/kandidatliste?virksomhet=${virksomhet}`);
+        } else {
+            throw Error(`${respons.status}: ${respons.statusText}`);
+        }
     }
 };
 
