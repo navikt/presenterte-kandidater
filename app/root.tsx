@@ -28,7 +28,6 @@ import { proxyTilApi } from "./services/api/proxy";
 import { useEffect } from "react";
 import { settInnDekoratørHosKlienten } from "./services/dekoratør";
 import { Panel } from "@navikt/ds-react";
-import HentSamtykke from "./components/samtykke/HentSamtykke";
 import IngenOrganisasjoner from "./components/IngenOrganisasjoner";
 
 export const meta: MetaFunction = () => ({
@@ -52,44 +51,24 @@ export const loader: LoaderFunction = async ({ request }) => {
         proxyTilApi(request, "/samtykke"),
         proxyTilApi(request, "/organisasjoner"),
     ]);
+    console.log("samtykke", samtykke);
+    console.log("request.url", request.url);
+
+    if (!samtykke.ok && new URL(request.url).pathname !== "/kandidatliste/samtykke") {
+        return redirect("/kandidatliste/samtykke");
+    }
 
     return json({
-        harSamtykke: samtykke.ok,
         organisasjoner: await organisasjoner.json(),
     });
 };
 
-export const action: ActionFunction = async ({ request }) => {
-    const body = await request.formData();
-    const harGodkjent = body.get("samtykke") === "true";
-
-    if (!harGodkjent) {
-        return json(
-            {
-                error: "Du må huke av for å godta vilkårene.",
-            },
-            { status: 422 }
-        );
-    } else {
-        const respons = await proxyTilApi(request, "/samtykke", "POST");
-
-        if (respons.ok) {
-            const virksomhet = new URL(request.url).searchParams.get("virksomhet");
-
-            redirect(`/kandidatliste?virksomhet=${virksomhet}`);
-        } else {
-            throw Error(`${respons.status}: ${respons.statusText}`);
-        }
-    }
-};
-
 type LoaderData = {
-    harSamtykke: boolean;
     organisasjoner: Organisasjon[];
 };
 
 const App = () => {
-    const { harSamtykke, organisasjoner } = useLoaderData<LoaderData>();
+    const { organisasjoner } = useLoaderData<LoaderData>();
 
     useEffect(() => {
         settInnDekoratørHosKlienten();
@@ -99,8 +78,6 @@ const App = () => {
 
     if (organisasjoner.length === 0) {
         visning = <IngenOrganisasjoner />;
-    } else if (!harSamtykke) {
-        visning = <HentSamtykke />;
     }
 
     return (

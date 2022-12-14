@@ -1,0 +1,5 @@
+.samtykke-feilmelding {
+    color: var(--a-text-danger);
+    font-style: italic;
+    margin-bottom: 1.5rem;
+}

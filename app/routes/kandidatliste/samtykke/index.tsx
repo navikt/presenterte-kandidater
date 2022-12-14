@@ -9,8 +9,37 @@ import {
 } from "@navikt/ds-react";
 import { Form, useActionData } from "@remix-run/react";
 import type { FunctionComponent } from "react";
+import { ActionFunction, json, LinksFunction, redirect } from "@remix-run/node";
+import { proxyTilApi } from "~/services/api/proxy";
+import css from "./index.css";
 
-const HentSamtykke: FunctionComponent = () => {
+export const links: LinksFunction = () => [{ rel: "stylesheet", href: css }];
+
+export const action: ActionFunction = async ({ request }) => {
+    const body = await request.formData();
+    const harGodkjent = body.get("samtykke") === "true";
+
+    if (!harGodkjent) {
+        return json(
+            {
+                error: "Du må huke av for å godta vilkårene.",
+            },
+            { status: 422 }
+        );
+    } else {
+        const respons = await proxyTilApi(request, "/samtykke", "POST");
+
+        if (respons.ok) {
+            const virksomhet = new URL(request.url).searchParams.get("virksomhet");
+
+            return redirect(`/kandidatliste?virksomhet=${virksomhet}`);
+        } else {
+            throw Error(`${respons.status}: ${respons.statusText}`);
+        }
+    }
+};
+
+const Samtykke: FunctionComponent = () => {
     const action = useActionData();
 
     return (
@@ -44,7 +73,7 @@ const HentSamtykke: FunctionComponent = () => {
                     <li>tilby personer arbeidstreningsplasser</li>
                 </ul>
                 <BodyLong>NAV vil følge opp brudd på disse vilkårene hvis det forekommer.</BodyLong>
-                <Form method="post" action="/kandidatliste">
+                <Form method="post">
                     <CheckboxGroup hideLegend legend="Godkjenner du vilkårene?">
                         <Checkbox name="samtykke" value="true">
                             Jeg har lest og godtar vilkårene.
@@ -60,4 +89,4 @@ const HentSamtykke: FunctionComponent = () => {
     );
 };
 
-export default HentSamtykke;
+export default Samtykke;
