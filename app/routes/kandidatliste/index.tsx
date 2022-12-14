@@ -1,5 +1,5 @@
 import { BodyShort, Heading } from "@navikt/ds-react";
-import { json } from "@remix-run/node";
+import { ActionFunction, json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { proxyTilApi } from "~/services/api/proxy";
 import { links as kandidatsammendragCss } from "~/components/kandidatlistesammendrag/Kandidatlistesammendrag";

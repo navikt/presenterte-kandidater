@@ -44,7 +44,7 @@ const HentSamtykke: FunctionComponent = () => {
                     <li>tilby personer arbeidstreningsplasser</li>
                 </ul>
                 <BodyLong>NAV vil følge opp brudd på disse vilkårene hvis det forekommer.</BodyLong>
-                <Form method="post">
+                <Form method="post" action="/kandidatliste">
                     <CheckboxGroup hideLegend legend="Godkjenner du vilkårene?">
                         <Checkbox name="samtykke" value="true">
                             Jeg har lest og godtar vilkårene.
