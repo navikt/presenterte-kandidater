@@ -1,3 +1,4 @@
+import { logger } from "server/logger";
 import TokenClient from "./TokenClient.server";
 
 export const client = new TokenClient();
@@ -10,9 +11,16 @@ export const apiConfig = {
 };
 
 export const proxyTilApi = async (request: Request, url: string, method = "GET", body?: object) => {
+    let headers;
+    try {
+        headers = await opprettAuthorizationHeader(request);
+    } catch (e) {
+        logger.error("Klarte ikke å opprette authorization header:", e);
+    }
+
     const options: RequestInit = {
         method,
-        headers: await opprettAuthorizationHeader(request),
+        headers,
     };
 
     if (body) {
