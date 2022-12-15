@@ -39,7 +39,8 @@ export const action: ActionFunction = async ({ request }) => {
             return redirect(`/kandidatliste?virksomhet=${virksomhet}`);
         } else {
             logger.error(
-                `Klarte ikke å lagre samtykke, fikk ${respons.status}-feil: ${respons.statusText}`
+                `Klarte ikke å lagre samtykke, fikk ${respons.status}-feil: ${respons.statusText}`,
+                respons.body
             );
 
             return json("Klarte ikke å lagre samtykke.", { status: 500 });
