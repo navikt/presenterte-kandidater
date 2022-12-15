@@ -66,30 +66,12 @@ const Samtykke: FunctionComponent = () => {
                     </Heading>
                 </div>
                 <Heading level="3" size="medium">
-                    Hvem kan bruke tjenestene?
+                    Hvem kan bruke tjenesten?
                 </Heading>
                 <BodyLong>
-                    Arbeidsgiveren i en virksomhet gir tilganger til sine ansatte i Altinn. Har
-                    flere ansatte fått tilgang til å publisere stillinger på Arbeidsplassen, kan de
-                    se og utføre det samme, også endre det som en annen har lagt inn.
+                    Tjenesten er fremdeles under utvikling, og kun godkjente arbeidsgivere har
+                    tilgang.
                 </BodyLong>
-                <Heading level="3" size="medium">
-                    Bruk av opplysninger i CV-er
-                </Heading>
-                <BodyLong>
-                    Du kan kun bruke opplysninger i CV-er hvis målet er å bemanne, rekruttere eller
-                    oppfordre personer til å søke på stillinger.
-                </BodyLong>
-                <BodyLong>Det er ikke tillatt å bruke CV-er til andre formål, slik som å</BodyLong>
-                <ul>
-                    <li>
-                        bruke opplysninger i forbindelse med salg eller markedsføring av varer eller
-                        tjenester
-                    </li>
-                    <li>tilby arbeidssøkere stillinger der arbeidssøkeren må betale for å søke</li>
-                    <li>tilby personer arbeidstreningsplasser</li>
-                </ul>
-                <BodyLong>NAV vil følge opp brudd på disse vilkårene hvis det forekommer.</BodyLong>
                 <Form method="post">
                     <CheckboxGroup hideLegend legend="Godkjenner du vilkårene?">
                         <Checkbox name="samtykke" value="true">

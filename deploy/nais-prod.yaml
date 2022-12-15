@@ -1,0 +1,38 @@
+apiVersion: nais.io/v1alpha1
+kind: Application
+metadata:
+    name: presenterte-kandidater
+    namespace: toi
+    labels:
+        team: toi
+spec:
+    # prettier-ignore
+    image: {{ image }}
+    port: 3000
+    ingresses:
+        - https://arbeidsgiver.nav.no/kandidatliste
+    liveness:
+        initialDelay: 20
+        path: /kandidatliste/internal/isAlive
+    readiness:
+        initialDelay: 20
+        path: /kandidatliste/internal/isReady
+    tokenx:
+        enabled: true
+    idporten:
+        enabled: true
+        redirectPath: "/kandidatliste/oauth2/callback"
+        frontchannelLogoutPath: "/kandidatliste/oauth2/logout"
+        sidecar:
+            enabled: true
+            level: Level4
+            autoLogin: true
+            autoLoginIgnorePaths:
+                - /kandidatliste/internal/*
+    envFrom:
+        - secret: presenterte-kandidater-toggle
+    env:
+        - name: NODE_EXTRA_CA_CERTS
+          value: /etc/ssl/ca-bundle.pem
+        - name: API_URL
+          value: https://presenterte-kandidater-api.intern.nav.no

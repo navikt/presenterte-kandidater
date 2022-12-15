@@ -59,6 +59,19 @@ jobs:
                   CLUSTER: dev-gcp
                   RESOURCE: deploy/nais-dev.yaml
 
+    deploy-til-prod:
+        name: Deploy til prod-gcp
+        needs: bygg-og-push-docker-image
+        if: github.ref == 'refs/heads/main'
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - uses: nais/deploy/actions/deploy@v1
+              env:
+                  APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+                  CLUSTER: prod-gcp
+                  RESOURCE: deploy/nais-prod.yaml
+
     snyk-monitor:
         name: Monitor dependencies with Snyk
         if: github.ref == 'refs/heads/master'
