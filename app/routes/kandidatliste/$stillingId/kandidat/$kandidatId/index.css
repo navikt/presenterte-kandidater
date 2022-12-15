@@ -3,6 +3,7 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 1.5rem;
+    padding: 1rem;
 }
 
 .kandidatside--navigering {
@@ -13,6 +14,14 @@
 
 .kandidatside--velg-status-desktop {
     display: none;
+}
+
+.kandidatside--velg-status-mobil label {
+    padding: 0.5rem 0;
+}
+
+.kandidatside--velg-status-mobil button {
+    margin-top: 1rem;
 }
 
 .kandidatside--velg-status-desktop .navds-toggle-group {

@@ -48,19 +48,16 @@ const Samtykke: FunctionComponent = () => {
     const harSamtykket = useLoaderData<boolean>();
 
     return (
-        <main className="side">
-            <Panel className="samtykkeside">
+        <main className="side samtykkeside">
+            {harSamtykket && (
+                <div className="samtykkeside__tilbakelenke">
+                    <Link to={`/kandidatliste?virksomhet=${virksomhet}`} className="navds-link">
+                        <Back /> Tilbake
+                    </Link>
+                </div>
+            )}
+            <Panel className="samtykkeside__vilkår">
                 <div className="samtykkeside__topp">
-                    <div className="samtykkeside__tilbakelenke">
-                        {harSamtykket && (
-                            <Link
-                                to={`/kandidatliste?virksomhet=${virksomhet}`}
-                                className="navds-link"
-                            >
-                                <Back /> Tilbake
-                            </Link>
-                        )}
-                    </div>
                     <Heading level="2" size="large">
                         Vilkår
                     </Heading>

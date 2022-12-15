@@ -8,19 +8,21 @@ header {
 }
 
 .side {
-    margin: 0 auto;
     display: flex;
     flex-direction: column;
     max-width: 56rem;
-    padding: 1rem;
 }
 
 .side a {
     align-self: flex-start;
+
+    /* Gi lenker en minimumshøyde på 44px ved vanlig fontstørrelse */
+    line-height: 2.75rem;
 }
 
 @media (min-width: 40rem) {
     .side {
+        margin: 1rem auto;
         padding: 2rem;
     }
 }

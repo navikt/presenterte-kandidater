@@ -37,8 +37,11 @@ const Kandidatlistevisning = () => {
     const virksomhet = useVirksomhet();
 
     return (
-        <main className="side">
-            <Link to={`/kandidatliste?virksomhet=${virksomhet}`} className="navds-link">
+        <main className="side kandidatlisteside">
+            <Link
+                to={`/kandidatliste?virksomhet=${virksomhet}`}
+                className="navds-link kandidatlisteside__tilbakelenke"
+            >
                 <Back />
                 Alle oppdrag
             </Link>

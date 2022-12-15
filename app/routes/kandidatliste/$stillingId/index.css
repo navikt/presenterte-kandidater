@@ -1,8 +1,16 @@
+.kandidatlisteside {
+    padding: 1rem;
+}
+
 .kandidatlistevisning {
-    margin-top: 2rem;
+    margin: 1rem -1rem;
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+}
+
+.kandidatlisteside__tilbakelenke {
+    margin-bottom: 1rem;
 }
 
 .gruppe-med-kandidater .navds-accordion__content {
@@ -39,5 +47,6 @@
 @media (min-width: 40rem) {
     .kandidatlistevisning {
         padding: 2.5rem;
+        margin: 0;
     }
 }
