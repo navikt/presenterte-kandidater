@@ -15,6 +15,7 @@ import { proxyTilApi } from "~/services/api/proxy";
 import css from "./index.css";
 import useVirksomhet from "~/services/useVirksomhet";
 import { Back } from "@navikt/ds-icons";
+import { logger } from "server/logger";
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: css }];
 
@@ -37,7 +38,11 @@ export const action: ActionFunction = async ({ request }) => {
 
             return redirect(`/kandidatliste?virksomhet=${virksomhet}`);
         } else {
-            throw Error(`${respons.status}: ${respons.statusText}`);
+            logger.error(
+                `Klarte ikke å lagre samtykke, fikk ${respons.status}-feil: ${respons.statusText}`
+            );
+
+            return json("Klarte ikke å lagre samtykke.", { status: 500 });
         }
     }
 };
