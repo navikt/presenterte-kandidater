@@ -4,10 +4,11 @@ import TokenClient from "./TokenClient.server";
 export const client = new TokenClient();
 
 const naisCluster = process.env.NAIS_CLUSTER_NAME;
+const apiUrl = process.env.API_URL;
 
 export const apiConfig = {
     scope: `${naisCluster}:toi:presenterte-kandidater-api`,
-    url: `https://presenterte-kandidater-api.dev.intern.nav.no`,
+    url: apiUrl,
 };
 
 export const proxyTilApi = async (request: Request, url: string, method = "GET", body?: object) => {
