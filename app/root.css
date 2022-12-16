@@ -16,8 +16,12 @@ header {
 .side a {
     align-self: flex-start;
 
-    /* Gi lenker en minimumshøyde på 44px ved vanlig fontstørrelse */
-    line-height: 2.75rem;
+    /* Gi lenker en minimumshøyde på 40px ved vanlig fontstørrelse */
+    line-height: 2.5rem;
+}
+
+#decorator-header {
+    background: white;
 }
 
 @media (min-width: 40rem) {

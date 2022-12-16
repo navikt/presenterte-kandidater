@@ -2,6 +2,10 @@
     padding: 1rem;
 }
 
+.kandidatlister h2 {
+    line-height: 2.5rem;
+}
+
 .kandidatlister__gruppe {
     padding: 0;
     display: flex;
