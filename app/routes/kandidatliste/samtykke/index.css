@@ -7,6 +7,15 @@
     flex-direction: column;
     gap: 1rem;
     margin: 0 -1rem;
+    line-height: 2rem;
+}
+
+.samtykkeside__vilkår h3:not(:first-of-type) {
+    margin-top: 1rem;
+}
+
+.samtykkeside__vilkår ul {
+    margin: 0;
 }
 
 .samtykkeside__topp {
@@ -35,6 +44,7 @@
 
     .samtykkeside__vilkår {
         margin: 0;
+        padding: 2.5rem 2rem;
     }
 
     .samtykkeside__topp {

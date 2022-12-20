@@ -1,10 +1,11 @@
 import { logger } from "server/logger";
+import { hentMiljø, Miljø } from "../miljø";
 import TokenClient from "./TokenClient.server";
 
 export const client = new TokenClient();
 
 const naisCluster = process.env.NAIS_CLUSTER_NAME;
-const apiUrl = process.env.API_URL;
+const apiUrl = hentMiljø() !== Miljø.Lokalt ? process.env.API_URL : "http://localhost:3000";
 
 export const apiConfig = {
     scope: `${naisCluster}:toi:presenterte-kandidater-api`,

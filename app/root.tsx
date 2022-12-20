@@ -52,6 +52,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 
     const samtykkeside = "/kandidatliste/samtykke";
     const erPåSamtykkeside = new URL(request.url).pathname !== samtykkeside;
+
     if (!samtykke.ok && erPåSamtykkeside) {
         return redirect(samtykkeside);
     }
