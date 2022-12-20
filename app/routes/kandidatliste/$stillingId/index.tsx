@@ -1,9 +1,9 @@
 import { Accordion, BodyLong, Heading, Panel } from "@navikt/ds-react";
 import { visVurdering } from "./kandidat/$kandidatId";
 import { Back, Close, DecisionCheck, ExternalLink, Helptext, Like } from "@navikt/ds-icons";
-import { json } from "@remix-run/node";
+import { json, Response } from "@remix-run/node";
 import { Link as NavLink } from "@navikt/ds-react";
-import { Link, useLoaderData } from "@remix-run/react";
+import { Link, useCatch, useLoaderData } from "@remix-run/react";
 import { proxyTilApi } from "~/services/api/proxy";
 import type { LinksFunction, LoaderFunction } from "@remix-run/node";
 import type { ReactNode } from "react";
@@ -14,9 +14,11 @@ import Kandidatsammendrag, {
 } from "~/components/kandidatsammendrag/Kandidatsammendrag";
 import css from "./index.css";
 import useVirksomhet from "~/services/useVirksomhet";
+import IkkeFunnet, { links as ikkeFunnetLinks } from "~/components/ikke-funnet/IkkeFunnet";
 
 export const links: LinksFunction = () => [
     ...kandidatsammendragLinks(),
+    ...ikkeFunnetLinks(),
     {
         rel: "stylesheet",
         href: css,
@@ -26,9 +28,14 @@ export const links: LinksFunction = () => [
 export const loader: LoaderFunction = async ({ request, params }) => {
     const stillingId = params.stillingId;
     const respons = await proxyTilApi(request, `/kandidatliste/${stillingId}`);
-    const kandidatliste: Kandidatliste = await respons.json();
 
-    return json(kandidatliste);
+    if (respons.ok) {
+        return json(await respons.json());
+    } else {
+        throw new Response("Fant ikke kandidatlisten. Har du skrevet inn riktig adresse?", {
+            status: 404,
+        });
+    }
 };
 
 const Kandidatlistevisning = () => {
@@ -54,7 +61,7 @@ const Kandidatlistevisning = () => {
                 </NavLink>
 
                 {kandidater.length === 0 ? (
-                    <BodyLong>Det er foreløbig ingen kandidater i denne kandidatlisten.</BodyLong>
+                    <BodyLong>Det er foreløpig ingen kandidater i denne kandidatlisten.</BodyLong>
                 ) : (
                     <>
                         <GruppeMedKandidater
@@ -141,6 +148,12 @@ const GruppeMedKandidater = ({
             </Accordion.Item>
         </Accordion>
     );
+};
+
+export const CatchBoundary = () => {
+    const caught = useCatch();
+
+    return <IkkeFunnet forklaring={caught.data} />;
 };
 
 export default Kandidatlistevisning;

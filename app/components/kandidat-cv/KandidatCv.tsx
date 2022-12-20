@@ -1,4 +1,4 @@
-import { Dialog, FileContent, Heart, Office1, Office2, Star } from "@navikt/ds-icons";
+import { Dialog, FileContent, Office1, Office2, Star } from "@navikt/ds-icons";
 import { BodyLong, Heading, Panel } from "@navikt/ds-react";
 import type { LinksFunction } from "@remix-run/node";
 import type { FunctionComponent, ReactNode } from "react";
@@ -22,7 +22,7 @@ const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
             <BodyLong>Alder: {cv.alder}</BodyLong>
             <BodyLong>Bosted: {cv.bosted}</BodyLong>
             <BodyLong>Telefon: {cv.mobiltelefonnummer}</BodyLong>
-            <BodyLong>E-post: {cv.epostadresse}</BodyLong>
+            <BodyLong>E-post: {cv.epost}</BodyLong>
             <Gruppe icon={<Star />} tittel="Kompetanse">
                 <Liste elementer={cv.kompetanse} />
             </Gruppe>

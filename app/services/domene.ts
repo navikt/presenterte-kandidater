@@ -50,8 +50,7 @@ export type Cv = {
     alder: number;
     bosted: string;
 
-    harKontaktinformasjon: boolean;
-    epostadresse: string | null;
+    epost: string | null;
     mobiltelefonnummer: string | null;
 };
 

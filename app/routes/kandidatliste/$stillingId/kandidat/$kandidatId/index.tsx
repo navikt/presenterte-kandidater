@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { Link, useActionData, useLoaderData, useParams, useTransition } from "@remix-run/react";
+import {
+    Link,
+    useActionData,
+    useCatch,
+    useLoaderData,
+    useParams,
+    useTransition,
+} from "@remix-run/react";
 import { BodyShort, Button, ReadMore } from "@navikt/ds-react";
 import { json, redirect } from "@remix-run/node";
 import { proxyTilApi } from "~/services/api/proxy";
@@ -15,9 +22,11 @@ import useVirksomhet from "~/services/useVirksomhet";
 import css from "./index.css";
 import Slettemodal from "~/components/slettemodal/Slettemodal";
 import EndreVurdering from "~/components/endre-vurdering/EndreVurdering";
+import IkkeFunnet, { links as ikkeFunnetLinks } from "~/components/ikke-funnet/IkkeFunnet";
 
 export const links: LinksFunction = () => [
     ...kandidatCvLinks(),
+    ...ikkeFunnetLinks(),
     {
         rel: "stylesheet",
         href: css,
@@ -31,16 +40,29 @@ type LoaderData = {
 
 export const loader: LoaderFunction = async ({ request, params }) => {
     const { stillingId, kandidatId } = params;
-    const respons = await proxyTilApi(request, `/kandidatliste/${stillingId}`);
-    const kandidatliste: Kandidatliste = await respons.json();
-    const kandidat = kandidatliste.kandidater.find(
-        (kandidat) => kandidat.kandidat.uuid === kandidatId
-    );
 
-    return json({
-        kandidat,
-        kandidatliste,
-    });
+    const respons = await proxyTilApi(request, `/kandidatliste/${stillingId}`);
+
+    if (respons.ok) {
+        const kandidatliste: Kandidatliste = await respons.json();
+
+        const kandidat = kandidatliste.kandidater.find(
+            (kandidat) => kandidat.kandidat.uuid === kandidatId
+        );
+
+        if (kandidat === undefined) {
+            throw new Response("Fant ikke kandidaten.", { status: 404 });
+        }
+
+        return json({
+            kandidat,
+            kandidatliste,
+        });
+    } else {
+        throw new Response("Fant ikke kandidatlisten. Har du skrevet riktig adresse?", {
+            status: 404,
+        });
+    }
 };
 
 const endreVurdering = async (
@@ -106,6 +128,8 @@ const Kandidatvisning = () => {
     const [visSlettemodal, setVisSlettemodal] = useState<boolean>(false);
     const virksomhet = useVirksomhet();
     const feilmeldinger = useActionData<ActionData>();
+
+    console.log("Heeey hey:", kandidat, kandidatliste);
 
     const transition = useTransition();
     const handling = transition.submission?.formData.get("handling");
@@ -213,6 +237,12 @@ export const visVurdering = (vurdering?: Kandidatvurdering) => {
         default:
             return "Ikke vurdert";
     }
+};
+
+export const CatchBoundary = () => {
+    const caught = useCatch();
+
+    return <IkkeFunnet forklaring={caught.data} />;
 };
 
 export default Kandidatvisning;

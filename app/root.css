@@ -27,6 +27,6 @@ header {
 @media (min-width: 40rem) {
     .side {
         margin: 1rem auto;
-        padding: 2rem;
+        padding: 1rem;
     }
 }
