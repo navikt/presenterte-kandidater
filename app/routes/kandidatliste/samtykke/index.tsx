@@ -133,17 +133,21 @@ const Samtykke: FunctionComponent = () => {
                     </a>
                 </BodyLong>
 
-                <Form method="post">
-                    <CheckboxGroup hideLegend legend="Godkjenner du vilkårene?">
-                        <Checkbox name="samtykke" value="true">
-                            Jeg har lest og godtar vilkårene.
-                        </Checkbox>
-                    </CheckboxGroup>
-                    {feilmelding && (
-                        <BodyShort className="samtykkeside__feilmelding">{feilmelding}</BodyShort>
-                    )}
-                    <Button type="submit">Godta vilkår</Button>
-                </Form>
+                {!harSamtykket && (
+                    <Form method="post">
+                        <CheckboxGroup hideLegend legend="Godkjenner du vilkårene?">
+                            <Checkbox name="samtykke" value="true">
+                                Jeg har lest og godtar vilkårene.
+                            </Checkbox>
+                        </CheckboxGroup>
+                        {feilmelding && (
+                            <BodyShort className="samtykkeside__feilmelding">
+                                {feilmelding}
+                            </BodyShort>
+                        )}
+                        <Button type="submit">Godta vilkår</Button>
+                    </Form>
+                )}
             </Panel>
         </main>
     );
