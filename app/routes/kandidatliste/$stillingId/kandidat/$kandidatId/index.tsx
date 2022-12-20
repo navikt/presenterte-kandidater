@@ -1,23 +1,6 @@
 import { useState } from "react";
-import {
-    Form,
-    Link,
-    useActionData,
-    useLoaderData,
-    useParams,
-    useTransition,
-} from "@remix-run/react";
-import {
-    BodyLong,
-    BodyShort,
-    Button,
-    Heading,
-    Modal,
-    Radio,
-    RadioGroup,
-    ReadMore,
-    ToggleGroup,
-} from "@navikt/ds-react";
+import { Link, useActionData, useLoaderData, useParams, useTransition } from "@remix-run/react";
+import { BodyShort, Button, ReadMore } from "@navikt/ds-react";
 import { json, redirect } from "@remix-run/node";
 import { proxyTilApi } from "~/services/api/proxy";
 import { Back, Next } from "@navikt/ds-icons";
@@ -26,12 +9,12 @@ import KandidatCv, {
     links as kandidatCvLinks,
 } from "~/components/kandidat-cv/KandidatCv";
 import { Kandidatvurdering } from "~/services/domene";
-import Vurderingsikon from "~/components/Vurderingsikon";
-import type { FunctionComponent } from "react";
 import type { Kandidat, Kandidatliste } from "~/services/domene";
 import type { LoaderFunction, LinksFunction, ActionFunction } from "@remix-run/node";
 import useVirksomhet from "~/services/useVirksomhet";
 import css from "./index.css";
+import Slettemodal from "~/components/slettemodal/Slettemodal";
+import EndreVurdering from "~/components/endre-vurdering/EndreVurdering";
 
 export const links: LinksFunction = () => [
     ...kandidatCvLinks(),
@@ -40,6 +23,11 @@ export const links: LinksFunction = () => [
         href: css,
     },
 ];
+
+type LoaderData = {
+    kandidat: Kandidat;
+    kandidatliste: Kandidatliste;
+};
 
 export const loader: LoaderFunction = async ({ request, params }) => {
     const { stillingId, kandidatId } = params;
@@ -55,51 +43,61 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     });
 };
 
-type Handling = "endre-vurdering" | "slett";
+const endreVurdering = async (
+    request: Request,
+    kandidatId: string,
+    vurdering: Kandidatvurdering
+) => {
+    const respons = await proxyTilApi(request, `/kandidat/${kandidatId}/vurdering`, "PUT", {
+        arbeidsgiversVurdering: vurdering,
+    });
 
-export const action: ActionFunction = async ({ request, context, params }) => {
-    const { stillingId, kandidatId } = params;
-    const data = await request.formData();
-    const handling = data.get("handling") as Handling;
-
-    if (handling === "endre-vurdering") {
-        const vurdering = data.get("vurdering");
-        const respons = await proxyTilApi(request, `/kandidat/${kandidatId}/vurdering`, "PUT", {
-            arbeidsgiversVurdering: vurdering,
-        });
-
-        if (respons.ok) {
-            return null;
-        } else {
-            return json<ActionData>({
-                endreVurdering: "Klarte ikke å endre vurdering",
-            });
-        }
-    } else if (handling === "slett") {
-        const respons = await proxyTilApi(request, `/kandidat/${kandidatId}`, "DELETE");
-
-        if (respons.ok) {
-            return redirect(`/kandidatliste/${stillingId}`);
-        } else {
-            return json<ActionData>({
-                slett: "Klarte ikke å slette kandidaten",
-            });
-        }
+    if (respons.ok) {
+        return null;
     } else {
-        throw new Error("Ukjent handling");
+        return json<ActionData>({
+            endreVurdering: "Klarte ikke å endre vurdering",
+        });
     }
 };
 
-type ActionData =
+const slett = async (request: Request, stillingId: string, kandidatId: string) => {
+    const respons = await proxyTilApi(request, `/kandidat/${kandidatId}`, "DELETE");
+
+    if (respons.ok) {
+        return redirect(`/kandidatliste/${stillingId}`);
+    } else {
+        return json<ActionData>({
+            slett: "Klarte ikke å slette kandidaten",
+        });
+    }
+};
+
+type Handling = "endre-vurdering" | "slett";
+
+export type ActionData =
     | undefined
     | {
           slett?: string;
           endreVurdering?: string;
       };
 
-type LoaderData = {
-    kandidat: Kandidat;
-    kandidatliste: Kandidatliste;
+export const action: ActionFunction = async ({ request, context, params }) => {
+    const { stillingId, kandidatId } = params;
+    if (stillingId === undefined || kandidatId === undefined) {
+        throw new Error("Stilling eller kandidat er ikke definert");
+    }
+
+    const formData = await request.formData();
+    const handling = formData.get("handling") as Handling;
+
+    if (handling === "endre-vurdering") {
+        return endreVurdering(request, kandidatId, formData.get("vurdering") as Kandidatvurdering);
+    } else if (handling === "slett") {
+        return slett(request, stillingId, kandidatId);
+    } else {
+        throw new Error("Ukjent handling");
+    }
 };
 
 const Kandidatvisning = () => {
@@ -110,8 +108,7 @@ const Kandidatvisning = () => {
     const feilmeldinger = useActionData<ActionData>();
 
     const transition = useTransition();
-    const sletter = transition.submission?.formData.get("handling") === "slett";
-    const endrerVurdering = transition.submission?.formData.get("handling") === "endre-vurdering";
+    const handling = transition.submission?.formData.get("handling");
 
     const [kandidatvurdering, setKandidatvurdering] = useState<Kandidatvurdering>(
         kandidat.kandidat.arbeidsgiversVurdering
@@ -172,51 +169,14 @@ const Kandidatvisning = () => {
                     </Link>
                 )}
             </div>
-            <Form method="put">
-                <ToggleGroup
-                    className="kandidatside--velg-status-desktop"
-                    label={`For stilling: ${kandidatliste.kandidatliste.tittel}`}
-                    value={kandidatvurdering}
-                    onChange={(value) => setKandidatvurdering(value as Kandidatvurdering)}
-                >
-                    {Object.values(Kandidatvurdering).map((vurdering) => (
-                        <Vurderingsvalg
-                            key={vurdering}
-                            vurdering={vurdering}
-                            valgtVurdering={kandidatvurdering}
-                        />
-                    ))}
-                </ToggleGroup>
 
-                <RadioGroup
-                    className="kandidatside--velg-status-mobil"
-                    legend={`For stilling: ${kandidatliste.kandidatliste.tittel}`}
-                    value={kandidatvurdering}
-                    onChange={setKandidatvurdering}
-                >
-                    {Object.values(Kandidatvurdering).map((vurdering) => (
-                        <Radio key={vurdering} value={vurdering}>
-                            {visVurdering(vurdering)}
-                        </Radio>
-                    ))}
-                    <Button
-                        loading={endrerVurdering}
-                        name="handling"
-                        value="endre-vurdering"
-                        type="submit"
-                        variant="primary"
-                    >
-                        Endre vurdering
-                    </Button>
-                </RadioGroup>
-                <input type="hidden" name="vurdering" value={kandidatvurdering} />
-                <input type="hidden" name="handling" value="endre-vurdering" />
-                {feilmeldinger?.endreVurdering && (
-                    <BodyShort className="kandidatside__feilmeldingIEndringAvVurdering">
-                        {feilmeldinger.endreVurdering}
-                    </BodyShort>
-                )}
-            </Form>
+            <EndreVurdering
+                kandidatliste={kandidatliste}
+                vurdering={kandidatvurdering}
+                setVurdering={setKandidatvurdering}
+                feilmelding={feilmeldinger?.endreVurdering}
+                endrerVurdering={handling === "endre-vurdering"}
+            />
 
             <ReadMore header="Slik virker statusene">
                 Statusene hjelper deg å holde oversikt over kandidatene NAV har sendt deg.
@@ -229,60 +189,14 @@ const Kandidatvisning = () => {
                 Slett kandidat
             </Button>
 
-            <Modal
-                className="kandidatside__slettemodal"
-                open={visSlettemodal}
+            <Slettemodal
+                vis={visSlettemodal}
                 onClose={lukkSlettemodal}
-            >
-                <Heading spacing level="1" size="medium">
-                    Slett kandidat
-                    {kandidat.cv ? ` ${kandidat.cv.fornavn} ${kandidat.cv.etternavn}` : ""}
-                </Heading>
-                <BodyLong>Du kan ikke angre på dette.</BodyLong>
-
-                <Form method="post" className="kandidatside__knapperISlettemodal">
-                    <Button variant="tertiary" onClick={lukkSlettemodal}>
-                        Avbryt
-                    </Button>
-                    <Button
-                        loading={sletter}
-                        type="submit"
-                        name="handling"
-                        value="slett"
-                        variant="primary"
-                    >
-                        Slett
-                    </Button>
-                </Form>
-                {feilmeldinger?.slett && (
-                    <BodyShort
-                        aria-live="assertive"
-                        className="kandidatside__feilmeldingISlettemodal"
-                    >
-                        {feilmeldinger.slett}
-                    </BodyShort>
-                )}
-            </Modal>
+                cv={kandidat.cv}
+                feilmeldinger={feilmeldinger}
+                sletterKandidat={handling === "slett"}
+            />
         </main>
-    );
-};
-
-type VurderingsvalgProps = {
-    valgtVurdering: Kandidatvurdering;
-    vurdering: Kandidatvurdering;
-};
-
-const Vurderingsvalg: FunctionComponent<VurderingsvalgProps> = ({ vurdering }) => {
-    return (
-        <ToggleGroup.Item
-            // @ts-ignore
-            type="submit"
-            name="vurdering"
-            value={vurdering}
-        >
-            <Vurderingsikon vurdering={vurdering} />
-            {visVurdering(vurdering)}
-        </ToggleGroup.Item>
     );
 };
 
