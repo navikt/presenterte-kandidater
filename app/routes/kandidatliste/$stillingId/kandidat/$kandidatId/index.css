@@ -28,6 +28,18 @@
     margin-top: 0.5rem;
 }
 
+.kandidatside__slettemodal {
+    padding: 1.5rem;
+    width: 32rem;
+}
+
+.kandidatside__knapperISlettemodal {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1rem;
+}
+
 @media (min-width: 40rem) {
     .kandidatside--velg-status-desktop {
         display: unset;

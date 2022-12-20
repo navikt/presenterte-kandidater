@@ -1,6 +1,16 @@
 import { useState } from "react";
 import { Form, Link, useLoaderData, useParams } from "@remix-run/react";
-import { BodyShort, Button, Radio, RadioGroup, ReadMore, ToggleGroup } from "@navikt/ds-react";
+import {
+    BodyLong,
+    BodyShort,
+    Button,
+    Heading,
+    Modal,
+    Radio,
+    RadioGroup,
+    ReadMore,
+    ToggleGroup,
+} from "@navikt/ds-react";
 import { json } from "@remix-run/node";
 import { proxyTilApi } from "~/services/api/proxy";
 import { Back, Next } from "@navikt/ds-icons";
@@ -62,11 +72,20 @@ type LoaderData = {
 const Kandidatvisning = () => {
     const { stillingId } = useParams();
     const { kandidat, kandidatliste } = useLoaderData<LoaderData>();
+    const [visSlettemodal, setVisSlettemodal] = useState<boolean>(false);
     const virksomhet = useVirksomhet();
 
     const [kandidatvurdering, setKandidatvurdering] = useState<Kandidatvurdering>(
         kandidat.kandidat.arbeidsgiversVurdering
     );
+
+    const åpneSlettemodal = () => {
+        setVisSlettemodal(true);
+    };
+
+    const lukkSlettemodal = () => {
+        setVisSlettemodal(false);
+    };
 
     const kandidaterMedSammeStatus = kandidatliste.kandidater.filter(
         (annenKandidat) =>
@@ -155,6 +174,28 @@ const Kandidatvisning = () => {
                 Informasjonen blir ikke formidlet videre til kandidaten eller NAV.
             </ReadMore>
             {kandidat.cv ? <KandidatCv cv={kandidat.cv} /> : <KandidatUtenCv />}
+
+            <Button onClick={åpneSlettemodal} variant="secondary">
+                Slett kandidat
+            </Button>
+
+            <Modal
+                className="kandidatside__slettemodal"
+                open={visSlettemodal}
+                onClose={lukkSlettemodal}
+            >
+                <Heading spacing level="1" size="medium">
+                    Slett kandidat
+                    {kandidat.cv ? ` ${kandidat.cv.fornavn} ${kandidat.cv.etternavn}` : ""}
+                </Heading>
+                <BodyLong>Du kan ikke angre på dette.</BodyLong>
+                <div className="kandidatside__knapperISlettemodal">
+                    <Button variant="tertiary" onClick={lukkSlettemodal}>
+                        Avbryt
+                    </Button>
+                    <Button variant="primary">Slett</Button>
+                </div>
+            </Modal>
         </main>
     );
 };
