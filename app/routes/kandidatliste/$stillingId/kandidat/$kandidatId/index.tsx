@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { Form, Link, useLoaderData, useParams } from "@remix-run/react";
+import {
+    Form,
+    Link,
+    useActionData,
+    useLoaderData,
+    useParams,
+    useTransition,
+} from "@remix-run/react";
 import {
     BodyLong,
     BodyShort,
@@ -11,7 +18,7 @@ import {
     ReadMore,
     ToggleGroup,
 } from "@navikt/ds-react";
-import { json } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import { proxyTilApi } from "~/services/api/proxy";
 import { Back, Next } from "@navikt/ds-icons";
 import KandidatCv, {
@@ -48,21 +55,47 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     });
 };
 
+type Handling = "endre-vurdering" | "slett";
+
 export const action: ActionFunction = async ({ request, context, params }) => {
-    const { kandidatId } = params;
-
+    const { stillingId, kandidatId } = params;
     const data = await request.formData();
-    const vurdering = data.get("vurdering");
-    const respons = await proxyTilApi(request, `/kandidat/${kandidatId}/vurdering`, "PUT", {
-        arbeidsgiversVurdering: vurdering,
-    });
+    const handling = data.get("handling") as Handling;
 
-    if (respons.ok) {
-        return null;
+    if (handling === "endre-vurdering") {
+        const vurdering = data.get("vurdering");
+        const respons = await proxyTilApi(request, `/kandidat/${kandidatId}/vurdering`, "PUT", {
+            arbeidsgiversVurdering: vurdering,
+        });
+
+        if (respons.ok) {
+            return null;
+        } else {
+            return json<ActionData>({
+                endreVurdering: "Klarte ikke å endre vurdering",
+            });
+        }
+    } else if (handling === "slett") {
+        const respons = await proxyTilApi(request, `/kandidat/${kandidatId}`, "DELETE");
+
+        if (respons.ok) {
+            return redirect(`/kandidatliste/${stillingId}`);
+        } else {
+            return json<ActionData>({
+                slett: "Klarte ikke å slette kandidaten",
+            });
+        }
     } else {
-        throw new Error("Klarte ikke å endre vurdering");
+        throw new Error("Ukjent handling");
     }
 };
+
+type ActionData =
+    | undefined
+    | {
+          slett?: string;
+          endreVurdering?: string;
+      };
 
 type LoaderData = {
     kandidat: Kandidat;
@@ -74,6 +107,11 @@ const Kandidatvisning = () => {
     const { kandidat, kandidatliste } = useLoaderData<LoaderData>();
     const [visSlettemodal, setVisSlettemodal] = useState<boolean>(false);
     const virksomhet = useVirksomhet();
+    const feilmeldinger = useActionData<ActionData>();
+
+    const transition = useTransition();
+    const sletter = transition.submission?.formData.get("handling") === "slett";
+    const endrerVurdering = transition.submission?.formData.get("handling") === "endre-vurdering";
 
     const [kandidatvurdering, setKandidatvurdering] = useState<Kandidatvurdering>(
         kandidat.kandidat.arbeidsgiversVurdering
@@ -161,11 +199,23 @@ const Kandidatvisning = () => {
                             {visVurdering(vurdering)}
                         </Radio>
                     ))}
-                    <Button type="submit" variant="primary">
+                    <Button
+                        loading={endrerVurdering}
+                        name="handling"
+                        value="endre-vurdering"
+                        type="submit"
+                        variant="primary"
+                    >
                         Endre vurdering
                     </Button>
                 </RadioGroup>
                 <input type="hidden" name="vurdering" value={kandidatvurdering} />
+                <input type="hidden" name="handling" value="endre-vurdering" />
+                {feilmeldinger?.endreVurdering && (
+                    <BodyShort className="kandidatside__feilmeldingIEndringAvVurdering">
+                        {feilmeldinger.endreVurdering}
+                    </BodyShort>
+                )}
             </Form>
 
             <ReadMore header="Slik virker statusene">
@@ -189,12 +239,29 @@ const Kandidatvisning = () => {
                     {kandidat.cv ? ` ${kandidat.cv.fornavn} ${kandidat.cv.etternavn}` : ""}
                 </Heading>
                 <BodyLong>Du kan ikke angre på dette.</BodyLong>
-                <div className="kandidatside__knapperISlettemodal">
+
+                <Form method="post" className="kandidatside__knapperISlettemodal">
                     <Button variant="tertiary" onClick={lukkSlettemodal}>
                         Avbryt
                     </Button>
-                    <Button variant="primary">Slett</Button>
-                </div>
+                    <Button
+                        loading={sletter}
+                        type="submit"
+                        name="handling"
+                        value="slett"
+                        variant="primary"
+                    >
+                        Slett
+                    </Button>
+                </Form>
+                {feilmeldinger?.slett && (
+                    <BodyShort
+                        aria-live="assertive"
+                        className="kandidatside__feilmeldingISlettemodal"
+                    >
+                        {feilmeldinger.slett}
+                    </BodyShort>
+                )}
             </Modal>
         </main>
     );

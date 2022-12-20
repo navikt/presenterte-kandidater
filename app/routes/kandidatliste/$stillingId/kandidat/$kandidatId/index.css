@@ -40,6 +40,16 @@
     gap: 1rem;
 }
 
+.kandidatside__feilmeldingISlettemodal {
+    text-align: right;
+}
+
+.kandidatside__feilmeldingISlettemodal,
+.kandidatside__feilmeldingIEndringAvVurdering {
+    margin-top: 0.5rem;
+    color: var(--a-text-danger);
+}
+
 @media (min-width: 40rem) {
     .kandidatside--velg-status-desktop {
         display: unset;

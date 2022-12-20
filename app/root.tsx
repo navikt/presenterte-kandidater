@@ -17,7 +17,7 @@ import {
 } from "@remix-run/react";
 import { configureMock } from "./mocks";
 import { hentMiljø, Miljø } from "./services/miljø";
-import { Panel } from "@navikt/ds-react";
+import { Modal, Panel } from "@navikt/ds-react";
 import { proxyTilApi } from "./services/api/proxy";
 import { settInnDekoratørHosKlienten } from "./services/dekoratør";
 import { useEffect } from "react";
@@ -71,6 +71,7 @@ const App = () => {
 
     useEffect(() => {
         settInnDekoratørHosKlienten();
+        Modal.setAppElement(document.getElementsByTagName("body"));
     }, []);
 
     const visning = organisasjoner.length === 0 ? <IngenOrganisasjoner /> : <Outlet />;
