@@ -6,6 +6,7 @@ import {
     CheckboxGroup,
     Heading,
     Panel,
+    Link as NavLink,
 } from "@navikt/ds-react";
 import { Form, Link, useActionData, useLoaderData } from "@remix-run/react";
 import type { FunctionComponent } from "react";
@@ -123,14 +124,14 @@ const Samtykke: FunctionComponent = () => {
                 </BodyLong>
                 <BodyLong>
                     <span>For mer informasjon, </span>
-                    <a href="https://www.nav.no/personvernerklaering">
+                    <NavLink href="https://www.nav.no/personvernerklaering">
                         se NAVs personvernerklæring
-                    </a>
+                    </NavLink>
                     <br />
                     <span>Har du spørsmål, kan du kontakte oss på </span>
-                    <a href="https://arbeidsgiver.nav.no/kontakt-oss/">
+                    <NavLink href="https://arbeidsgiver.nav.no/kontakt-oss/">
                         Kontakt NAV - arbeidsgiver
-                    </a>
+                    </NavLink>
                 </BodyLong>
 
                 {!harSamtykket && (
