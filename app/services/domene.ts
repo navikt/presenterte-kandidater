@@ -52,6 +52,7 @@ export type Cv = {
 
     epost: string | null;
     mobiltelefonnummer: string | null;
+    telefonnummer: string | null;
 };
 
 type Arbeidserfaring = {

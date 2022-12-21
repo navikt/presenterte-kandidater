@@ -52,6 +52,7 @@ const mocketCv = {
     alder: 30,
     epost: "kristoffer@kandidat.no",
     mobiltelefonnummer: "+47 91234567",
+    telefonnummer: null,
     kompetanse: ["Kniv"],
     arbeidserfaring: [
         {

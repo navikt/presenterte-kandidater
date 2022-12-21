@@ -129,8 +129,6 @@ const Kandidatvisning = () => {
     const virksomhet = useVirksomhet();
     const feilmeldinger = useActionData<ActionData>();
 
-    console.log("Heeey hey:", kandidat, kandidatliste);
-
     const transition = useTransition();
     const handling = transition.submission?.formData.get("handling");
 

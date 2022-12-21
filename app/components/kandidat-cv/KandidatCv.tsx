@@ -12,6 +12,8 @@ type Props = {
 };
 
 const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
+    const telefon = cv.mobiltelefonnummer || cv.telefonnummer;
+
     return (
         <Panel className="kandidat-cv">
             <Heading size="large" level="2">
@@ -20,8 +22,8 @@ const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
                 </span>
             </Heading>
             <BodyLong>Bosted: {cv.bosted}</BodyLong>
-            <BodyLong>Telefon: {cv.mobiltelefonnummer}</BodyLong>
-            <BodyLong>E-post: {cv.epost}</BodyLong>
+            {telefon && <BodyLong>Telefon: {telefon}</BodyLong>}
+            {cv.epost && <BodyLong>E-post: {cv.epost}</BodyLong>}
             <BodyLong>Alder: {cv.alder}</BodyLong>
             <Gruppe icon={<Star />} tittel="Kompetanse">
                 <Liste elementer={cv.kompetanse} />
