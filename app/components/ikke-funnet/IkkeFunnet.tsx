@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import type { LinksFunction } from "@remix-run/node";
 import type { FunctionComponent } from "react";
 import css from "./IkkeFunnet.css";
+import useVirksomhet from "~/services/useVirksomhet";
 
 export const links: LinksFunction = () => {
     return [
@@ -19,10 +20,12 @@ type Props = {
 };
 
 const IkkeFunnet: FunctionComponent<Props> = ({ forklaring }) => {
+    const virksomhet = useVirksomhet();
+
     return (
         <main className="side ikke-funnet-side">
             <div className="ikke-funnet__tilbakelenke">
-                <Link to="/kandidatliste" className="navds-link">
+                <Link to={`/kandidatliste?virksomhet=${virksomhet}`} className="navds-link">
                     <Back />
                     Alle oppdrag
                 </Link>
