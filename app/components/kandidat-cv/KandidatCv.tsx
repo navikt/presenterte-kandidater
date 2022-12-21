@@ -1,5 +1,5 @@
 import { Dialog, FileContent, Office1, Office2, Star } from "@navikt/ds-icons";
-import { BodyLong, Heading, Panel } from "@navikt/ds-react";
+import { BodyLong, BodyShort, Heading, Panel, Tooltip } from "@navikt/ds-react";
 import type { LinksFunction } from "@remix-run/node";
 import type { FunctionComponent, ReactNode } from "react";
 import type { Cv } from "~/services/domene";
@@ -21,10 +21,41 @@ const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
                     {cv.fornavn} {cv.etternavn}
                 </span>
             </Heading>
-            <BodyLong>Bosted: {cv.bosted}</BodyLong>
-            {telefon && <BodyLong>Telefon: {telefon}</BodyLong>}
-            {cv.epost && <BodyLong>E-post: {cv.epost}</BodyLong>}
-            <BodyLong>Alder: {cv.alder}</BodyLong>
+            <dl className="kandidat-cv__personalia">
+                <BodyShort as="dt">Bosted</BodyShort>
+                <BodyShort as="dd">{cv.bosted}</BodyShort>
+
+                {telefon && (
+                    <>
+                        <BodyShort as="dt">Telefon</BodyShort>
+                        <BodyShort as="dd">{telefon}</BodyShort>
+                    </>
+                )}
+
+                {cv.epost && (
+                    <>
+                        <BodyShort as="dt">E-post</BodyShort>
+                        <BodyShort as="dd">
+                            <Tooltip
+                                className="kandidat-cv__epost-tooltip"
+                                content="Skriv en e-post til kandidaten"
+                            >
+                                <a className="kandidat-cv__epost" href={`mailto:${cv.epost}`}>
+                                    {cv.epost}
+                                </a>
+                            </Tooltip>
+                        </BodyShort>
+                    </>
+                )}
+
+                {cv.alder && (
+                    <>
+                        <BodyShort as="dt">Alder</BodyShort>
+                        <BodyShort as="dd">{cv.alder}</BodyShort>
+                    </>
+                )}
+            </dl>
+
             <Gruppe icon={<Star />} tittel="Kompetanse">
                 <Liste elementer={cv.kompetanse} />
             </Gruppe>
