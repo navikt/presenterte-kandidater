@@ -19,10 +19,10 @@ const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
                     {cv.fornavn} {cv.etternavn}
                 </span>
             </Heading>
-            <BodyLong>Alder: {cv.alder}</BodyLong>
             <BodyLong>Bosted: {cv.bosted}</BodyLong>
             <BodyLong>Telefon: {cv.mobiltelefonnummer}</BodyLong>
             <BodyLong>E-post: {cv.epost}</BodyLong>
+            <BodyLong>Alder: {cv.alder}</BodyLong>
             <Gruppe icon={<Star />} tittel="Kompetanse">
                 <Liste elementer={cv.kompetanse} />
             </Gruppe>
