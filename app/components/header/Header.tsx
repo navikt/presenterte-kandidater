@@ -39,7 +39,13 @@ const Header: FunctionComponent<Props> = ({ organisasjoner }) => {
         [orgnummer]
     );
 
-    return <Bedriftsmeny organisasjoner={organisasjoner} orgnrSearchParam={useOrgnrHook} />;
+    return (
+        <Bedriftsmeny
+            sidetittel="Kandidater"
+            organisasjoner={organisasjoner}
+            orgnrSearchParam={useOrgnrHook}
+        />
+    );
 };
 
 export default Header;
