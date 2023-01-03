@@ -60,7 +60,7 @@ type Arbeidserfaring = {
     tilDato: string;
     arbeidsgiver: string;
     sted: string;
-    stillingstittel: string;
+    stillingstittel: string | null;
     beskrivelse: string;
 };
 

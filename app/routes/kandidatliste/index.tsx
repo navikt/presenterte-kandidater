@@ -3,7 +3,6 @@ import { json } from "@remix-run/node";
 import { links as kandidatsammendragCss } from "~/components/kandidatlistesammendrag/Kandidatlistesammendrag";
 import { proxyTilApi } from "~/services/api/proxy";
 import { Link, useLoaderData } from "@remix-run/react";
-import { virksomhetErFeatureTogglet } from "~/services/api/featureToggle";
 import type { Kandidatlistesammendrag } from "~/services/domene";
 import type { LinksFunction } from "@remix-run/server-runtime";
 import type { LoaderFunction } from "@remix-run/node";

@@ -94,12 +94,14 @@ const Gruppe: FunctionComponent<{
 };
 
 const Liste: FunctionComponent<{
-    elementer: string[];
+    elementer: Array<string | null>;
 }> = ({ elementer }) => (
     <ul>
-        {elementer.map((e) => (
-            <li key={e}>{e}</li>
-        ))}
+        {elementer
+            .filter((e) => e !== null)
+            .map((e) => (
+                <li key={e}>{e}</li>
+            ))}
     </ul>
 );
 

@@ -63,6 +63,14 @@ const mocketCv = {
             tilDato: new Date().toISOString(),
             sted: "Kokkestad",
         },
+        {
+            arbeidsgiver: "Nullere",
+            stillingstittel: null,
+            beskrivelse: "Nullable stilling",
+            fraDato: new Date().toISOString(),
+            tilDato: new Date().toISOString(),
+            sted: "Nullstad",
+        },
     ],
     bosted: "Kokkestad",
     utdanning: [
