@@ -25,13 +25,6 @@ export const loader: LoaderFunction = async ({ request }) => {
         virksomhet = hentFørsteVirksomhetsnummer(await organisasjoner.json());
     }
 
-    // Feature-toggle
-    if (!virksomhetErFeatureTogglet(virksomhet)) {
-        return json({
-            harRiktigRolleIAltinn: false,
-        });
-    }
-
     const kandidatlister = await proxyTilApi(
         request,
         `/kandidatlister?virksomhetsnummer=${virksomhet}`
