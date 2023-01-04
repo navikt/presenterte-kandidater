@@ -5,6 +5,7 @@ import type { FunctionComponent, ReactNode } from "react";
 import type {
     Arbeidserfaring as ArbeidserfaringType,
     Utdanning as UtdanningType,
+    Språk as SpråkType,
     Cv,
 } from "~/services/domene";
 import css from "./KandidatCv.css";
@@ -83,7 +84,9 @@ const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
                 ))}
             </Gruppe>
             <Gruppe icon={<Dialog />} tittel="Språk">
-                <Liste elementer={cv.språk.map((s) => s.navn)} />
+                {cv.språk.map((språk) => (
+                    <Språk key={språk.navn} språk={språk} />
+                ))}
             </Gruppe>
         </Panel>
     );
@@ -151,16 +154,30 @@ const Utdanning: FunctionComponent<{ utdanning: UtdanningType }> = ({ utdanning 
             <Heading level="4" size="xsmall">
                 {utdanningsretning}
             </Heading>
-            <p className="kandidat-cv__arbeidsgiver" aria-label="Arbeidsgiver">
+            <p className="kandidat-cv__arbeidsgiver" aria-label="Utdannelsessted">
                 {utdannelsessted}
             </p>
             <p aria-label="Periode">{formaterPeriode(fra, til)}</p>
             <p
                 className="kandidat-cv__arbeidserfaring-beskrivelse"
-                aria-label="Beskrivelse av arbeid"
+                aria-label="Beskrivelse av utdanning"
             >
                 {beskrivelse}
             </p>
+        </div>
+    );
+};
+
+const Språk: FunctionComponent<{ språk: SpråkType }> = ({ språk }) => {
+    const { navn, muntlig, skriftlig } = språk;
+
+    return (
+        <div className="kandidat-cv__arbeidserfaring">
+            <Heading level="4" size="xsmall">
+                {navn}
+            </Heading>
+            <p>Muntlig: {muntlig}</p>
+            <p>Skriftlig: {skriftlig}</p>
         </div>
     );
 };
