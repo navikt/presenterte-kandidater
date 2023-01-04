@@ -2,7 +2,7 @@ import { Dialog, FileContent, Office1, Office2, Star } from "@navikt/ds-icons";
 import { BodyLong, BodyShort, Heading, Panel, Tooltip } from "@navikt/ds-react";
 import type { LinksFunction } from "@remix-run/node";
 import type { FunctionComponent, ReactNode } from "react";
-import type { Cv } from "~/services/domene";
+import type { Arbeidserfaring as ArbeidserfaringType, Cv } from "~/services/domene";
 import css from "./KandidatCv.css";
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: css }];
@@ -60,7 +60,9 @@ const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
                 <Liste elementer={cv.kompetanse} />
             </Gruppe>
             <Gruppe icon={<Office1 />} tittel="Arbeidserfaring">
-                <Liste elementer={cv.arbeidserfaring.map((erfaring) => erfaring.stillingstittel)} />
+                {cv.arbeidserfaring.map((arbeidserfaring) => (
+                    <Arbeidserfaring arbeidserfaring={arbeidserfaring} />
+                ))}
             </Gruppe>
             <Gruppe icon={<FileContent />} tittel="Sammendrag">
                 {cv.sammendrag}
@@ -104,6 +106,43 @@ const Liste: FunctionComponent<{
             ))}
     </ul>
 );
+
+const Arbeidserfaring: FunctionComponent<{ arbeidserfaring: ArbeidserfaringType }> = ({
+    arbeidserfaring,
+}) => {
+    const { arbeidsgiver, beskrivelse, fraDato, tilDato, sted, stillingstittel } = arbeidserfaring;
+
+    return (
+        <div className="kandidat-cv__arbeidserfaring">
+            <Heading level="4" size="xsmall">
+                {stillingstittel}
+            </Heading>
+            <p className="kandidat-cv__arbeidsgiver" aria-label="Arbeidsgiver">
+                {arbeidsgiver}, {sted}
+            </p>
+            <p aria-label="Periode">{formaterPeriode(fraDato, tilDato)}</p>
+            <p
+                className="kandidat-cv__arbeidserfaring-beskrivelse"
+                aria-label="Beskrivelse av arbeid"
+            >
+                {beskrivelse}
+            </p>
+        </div>
+    );
+};
+
+const formaterMånedOgÅr = (dato: string) =>
+    new Date(dato).toLocaleDateString("nb-NO", {
+        month: "long",
+        year: "numeric",
+    });
+
+const formaterPeriode = (fra: string, til?: string) => {
+    const fraMånedÅr = formaterMånedOgÅr(fra);
+    const tilMånedÅr = til ? formaterMånedOgÅr(til) : "I dag";
+
+    return `${fraMånedÅr} - ${tilMånedÅr}`;
+};
 
 export const KandidatUtenCv: FunctionComponent = () => (
     <Panel className="kandidat-cv">

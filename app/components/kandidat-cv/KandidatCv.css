@@ -58,6 +58,22 @@ a.kandidat-cv__epost {
     text-decoration: underline;
 }
 
+.kandidat-cv__arbeidserfaring:not(:last-child) {
+    margin-bottom: 1.5rem;
+}
+
+.kandidat-cv__arbeidsgiver {
+    font-style: italic;
+}
+
+.kandidat-cv__arbeidserfaring > * {
+    margin: 0.25rem 0;
+}
+
+.kandidat-cv__arbeidserfaring-beskrivelse {
+    margin-top: 0.5rem;
+}
+
 @media (min-width: 40rem) {
     .kandidat-cv {
         padding: 2.5rem;

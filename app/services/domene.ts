@@ -55,7 +55,7 @@ export type Cv = {
     telefonnummer: string | null;
 };
 
-type Arbeidserfaring = {
+export type Arbeidserfaring = {
     fraDato: string;
     tilDato: string;
     arbeidsgiver: string;
@@ -64,7 +64,7 @@ type Arbeidserfaring = {
     beskrivelse: string;
 };
 
-type Utdanning = {
+export type Utdanning = {
     utdanningsretning: string;
     beskrivelse: string;
     utdannelsessted: string;
@@ -72,7 +72,7 @@ type Utdanning = {
     til: string;
 };
 
-type Språk = {
+export type Språk = {
     navn: string;
     muntlig: string;
     skriftlig: string;
