@@ -61,7 +61,10 @@ const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
             </Gruppe>
             <Gruppe icon={<Office1 />} tittel="Arbeidserfaring">
                 {cv.arbeidserfaring.map((arbeidserfaring) => (
-                    <Arbeidserfaring arbeidserfaring={arbeidserfaring} />
+                    <Arbeidserfaring
+                        key={`${arbeidserfaring.stillingstittel}-${arbeidserfaring.arbeidsgiver}`}
+                        arbeidserfaring={arbeidserfaring}
+                    />
                 ))}
             </Gruppe>
             <Gruppe icon={<FileContent />} tittel="Sammendrag">
@@ -137,11 +140,11 @@ const formaterMånedOgÅr = (dato: string) =>
         year: "numeric",
     });
 
-const formaterPeriode = (fra: string, til?: string) => {
+const formaterPeriode = (fra: string, til: string | null) => {
     const fraMånedÅr = formaterMånedOgÅr(fra);
     const tilMånedÅr = til ? formaterMånedOgÅr(til) : "I dag";
 
-    return `${fraMånedÅr} - ${tilMånedÅr}`;
+    return `${fraMånedÅr}—${tilMånedÅr}`;
 };
 
 export const KandidatUtenCv: FunctionComponent = () => (

@@ -56,13 +56,13 @@ const mocketCv = {
     kompetanse: ["Kniv"],
     arbeidserfaring: [
         {
-            arbeidsgiver: "Kiwi, Løren",
+            arbeidsgiver: "Kiwi Løren",
             stillingstittel: "Kassamedarbeider",
             beskrivelse:
                 "Kassamedarbeider, varetelling. Ansvarlig for åpning og stenging. Opplæring av sommervikarer og førstehjelpansvarlig.",
             fraDato: new Date().toISOString(),
-            tilDato: new Date().toISOString(),
-            sted: "Kokkestad",
+            tilDato: null,
+            sted: "Oslo",
         },
         {
             arbeidsgiver: "Telenor",

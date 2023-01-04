@@ -57,7 +57,7 @@ export type Cv = {
 
 export type Arbeidserfaring = {
     fraDato: string;
-    tilDato: string;
+    tilDato: string | null;
     arbeidsgiver: string;
     sted: string;
     stillingstittel: string | null;
