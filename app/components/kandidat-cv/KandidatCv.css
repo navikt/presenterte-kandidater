@@ -91,4 +91,8 @@ a.kandidat-cv__epost {
     .kandidat-cv--gruppe-body {
         padding: 1.5rem;
     }
+
+    .kandidat-cv__liste {
+        column-count: 2;
+    }
 }

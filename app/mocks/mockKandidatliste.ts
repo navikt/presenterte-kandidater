@@ -53,7 +53,7 @@ const mocketCv = {
     epost: "kristoffer@kandidat.no",
     mobiltelefonnummer: "+47 91234567",
     telefonnummer: null,
-    kompetanse: ["Kniv"],
+    kompetanse: ["Kniv", "Kutting", "Chopping", "Koking", "Knusing"],
     arbeidserfaring: [
         {
             arbeidsgiver: "Kiwi Løren",

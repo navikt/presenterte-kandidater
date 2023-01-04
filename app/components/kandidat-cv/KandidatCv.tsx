@@ -113,7 +113,7 @@ const Gruppe: FunctionComponent<{
 const Liste: FunctionComponent<{
     elementer: Array<string | null>;
 }> = ({ elementer }) => (
-    <ul>
+    <ul className="kandidat-cv__liste">
         {elementer
             .filter((e) => e !== null)
             .map((e) => (
