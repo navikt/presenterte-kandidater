@@ -33,6 +33,7 @@ header {
 
 @media print {
     #decorator-header,
+    #decorator-footer,
     .navbm-bedriftsmeny {
         display: none;
     }
