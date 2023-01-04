@@ -2,7 +2,11 @@ import { Dialog, FileContent, Office1, Office2, Star } from "@navikt/ds-icons";
 import { BodyLong, BodyShort, Heading, Panel, Tooltip } from "@navikt/ds-react";
 import type { LinksFunction } from "@remix-run/node";
 import type { FunctionComponent, ReactNode } from "react";
-import type { Arbeidserfaring as ArbeidserfaringType, Cv } from "~/services/domene";
+import type {
+    Arbeidserfaring as ArbeidserfaringType,
+    Utdanning as UtdanningType,
+    Cv,
+} from "~/services/domene";
 import css from "./KandidatCv.css";
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: css }];
@@ -71,7 +75,12 @@ const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
                 {cv.sammendrag}
             </Gruppe>
             <Gruppe icon={<Office2 />} tittel="Utdanning">
-                <Liste elementer={cv.utdanning.map((utdanning) => utdanning.beskrivelse)} />
+                {cv.utdanning.map((utdanning) => (
+                    <Utdanning
+                        key={`${utdanning.utdannelsessted}-${utdanning.utdanningsretning}`}
+                        utdanning={utdanning}
+                    />
+                ))}
             </Gruppe>
             <Gruppe icon={<Dialog />} tittel="Språk">
                 <Liste elementer={cv.språk.map((s) => s.navn)} />
@@ -124,6 +133,28 @@ const Arbeidserfaring: FunctionComponent<{ arbeidserfaring: ArbeidserfaringType 
                 {arbeidsgiver}, {sted}
             </p>
             <p aria-label="Periode">{formaterPeriode(fraDato, tilDato)}</p>
+            <p
+                className="kandidat-cv__arbeidserfaring-beskrivelse"
+                aria-label="Beskrivelse av arbeid"
+            >
+                {beskrivelse}
+            </p>
+        </div>
+    );
+};
+
+const Utdanning: FunctionComponent<{ utdanning: UtdanningType }> = ({ utdanning }) => {
+    const { fra, til, beskrivelse, utdannelsessted, utdanningsretning } = utdanning;
+
+    return (
+        <div className="kandidat-cv__arbeidserfaring">
+            <Heading level="4" size="xsmall">
+                {utdanningsretning}
+            </Heading>
+            <p className="kandidat-cv__arbeidsgiver" aria-label="Arbeidsgiver">
+                {utdannelsessted}
+            </p>
+            <p aria-label="Periode">{formaterPeriode(fra, til)}</p>
             <p
                 className="kandidat-cv__arbeidserfaring-beskrivelse"
                 aria-label="Beskrivelse av arbeid"

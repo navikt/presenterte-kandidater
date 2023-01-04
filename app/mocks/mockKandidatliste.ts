@@ -79,7 +79,7 @@ const mocketCv = {
             fra: "2021-09",
             til: "2021-11",
             beskrivelse: "Generell utdanning",
-            utdannelsessted: "Generellandia",
+            utdannelsessted: "Universitetet for generalitet",
             utdanningsretning: "Generalitet",
         },
     ],
