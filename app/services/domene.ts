@@ -74,6 +74,12 @@ export type Utdanning = {
 
 export type Språk = {
     navn: string;
-    muntlig: string;
-    skriftlig: string;
+    muntlig: Språkkompetanse;
+    skriftlig: Språkkompetanse;
 };
+
+export enum Språkkompetanse {
+    Godt = "GODT",
+    Nybegynner = "NYBEGYNNER",
+    IkkeOppgitt = "IKKE_OPPGITT",
+}

@@ -5,6 +5,7 @@ import type {
     Cv,
     Kandidatlistesammendrag,
 } from "~/services/domene";
+import { Språkkompetanse } from "~/services/domene";
 import { Kandidatvurdering } from "~/services/domene";
 
 const mocketKandidatliste = (
@@ -86,8 +87,8 @@ const mocketCv = {
     språk: [
         {
             navn: "Engelsk",
-            muntlig: "Godt",
-            skriftlig: "Svært godt",
+            muntlig: Språkkompetanse.Godt,
+            skriftlig: Språkkompetanse.Nybegynner,
         },
     ],
     sammendrag: "Ønsker å jobbe som kokk",

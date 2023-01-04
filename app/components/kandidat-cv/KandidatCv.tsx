@@ -8,6 +8,7 @@ import type {
     Språk as SpråkType,
     Cv,
 } from "~/services/domene";
+import { Språkkompetanse } from "~/services/domene";
 import css from "./KandidatCv.css";
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: css }];
@@ -176,10 +177,23 @@ const Språk: FunctionComponent<{ språk: SpråkType }> = ({ språk }) => {
             <Heading level="4" size="xsmall">
                 {navn}
             </Heading>
-            <p>Muntlig: {muntlig}</p>
-            <p>Skriftlig: {skriftlig}</p>
+            <p>Muntlig: {språkkompetanseTilVisning(muntlig)}</p>
+            <p>Skriftlig: {språkkompetanseTilVisning(skriftlig)}</p>
         </div>
     );
+};
+
+const språkkompetanseTilVisning = (kompetanse: Språkkompetanse) => {
+    switch (kompetanse) {
+        case Språkkompetanse.Nybegynner:
+            return "Nybegynner";
+        case Språkkompetanse.Godt:
+            return "Godt";
+        case Språkkompetanse.IkkeOppgitt:
+            return "Ikke oppgitt";
+        default:
+            return kompetanse;
+    }
 };
 
 const formaterMånedOgÅr = (dato: string) =>
