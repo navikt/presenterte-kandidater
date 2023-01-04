@@ -79,7 +79,9 @@ export type Språk = {
 };
 
 export enum Språkkompetanse {
-    Godt = "GODT",
-    Nybegynner = "NYBEGYNNER",
     IkkeOppgitt = "IKKE_OPPGITT",
+    Nybegynner = "NYBEGYNNER",
+    Godt = "GODT",
+    VeldigGodt = "VELDIG_GODT",
+    Førstespråk = "FOERSTESPRAAK",
 }

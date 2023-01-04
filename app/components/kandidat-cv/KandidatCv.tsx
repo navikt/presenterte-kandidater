@@ -185,12 +185,16 @@ const Språk: FunctionComponent<{ språk: SpråkType }> = ({ språk }) => {
 
 const språkkompetanseTilVisning = (kompetanse: Språkkompetanse) => {
     switch (kompetanse) {
+        case Språkkompetanse.IkkeOppgitt:
+            return "Ikke oppgitt";
         case Språkkompetanse.Nybegynner:
             return "Nybegynner";
         case Språkkompetanse.Godt:
             return "Godt";
-        case Språkkompetanse.IkkeOppgitt:
-            return "Ikke oppgitt";
+        case Språkkompetanse.VeldigGodt:
+            return "Veldig godt";
+        case Språkkompetanse.Førstespråk:
+            return "Førstespråk";
         default:
             return kompetanse;
     }
