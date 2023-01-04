@@ -59,3 +59,12 @@
         display: none;
     }
 }
+
+@media print {
+    .kandidatside--velg-status-desktop,
+    .kandidatside--velg-status-mobil,
+    .kandidatside__slik-virker-statusene,
+    .kandidatside__slett-kandidat {
+        display: none;
+    }
+}

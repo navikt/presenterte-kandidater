@@ -1,4 +1,4 @@
-import { Dialog, FileContent, Office1, Office2, Star } from "@navikt/ds-icons";
+import { Car, Dialog, FileContent, Office1, Office2, Star } from "@navikt/ds-icons";
 import { BodyLong, BodyShort, Heading, Panel, Tooltip } from "@navikt/ds-react";
 import type { LinksFunction } from "@remix-run/node";
 import type { FunctionComponent, ReactNode } from "react";
@@ -6,6 +6,7 @@ import type {
     Arbeidserfaring as ArbeidserfaringType,
     Utdanning as UtdanningType,
     Språk as SpråkType,
+    Førerkort as FørerkortType,
     Cv,
 } from "~/services/domene";
 import { Språkkompetanse } from "~/services/domene";
@@ -84,11 +85,20 @@ const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
                     />
                 ))}
             </Gruppe>
-            <Gruppe icon={<Dialog />} tittel="Språk">
-                {cv.språk.map((språk) => (
-                    <Språk key={språk.navn} språk={språk} />
-                ))}
-            </Gruppe>
+            {cv.førerkort.length > 0 && (
+                <Gruppe icon={<Car />} tittel="Førerkort">
+                    {cv.førerkort.map((førerkort) => (
+                        <Førerkort key={førerkort.førerkortKodeKlasse} førerkort={førerkort} />
+                    ))}
+                </Gruppe>
+            )}
+            {cv.språk.length > 0 && (
+                <Gruppe icon={<Dialog />} tittel="Språk">
+                    {cv.språk.map((språk) => (
+                        <Språk key={språk.navn} språk={språk} />
+                    ))}
+                </Gruppe>
+            )}
         </Panel>
     );
 };
@@ -180,6 +190,16 @@ const Språk: FunctionComponent<{ språk: SpråkType }> = ({ språk }) => {
             <p>Muntlig: {språkkompetanseTilVisning(muntlig)}</p>
             <p>Skriftlig: {språkkompetanseTilVisning(skriftlig)}</p>
         </div>
+    );
+};
+
+const Førerkort: FunctionComponent<{ førerkort: FørerkortType }> = ({ førerkort }) => {
+    const { førerkortKodeKlasse } = førerkort;
+
+    return (
+        <Heading level="4" size="xsmall">
+            {førerkortKodeKlasse}
+        </Heading>
     );
 };
 

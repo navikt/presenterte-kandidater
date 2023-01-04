@@ -200,14 +200,21 @@ const Kandidatvisning = () => {
                 endrerVurdering={handling === "endre-vurdering"}
             />
 
-            <ReadMore header="Slik virker statusene">
+            <ReadMore
+                className="kandidatside__slik-virker-statusene"
+                header="Slik virker statusene"
+            >
                 Statusene hjelper deg å holde oversikt over kandidatene NAV har sendt deg.
                 <br />
                 Informasjonen blir ikke formidlet videre til kandidaten eller NAV.
             </ReadMore>
             {kandidat.cv ? <KandidatCv cv={kandidat.cv} /> : <KandidatUtenCv />}
 
-            <Button onClick={åpneSlettemodal} variant="secondary">
+            <Button
+                className="kandidatside__slett-kandidat"
+                onClick={åpneSlettemodal}
+                variant="secondary"
+            >
                 Slett kandidat
             </Button>
 

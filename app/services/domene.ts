@@ -49,6 +49,7 @@ export type Cv = {
     sammendrag: string;
     alder: number;
     bosted: string;
+    førerkort: Førerkort[];
 
     epost: string | null;
     mobiltelefonnummer: string | null;
@@ -70,6 +71,10 @@ export type Utdanning = {
     utdannelsessted: string;
     fra: string;
     til: string;
+};
+
+export type Førerkort = {
+    førerkortKodeKlasse: string;
 };
 
 export type Språk = {

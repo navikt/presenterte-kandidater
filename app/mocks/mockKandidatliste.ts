@@ -55,6 +55,11 @@ const mocketCv = {
     mobiltelefonnummer: "+47 91234567",
     telefonnummer: null,
     kompetanse: ["Kniv", "Kutting", "Chopping", "Koking", "Knusing"],
+    førerkort: [
+        {
+            førerkortKodeKlasse: "B – Personbil",
+        },
+    ],
     arbeidserfaring: [
         {
             arbeidsgiver: "Kiwi Løren",
