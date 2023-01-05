@@ -1,4 +1,4 @@
-import { Car, Dialog, FileContent, Office1, Office2, Star } from "@navikt/ds-icons";
+import { Bag, Car, Dialog, FileContent, Office1, Office2, Star } from "@navikt/ds-icons";
 import { BodyLong, BodyShort, Heading, Panel, Tooltip } from "@navikt/ds-react";
 import type { LinksFunction } from "@remix-run/node";
 import type { FunctionComponent, ReactNode } from "react";
@@ -97,6 +97,13 @@ const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
                     );
                 })}
             </Gruppe>
+
+            {cv.fagdokumentasjon.length > 0 && (
+                <Gruppe icon={<Bag />} tittel="Fagbrev, svennebrev og mesterbrev">
+                    <Liste elementer={cv.fagdokumentasjon} />
+                </Gruppe>
+            )}
+
             {cv.førerkort.length > 0 && (
                 <Gruppe icon={<Car />} tittel="Førerkort">
                     {cv.førerkort.map((førerkort) => (

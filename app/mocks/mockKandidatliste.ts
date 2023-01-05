@@ -47,7 +47,7 @@ const mocketKandidat = (
               },
 });
 
-const mocketCv = {
+const mocketCv: Cv = {
     fornavn: "Kristoffer",
     etternavn: "Kandidat",
     alder: 30,
@@ -79,6 +79,7 @@ const mocketCv = {
             sted: "Oslo",
         },
     ],
+    fagdokumentasjon: ["Fagbrev aluminiumskonstruktør", "Fagbrev helsefagarbeider", "Fagbrev kokk"],
     bosted: "Kokkestad",
     utdanning: [
         {
