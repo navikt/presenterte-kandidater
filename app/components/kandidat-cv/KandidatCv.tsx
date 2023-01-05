@@ -2,14 +2,9 @@ import { Car, Dialog, FileContent, Office1, Office2, Star } from "@navikt/ds-ico
 import { BodyLong, BodyShort, Heading, Panel, Tooltip } from "@navikt/ds-react";
 import type { LinksFunction } from "@remix-run/node";
 import type { FunctionComponent, ReactNode } from "react";
-import type {
-    Arbeidserfaring as ArbeidserfaringType,
-    Utdanning as UtdanningType,
-    Språk as SpråkType,
-    Førerkort as FørerkortType,
-    Cv,
-} from "~/services/domene";
+import type { Språk as SpråkType, Førerkort as FørerkortType, Cv } from "~/services/domene";
 import { Språkkompetanse } from "~/services/domene";
+import CvErfaring from "./CvErfaring";
 import css from "./KandidatCv.css";
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: css }];
@@ -67,23 +62,40 @@ const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
                 <Liste elementer={cv.kompetanse} />
             </Gruppe>
             <Gruppe icon={<Office1 />} tittel="Arbeidserfaring">
-                {cv.arbeidserfaring.map((arbeidserfaring) => (
-                    <Arbeidserfaring
-                        key={`${arbeidserfaring.stillingstittel}-${arbeidserfaring.arbeidsgiver}`}
-                        arbeidserfaring={arbeidserfaring}
-                    />
-                ))}
+                {cv.arbeidserfaring.map((arbeidserfaring) => {
+                    const { stillingstittel, arbeidsgiver, beskrivelse, fraDato, tilDato, sted } =
+                        arbeidserfaring;
+
+                    return (
+                        <CvErfaring
+                            key={`${stillingstittel}-${arbeidsgiver}`}
+                            tittel={stillingstittel}
+                            sted={`${arbeidsgiver}, ${sted}`}
+                            beskrivelse={beskrivelse}
+                            fra={fraDato}
+                            til={tilDato}
+                        />
+                    );
+                })}
             </Gruppe>
             <Gruppe icon={<FileContent />} tittel="Sammendrag">
                 {cv.sammendrag}
             </Gruppe>
             <Gruppe icon={<Office2 />} tittel="Utdanning">
-                {cv.utdanning.map((utdanning) => (
-                    <Utdanning
-                        key={`${utdanning.utdannelsessted}-${utdanning.utdanningsretning}`}
-                        utdanning={utdanning}
-                    />
-                ))}
+                {cv.utdanning.map((utdanning) => {
+                    const { fra, til, beskrivelse, utdannelsessted, utdanningsretning } = utdanning;
+
+                    return (
+                        <CvErfaring
+                            key={`${utdanning.utdannelsessted}-${utdanning.utdanningsretning}`}
+                            tittel={utdanningsretning}
+                            sted={utdannelsessted}
+                            beskrivelse={beskrivelse}
+                            fra={fra}
+                            til={til}
+                        />
+                    );
+                })}
             </Gruppe>
             {cv.førerkort.length > 0 && (
                 <Gruppe icon={<Car />} tittel="Førerkort">
@@ -109,15 +121,15 @@ const Gruppe: FunctionComponent<{
     children: ReactNode;
 }> = ({ icon, tittel, children }) => {
     return (
-        <div className="kandidat-cv--gruppe">
+        <section className="kandidat-cv--gruppe">
             <div className="kandidat-cv--gruppe-header">
                 {icon}
                 <Heading level="3" size="small">
                     {tittel}
                 </Heading>
             </div>
-            <div className="kandidat-cv--gruppe-body">{children}</div>
-        </div>
+            {children}
+        </section>
     );
 };
 
@@ -133,56 +145,20 @@ const Liste: FunctionComponent<{
     </ul>
 );
 
-const Arbeidserfaring: FunctionComponent<{ arbeidserfaring: ArbeidserfaringType }> = ({
-    arbeidserfaring,
-}) => {
-    const { arbeidsgiver, beskrivelse, fraDato, tilDato, sted, stillingstittel } = arbeidserfaring;
-
-    return (
-        <div className="kandidat-cv__erfaring">
-            <Heading level="4" size="xsmall">
-                {stillingstittel}
-            </Heading>
-            <p className="kandidat-cv__arbeidsgiver" aria-label="Arbeidsgiver">
-                {arbeidsgiver}, {sted}
-            </p>
-            <p aria-label="Periode">{formaterPeriode(fraDato, tilDato)}</p>
-            <p className="kandidat-cv__erfaring-beskrivelse" aria-label="Beskrivelse av arbeid">
-                {beskrivelse}
-            </p>
-        </div>
-    );
-};
-
-const Utdanning: FunctionComponent<{ utdanning: UtdanningType }> = ({ utdanning }) => {
-    const { fra, til, beskrivelse, utdannelsessted, utdanningsretning } = utdanning;
-
-    return (
-        <div className="kandidat-cv__erfaring">
-            <Heading level="4" size="xsmall">
-                {utdanningsretning}
-            </Heading>
-            <p className="kandidat-cv__arbeidsgiver" aria-label="Utdannelsessted">
-                {utdannelsessted}
-            </p>
-            <p aria-label="Periode">{formaterPeriode(fra, til)}</p>
-            <p className="kandidat-cv__erfaring-beskrivelse" aria-label="Beskrivelse av utdanning">
-                {beskrivelse}
-            </p>
-        </div>
-    );
-};
-
 const Språk: FunctionComponent<{ språk: SpråkType }> = ({ språk }) => {
     const { navn, muntlig, skriftlig } = språk;
 
     return (
         <div className="kandidat-cv__erfaring">
-            <Heading level="4" size="xsmall">
+            <Heading className="kandidat-cv__erfaring-tittel" level="4" size="xsmall">
                 {navn}
             </Heading>
-            <p>Muntlig: {språkkompetanseTilVisning(muntlig)}</p>
-            <p>Skriftlig: {språkkompetanseTilVisning(skriftlig)}</p>
+            <p className="kandidat-cv__erfaring-tekst">
+                Muntlig: {språkkompetanseTilVisning(muntlig)}
+            </p>
+            <p className="kandidat-cv__erfaring-tekst">
+                Skriftlig: {språkkompetanseTilVisning(skriftlig)}
+            </p>
         </div>
     );
 };
@@ -191,7 +167,7 @@ const Førerkort: FunctionComponent<{ førerkort: FørerkortType }> = ({ førerk
     const { førerkortKodeKlasse } = førerkort;
 
     return (
-        <Heading level="4" size="xsmall">
+        <Heading className="kandidat-cv__erfaring-tittel" level="4" size="xsmall">
             {førerkortKodeKlasse}
         </Heading>
     );
@@ -212,22 +188,6 @@ const språkkompetanseTilVisning = (kompetanse: Språkkompetanse) => {
         default:
             return kompetanse;
     }
-};
-
-const formaterMånedOgÅr = (dato: string) => {
-    const månedOgÅr = new Date(dato).toLocaleDateString("nb-NO", {
-        month: "long",
-        year: "numeric",
-    });
-
-    return månedOgÅr[0].toUpperCase() + månedOgÅr.slice(1);
-};
-
-const formaterPeriode = (fra: string, til: string | null) => {
-    const fraMånedÅr = formaterMånedOgÅr(fra);
-    const tilMånedÅr = til ? formaterMånedOgÅr(til) : "I dag";
-
-    return `${fraMånedÅr}—${tilMånedÅr}`;
 };
 
 export const KandidatUtenCv: FunctionComponent = () => (

@@ -27,22 +27,13 @@
     background-color: var(--a-gray-50);
     gap: 1rem;
     padding: 0.5rem 1.5rem;
-    margin: 0 -1rem;
+    margin: 0 -1rem 2rem;
     border-bottom: 1px solid var(--a-gray-400);
 }
 
 .kandidat-cv--gruppe-header svg {
     width: 1.5rem;
     height: 1.5rem;
-}
-
-.kandidat-cv--gruppe-body {
-    padding: 1rem 0;
-}
-
-.kandidat-cv--gruppe-body ul {
-    margin: 0;
-    padding: 0 1rem;
 }
 
 a.kandidat-cv__epost {
@@ -58,28 +49,34 @@ a.kandidat-cv__epost {
     text-decoration: underline;
 }
 
-.kandidat-cv__arbeidsgiver {
-    font-style: italic;
+.kandidat-cv__liste {
+    line-height: 1.5;
+    margin: 0;
+    padding: 0 1.5rem;
 }
 
-.kandidat-cv__erfaring:not(:last-child) {
-    margin-bottom: 1.5rem;
-}
-
-.kandidat-cv__erfaring > * {
-    margin: 0.25rem 0;
-}
-
-.kandidat-cv__erfaring h4 {
+/* Cv-erfaring */
+.kandidat-cv__erfaring-tittel {
     font-size: 1.25rem;
+}
+
+.kandidat-cv__erfaring-tittel {
+    margin-top: 2rem;
+}
+
+.kandidat-cv__erfaring-sted,
+.kandidat-cv__erfaring-periode,
+.kandidat-cv__erfaring-tekst {
+    margin: 0;
+    line-height: 1.5;
+}
+
+.kandidat-cv__erfaring-sted {
+    font-style: italic;
 }
 
 .kandidat-cv__erfaring-beskrivelse {
     margin-top: 0.75rem;
-}
-
-.kandidat-cv__liste {
-    line-height: 1.5;
 }
 
 @media (min-width: 40rem) {
@@ -92,12 +89,12 @@ a.kandidat-cv__epost {
         align-self: center;
     }
 
-    .kandidat-cv--gruppe-header {
-        margin: 0;
+    .kandidat-cv--gruppe {
+        padding: 0 1.5rem;
     }
 
-    .kandidat-cv--gruppe-body {
-        padding: 1.5rem;
+    .kandidat-cv--gruppe-header {
+        margin: 0 -1.5rem 2rem;
     }
 
     .kandidat-cv__liste {
