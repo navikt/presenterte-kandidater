@@ -139,7 +139,7 @@ const Arbeidserfaring: FunctionComponent<{ arbeidserfaring: ArbeidserfaringType 
     const { arbeidsgiver, beskrivelse, fraDato, tilDato, sted, stillingstittel } = arbeidserfaring;
 
     return (
-        <div className="kandidat-cv__arbeidserfaring">
+        <div className="kandidat-cv__erfaring">
             <Heading level="4" size="xsmall">
                 {stillingstittel}
             </Heading>
@@ -147,10 +147,7 @@ const Arbeidserfaring: FunctionComponent<{ arbeidserfaring: ArbeidserfaringType 
                 {arbeidsgiver}, {sted}
             </p>
             <p aria-label="Periode">{formaterPeriode(fraDato, tilDato)}</p>
-            <p
-                className="kandidat-cv__arbeidserfaring-beskrivelse"
-                aria-label="Beskrivelse av arbeid"
-            >
+            <p className="kandidat-cv__erfaring-beskrivelse" aria-label="Beskrivelse av arbeid">
                 {beskrivelse}
             </p>
         </div>
@@ -161,7 +158,7 @@ const Utdanning: FunctionComponent<{ utdanning: UtdanningType }> = ({ utdanning 
     const { fra, til, beskrivelse, utdannelsessted, utdanningsretning } = utdanning;
 
     return (
-        <div className="kandidat-cv__arbeidserfaring">
+        <div className="kandidat-cv__erfaring">
             <Heading level="4" size="xsmall">
                 {utdanningsretning}
             </Heading>
@@ -169,10 +166,7 @@ const Utdanning: FunctionComponent<{ utdanning: UtdanningType }> = ({ utdanning 
                 {utdannelsessted}
             </p>
             <p aria-label="Periode">{formaterPeriode(fra, til)}</p>
-            <p
-                className="kandidat-cv__arbeidserfaring-beskrivelse"
-                aria-label="Beskrivelse av utdanning"
-            >
+            <p className="kandidat-cv__erfaring-beskrivelse" aria-label="Beskrivelse av utdanning">
                 {beskrivelse}
             </p>
         </div>
@@ -183,7 +177,7 @@ const Språk: FunctionComponent<{ språk: SpråkType }> = ({ språk }) => {
     const { navn, muntlig, skriftlig } = språk;
 
     return (
-        <div className="kandidat-cv__arbeidserfaring">
+        <div className="kandidat-cv__erfaring">
             <Heading level="4" size="xsmall">
                 {navn}
             </Heading>
@@ -220,11 +214,14 @@ const språkkompetanseTilVisning = (kompetanse: Språkkompetanse) => {
     }
 };
 
-const formaterMånedOgÅr = (dato: string) =>
-    new Date(dato).toLocaleDateString("nb-NO", {
+const formaterMånedOgÅr = (dato: string) => {
+    const månedOgÅr = new Date(dato).toLocaleDateString("nb-NO", {
         month: "long",
         year: "numeric",
     });
+
+    return månedOgÅr[0].toUpperCase() + månedOgÅr.slice(1);
+};
 
 const formaterPeriode = (fra: string, til: string | null) => {
     const fraMånedÅr = formaterMånedOgÅr(fra);

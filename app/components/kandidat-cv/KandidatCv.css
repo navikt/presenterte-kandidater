@@ -58,20 +58,28 @@ a.kandidat-cv__epost {
     text-decoration: underline;
 }
 
-.kandidat-cv__arbeidserfaring:not(:last-child) {
-    margin-bottom: 1.5rem;
-}
-
 .kandidat-cv__arbeidsgiver {
     font-style: italic;
 }
 
-.kandidat-cv__arbeidserfaring > * {
+.kandidat-cv__erfaring:not(:last-child) {
+    margin-bottom: 1.5rem;
+}
+
+.kandidat-cv__erfaring > * {
     margin: 0.25rem 0;
 }
 
-.kandidat-cv__arbeidserfaring-beskrivelse {
-    margin-top: 0.5rem;
+.kandidat-cv__erfaring h4 {
+    font-size: 1.25rem;
+}
+
+.kandidat-cv__erfaring-beskrivelse {
+    margin-top: 0.75rem;
+}
+
+.kandidat-cv__liste {
+    line-height: 1.5;
 }
 
 @media (min-width: 40rem) {
@@ -94,5 +102,6 @@ a.kandidat-cv__epost {
 
     .kandidat-cv__liste {
         column-count: 2;
+        column-gap: 2rem;
     }
 }
