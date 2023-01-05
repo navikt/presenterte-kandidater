@@ -51,6 +51,7 @@ export type Cv = {
     bosted: string;
     førerkort: Førerkort[];
     fagdokumentasjon: string[];
+    godkjenninger: string[];
 
     epost: string | null;
     mobiltelefonnummer: string | null;

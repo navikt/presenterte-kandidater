@@ -80,6 +80,10 @@ const mocketCv: Cv = {
         },
     ],
     fagdokumentasjon: ["Fagbrev aluminiumskonstruktør", "Fagbrev helsefagarbeider", "Fagbrev kokk"],
+    godkjenninger: [
+        "NS-EN 1418 Gassbeskyttet buesveising Metode 114",
+        "Autorisasjon som sykepleier",
+    ],
     bosted: "Kokkestad",
     utdanning: [
         {

@@ -1,4 +1,13 @@
-import { Bag, Car, Dialog, FileContent, Office1, Office2, Star } from "@navikt/ds-icons";
+import {
+    Attachment,
+    Bag,
+    Car,
+    Dialog,
+    FileContent,
+    Office1,
+    Office2,
+    Star,
+} from "@navikt/ds-icons";
 import { BodyLong, BodyShort, Heading, Panel, Tooltip } from "@navikt/ds-react";
 import type { LinksFunction } from "@remix-run/node";
 import type { FunctionComponent, ReactNode } from "react";
@@ -61,23 +70,6 @@ const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
             <Gruppe icon={<Star />} tittel="Kompetanse">
                 <Liste elementer={cv.kompetanse} />
             </Gruppe>
-            <Gruppe icon={<Office1 />} tittel="Arbeidserfaring">
-                {cv.arbeidserfaring.map((arbeidserfaring) => {
-                    const { stillingstittel, arbeidsgiver, beskrivelse, fraDato, tilDato, sted } =
-                        arbeidserfaring;
-
-                    return (
-                        <CvErfaring
-                            key={`${stillingstittel}-${arbeidsgiver}`}
-                            tittel={stillingstittel}
-                            sted={`${arbeidsgiver}, ${sted}`}
-                            beskrivelse={beskrivelse}
-                            fra={fraDato}
-                            til={tilDato}
-                        />
-                    );
-                })}
-            </Gruppe>
             <Gruppe icon={<FileContent />} tittel="Sammendrag">
                 {cv.sammendrag}
             </Gruppe>
@@ -97,10 +89,31 @@ const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
                     );
                 })}
             </Gruppe>
-
             {cv.fagdokumentasjon.length > 0 && (
                 <Gruppe icon={<Bag />} tittel="Fagbrev, svennebrev og mesterbrev">
                     <Liste elementer={cv.fagdokumentasjon} />
+                </Gruppe>
+            )}
+            <Gruppe icon={<Office1 />} tittel="Arbeidserfaring">
+                {cv.arbeidserfaring.map((arbeidserfaring) => {
+                    const { stillingstittel, arbeidsgiver, beskrivelse, fraDato, tilDato, sted } =
+                        arbeidserfaring;
+
+                    return (
+                        <CvErfaring
+                            key={`${stillingstittel}-${arbeidsgiver}`}
+                            tittel={stillingstittel}
+                            sted={`${arbeidsgiver}, ${sted}`}
+                            beskrivelse={beskrivelse}
+                            fra={fraDato}
+                            til={tilDato}
+                        />
+                    );
+                })}
+            </Gruppe>
+            {cv.godkjenninger.length > 0 && (
+                <Gruppe icon={<Attachment />} tittel="Offentlige godkjenninger">
+                    <Liste elementer={cv.godkjenninger} />
                 </Gruppe>
             )}
 
