@@ -50,6 +50,9 @@ export type Cv = {
     alder: number;
     bosted: string;
     førerkort: Førerkort[];
+    fagdokumentasjon: string[];
+    godkjenninger: string[];
+    andreGodkjenninger: AnnenGodkjenning[];
 
     epost: string | null;
     mobiltelefonnummer: string | null;
@@ -75,6 +78,11 @@ export type Utdanning = {
 
 export type Førerkort = {
     førerkortKodeKlasse: string;
+};
+
+export type AnnenGodkjenning = {
+    tittel: string;
+    dato: string | null;
 };
 
 export type Språk = {

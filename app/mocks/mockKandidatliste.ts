@@ -47,7 +47,7 @@ const mocketKandidat = (
               },
 });
 
-const mocketCv = {
+const mocketCv: Cv = {
     fornavn: "Kristoffer",
     etternavn: "Kandidat",
     alder: 30,
@@ -77,6 +77,21 @@ const mocketCv = {
             fraDato: new Date().toISOString(),
             tilDato: new Date().toISOString(),
             sted: "Oslo",
+        },
+    ],
+    fagdokumentasjon: ["Fagbrev aluminiumskonstruktør", "Fagbrev helsefagarbeider", "Fagbrev kokk"],
+    godkjenninger: [
+        "NS-EN 1418 Gassbeskyttet buesveising Metode 114",
+        "Autorisasjon som sykepleier",
+    ],
+    andreGodkjenninger: [
+        {
+            tittel: "Førstehjelpsinstruktør",
+            dato: "2016-05-01",
+        },
+        {
+            tittel: "Sveisemetode 111 - Dekkede elektroder",
+            dato: null,
         },
     ],
     bosted: "Kokkestad",
