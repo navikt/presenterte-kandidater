@@ -4,16 +4,17 @@ import {
     Car,
     Dialog,
     FileContent,
+    Notes,
     Office1,
     Office2,
     Star,
 } from "@navikt/ds-icons";
 import { BodyLong, BodyShort, Heading, Panel, Tooltip } from "@navikt/ds-react";
 import type { LinksFunction } from "@remix-run/node";
-import type { FunctionComponent, ReactNode } from "react";
-import type { Språk as SpråkType, Førerkort as FørerkortType, Cv } from "~/services/domene";
+import { Fragment, FunctionComponent, ReactNode } from "react";
+import type { Cv, Førerkort as FørerkortType, Språk as SpråkType } from "~/services/domene";
 import { Språkkompetanse } from "~/services/domene";
-import CvErfaring from "./CvErfaring";
+import CvErfaring, { formaterMånedOgÅr } from "./CvErfaring";
 import css from "./KandidatCv.css";
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: css }];
@@ -114,6 +115,31 @@ const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
             {cv.godkjenninger.length > 0 && (
                 <Gruppe icon={<Attachment />} tittel="Offentlige godkjenninger">
                     <Liste elementer={cv.godkjenninger} />
+                </Gruppe>
+            )}
+
+            {cv.andreGodkjenninger.length > 0 && (
+                <Gruppe icon={<Notes />} tittel="Andre godkjenninger">
+                    {cv.andreGodkjenninger.map((godkjenning) => {
+                        const { tittel, dato } = godkjenning;
+
+                        return (
+                            <Fragment key={tittel}>
+                                <Heading
+                                    className="kandidat-cv__erfaring-tittel"
+                                    level="4"
+                                    size="xsmall"
+                                >
+                                    {tittel}
+                                </Heading>
+                                {dato && (
+                                    <p className="kandidat-cv__erfaring-tekst">
+                                        {formaterMånedOgÅr(dato)}
+                                    </p>
+                                )}
+                            </Fragment>
+                        );
+                    })}
                 </Gruppe>
             )}
 

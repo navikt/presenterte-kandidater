@@ -22,7 +22,7 @@ export const CvErfaring: FunctionComponent<Props> = ({ tittel, sted, beskrivelse
     );
 };
 
-const formaterMånedOgÅr = (dato: string) => {
+export const formaterMånedOgÅr = (dato: string) => {
     const månedOgÅr = new Date(dato).toLocaleDateString("nb-NO", {
         month: "long",
         year: "numeric",

@@ -84,6 +84,16 @@ const mocketCv: Cv = {
         "NS-EN 1418 Gassbeskyttet buesveising Metode 114",
         "Autorisasjon som sykepleier",
     ],
+    andreGodkjenninger: [
+        {
+            tittel: "Førstehjelpsinstruktør",
+            dato: "2016-05-01",
+        },
+        {
+            tittel: "Sveisemetode 111 - Dekkede elektroder",
+            dato: null,
+        },
+    ],
     bosted: "Kokkestad",
     utdanning: [
         {
