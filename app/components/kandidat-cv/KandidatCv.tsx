@@ -1,18 +1,26 @@
 import {
     Attachment,
     Bag,
+    Calender,
     Car,
     Dialog,
     FileContent,
-    Notes,
+    Law,
     Office1,
     Office2,
     Star,
 } from "@navikt/ds-icons";
 import { BodyLong, BodyShort, Heading, Panel, Tooltip } from "@navikt/ds-react";
 import type { LinksFunction } from "@remix-run/node";
-import { Fragment, FunctionComponent, ReactNode } from "react";
-import type { Cv, Førerkort as FørerkortType, Språk as SpråkType } from "~/services/domene";
+import type { FunctionComponent, ReactNode } from "react";
+import type {
+    Cv,
+    Førerkort as FørerkortType,
+    Språk as SpråkType,
+    Kurs as KursType,
+} from "~/services/domene";
+import { OmfangEnhet } from "~/services/domene";
+import { Fragment } from "react";
 import { Språkkompetanse } from "~/services/domene";
 import CvErfaring, { formaterMånedOgÅr } from "./CvErfaring";
 import css from "./KandidatCv.css";
@@ -113,13 +121,13 @@ const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
                 })}
             </Gruppe>
             {cv.godkjenninger.length > 0 && (
-                <Gruppe icon={<Attachment />} tittel="Offentlige godkjenninger">
+                <Gruppe icon={<Law />} tittel="Offentlige godkjenninger">
                     <Liste elementer={cv.godkjenninger} />
                 </Gruppe>
             )}
 
             {cv.andreGodkjenninger.length > 0 && (
-                <Gruppe icon={<Notes />} tittel="Andre godkjenninger">
+                <Gruppe icon={<Attachment />} tittel="Andre godkjenninger">
                     {cv.andreGodkjenninger.map((godkjenning) => {
                         const { tittel, dato } = godkjenning;
 
@@ -154,6 +162,14 @@ const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
                 <Gruppe icon={<Dialog />} tittel="Språk">
                     {cv.språk.map((språk) => (
                         <Språk key={språk.navn} språk={språk} />
+                    ))}
+                </Gruppe>
+            )}
+
+            {cv.kurs.length > 0 && (
+                <Gruppe icon={<Calender />} tittel="Kurs">
+                    {cv.kurs.map((kurs) => (
+                        <Kurs key={kurs.tittel} kurs={kurs} />
                     ))}
                 </Gruppe>
             )}
@@ -209,6 +225,29 @@ const Språk: FunctionComponent<{ språk: SpråkType }> = ({ språk }) => {
     );
 };
 
+const Kurs: FunctionComponent<{ kurs: KursType }> = ({ kurs }) => {
+    const { tittel, omfangEnhet, omfangVerdi, tilDato } = kurs;
+
+    return (
+        <div className="kandidat-cv__erfaring">
+            <Heading className="kandidat-cv__erfaring-tittel" level="4" size="xsmall">
+                {tittel}
+            </Heading>
+            {tilDato && <p className="kandidat-cv__erfaring-tekst">{formaterMånedOgÅr(tilDato)}</p>}
+            <p className="kandidat-cv__erfaring-tekst">
+                <span>Varighet: </span>
+                {omfangEnhet && omfangVerdi ? (
+                    <span>
+                        {omfangVerdi} {omfangTilVisning(omfangEnhet)}
+                    </span>
+                ) : (
+                    "Ikke oppgitt"
+                )}
+            </p>
+        </div>
+    );
+};
+
 const Førerkort: FunctionComponent<{ førerkort: FørerkortType }> = ({ førerkort }) => {
     const { førerkortKodeKlasse } = førerkort;
 
@@ -233,6 +272,21 @@ const språkkompetanseTilVisning = (kompetanse: Språkkompetanse) => {
             return "Førstespråk";
         default:
             return kompetanse;
+    }
+};
+
+const omfangTilVisning = (omfangEnhet: OmfangEnhet) => {
+    switch (omfangEnhet) {
+        case OmfangEnhet.Time:
+            return "timer";
+        case OmfangEnhet.Dag:
+            return "dager";
+        case OmfangEnhet.Uke:
+            return "uker";
+        case OmfangEnhet.Måned:
+            return "måneder";
+        default:
+            return omfangEnhet;
     }
 };
 

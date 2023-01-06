@@ -53,6 +53,7 @@ export type Cv = {
     fagdokumentasjon: string[];
     godkjenninger: string[];
     andreGodkjenninger: AnnenGodkjenning[];
+    kurs: Kurs[];
 
     epost: string | null;
     mobiltelefonnummer: string | null;
@@ -84,6 +85,20 @@ export type AnnenGodkjenning = {
     tittel: string;
     dato: string | null;
 };
+
+export type Kurs = {
+    tittel: string;
+    omfangVerdi: number | null;
+    omfangEnhet: OmfangEnhet | null;
+    tilDato: string | null;
+};
+
+export enum OmfangEnhet {
+    Dag = "DAG",
+    Måned = "MANED",
+    Uke = "UKE",
+    Time = "TIME",
+}
 
 export type Språk = {
     navn: string;
