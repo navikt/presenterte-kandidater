@@ -5,7 +5,7 @@ type Props = {
     tittel: string | null;
     sted?: string;
     beskrivelse: string | null;
-    fra: string;
+    fra: string | null;
     til: string | null;
 };
 
@@ -16,7 +16,7 @@ export const CvErfaring: FunctionComponent<Props> = ({ tittel, sted, beskrivelse
                 {tittel}
             </Heading>
             {sted && <p className="kandidat-cv__erfaring-sted">{sted}</p>}
-            <p className="kandidat-cv__erfaring-periode">{formaterPeriode(fra, til)}</p>
+            {fra && <p className="kandidat-cv__erfaring-periode">{formaterPeriode(fra, til)}</p>}
             {beskrivelse && <p className="kandidat-cv__erfaring-beskrivelse">{beskrivelse}</p>}
         </>
     );

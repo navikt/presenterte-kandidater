@@ -104,7 +104,7 @@ export enum OmfangEnhet {
 export type AnnenErfaring = {
     rolle: string;
     beskrivelse: string | null;
-    fraDato: string;
+    fraDato: string | null;
     tilDato: string | null;
 };
 
