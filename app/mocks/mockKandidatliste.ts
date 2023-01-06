@@ -1,9 +1,10 @@
-import type {
+import {
     Kandidatlistestatus,
     Kandidatliste,
     Kandidat,
     Cv,
     Kandidatlistesammendrag,
+    OmfangEnhet,
 } from "~/services/domene";
 import { Språkkompetanse } from "~/services/domene";
 import { Kandidatvurdering } from "~/services/domene";
@@ -92,6 +93,14 @@ const mocketCv: Cv = {
         {
             tittel: "Sveisemetode 111 - Dekkede elektroder",
             dato: null,
+        },
+    ],
+    kurs: [
+        {
+            tittel: "Sanitet nivå 2",
+            tilDato: "2018-01-31",
+            omfangEnhet: OmfangEnhet.Dag,
+            omfangVerdi: 10,
         },
     ],
     bosted: "Kokkestad",

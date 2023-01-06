@@ -11,8 +11,15 @@ import {
 } from "@navikt/ds-icons";
 import { BodyLong, BodyShort, Heading, Panel, Tooltip } from "@navikt/ds-react";
 import type { LinksFunction } from "@remix-run/node";
-import { Fragment, FunctionComponent, ReactNode } from "react";
-import type { Cv, Førerkort as FørerkortType, Språk as SpråkType } from "~/services/domene";
+import type { FunctionComponent, ReactNode } from "react";
+import {
+    Cv,
+    Førerkort as FørerkortType,
+    Språk as SpråkType,
+    Kurs as KursType,
+    OmfangEnhet,
+} from "~/services/domene";
+import { Fragment } from "react";
 import { Språkkompetanse } from "~/services/domene";
 import CvErfaring, { formaterMånedOgÅr } from "./CvErfaring";
 import css from "./KandidatCv.css";
@@ -157,6 +164,14 @@ const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
                     ))}
                 </Gruppe>
             )}
+
+            {cv.kurs.length > 0 && (
+                <Gruppe icon={<Dialog />} tittel="Kurs">
+                    {cv.kurs.map((kurs) => (
+                        <Kurs key={kurs.tittel} kurs={kurs} />
+                    ))}
+                </Gruppe>
+            )}
         </Panel>
     );
 };
@@ -209,6 +224,29 @@ const Språk: FunctionComponent<{ språk: SpråkType }> = ({ språk }) => {
     );
 };
 
+const Kurs: FunctionComponent<{ kurs: KursType }> = ({ kurs }) => {
+    const { tittel, omfangEnhet, omfangVerdi, tilDato } = kurs;
+
+    return (
+        <div className="kandidat-cv__erfaring">
+            <Heading className="kandidat-cv__erfaring-tittel" level="4" size="xsmall">
+                {tittel}
+            </Heading>
+            {tilDato && <p className="kandidat-cv__erfaring-tekst">{formaterMånedOgÅr(tilDato)}</p>}
+            <p className="kandidat-cv__erfaring-tekst">
+                <span>Varighet: </span>
+                {omfangEnhet && omfangVerdi ? (
+                    <span>
+                        {omfangVerdi} {omfangTilVisning(omfangEnhet)}
+                    </span>
+                ) : (
+                    "Ikke oppgitt"
+                )}
+            </p>
+        </div>
+    );
+};
+
 const Førerkort: FunctionComponent<{ førerkort: FørerkortType }> = ({ førerkort }) => {
     const { førerkortKodeKlasse } = førerkort;
 
@@ -233,6 +271,21 @@ const språkkompetanseTilVisning = (kompetanse: Språkkompetanse) => {
             return "Førstespråk";
         default:
             return kompetanse;
+    }
+};
+
+const omfangTilVisning = (omfangEnhet: OmfangEnhet) => {
+    switch (omfangEnhet) {
+        case OmfangEnhet.Time:
+            return "timer";
+        case OmfangEnhet.Dag:
+            return "dager";
+        case OmfangEnhet.Uke:
+            return "uker";
+        case OmfangEnhet.Måned:
+            return "måneder";
+        default:
+            return omfangEnhet;
     }
 };
 
