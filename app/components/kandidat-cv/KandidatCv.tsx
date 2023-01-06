@@ -1,10 +1,11 @@
 import {
     Attachment,
     Bag,
+    Calender,
     Car,
     Dialog,
     FileContent,
-    Notes,
+    Law,
     Office1,
     Office2,
     Star,
@@ -12,13 +13,13 @@ import {
 import { BodyLong, BodyShort, Heading, Panel, Tooltip } from "@navikt/ds-react";
 import type { LinksFunction } from "@remix-run/node";
 import type { FunctionComponent, ReactNode } from "react";
-import {
+import type {
     Cv,
     Førerkort as FørerkortType,
     Språk as SpråkType,
     Kurs as KursType,
-    OmfangEnhet,
 } from "~/services/domene";
+import { OmfangEnhet } from "~/services/domene";
 import { Fragment } from "react";
 import { Språkkompetanse } from "~/services/domene";
 import CvErfaring, { formaterMånedOgÅr } from "./CvErfaring";
@@ -120,13 +121,13 @@ const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
                 })}
             </Gruppe>
             {cv.godkjenninger.length > 0 && (
-                <Gruppe icon={<Attachment />} tittel="Offentlige godkjenninger">
+                <Gruppe icon={<Law />} tittel="Offentlige godkjenninger">
                     <Liste elementer={cv.godkjenninger} />
                 </Gruppe>
             )}
 
             {cv.andreGodkjenninger.length > 0 && (
-                <Gruppe icon={<Notes />} tittel="Andre godkjenninger">
+                <Gruppe icon={<Attachment />} tittel="Andre godkjenninger">
                     {cv.andreGodkjenninger.map((godkjenning) => {
                         const { tittel, dato } = godkjenning;
 
@@ -166,7 +167,7 @@ const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
             )}
 
             {cv.kurs.length > 0 && (
-                <Gruppe icon={<Dialog />} tittel="Kurs">
+                <Gruppe icon={<Calender />} tittel="Kurs">
                     {cv.kurs.map((kurs) => (
                         <Kurs key={kurs.tittel} kurs={kurs} />
                     ))}
