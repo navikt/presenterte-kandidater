@@ -3,6 +3,7 @@ import {
     Bag,
     Calender,
     Car,
+    Cognition,
     Dialog,
     FileContent,
     Law,
@@ -171,6 +172,23 @@ const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
                     {cv.kurs.map((kurs) => (
                         <Kurs key={kurs.tittel} kurs={kurs} />
                     ))}
+                </Gruppe>
+            )}
+
+            {cv.andreErfaringer.length > 0 && (
+                <Gruppe icon={<Cognition />} tittel="Andre erfaringer">
+                    {cv.andreErfaringer.map((erfaring) => {
+                        const { rolle, beskrivelse, fraDato, tilDato } = erfaring;
+                        return (
+                            <CvErfaring
+                                key={rolle}
+                                tittel={rolle}
+                                beskrivelse={beskrivelse}
+                                fra={fraDato}
+                                til={tilDato}
+                            />
+                        );
+                    })}
                 </Gruppe>
             )}
         </Panel>
