@@ -54,6 +54,7 @@ export type Cv = {
     godkjenninger: string[];
     andreGodkjenninger: AnnenGodkjenning[];
     kurs: Kurs[];
+    andreErfaringer: AnnenErfaring[];
 
     epost: string | null;
     mobiltelefonnummer: string | null;
@@ -99,6 +100,13 @@ export enum OmfangEnhet {
     Uke = "UKE",
     Time = "TIME",
 }
+
+export type AnnenErfaring = {
+    rolle: string;
+    beskrivelse: string | null;
+    fraDato: string;
+    tilDato: string | null;
+};
 
 export type Språk = {
     navn: string;

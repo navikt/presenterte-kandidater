@@ -1,11 +1,11 @@
-import {
+import type {
     Kandidatlistestatus,
     Kandidatliste,
     Kandidat,
     Cv,
     Kandidatlistesammendrag,
-    OmfangEnhet,
 } from "~/services/domene";
+import { OmfangEnhet } from "~/services/domene";
 import { Språkkompetanse } from "~/services/domene";
 import { Kandidatvurdering } from "~/services/domene";
 
@@ -101,6 +101,20 @@ const mocketCv: Cv = {
             tilDato: "2018-01-31",
             omfangEnhet: OmfangEnhet.Dag,
             omfangVerdi: 10,
+        },
+    ],
+    andreErfaringer: [
+        {
+            fraDato: new Date().toISOString(),
+            tilDato: new Date().toISOString(),
+            beskrivelse: "Grensejeger i finnmark",
+            rolle: "Millitærtjeneste",
+        },
+        {
+            fraDato: new Date().toISOString(),
+            tilDato: null,
+            beskrivelse: null,
+            rolle: "Fotballtrener",
         },
     ],
     bosted: "Kokkestad",
