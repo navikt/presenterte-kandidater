@@ -6,6 +6,7 @@ import type {
 } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import { json } from "@remix-run/node";
+import parse from "html-react-parser";
 import {
     Links,
     LiveReload,
@@ -19,7 +20,8 @@ import { configureMock } from "./mocks";
 import { hentMiljø, Miljø } from "./services/miljø";
 import { Modal, Panel } from "@navikt/ds-react";
 import { proxyTilApi } from "./services/api/proxy";
-import { settInnDekoratørHosKlienten } from "./services/dekoratør";
+import type { Dekoratørfragmenter } from "./services/dekoratør";
+import hentDekoratør from "./services/dekoratør";
 import { useEffect } from "react";
 import bedriftsmenyStyles from "@navikt/bedriftsmeny/lib/bedriftsmeny.css";
 import designsystemStyles from "@navikt/ds-css/dist/index.css";
@@ -57,20 +59,24 @@ export const loader: LoaderFunction = async ({ request }) => {
         return redirect(samtykkeside);
     }
 
+    const dekoratør = await hentDekoratør();
+
     return json({
+        dekoratør,
         organisasjoner: await organisasjoner.json(),
     });
 };
 
 type LoaderData = {
+    dekoratør: Dekoratørfragmenter;
     organisasjoner: Organisasjon[];
 };
 
 const App = () => {
-    const { organisasjoner } = useLoaderData<LoaderData>();
+    const { organisasjoner, dekoratør } = useLoaderData<LoaderData>();
 
     useEffect(() => {
-        settInnDekoratørHosKlienten();
+        // settInnDekoratørHosKlienten();
         Modal.setAppElement(document.getElementsByTagName("body"));
     }, []);
 
@@ -81,15 +87,19 @@ const App = () => {
             <head>
                 <Meta />
                 <Links />
+                {parse(dekoratør.styles)}
             </head>
             <body>
                 <header>
+                    {parse(dekoratør.header)}
                     <Header organisasjoner={organisasjoner} />
                 </header>
                 {visning}
                 <ScrollRestoration />
                 <RemixScripts />
                 <LiveReload />
+                <footer>{parse(dekoratør.footer)}</footer>
+                {parse(dekoratør.scripts)}
             </body>
         </html>
     );
