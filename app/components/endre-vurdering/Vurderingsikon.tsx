@@ -1,4 +1,4 @@
-import { Helptext, Close, Like, DecisionCheck } from "@navikt/ds-icons";
+import { Helptext, Like, DecisionCheck } from "@navikt/ds-icons";
 import { Kandidatvurdering } from "~/services/domene";
 import type { FunctionComponent } from "react";
 
@@ -11,7 +11,7 @@ const Vurderingsikon: FunctionComponent<Props> = ({ vurdering }) => {
         case Kandidatvurdering.TilVurdering:
             return <Helptext aria-hidden={true} />;
         case Kandidatvurdering.IkkeAktuell:
-            return <Close aria-hidden={true} />;
+            return <Like style={{ transform: "rotate(180deg)" }} aria-hidden={true} />;
         case Kandidatvurdering.Aktuell:
             return <Like aria-hidden={true} />;
         case Kandidatvurdering.FåttJobben:

@@ -1,6 +1,6 @@
 import { Accordion, BodyLong, Heading, Panel } from "@navikt/ds-react";
 import { visVurdering } from "./kandidat/$kandidatId";
-import { Back, Close, DecisionCheck, ExternalLink, Helptext, Like } from "@navikt/ds-icons";
+import { Back, Close, ExternalLink } from "@navikt/ds-icons";
 import { json, Response } from "@remix-run/node";
 import { Link as NavLink } from "@navikt/ds-react";
 import { Link, useCatch, useLoaderData } from "@remix-run/react";
@@ -15,6 +15,7 @@ import Kandidatsammendrag, {
 import css from "./index.css";
 import useVirksomhet from "~/services/useVirksomhet";
 import IkkeFunnet, { links as ikkeFunnetLinks } from "~/components/ikke-funnet/IkkeFunnet";
+import Vurderingsikon from "~/components/endre-vurdering/Vurderingsikon";
 
 export const links: LinksFunction = () => [
     ...kandidatsammendragLinks(),
@@ -66,28 +67,28 @@ const Kandidatlistevisning = () => {
                     <>
                         <GruppeMedKandidater
                             vurdering={Kandidatvurdering.TilVurdering}
-                            icon={<Helptext />}
+                            icon={<Vurderingsikon vurdering={Kandidatvurdering.TilVurdering} />}
                             kandidater={kandidater}
                             stillingId={stillingId}
                         />
 
                         <GruppeMedKandidater
                             vurdering={Kandidatvurdering.Aktuell}
-                            icon={<Like />}
+                            icon={<Vurderingsikon vurdering={Kandidatvurdering.Aktuell} />}
                             kandidater={kandidater}
                             stillingId={stillingId}
                         />
 
                         <GruppeMedKandidater
                             vurdering={Kandidatvurdering.FåttJobben}
-                            icon={<DecisionCheck />}
+                            icon={<Vurderingsikon vurdering={Kandidatvurdering.FåttJobben} />}
                             kandidater={kandidater}
                             stillingId={stillingId}
                         />
 
                         <GruppeMedKandidater
                             vurdering={Kandidatvurdering.IkkeAktuell}
-                            icon={<Close />}
+                            icon={<Vurderingsikon vurdering={Kandidatvurdering.IkkeAktuell} />}
                             kandidater={kandidater}
                             stillingId={stillingId}
                         />
