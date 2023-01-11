@@ -24,7 +24,7 @@ const EndreVurdering: FunctionComponent<Props> = ({
     <Form method="put">
         <ToggleGroup
             className="kandidatside--velg-status-desktop"
-            label={`For stilling: ${kandidatliste.kandidatliste.tittel}`}
+            label={`Vurdering for stilling «${kandidatliste.kandidatliste.tittel}»`}
             value={vurdering}
             onChange={(value) => setVurdering(value as Kandidatvurdering)}
         >

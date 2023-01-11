@@ -7,10 +7,10 @@ import {
     useParams,
     useTransition,
 } from "@remix-run/react";
-import { BodyShort, Button, ReadMore } from "@navikt/ds-react";
+import { Button, ReadMore } from "@navikt/ds-react";
 import { json, redirect } from "@remix-run/node";
 import { proxyTilApi } from "~/services/api/proxy";
-import { Back, Next } from "@navikt/ds-icons";
+import { Back } from "@navikt/ds-icons";
 import KandidatCv, {
     KandidatUtenCv,
     links as kandidatCvLinks,
@@ -144,18 +144,6 @@ const Kandidatvisning = () => {
         setVisSlettemodal(false);
     };
 
-    const kandidaterMedSammeStatus = kandidatliste.kandidater.filter(
-        (annenKandidat) =>
-            annenKandidat.kandidat.arbeidsgiversVurdering ===
-            kandidat.kandidat.arbeidsgiversVurdering
-    );
-
-    const plasseringTilKandidat = kandidaterMedSammeStatus.findIndex(
-        (annenKandidat) => annenKandidat.kandidat.uuid === kandidat.kandidat.uuid
-    );
-    const nesteKandidatMedSammeStatus = kandidaterMedSammeStatus[plasseringTilKandidat + 1];
-    const forrigeKandidatMedSammeStatus = kandidaterMedSammeStatus[plasseringTilKandidat - 1];
-
     return (
         <main className="side kandidatside">
             <Link
@@ -165,32 +153,6 @@ const Kandidatvisning = () => {
                 <Back />
                 Alle kandidater
             </Link>
-            <div className="kandidatside--navigering">
-                <BodyShort>
-                    <b>
-                        {visVurdering(kandidat.kandidat.arbeidsgiversVurdering)} (
-                        {kandidaterMedSammeStatus.length})
-                    </b>
-                </BodyShort>
-                {forrigeKandidatMedSammeStatus && (
-                    <Link
-                        to={`/kandidatliste/${stillingId}/kandidat/${forrigeKandidatMedSammeStatus.kandidat.uuid}?virksomhet=${virksomhet}`}
-                        className="navds-link"
-                    >
-                        <Back />
-                        Forrige
-                    </Link>
-                )}
-                {nesteKandidatMedSammeStatus && (
-                    <Link
-                        to={`/kandidatliste/${stillingId}/kandidat/${nesteKandidatMedSammeStatus.kandidat.uuid}?virksomhet=${virksomhet}`}
-                        className="navds-link"
-                    >
-                        Neste
-                        <Next />
-                    </Link>
-                )}
-            </div>
 
             <EndreVurdering
                 kandidatliste={kandidatliste}
