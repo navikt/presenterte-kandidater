@@ -77,7 +77,7 @@ const App = () => {
     const { organisasjoner, dekoratør } = useLoaderData<LoaderData>();
 
     const miljø = hentMiljø();
-    const erProd = miljø !== Miljø.ProdGcp;
+    const erProd = miljø === Miljø.ProdGcp;
 
     useEffect(() => {
         if (erProd) {

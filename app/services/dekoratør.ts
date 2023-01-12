@@ -1,4 +1,3 @@
-// import { injectDecoratorClientSide } from "@navikt/nav-dekoratoren-moduler";
 import { injectDecoratorClientSide } from "@navikt/nav-dekoratoren-moduler";
 import { fetchDecoratorHtml } from "@navikt/nav-dekoratoren-moduler/ssr";
 import { hentMiljø, Miljø } from "./miljø";
