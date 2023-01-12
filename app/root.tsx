@@ -21,6 +21,7 @@ import { hentMiljø, Miljø } from "./services/miljø";
 import { Modal, Panel } from "@navikt/ds-react";
 import { proxyTilApi } from "./services/api/proxy";
 import type { Dekoratørfragmenter } from "./services/dekoratør";
+import { settInnDekoratørHosKlienten } from "./services/dekoratør";
 import hentDekoratør from "./services/dekoratør";
 import { useEffect } from "react";
 import bedriftsmenyStyles from "@navikt/bedriftsmeny/lib/bedriftsmeny.css";
@@ -75,10 +76,16 @@ type LoaderData = {
 const App = () => {
     const { organisasjoner, dekoratør } = useLoaderData<LoaderData>();
 
+    const miljø = hentMiljø();
+    const erProd = miljø !== Miljø.ProdGcp;
+
     useEffect(() => {
-        // settInnDekoratørHosKlienten();
+        if (erProd) {
+            settInnDekoratørHosKlienten();
+        }
+
         Modal.setAppElement(document.getElementsByTagName("body"));
-    }, []);
+    }, [erProd]);
 
     const visning = organisasjoner.length === 0 ? <IngenOrganisasjoner /> : <Outlet />;
 
@@ -87,19 +94,19 @@ const App = () => {
             <head>
                 <Meta />
                 <Links />
-                {parse(dekoratør.styles)}
+                {!erProd && parse(dekoratør.styles)}
             </head>
             <body>
                 <header>
-                    {parse(dekoratør.header)}
+                    {!erProd && parse(dekoratør.header)}
                     <Header organisasjoner={organisasjoner} />
                 </header>
                 {visning}
                 <ScrollRestoration />
                 <RemixScripts />
                 <LiveReload />
-                <footer>{parse(dekoratør.footer)}</footer>
-                {parse(dekoratør.scripts)}
+                {!erProd && parse(dekoratør.footer)}
+                {!erProd && parse(dekoratør.scripts)}
             </body>
         </html>
     );

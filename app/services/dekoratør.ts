@@ -13,18 +13,18 @@ export type Dekoratørfragmenter = {
 };
 
 const hentDekoratør = async (): Promise<Dekoratørfragmenter> => {
-    if (dekoratør) return dekoratør;
-
     const miljø = hentMiljø();
 
-    // if (miljø === Miljø.Lokalt) {
-    //     return {
-    //         styles: "",
-    //         header: "",
-    //         footer: "",
-    //         scripts: "",
-    //     };
-    // }
+    if (miljø !== Miljø.ProdGcp) {
+        return {
+            styles: "",
+            header: "",
+            footer: "",
+            scripts: "",
+        };
+    }
+
+    if (dekoratør) return dekoratør;
 
     const decorator = await fetchDecoratorHtml({
         env: hentDekoratørMiljø(miljø),
