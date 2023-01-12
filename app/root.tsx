@@ -22,7 +22,6 @@ import { Modal, Panel } from "@navikt/ds-react";
 import { proxyTilApi } from "./services/api/proxy";
 import type { Dekoratørfragmenter } from "./services/dekoratør";
 import { settInnDekoratørHosKlienten } from "./services/dekoratør";
-import hentDekoratør from "./services/dekoratør";
 import { useEffect } from "react";
 import bedriftsmenyStyles from "@navikt/bedriftsmeny/lib/bedriftsmeny.css";
 import designsystemStyles from "@navikt/ds-css/dist/index.css";
@@ -44,7 +43,9 @@ export const links: LinksFunction = () => [
 ];
 
 export const loader: LoaderFunction = async ({ request }) => {
-    if (hentMiljø() === Miljø.Lokalt) {
+    const miljø = hentMiljø();
+
+    if (miljø === Miljø.Lokalt) {
         configureMock();
     }
 
@@ -60,7 +61,8 @@ export const loader: LoaderFunction = async ({ request }) => {
         return redirect(samtykkeside);
     }
 
-    const dekoratør = await hentDekoratør();
+    // const dekoratør = await hentDekoratør();
+    const dekoratør = null;
 
     return json({
         dekoratør,
@@ -69,22 +71,18 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 type LoaderData = {
-    dekoratør: Dekoratørfragmenter;
+    dekoratør: Dekoratørfragmenter | null;
     organisasjoner: Organisasjon[];
 };
 
 const App = () => {
-    const { organisasjoner, dekoratør } = useLoaderData<LoaderData>();
-
-    const erProd = true; // hentMiljø() === Miljø.ProdGcp;
+    const { organisasjoner, dekoratør: ssrDekoratør } = useLoaderData<LoaderData>();
 
     useEffect(() => {
-        if (erProd) {
-            settInnDekoratørHosKlienten();
-        }
+        settInnDekoratørHosKlienten();
 
         Modal.setAppElement(document.getElementsByTagName("body"));
-    }, [erProd]);
+    }, []);
 
     const visning = organisasjoner.length === 0 ? <IngenOrganisasjoner /> : <Outlet />;
 
@@ -93,19 +91,19 @@ const App = () => {
             <head>
                 <Meta />
                 <Links />
-                {!erProd && parse(dekoratør.styles)}
+                {ssrDekoratør && parse(ssrDekoratør.styles)}
             </head>
             <body>
                 <header>
-                    {!erProd && parse(dekoratør.header)}
+                    {ssrDekoratør && parse(ssrDekoratør.header)}
                     <Header organisasjoner={organisasjoner} />
                 </header>
                 {visning}
                 <ScrollRestoration />
                 <RemixScripts />
                 <LiveReload />
-                {!erProd && parse(dekoratør.footer)}
-                {!erProd && parse(dekoratør.scripts)}
+                {ssrDekoratør && parse(ssrDekoratør.footer)}
+                {ssrDekoratør && parse(ssrDekoratør.scripts)}
             </body>
         </html>
     );

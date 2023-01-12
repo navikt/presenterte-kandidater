@@ -12,19 +12,9 @@ export type Dekoratørfragmenter = {
 };
 
 const hentDekoratør = async (): Promise<Dekoratørfragmenter> => {
-    const miljø = hentMiljø();
-
-    if (miljø !== Miljø.ProdGcp) {
-        return {
-            styles: "",
-            header: "",
-            footer: "",
-            scripts: "",
-        };
-    }
-
     if (dekoratør) return dekoratør;
 
+    const miljø = hentMiljø();
     const decorator = await fetchDecoratorHtml({
         env: hentDekoratørMiljø(miljø),
         simple: false,
