@@ -1,9 +1,8 @@
 import Bedriftsmeny from "@navikt/bedriftsmeny";
-import { useCallback, useEffect, useState } from "react";
-import type { Organisasjon } from "@navikt/bedriftsmeny/lib/organisasjon";
 import type { FunctionComponent } from "react";
-import { useSearchParams } from "@remix-run/react";
-import { useNavigate } from "react-router-dom";
+import type { Organisasjon } from "@navikt/bedriftsmeny/lib/organisasjon";
+import { useCallback, useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "@remix-run/react";
 
 type Props = {
     organisasjoner: Organisasjon[];
