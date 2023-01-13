@@ -20,15 +20,16 @@ import { configureMock } from "./mocks";
 import { hentMiljø, Miljø } from "./services/miljø";
 import { Modal, Panel } from "@navikt/ds-react";
 import { proxyTilApi } from "./services/api/proxy";
-import type { Dekoratørfragmenter } from "./services/dekoratør";
 import { settInnDekoratørHosKlienten } from "./services/dekoratør";
 import { useEffect } from "react";
 import bedriftsmenyStyles from "@navikt/bedriftsmeny/lib/bedriftsmeny.css";
 import designsystemStyles from "@navikt/ds-css/dist/index.css";
 import Header from "./components/header/Header";
 import IngenOrganisasjoner from "./components/IngenOrganisasjoner";
+import type { Dekoratørfragmenter } from "./services/dekoratør";
 import type { Organisasjon } from "@navikt/bedriftsmeny/lib/organisasjon";
 import rootCss from "./root.css";
+import { hentDekoratør } from "./services/dekoratør.server";
 
 export const meta: MetaFunction = () => ({
     charset: "utf-8",
