@@ -6,6 +6,7 @@ import type {
 } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import { json } from "@remix-run/node";
+import parse from "html-react-parser";
 import {
     Links,
     LiveReload,
@@ -25,8 +26,10 @@ import bedriftsmenyStyles from "@navikt/bedriftsmeny/lib/bedriftsmeny.css";
 import designsystemStyles from "@navikt/ds-css/dist/index.css";
 import Header from "./components/header/Header";
 import IngenOrganisasjoner from "./components/IngenOrganisasjoner";
+import type { Dekoratørfragmenter } from "./services/dekoratør";
 import type { Organisasjon } from "@navikt/bedriftsmeny/lib/organisasjon";
 import rootCss from "./root.css";
+import { hentDekoratør } from "./services/dekoratør.server";
 
 export const meta: MetaFunction = () => ({
     charset: "utf-8",
@@ -41,7 +44,9 @@ export const links: LinksFunction = () => [
 ];
 
 export const loader: LoaderFunction = async ({ request }) => {
-    if (hentMiljø() === Miljø.Lokalt) {
+    const miljø = hentMiljø();
+
+    if (miljø === Miljø.Lokalt) {
         configureMock();
     }
 
@@ -57,20 +62,26 @@ export const loader: LoaderFunction = async ({ request }) => {
         return redirect(samtykkeside);
     }
 
+    // const dekoratør = await hentDekoratør();
+    const dekoratør = null;
+
     return json({
+        dekoratør,
         organisasjoner: await organisasjoner.json(),
     });
 };
 
 type LoaderData = {
+    dekoratør: Dekoratørfragmenter | null;
     organisasjoner: Organisasjon[];
 };
 
 const App = () => {
-    const { organisasjoner } = useLoaderData<LoaderData>();
+    const { organisasjoner, dekoratør: ssrDekoratør } = useLoaderData<LoaderData>();
 
     useEffect(() => {
         settInnDekoratørHosKlienten();
+
         Modal.setAppElement(document.getElementsByTagName("body"));
     }, []);
 
@@ -81,15 +92,19 @@ const App = () => {
             <head>
                 <Meta />
                 <Links />
+                {ssrDekoratør && parse(ssrDekoratør.styles)}
             </head>
             <body>
                 <header>
+                    {ssrDekoratør && parse(ssrDekoratør.header)}
                     <Header organisasjoner={organisasjoner} />
                 </header>
                 {visning}
                 <ScrollRestoration />
                 <RemixScripts />
                 <LiveReload />
+                {ssrDekoratør && parse(ssrDekoratør.footer)}
+                {ssrDekoratør && parse(ssrDekoratør.scripts)}
             </body>
         </html>
     );
