@@ -62,8 +62,7 @@ export const loader: LoaderFunction = async ({ request }) => {
         return redirect(samtykkeside);
     }
 
-    // const dekoratør = await hentDekoratør();
-    const dekoratør = null;
+    const dekoratør = miljø === Miljø.ProdGcp ? null : await hentDekoratør();
 
     return json({
         dekoratør,
@@ -80,10 +79,12 @@ const App = () => {
     const { organisasjoner, dekoratør: ssrDekoratør } = useLoaderData<LoaderData>();
 
     useEffect(() => {
-        settInnDekoratørHosKlienten();
+        if (ssrDekoratør === null) {
+            settInnDekoratørHosKlienten();
+        }
 
         Modal.setAppElement(document.getElementsByTagName("body"));
-    }, []);
+    }, [ssrDekoratør]);
 
     const visning = organisasjoner.length === 0 ? <IngenOrganisasjoner /> : <Outlet />;
 
