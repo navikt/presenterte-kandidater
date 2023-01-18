@@ -77,13 +77,13 @@ const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
                 )}
             </dl>
 
-            <Gruppe icon={<Star />} tittel="Kompetanse">
+            <Gruppe icon={<Star aria-hidden />} tittel="Kompetanse">
                 <Liste elementer={cv.kompetanse} />
             </Gruppe>
-            <Gruppe icon={<FileContent />} tittel="Sammendrag">
+            <Gruppe icon={<FileContent aria-hidden />} tittel="Sammendrag">
                 {cv.sammendrag}
             </Gruppe>
-            <Gruppe icon={<Office2 />} tittel="Utdanning">
+            <Gruppe icon={<Office2 aria-hidden />} tittel="Utdanning">
                 {cv.utdanning.map((utdanning) => {
                     const { fra, til, beskrivelse, utdannelsessted, utdanningsretning } = utdanning;
 
@@ -100,11 +100,11 @@ const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
                 })}
             </Gruppe>
             {cv.fagdokumentasjon.length > 0 && (
-                <Gruppe icon={<Bag />} tittel="Fagbrev, svennebrev og mesterbrev">
+                <Gruppe icon={<Bag aria-hidden />} tittel="Fagbrev, svennebrev og mesterbrev">
                     <Liste elementer={cv.fagdokumentasjon} />
                 </Gruppe>
             )}
-            <Gruppe icon={<Office1 />} tittel="Arbeidserfaring">
+            <Gruppe icon={<Office1 aria-hidden />} tittel="Arbeidserfaring">
                 {cv.arbeidserfaring.map((arbeidserfaring) => {
                     const { stillingstittel, arbeidsgiver, beskrivelse, fraDato, tilDato, sted } =
                         arbeidserfaring;
@@ -122,13 +122,13 @@ const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
                 })}
             </Gruppe>
             {cv.godkjenninger.length > 0 && (
-                <Gruppe icon={<Law />} tittel="Offentlige godkjenninger">
+                <Gruppe icon={<Law aria-hidden />} tittel="Offentlige godkjenninger">
                     <Liste elementer={cv.godkjenninger} />
                 </Gruppe>
             )}
 
             {cv.andreGodkjenninger.length > 0 && (
-                <Gruppe icon={<Attachment />} tittel="Andre godkjenninger">
+                <Gruppe icon={<Attachment aria-hidden />} tittel="Andre godkjenninger">
                     {cv.andreGodkjenninger.map((godkjenning) => {
                         const { tittel, dato } = godkjenning;
 
@@ -153,14 +153,14 @@ const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
             )}
 
             {cv.førerkort.length > 0 && (
-                <Gruppe icon={<Car />} tittel="Førerkort">
+                <Gruppe icon={<Car aria-hidden />} tittel="Førerkort">
                     {cv.førerkort.map((førerkort) => (
                         <Førerkort key={førerkort.førerkortKodeKlasse} førerkort={førerkort} />
                     ))}
                 </Gruppe>
             )}
             {cv.språk.length > 0 && (
-                <Gruppe icon={<Dialog />} tittel="Språk">
+                <Gruppe icon={<Dialog aria-hidden />} tittel="Språk">
                     {cv.språk.map((språk) => (
                         <Språk key={språk.navn} språk={språk} />
                     ))}
@@ -168,7 +168,7 @@ const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
             )}
 
             {cv.kurs.length > 0 && (
-                <Gruppe icon={<Calender />} tittel="Kurs">
+                <Gruppe icon={<Calender aria-hidden />} tittel="Kurs">
                     {cv.kurs.map((kurs) => (
                         <Kurs key={kurs.tittel} kurs={kurs} />
                     ))}
@@ -176,7 +176,7 @@ const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
             )}
 
             {cv.andreErfaringer.length > 0 && (
-                <Gruppe icon={<Cognition />} tittel="Andre erfaringer">
+                <Gruppe icon={<Cognition aria-hidden />} tittel="Andre erfaringer">
                     {cv.andreErfaringer.map((erfaring) => {
                         const { rolle, beskrivelse, fraDato, tilDato } = erfaring;
                         return (
