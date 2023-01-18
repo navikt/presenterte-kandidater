@@ -59,7 +59,7 @@ const Samtykke: FunctionComponent = () => {
             {harSamtykket && (
                 <div className="samtykkeside__tilbakelenke">
                     <Link to={`/kandidatliste?virksomhet=${virksomhet}`} className="navds-link">
-                        <Back /> Tilbake
+                        <Back aria-hidden /> Tilbake
                     </Link>
                 </div>
             )}
@@ -127,7 +127,8 @@ const Samtykke: FunctionComponent = () => {
                     <NavLink href="https://www.nav.no/personvernerklaering">
                         se NAVs personvernerklæring
                     </NavLink>
-                    <br />
+                </BodyLong>
+                <BodyLong>
                     <span>Har du spørsmål, kan du kontakte oss på </span>
                     <NavLink href="https://arbeidsgiver.nav.no/kontakt-oss/">
                         Kontakt NAV - arbeidsgiver

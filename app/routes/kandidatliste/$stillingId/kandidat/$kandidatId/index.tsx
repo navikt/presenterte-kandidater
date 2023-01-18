@@ -150,7 +150,7 @@ const Kandidatvisning = () => {
                 to={`/kandidatliste/${stillingId}?virksomhet=${virksomhet}`}
                 className="navds-link"
             >
-                <Back />
+                <Back aria-hidden />
                 Alle kandidater
             </Link>
 

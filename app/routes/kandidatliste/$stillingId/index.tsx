@@ -50,15 +50,17 @@ const Kandidatlistevisning = () => {
                 to={`/kandidatliste?virksomhet=${virksomhet}`}
                 className="navds-link kandidatlisteside__tilbakelenke"
             >
-                <Back />
+                <Back aria-hidden />
                 Alle oppdrag
             </Link>
             <Panel className="kandidatlistevisning">
-                <Heading size="medium">{tittel}</Heading>
+                <Heading level="2" size="medium">
+                    {tittel}
+                </Heading>
 
                 <NavLink href={`https://www.nav.no/arbeid/stilling/${stillingId}`} target="__blank">
                     Se stilling
-                    <ExternalLink />
+                    <ExternalLink aria-hidden />
                 </NavLink>
 
                 {kandidater.length === 0 ? (
@@ -130,9 +132,9 @@ const GruppeMedKandidater = ({
                 <Accordion.Header>
                     <div className="gruppe-med-kandidater--header">
                         {icon}
-                        <span>
+                        <Heading level="3" size="small">
                             {visVurdering(vurdering)} ({kandidaterMedGittStatus.length})
-                        </span>
+                        </Heading>
                     </div>
                 </Accordion.Header>
                 <Accordion.Content>

@@ -4,6 +4,7 @@
     align-items: flex-start;
 }
 
-.kandidatsammendrag a {
+.kandidatsammendrag a,
+.kandidatsammendrag__punkt {
     font-weight: bold;
 }

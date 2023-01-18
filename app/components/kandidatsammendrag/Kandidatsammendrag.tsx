@@ -33,11 +33,11 @@ const Kandidatsammendrag: FunctionComponent<Props> = ({ kandidat, stillingId }) 
                 <span>{visKandidatnavn(kandidat.cv)}</span>
             </Link>
             <BodyShort>
-                <b>Kompetanse: </b>
+                <span className="kandidatsammendrag__punkt">Kompetanse: </span>
                 <span>{kompetanse.join(", ")}</span>
             </BodyShort>
             <BodyShort>
-                <b>Arbeidserfaring: </b>
+                <span className="kandidatsammendrag__punkt">Arbeidserfaring: </span>
                 <span>
                     {arbeidserfaring.map((erfaring) => erfaring.stillingstittel).join(", ")}
                 </span>

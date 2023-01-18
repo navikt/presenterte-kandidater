@@ -20,7 +20,7 @@ const Slettemodal: FunctionComponent<Props> = ({
     feilmeldinger,
 }) => (
     <Modal className="kandidatside__slettemodal" open={vis} onClose={onClose}>
-        <Heading spacing level="1" size="medium">
+        <Heading spacing level="2" size="medium">
             Slett kandidat
             {cv ? ` ${cv.fornavn} ${cv.etternavn}` : ""}
         </Heading>
