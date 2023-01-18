@@ -15,8 +15,6 @@ body {
 
 .side a {
     align-self: flex-start;
-
-    /* Gi lenker en minimumshøyde på 40px ved vanlig fontstørrelse */
     line-height: 2rem;
 }
 
