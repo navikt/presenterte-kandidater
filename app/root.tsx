@@ -89,17 +89,17 @@ const App = () => {
     const visning = organisasjoner.length === 0 ? <IngenOrganisasjoner /> : <Outlet />;
 
     return (
-        <html lang="no">
+        <html lang="nb">
             <head>
                 <Meta />
                 <Links />
                 {ssrDekoratør && parse(ssrDekoratør.styles)}
             </head>
             <body>
-                <header>
+                <div className="dekorator-og-bedriftsmeny">
                     {ssrDekoratør && parse(ssrDekoratør.header)}
                     <Header organisasjoner={organisasjoner} />
-                </header>
+                </div>
                 {visning}
                 <ScrollRestoration />
                 <RemixScripts />
