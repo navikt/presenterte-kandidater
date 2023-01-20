@@ -54,7 +54,7 @@ const Kandidatlistevisning = () => {
                 Alle oppdrag
             </Link>
             <Panel className="kandidatlistevisning">
-                <Heading level="2" size="medium">
+                <Heading aria-label={`Kandidater til stilling «${tittel}»`} level="2" size="medium">
                     {tittel}
                 </Heading>
 
