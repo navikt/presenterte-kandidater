@@ -30,23 +30,21 @@ export const hentBrødsmulesti = (miljø: Miljø) => {
                 url: "https://arbeidsgiver.nav.no/min-side-arbeidsgiver/",
             },
             {
-                title: "Kandidatlister",
+                title: "Kandidater til dine stillinger",
                 url: "https://arbeidsgiver.nav.no/kandidatliste/",
             },
         ];
-    } else if (miljø === Miljø.DevGcp) {
+    } else {
         return [
             {
                 title: "Min side – arbeidsgiver",
                 url: "https://min-side-arbeidsgiver.dev.nav.no/min-side-arbeidsgiver/",
             },
             {
-                title: "Kandidatlister",
+                title: "Kandidater til dine stillinger",
                 url: "https://presenterte-kandidater.dev.nav.no/kandidatliste/",
             },
         ];
-    } else {
-        return [];
     }
 };
 

@@ -24,7 +24,7 @@ const EndreVurdering: FunctionComponent<Props> = ({
     <Form method="put">
         <ToggleGroup
             className="kandidatside--velg-status-desktop"
-            label={`Vurdering for stilling «${kandidatliste.kandidatliste.tittel}»`}
+            label={`Vurdering av kandidat til stilling «${kandidatliste.kandidatliste.tittel}»`}
             value={vurdering}
             onChange={(value) => setVurdering(value as Kandidatvurdering)}
         >
@@ -35,7 +35,7 @@ const EndreVurdering: FunctionComponent<Props> = ({
 
         <RadioGroup
             className="kandidatside--velg-status-mobil"
-            legend={`For stilling: ${kandidatliste.kandidatliste.tittel}`}
+            legend={`Vurdering av kandidat til stilling «${kandidatliste.kandidatliste.tittel}»`}
             value={vurdering}
             onChange={setVurdering}
         >

@@ -51,7 +51,7 @@ const Kandidatlistevisning = () => {
                 className="navds-link kandidatlisteside__tilbakelenke"
             >
                 <Back aria-hidden />
-                Alle oppdrag
+                Alle rekrutteringsprosesser
             </Link>
             <Panel className="kandidatlistevisning">
                 <Heading aria-label={`Kandidater til stilling «${tittel}»`} level="2" size="medium">

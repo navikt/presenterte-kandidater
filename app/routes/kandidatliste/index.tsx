@@ -66,7 +66,7 @@ const Kandidatlister = () => {
     return (
         <main className="side kandidatlister">
             <Heading level="2" size="small">
-                Pågående oppdrag
+                Aktive rekrutteringsprosesser
             </Heading>
 
             {pågående.length > 0 ? (
@@ -80,12 +80,12 @@ const Kandidatlister = () => {
                 </ul>
             ) : (
                 <BodyShort className="kandidatlister__tom-gruppe">
-                    <em>Ingen pågående oppdrag</em>
+                    <em>Ingen aktive rekrutteringsprosesser</em>
                 </BodyShort>
             )}
 
             <Heading level="2" size="small">
-                Avsluttede oppdrag
+                Avsluttede rekrutteringsprosesser
             </Heading>
 
             {avsluttede.length > 0 ? (
@@ -99,7 +99,7 @@ const Kandidatlister = () => {
                 </ul>
             ) : (
                 <BodyShort className="kandidatlister__tom-gruppe">
-                    <em>Ingen avsluttede oppdrag</em>
+                    <em>Ingen avsluttede rekrutteringsprosesser</em>
                 </BodyShort>
             )}
             <div className="kandidatlister__samtykkelenke">

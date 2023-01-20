@@ -27,7 +27,7 @@ const IkkeFunnet: FunctionComponent<Props> = ({ forklaring }) => {
             <div className="ikke-funnet__tilbakelenke">
                 <Link to={`/kandidatliste?virksomhet=${virksomhet}`} className="navds-link">
                     <Back aria-hidden />
-                    Alle oppdrag
+                    Alle rekrutteringsprosesser
                 </Link>
             </div>
             <Panel className="ikke-funnet">
