@@ -57,7 +57,10 @@ const EndreVurdering: FunctionComponent<Props> = ({
         <input type="hidden" name="vurdering" value={vurdering} />
         <input type="hidden" name="handling" value="endre-vurdering" />
         {feilmelding && (
-            <BodyShort className="kandidatside__feilmeldingIEndringAvVurdering">
+            <BodyShort
+                aria-live="assertive"
+                className="kandidatside__feilmeldingIEndringAvVurdering"
+            >
                 {feilmelding}
             </BodyShort>
         )}
