@@ -34,13 +34,12 @@ type Props = {
 
 const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
     const telefon = cv.mobiltelefonnummer || cv.telefonnummer;
+    const navn = `${cv.fornavn} ${cv.etternavn}`;
 
     return (
         <Panel className="kandidat-cv">
-            <Heading size="large" level="2">
-                <span>
-                    {cv.fornavn} {cv.etternavn}
-                </span>
+            <Heading aria-label={`CV-en til ${navn}`} size="large" level="2">
+                {navn}
             </Heading>
             <dl className="kandidat-cv__personalia">
                 <BodyShort as="dt">Bosted</BodyShort>
