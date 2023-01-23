@@ -10,15 +10,13 @@ import {
 } from "@navikt/ds-react";
 import { Form, Link, useActionData, useLoaderData } from "@remix-run/react";
 import type { FunctionComponent } from "react";
-import type { ActionFunction, LinksFunction, LoaderFunction } from "@remix-run/node";
+import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { proxyTilApi } from "~/services/api/proxy";
-import css from "./index.css";
 import useVirksomhet from "~/services/useVirksomhet";
 import { Back } from "@navikt/ds-icons";
 import { logger } from "server/logger";
-
-export const links: LinksFunction = () => [{ rel: "stylesheet", href: css }];
+import css from "./index.module.css";
 
 export const loader: LoaderFunction = async ({ request }) => {
     const respons = await proxyTilApi(request, "/samtykke");
@@ -55,16 +53,16 @@ const Samtykke: FunctionComponent = () => {
     const harSamtykket = useLoaderData<boolean>();
 
     return (
-        <main className="side samtykkeside">
+        <main className={"side " + css.samtykkeside}>
             {harSamtykket && (
-                <div className="samtykkeside__tilbakelenke">
+                <div className={css.tilbakelenke}>
                     <Link to={`/kandidatliste?virksomhet=${virksomhet}`} className="navds-link">
                         <Back aria-hidden /> Tilbake
                     </Link>
                 </div>
             )}
-            <Panel className="samtykkeside__vilkår">
-                <div className="samtykkeside__topp">
+            <Panel className={css.vilkår}>
+                <div className={css.topp}>
                     <Heading level="2" size="large">
                         Vilkår for å motta CV-er fra NAV
                     </Heading>
@@ -143,9 +141,7 @@ const Samtykke: FunctionComponent = () => {
                             </Checkbox>
                         </CheckboxGroup>
                         {feilmelding && (
-                            <BodyShort className="samtykkeside__feilmelding">
-                                {feilmelding}
-                            </BodyShort>
+                            <BodyShort className={css.feilmelding}>{feilmelding}</BodyShort>
                         )}
                         <Button type="submit">Godta vilkår</Button>
                     </Form>

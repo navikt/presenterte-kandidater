@@ -6,7 +6,7 @@
     line-height: 2.5rem;
 }
 
-.kandidatlister__gruppe {
+.gruppe {
     padding: 0;
     display: flex;
     flex-direction: column;
@@ -14,11 +14,11 @@
     list-style: none;
 }
 
-.kandidatlister__gruppe,
-.kandidatlister__tom-gruppe {
+.gruppe,
+.tomGruppe {
     margin-bottom: 3rem;
 }
 
-.kandidatlister__samtykkelenke {
+.samtykkelenke {
     margin: 0 auto;
 }

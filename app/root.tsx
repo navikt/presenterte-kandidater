@@ -16,6 +16,7 @@ import {
     ScrollRestoration,
     useLoaderData,
 } from "@remix-run/react";
+import { cssBundleHref } from "@remix-run/css-bundle";
 import { configureMock } from "./mocks";
 import { hentMiljø, Miljø } from "./services/miljø";
 import { Modal, Panel } from "@navikt/ds-react";
@@ -28,8 +29,8 @@ import Header from "./components/header/Header";
 import IngenOrganisasjoner from "./components/IngenOrganisasjoner";
 import type { Dekoratørfragmenter } from "./services/dekoratør";
 import type { Organisasjon } from "@navikt/bedriftsmeny/lib/organisasjon";
-import rootCss from "./root.css";
 import { hentDekoratør } from "./services/dekoratør.server";
+import rootCss from "./root.css";
 
 export const meta: MetaFunction = () => ({
     charset: "utf-8",
@@ -41,6 +42,7 @@ export const links: LinksFunction = () => [
     { rel: "stylesheet", href: rootCss },
     { rel: "stylesheet", href: designsystemStyles },
     { rel: "stylesheet", href: bedriftsmenyStyles },
+    ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
 ];
 
 export const loader: LoaderFunction = async ({ request }) => {

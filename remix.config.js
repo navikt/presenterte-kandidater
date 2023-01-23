@@ -2,4 +2,8 @@
 module.exports = {
     ignoredRouteFiles: ["**/.*", "**/*.css"],
     publicPath: "/kandidatliste/build/",
+    future: {
+        // Bruk CSS-modules
+        unstable_cssModules: true,
+    },
 };
