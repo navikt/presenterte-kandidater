@@ -1,5 +1,6 @@
 import { Heading } from "@navikt/ds-react";
 import type { FunctionComponent } from "react";
+import css from "./CvErfaring.module.css";
 
 type Props = {
     tittel: string | null;
@@ -12,12 +13,12 @@ type Props = {
 export const CvErfaring: FunctionComponent<Props> = ({ tittel, sted, beskrivelse, fra, til }) => {
     return (
         <>
-            <Heading className="kandidat-cv__erfaring-tittel" level="4" size="xsmall">
+            <Heading className={css.tittel} level="4" size="xsmall">
                 {tittel}
             </Heading>
-            {sted && <p className="kandidat-cv__erfaring-sted">{sted}</p>}
-            {fra && <p className="kandidat-cv__erfaring-periode">{formaterPeriode(fra, til)}</p>}
-            {beskrivelse && <p className="kandidat-cv__erfaring-beskrivelse">{beskrivelse}</p>}
+            {sted && <p className={css.sted}>{sted}</p>}
+            {fra && <p className={css.periode}>{formaterPeriode(fra, til)}</p>}
+            {beskrivelse && <p className={css.beskrivelse}>{beskrivelse}</p>}
         </>
     );
 };

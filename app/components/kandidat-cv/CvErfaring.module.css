@@ -1,0 +1,19 @@
+.tittel {
+    font-size: 1.25rem;
+    margin-top: 2rem;
+}
+
+.sted,
+.periode,
+.tekst {
+    margin: 0;
+    line-height: 1.5;
+}
+
+.sted {
+    font-style: italic;
+}
+
+.beskrivelse {
+    margin-top: 0.75rem;
+}

@@ -11,26 +11,15 @@ import { Button, ReadMore } from "@navikt/ds-react";
 import { json, redirect } from "@remix-run/node";
 import { proxyTilApi } from "~/services/api/proxy";
 import { Back } from "@navikt/ds-icons";
-import KandidatCv, {
-    KandidatUtenCv,
-    links as kandidatCvLinks,
-} from "~/components/kandidat-cv/KandidatCv";
+import KandidatCv, { KandidatUtenCv } from "~/components/kandidat-cv/KandidatCv";
 import { Kandidatvurdering } from "~/services/domene";
 import type { Kandidat, Kandidatliste } from "~/services/domene";
-import type { LoaderFunction, LinksFunction, ActionFunction } from "@remix-run/node";
+import type { LoaderFunction, ActionFunction } from "@remix-run/node";
 import useVirksomhet from "~/services/useVirksomhet";
-import css from "./index.css";
 import Slettemodal from "~/components/slettemodal/Slettemodal";
 import EndreVurdering from "~/components/endre-vurdering/EndreVurdering";
 import IkkeFunnet from "~/components/ikke-funnet/IkkeFunnet";
-
-export const links: LinksFunction = () => [
-    ...kandidatCvLinks(),
-    {
-        rel: "stylesheet",
-        href: css,
-    },
-];
+import css from "./index.module.css";
 
 type LoaderData = {
     kandidat: Kandidat;
@@ -144,7 +133,7 @@ const Kandidatvisning = () => {
     };
 
     return (
-        <main className="side kandidatside">
+        <main className={"side " + css.kandidatside}>
             <Link
                 to={`/kandidatliste/${stillingId}?virksomhet=${virksomhet}`}
                 className="navds-link"
@@ -161,21 +150,14 @@ const Kandidatvisning = () => {
                 endrerVurdering={handling === "endre-vurdering"}
             />
 
-            <ReadMore
-                className="kandidatside__slik-virker-statusene"
-                header="Slik virker statusene"
-            >
+            <ReadMore header="Slik virker statusene" className={css.slikVirkerStatusene}>
                 Statusene hjelper deg å holde oversikt over kandidatene NAV har sendt deg.
                 <br />
                 Informasjonen blir ikke formidlet videre til kandidaten eller NAV.
             </ReadMore>
             {kandidat.cv ? <KandidatCv cv={kandidat.cv} /> : <KandidatUtenCv />}
 
-            <Button
-                className="kandidatside__slett-kandidat"
-                onClick={åpneSlettemodal}
-                variant="secondary"
-            >
+            <Button className={css.slettIKandidat} onClick={åpneSlettemodal} variant="secondary">
                 Slett kandidat
             </Button>
 

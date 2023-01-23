@@ -12,21 +12,14 @@ import {
     Star,
 } from "@navikt/ds-icons";
 import { BodyLong, BodyShort, Heading, Panel, Tooltip } from "@navikt/ds-react";
-import type { LinksFunction } from "@remix-run/node";
 import type { FunctionComponent, ReactNode } from "react";
-import type {
-    Cv,
-    Førerkort as FørerkortType,
-    Språk as SpråkType,
-    Kurs as KursType,
-} from "~/services/domene";
-import { OmfangEnhet } from "~/services/domene";
-import { Fragment } from "react";
-import { Språkkompetanse } from "~/services/domene";
-import CvErfaring, { formaterMånedOgÅr } from "./CvErfaring";
-import css from "./KandidatCv.css";
-
-export const links: LinksFunction = () => [{ rel: "stylesheet", href: css }];
+import type { Cv } from "~/services/domene";
+import CvErfaring from "./CvErfaring";
+import Kurs from "./Kurs";
+import Språk from "./Språk";
+import Førerkort from "./Førerkort";
+import AnnenGodkjenning from "./AnnenGodkjenning";
+import css from "./KandidatCv.module.css";
 
 type Props = {
     cv: Cv;
@@ -37,11 +30,11 @@ const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
     const navn = `${cv.fornavn} ${cv.etternavn}`;
 
     return (
-        <Panel className="kandidat-cv">
+        <Panel className={css.cv}>
             <Heading aria-label={`CV-en til ${navn}`} size="large" level="2">
                 {navn}
             </Heading>
-            <dl className="kandidat-cv__personalia">
+            <dl className={css.personalia}>
                 <BodyShort as="dt">Bosted</BodyShort>
                 <BodyShort as="dd">{cv.bosted}</BodyShort>
 
@@ -57,10 +50,10 @@ const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
                         <BodyShort as="dt">E-post</BodyShort>
                         <BodyShort as="dd">
                             <Tooltip
-                                className="kandidat-cv__epost-tooltip"
+                                className={css.epostTooltip}
                                 content="Skriv en e-post til kandidaten"
                             >
-                                <a className="kandidat-cv__epost" href={`mailto:${cv.epost}`}>
+                                <a className={css.epost} href={`mailto:${cv.epost}`}>
                                     {cv.epost}
                                 </a>
                             </Tooltip>
@@ -128,26 +121,9 @@ const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
 
             {cv.andreGodkjenninger.length > 0 && (
                 <Gruppe icon={<Attachment aria-hidden />} tittel="Andre godkjenninger">
-                    {cv.andreGodkjenninger.map((godkjenning) => {
-                        const { tittel, dato } = godkjenning;
-
-                        return (
-                            <Fragment key={tittel}>
-                                <Heading
-                                    className="kandidat-cv__erfaring-tittel"
-                                    level="4"
-                                    size="xsmall"
-                                >
-                                    {tittel}
-                                </Heading>
-                                {dato && (
-                                    <p className="kandidat-cv__erfaring-tekst">
-                                        {formaterMånedOgÅr(dato)}
-                                    </p>
-                                )}
-                            </Fragment>
-                        );
-                    })}
+                    {cv.andreGodkjenninger.map((godkjenning) => (
+                        <AnnenGodkjenning key={godkjenning.tittel} godkjenning={godkjenning} />
+                    ))}
                 </Gruppe>
             )}
 
@@ -200,8 +176,8 @@ const Gruppe: FunctionComponent<{
     children: ReactNode;
 }> = ({ icon, tittel, children }) => {
     return (
-        <section className="kandidat-cv--gruppe">
-            <div className="kandidat-cv--gruppe-header">
+        <section className={css.gruppe}>
+            <div className={css.gruppeHeader}>
                 {icon}
                 <Heading level="3" size="small">
                     {tittel}
@@ -215,7 +191,7 @@ const Gruppe: FunctionComponent<{
 const Liste: FunctionComponent<{
     elementer: Array<string | null>;
 }> = ({ elementer }) => (
-    <ul className="kandidat-cv__liste">
+    <ul className={css.liste}>
         {elementer
             .filter((e) => e !== null)
             .map((e) => (
@@ -224,91 +200,8 @@ const Liste: FunctionComponent<{
     </ul>
 );
 
-const Språk: FunctionComponent<{ språk: SpråkType }> = ({ språk }) => {
-    const { navn, muntlig, skriftlig } = språk;
-
-    return (
-        <div className="kandidat-cv__erfaring">
-            <Heading className="kandidat-cv__erfaring-tittel" level="4" size="xsmall">
-                {navn}
-            </Heading>
-            <p className="kandidat-cv__erfaring-tekst">
-                Muntlig: {språkkompetanseTilVisning(muntlig)}
-            </p>
-            <p className="kandidat-cv__erfaring-tekst">
-                Skriftlig: {språkkompetanseTilVisning(skriftlig)}
-            </p>
-        </div>
-    );
-};
-
-const Kurs: FunctionComponent<{ kurs: KursType }> = ({ kurs }) => {
-    const { tittel, omfangEnhet, omfangVerdi, tilDato } = kurs;
-
-    return (
-        <div className="kandidat-cv__erfaring">
-            <Heading className="kandidat-cv__erfaring-tittel" level="4" size="xsmall">
-                {tittel}
-            </Heading>
-            {tilDato && <p className="kandidat-cv__erfaring-tekst">{formaterMånedOgÅr(tilDato)}</p>}
-            <p className="kandidat-cv__erfaring-tekst">
-                <span>Varighet: </span>
-                {omfangEnhet && omfangVerdi ? (
-                    <span>
-                        {omfangVerdi} {omfangTilVisning(omfangEnhet)}
-                    </span>
-                ) : (
-                    "Ikke oppgitt"
-                )}
-            </p>
-        </div>
-    );
-};
-
-const Førerkort: FunctionComponent<{ førerkort: FørerkortType }> = ({ førerkort }) => {
-    const { førerkortKodeKlasse } = førerkort;
-
-    return (
-        <Heading className="kandidat-cv__erfaring-tittel" level="4" size="xsmall">
-            {førerkortKodeKlasse}
-        </Heading>
-    );
-};
-
-const språkkompetanseTilVisning = (kompetanse: Språkkompetanse) => {
-    switch (kompetanse) {
-        case Språkkompetanse.IkkeOppgitt:
-            return "Ikke oppgitt";
-        case Språkkompetanse.Nybegynner:
-            return "Nybegynner";
-        case Språkkompetanse.Godt:
-            return "Godt";
-        case Språkkompetanse.VeldigGodt:
-            return "Veldig godt";
-        case Språkkompetanse.Førstespråk:
-            return "Førstespråk";
-        default:
-            return kompetanse;
-    }
-};
-
-const omfangTilVisning = (omfangEnhet: OmfangEnhet) => {
-    switch (omfangEnhet) {
-        case OmfangEnhet.Time:
-            return "timer";
-        case OmfangEnhet.Dag:
-            return "dager";
-        case OmfangEnhet.Uke:
-            return "uker";
-        case OmfangEnhet.Måned:
-            return "måneder";
-        default:
-            return omfangEnhet;
-    }
-};
-
 export const KandidatUtenCv: FunctionComponent = () => (
-    <Panel className="kandidat-cv">
+    <Panel className={css.cv}>
         <BodyLong>Kandidaten er ikke lenger tilgjengelig.</BodyLong>
     </Panel>
 );
