@@ -2,7 +2,7 @@ import { Heading } from "@navikt/ds-react";
 import type { FunctionComponent } from "react";
 import { Språkkompetanse } from "~/services/domene";
 import type { Språk as SpråkType } from "~/services/domene";
-import css from "./CvErfaring.module.css";
+import css from "./Erfaring.module.css";
 
 const Språk: FunctionComponent<{ språk: SpråkType }> = ({ språk }) => {
     const { navn, muntlig, skriftlig } = språk;

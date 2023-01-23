@@ -11,7 +11,7 @@ import { Button, ReadMore } from "@navikt/ds-react";
 import { json, redirect } from "@remix-run/node";
 import { proxyTilApi } from "~/services/api/proxy";
 import { Back } from "@navikt/ds-icons";
-import KandidatCv, { KandidatUtenCv } from "~/components/kandidat-cv/KandidatCv";
+import KandidatCv, { KandidatUtenCv } from "~/components/cv/Cv";
 import { Kandidatvurdering } from "~/services/domene";
 import type { Kandidat, Kandidatliste } from "~/services/domene";
 import type { LoaderFunction, ActionFunction } from "@remix-run/node";

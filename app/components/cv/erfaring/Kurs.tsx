@@ -1,9 +1,9 @@
 import { Heading } from "@navikt/ds-react";
 import type { FunctionComponent } from "react";
 import { OmfangEnhet } from "~/services/domene";
-import { formaterMånedOgÅr } from "./CvErfaring";
 import type { Kurs as KursType } from "~/services/domene";
-import css from "./CvErfaring.module.css";
+import { formaterMånedOgÅr } from "./formatering";
+import css from "./Erfaring.module.css";
 
 const Kurs: FunctionComponent<{ kurs: KursType }> = ({ kurs }) => {
     const { tittel, omfangEnhet, omfangVerdi, tilDato } = kurs;

@@ -13,16 +13,18 @@ import {
 } from "@navikt/ds-icons";
 import { BodyLong, BodyShort, Heading, Panel, Tooltip } from "@navikt/ds-react";
 import type { FunctionComponent, ReactNode } from "react";
-import type { Cv } from "~/services/domene";
-import CvErfaring from "./CvErfaring";
-import Kurs from "./Kurs";
-import Språk from "./Språk";
-import Førerkort from "./Førerkort";
-import AnnenGodkjenning from "./AnnenGodkjenning";
-import css from "./KandidatCv.module.css";
+import type { Cv as CvType } from "~/services/domene";
+import { Arbeidserfaring } from "./erfaring/Arbeidserfaring";
+import Kurs from "./erfaring/Kurs";
+import Språk from "./erfaring/Språk";
+import Førerkort from "./erfaring/Førerkort";
+import AnnenGodkjenning from "./erfaring/AnnenGodkjenning";
+import css from "./Cv.module.css";
+import Utdanning from "./erfaring/Utdanning";
+import AnnenErfaring from "./erfaring/AnnenErfaring";
 
 type Props = {
-    cv: Cv;
+    cv: CvType;
 };
 
 const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
@@ -76,20 +78,9 @@ const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
                 {cv.sammendrag}
             </Gruppe>
             <Gruppe icon={<Office2 aria-hidden />} tittel="Utdanning">
-                {cv.utdanning.map((utdanning) => {
-                    const { fra, til, beskrivelse, utdannelsessted, utdanningsretning } = utdanning;
-
-                    return (
-                        <CvErfaring
-                            key={`${utdanning.utdannelsessted}-${utdanning.utdanningsretning}`}
-                            tittel={utdanningsretning}
-                            sted={utdannelsessted}
-                            beskrivelse={beskrivelse}
-                            fra={fra}
-                            til={til}
-                        />
-                    );
-                })}
+                {cv.utdanning.map((utdanning) => (
+                    <Utdanning key={utdanning.utdanningsretning} utdanning={utdanning} />
+                ))}
             </Gruppe>
             {cv.fagdokumentasjon.length > 0 && (
                 <Gruppe icon={<Bag aria-hidden />} tittel="Fagbrev, svennebrev og mesterbrev">
@@ -97,21 +88,12 @@ const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
                 </Gruppe>
             )}
             <Gruppe icon={<Office1 aria-hidden />} tittel="Arbeidserfaring">
-                {cv.arbeidserfaring.map((arbeidserfaring) => {
-                    const { stillingstittel, arbeidsgiver, beskrivelse, fraDato, tilDato, sted } =
-                        arbeidserfaring;
-
-                    return (
-                        <CvErfaring
-                            key={`${stillingstittel}-${arbeidsgiver}`}
-                            tittel={stillingstittel}
-                            sted={`${arbeidsgiver}, ${sted}`}
-                            beskrivelse={beskrivelse}
-                            fra={fraDato}
-                            til={tilDato}
-                        />
-                    );
-                })}
+                {cv.arbeidserfaring.map((arbeidserfaring) => (
+                    <Arbeidserfaring
+                        key={arbeidserfaring.stillingstittel}
+                        arbeidserfaring={arbeidserfaring}
+                    />
+                ))}
             </Gruppe>
             {cv.godkjenninger.length > 0 && (
                 <Gruppe icon={<Law aria-hidden />} tittel="Offentlige godkjenninger">
@@ -152,18 +134,9 @@ const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
 
             {cv.andreErfaringer.length > 0 && (
                 <Gruppe icon={<Cognition aria-hidden />} tittel="Andre erfaringer">
-                    {cv.andreErfaringer.map((erfaring) => {
-                        const { rolle, beskrivelse, fraDato, tilDato } = erfaring;
-                        return (
-                            <CvErfaring
-                                key={rolle}
-                                tittel={rolle}
-                                beskrivelse={beskrivelse}
-                                fra={fraDato}
-                                til={tilDato}
-                            />
-                        );
-                    })}
+                    {cv.andreErfaringer.map((erfaring) => (
+                        <AnnenErfaring key={erfaring.beskrivelse} erfaring={erfaring} />
+                    ))}
                 </Gruppe>
             )}
         </Panel>

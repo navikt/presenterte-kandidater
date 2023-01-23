@@ -2,8 +2,8 @@ import { Fragment } from "react";
 import { Heading } from "@navikt/ds-react";
 import type { FunctionComponent } from "react";
 import type { AnnenGodkjenning as AnnenGodkjenningType } from "~/services/domene";
-import { formaterMånedOgÅr } from "./CvErfaring";
-import css from "./CvErfaring.module.css";
+import css from "./Erfaring.module.css";
+import { formaterMånedOgÅr } from "./formatering";
 
 const AnnenGodkjenning: FunctionComponent<{ godkjenning: AnnenGodkjenningType }> = ({
     godkjenning,

@@ -1,7 +1,7 @@
 import { Heading } from "@navikt/ds-react";
 import type { FunctionComponent } from "react";
 import type { Førerkort as FørerkortType } from "~/services/domene";
-import css from "./CvErfaring.module.css";
+import css from "./Erfaring.module.css";
 
 const Førerkort: FunctionComponent<{ førerkort: FørerkortType }> = ({ førerkort }) => {
     const { førerkortKodeKlasse } = førerkort;
