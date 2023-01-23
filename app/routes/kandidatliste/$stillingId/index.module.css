@@ -9,39 +9,29 @@
     gap: 1.5rem;
 }
 
-.kandidatlisteside__tilbakelenke {
+.tilbakelenke {
     margin-bottom: 1rem;
 }
 
-.gruppe-med-kandidater .navds-accordion__content {
+.gruppeMedKandidater :global(.navds-accordion__content) {
     padding: 0;
 }
 
-.gruppe-med-kandidater--header {
+.header {
     display: flex;
     align-items: center;
     gap: 1rem;
 }
 
-.gruppe-med-kandidater--header svg {
+.header svg {
     width: 1.5rem;
     height: 1.5rem;
 }
 
-.gruppe-med-kandidater--kandidater {
+.kandidater {
     list-style: none;
     padding: 0;
     margin: 0;
-}
-
-.gruppe-med-kandidater--kandidater .kandidatsammendrag {
-    padding: 1rem;
-}
-
-.gruppe-med-kandidater--kandidater .kandidatsammendrag:not(:last-child) {
-    border-bottom: 2px solid lightgrey;
-    padding-bottom: 1rem;
-    margin-bottom: 1rem;
 }
 
 @media (min-width: 40rem) {

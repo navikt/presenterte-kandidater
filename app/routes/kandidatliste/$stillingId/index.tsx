@@ -9,22 +9,13 @@ import type { LinksFunction, LoaderFunction } from "@remix-run/node";
 import type { ReactNode } from "react";
 import type { Kandidat, Kandidatliste } from "~/services/domene";
 import { Kandidatvurdering } from "~/services/domene";
-import Kandidatsammendrag, {
-    links as kandidatsammendragLinks,
-} from "~/components/kandidatsammendrag/Kandidatsammendrag";
-import css from "./index.css";
 import useVirksomhet from "~/services/useVirksomhet";
 import IkkeFunnet, { links as ikkeFunnetLinks } from "~/components/ikke-funnet/IkkeFunnet";
 import Vurderingsikon from "~/components/endre-vurdering/Vurderingsikon";
+import Kandidatsammendrag from "~/components/kandidatsammendrag/Kandidatsammendrag";
+import css from "./index.module.css";
 
-export const links: LinksFunction = () => [
-    ...kandidatsammendragLinks(),
-    ...ikkeFunnetLinks(),
-    {
-        rel: "stylesheet",
-        href: css,
-    },
-];
+export const links: LinksFunction = () => [...ikkeFunnetLinks()];
 
 export const loader: LoaderFunction = async ({ request, params }) => {
     const stillingId = params.stillingId;
@@ -45,15 +36,15 @@ const Kandidatlistevisning = () => {
     const virksomhet = useVirksomhet();
 
     return (
-        <main className="side kandidatlisteside">
+        <main className={"side " + css.kandidatlisteside}>
             <Link
                 to={`/kandidatliste?virksomhet=${virksomhet}`}
-                className="navds-link kandidatlisteside__tilbakelenke"
+                className={"navds-link " + css.tilbakelenke}
             >
                 <Back aria-hidden />
                 Alle rekrutteringsprosesser
             </Link>
-            <Panel className="kandidatlistevisning">
+            <Panel className={css.kandidatlistevisning}>
                 <Heading aria-label={`Kandidater til stilling «${tittel}»`} level="2" size="medium">
                     {tittel}
                 </Heading>
@@ -127,10 +118,10 @@ const GruppeMedKandidater = ({
     }
 
     return (
-        <Accordion className="gruppe-med-kandidater">
+        <Accordion className={css.gruppeMedKandidater}>
             <Accordion.Item defaultOpen={kandidaterMedGittStatus.length > 0}>
                 <Accordion.Header>
-                    <div className="gruppe-med-kandidater--header">
+                    <div className={css.header}>
                         {icon}
                         <Heading level="3" size="small">
                             {visVurdering(vurdering)} ({kandidaterMedGittStatus.length})
@@ -138,7 +129,7 @@ const GruppeMedKandidater = ({
                     </div>
                 </Accordion.Header>
                 <Accordion.Content>
-                    <ul className="gruppe-med-kandidater--kandidater">
+                    <ul className={css.kandidater}>
                         {kandidaterMedGittStatus.map((kandidat) => (
                             <Kandidatsammendrag
                                 key={kandidat.kandidat.uuid}
