@@ -22,11 +22,10 @@ import useVirksomhet from "~/services/useVirksomhet";
 import css from "./index.css";
 import Slettemodal from "~/components/slettemodal/Slettemodal";
 import EndreVurdering from "~/components/endre-vurdering/EndreVurdering";
-import IkkeFunnet, { links as ikkeFunnetLinks } from "~/components/ikke-funnet/IkkeFunnet";
+import IkkeFunnet from "~/components/ikke-funnet/IkkeFunnet";
 
 export const links: LinksFunction = () => [
     ...kandidatCvLinks(),
-    ...ikkeFunnetLinks(),
     {
         rel: "stylesheet",
         href: css,

@@ -7,8 +7,6 @@
 
 .kandidatsammendrag:not(:last-child) {
     border-bottom: 2px solid lightgrey;
-    padding-bottom: 1rem;
-    margin-bottom: 1rem;
 }
 
 .kandidatsammendrag a,
