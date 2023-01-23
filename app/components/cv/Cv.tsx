@@ -1,3 +1,5 @@
+import type { FunctionComponent, ReactNode } from "react";
+import { BodyLong, BodyShort, Heading, Panel, Tooltip } from "@navikt/ds-react";
 import {
     Attachment,
     Bag,
@@ -11,17 +13,15 @@ import {
     Office2,
     Star,
 } from "@navikt/ds-icons";
-import { BodyLong, BodyShort, Heading, Panel, Tooltip } from "@navikt/ds-react";
-import type { FunctionComponent, ReactNode } from "react";
 import type { Cv as CvType } from "~/services/domene";
 import { Arbeidserfaring } from "./erfaring/Arbeidserfaring";
+import AnnenErfaring from "./erfaring/AnnenErfaring";
+import AnnenGodkjenning from "./erfaring/AnnenGodkjenning";
+import Førerkort from "./erfaring/Førerkort";
 import Kurs from "./erfaring/Kurs";
 import Språk from "./erfaring/Språk";
-import Førerkort from "./erfaring/Førerkort";
-import AnnenGodkjenning from "./erfaring/AnnenGodkjenning";
-import css from "./Cv.module.css";
 import Utdanning from "./erfaring/Utdanning";
-import AnnenErfaring from "./erfaring/AnnenErfaring";
+import css from "./Cv.module.css";
 
 type Props = {
     cv: CvType;
