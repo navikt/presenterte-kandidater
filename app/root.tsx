@@ -56,7 +56,7 @@ export const loader: LoaderFunction = async ({ request }) => {
     ]);
 
     if (organisasjoner.status === 307) {
-        return redirect(`/oauth2/login?redirect=${request.url}`);
+        return redirect(`/kandidatliste/oauth2/login?redirect=${request.url}`);
     }
 
     const samtykkeside = "/kandidatliste/samtykke";
