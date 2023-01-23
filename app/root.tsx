@@ -55,6 +55,10 @@ export const loader: LoaderFunction = async ({ request }) => {
         proxyTilApi(request, "/organisasjoner"),
     ]);
 
+    if (organisasjoner.status === 307) {
+        return redirect(`/oauth2/login?redirect=${request.url}`);
+    }
+
     const samtykkeside = "/kandidatliste/samtykke";
     const erPåSamtykkeside = new URL(request.url).pathname !== samtykkeside;
 
