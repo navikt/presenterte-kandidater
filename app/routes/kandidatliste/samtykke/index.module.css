@@ -24,10 +24,6 @@
     margin-bottom: 1rem;
 }
 
-.tilbakelenke {
-    margin-bottom: 1rem;
-}
-
 .feilmelding {
     color: var(--a-text-danger);
     font-style: italic;

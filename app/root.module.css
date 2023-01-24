@@ -3,7 +3,7 @@ body {
     min-height: 100vh;
 }
 
-.dekorator-og-bedriftsmeny {
+.header {
     background-color: white;
 }
 
@@ -11,11 +11,6 @@ body {
     display: flex;
     flex-direction: column;
     max-width: 56rem;
-}
-
-.side a {
-    align-self: flex-start;
-    line-height: 2rem;
 }
 
 #decorator-header {
@@ -32,7 +27,7 @@ body {
 @media print {
     #decorator-header,
     #decorator-footer,
-    .navbm-bedriftsmeny {
+    :global(.navbm-bedriftsmeny) {
         display: none;
     }
 

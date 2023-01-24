@@ -20,6 +20,7 @@ import Slettemodal from "~/components/slettemodal/Slettemodal";
 import EndreVurdering from "~/components/endre-vurdering/EndreVurdering";
 import IkkeFunnet from "~/components/ikke-funnet/IkkeFunnet";
 import css from "./index.module.css";
+import Tilbakelenke from "~/components/tilbakelenke/Tilbakelenke";
 
 type LoaderData = {
     kandidat: Kandidat;
@@ -133,14 +134,10 @@ const Kandidatvisning = () => {
     };
 
     return (
-        <main className={"side " + css.kandidatside}>
-            <Link
-                to={`/kandidatliste/${stillingId}?virksomhet=${virksomhet}`}
-                className="navds-link"
-            >
-                <Back aria-hidden />
+        <div className={css.kandidatside}>
+            <Tilbakelenke href={`/kandidatliste/${stillingId}?virksomhet=${virksomhet}`}>
                 Alle kandidater
-            </Link>
+            </Tilbakelenke>
 
             <EndreVurdering
                 kandidatliste={kandidatliste}
@@ -168,7 +165,7 @@ const Kandidatvisning = () => {
                 feilmeldinger={feilmeldinger}
                 sletterKandidat={handling === "slett"}
             />
-        </main>
+        </div>
     );
 };
 

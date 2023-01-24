@@ -30,7 +30,7 @@ import IngenOrganisasjoner from "./components/IngenOrganisasjoner";
 import type { Dekoratørfragmenter } from "./services/dekoratør";
 import type { Organisasjon } from "@navikt/bedriftsmeny/lib/organisasjon";
 import { hentDekoratør } from "./services/dekoratør.server";
-import rootCss from "./root.css";
+import css from "./root.module.css";
 
 export const meta: MetaFunction = () => ({
     charset: "utf-8",
@@ -39,7 +39,6 @@ export const meta: MetaFunction = () => ({
 });
 
 export const links: LinksFunction = () => [
-    { rel: "stylesheet", href: rootCss },
     { rel: "stylesheet", href: designsystemStyles },
     { rel: "stylesheet", href: bedriftsmenyStyles },
     ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
@@ -98,11 +97,11 @@ const App = () => {
                 {ssrDekoratør && parse(ssrDekoratør.styles)}
             </head>
             <body>
-                <div className="dekorator-og-bedriftsmeny">
+                <div className={css.header}>
                     {ssrDekoratør && parse(ssrDekoratør.header)}
                     <Header organisasjoner={organisasjoner} />
                 </div>
-                {visning}
+                <main className={css.side}>{visning}</main>
                 <ScrollRestoration />
                 <RemixScripts />
                 <LiveReload />

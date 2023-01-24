@@ -14,6 +14,7 @@ import IkkeFunnet from "~/components/ikke-funnet/IkkeFunnet";
 import Vurderingsikon from "~/components/endre-vurdering/Vurderingsikon";
 import Kandidatsammendrag from "~/components/kandidatsammendrag/Kandidatsammendrag";
 import css from "./index.module.css";
+import Tilbakelenke from "~/components/tilbakelenke/Tilbakelenke";
 
 export const loader: LoaderFunction = async ({ request, params }) => {
     const stillingId = params.stillingId;
@@ -34,14 +35,11 @@ const Kandidatlistevisning = () => {
     const virksomhet = useVirksomhet();
 
     return (
-        <main className={"side " + css.kandidatlisteside}>
-            <Link
-                to={`/kandidatliste?virksomhet=${virksomhet}`}
-                className={"navds-link " + css.tilbakelenke}
-            >
-                <Back aria-hidden />
+        <div className={css.kandidatlisteside}>
+            <Tilbakelenke href={`/kandidatliste?virksomhet=${virksomhet}`}>
                 Alle rekrutteringsprosesser
-            </Link>
+            </Tilbakelenke>
+
             <Panel className={css.kandidatlistevisning}>
                 <Heading aria-label={`Kandidater til stilling «${tittel}»`} level="2" size="medium">
                     {tittel}
@@ -92,7 +90,7 @@ const Kandidatlistevisning = () => {
                     </>
                 )}
             </Panel>
-        </main>
+        </div>
     );
 };
 

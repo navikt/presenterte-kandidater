@@ -17,6 +17,7 @@ import useVirksomhet from "~/services/useVirksomhet";
 import { Back } from "@navikt/ds-icons";
 import { logger } from "server/logger";
 import css from "./index.module.css";
+import Tilbakelenke from "~/components/tilbakelenke/Tilbakelenke";
 
 export const loader: LoaderFunction = async ({ request }) => {
     const respons = await proxyTilApi(request, "/samtykke");
@@ -55,11 +56,9 @@ const Samtykke: FunctionComponent = () => {
     return (
         <main className={"side " + css.samtykkeside}>
             {harSamtykket && (
-                <div className={css.tilbakelenke}>
-                    <Link to={`/kandidatliste?virksomhet=${virksomhet}`} className="navds-link">
-                        <Back aria-hidden /> Tilbake
-                    </Link>
-                </div>
+                <Tilbakelenke href={`/kandidatliste?virksomhet=${virksomhet}`}>
+                    Tilbake
+                </Tilbakelenke>
             )}
             <Panel className={css.vilkår}>
                 <div className={css.topp}>

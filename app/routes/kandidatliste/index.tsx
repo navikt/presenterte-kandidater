@@ -57,7 +57,7 @@ const Kandidatlister = () => {
     const { pågående, avsluttede } = fordelPåStatus(sammendrag);
 
     return (
-        <main className={"side " + css.kandidatlister}>
+        <div className={css.kandidatlister}>
             <Heading level="2" size="small">
                 Aktive rekrutteringsprosesser
             </Heading>
@@ -103,7 +103,7 @@ const Kandidatlister = () => {
                     Vilkår for tjenesten
                 </Link>
             </div>
-        </main>
+        </div>
     );
 };
 
