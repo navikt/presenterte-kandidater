@@ -1,20 +1,20 @@
-import { Accordion, BodyLong, Heading, Panel } from "@navikt/ds-react";
+import { BodyLong, Heading, Panel } from "@navikt/ds-react";
 import { Close, ExternalLink } from "@navikt/ds-icons";
 import { json, Response } from "@remix-run/node";
 import { Link as NavLink } from "@navikt/ds-react";
 import { useCatch, useLoaderData } from "@remix-run/react";
-import type { LoaderFunction } from "@remix-run/node";
-import type { ReactNode } from "react";
 
 import { Kandidatvurdering } from "~/services/domene";
 import { proxyTilApi } from "~/services/api/proxy";
-import { visVurdering } from "./kandidat/$kandidatId";
 import IkkeFunnet from "~/components/ikke-funnet/IkkeFunnet";
-import Kandidatsammendrag from "~/components/kandidatsammendrag/Kandidatsammendrag";
 import Tilbakelenke from "~/components/tilbakelenke/Tilbakelenke";
-import type { Kandidat, Kandidatliste } from "~/services/domene";
 import useVirksomhet from "~/services/useVirksomhet";
 import Vurderingsikon from "~/components/endre-vurdering/Vurderingsikon";
+import GruppeMedKandidater from "~/components/gruppeMedKandidater/GruppeMedKandidater";
+
+import type { LoaderFunction } from "@remix-run/node";
+import type { Kandidatliste } from "~/services/domene";
+
 import css from "./index.module.css";
 
 export const loader: LoaderFunction = async ({ request, params }) => {
@@ -92,52 +92,6 @@ const Kandidatlistevisning = () => {
                 )}
             </Panel>
         </div>
-    );
-};
-
-const GruppeMedKandidater = ({
-    vurdering,
-    icon,
-    kandidater,
-    stillingId,
-}: {
-    vurdering?: Kandidatvurdering;
-    icon: ReactNode;
-    kandidater: Kandidat[];
-    stillingId: string;
-}) => {
-    const kandidaterMedGittStatus = kandidater.filter(
-        (kandidat) => kandidat.kandidat.arbeidsgiversVurdering === vurdering
-    );
-
-    if (kandidaterMedGittStatus.length === 0) {
-        return null;
-    }
-
-    return (
-        <Accordion className={css.gruppeMedKandidater}>
-            <Accordion.Item defaultOpen={kandidaterMedGittStatus.length > 0}>
-                <Accordion.Header>
-                    <div className={css.header}>
-                        {icon}
-                        <Heading level="3" size="small">
-                            {visVurdering(vurdering)} ({kandidaterMedGittStatus.length})
-                        </Heading>
-                    </div>
-                </Accordion.Header>
-                <Accordion.Content>
-                    <ul className={css.kandidater}>
-                        {kandidaterMedGittStatus.map((kandidat) => (
-                            <Kandidatsammendrag
-                                key={kandidat.kandidat.uuid}
-                                kandidat={kandidat}
-                                stillingId={stillingId}
-                            />
-                        ))}
-                    </ul>
-                </Accordion.Content>
-            </Accordion.Item>
-        </Accordion>
     );
 };
 

@@ -1,7 +1,5 @@
 import { Form, useActionData, useLoaderData } from "@remix-run/react";
 import { json, redirect } from "@remix-run/node";
-import type { ActionFunction, LoaderFunction } from "@remix-run/node";
-import type { FunctionComponent } from "react";
 import {
     BodyLong,
     BodyShort,
@@ -17,6 +15,10 @@ import { logger } from "server/logger";
 import { proxyTilApi } from "~/services/api/proxy";
 import Tilbakelenke from "~/components/tilbakelenke/Tilbakelenke";
 import useVirksomhet from "~/services/useVirksomhet";
+
+import type { ActionFunction, LoaderFunction } from "@remix-run/node";
+import type { FunctionComponent } from "react";
+
 import css from "./index.module.css";
 
 export const loader: LoaderFunction = async ({ request }) => {

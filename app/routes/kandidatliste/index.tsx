@@ -1,12 +1,14 @@
 import { BodyShort, Heading } from "@navikt/ds-react";
-import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { proxyTilApi } from "~/services/api/proxy";
 import { Link, useLoaderData } from "@remix-run/react";
-import type { Kandidatlistesammendrag } from "~/services/domene";
-import type { Organisasjon } from "@navikt/bedriftsmeny/lib/organisasjon";
-import VisKandidatlistesammendrag from "~/components/kandidatlistesammendrag/Kandidatlistesammendrag";
+import { proxyTilApi } from "~/services/api/proxy";
 import useVirksomhet from "~/services/useVirksomhet";
+import VisKandidatlistesammendrag from "~/components/kandidatlistesammendrag/Kandidatlistesammendrag";
+
+import type { Kandidatlistesammendrag } from "~/services/domene";
+import type { LoaderFunction } from "@remix-run/node";
+import type { Organisasjon } from "@navikt/bedriftsmeny/lib/organisasjon";
+
 import css from "./index.module.css";
 
 export const loader: LoaderFunction = async ({ request }) => {

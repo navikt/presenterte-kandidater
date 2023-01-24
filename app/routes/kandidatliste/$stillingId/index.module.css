@@ -9,27 +9,6 @@
     gap: 1.5rem;
 }
 
-.gruppeMedKandidater :global(.navds-accordion__content) {
-    padding: 0;
-}
-
-.header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.header svg {
-    width: 1.5rem;
-    height: 1.5rem;
-}
-
-.kandidater {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
 @media (min-width: 40rem) {
     .kandidatlistevisning {
         padding: 2.5rem;

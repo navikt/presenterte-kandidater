@@ -2,7 +2,6 @@ import { Button, ReadMore } from "@navikt/ds-react";
 import { json, redirect } from "@remix-run/node";
 import { useActionData, useCatch, useLoaderData, useParams, useTransition } from "@remix-run/react";
 import { useState } from "react";
-import type { LoaderFunction, ActionFunction } from "@remix-run/node";
 
 import { Kandidatvurdering } from "~/services/domene";
 import { proxyTilApi } from "~/services/api/proxy";
@@ -11,8 +10,11 @@ import IkkeFunnet from "~/components/ikke-funnet/IkkeFunnet";
 import KandidatCv, { KandidatUtenCv } from "~/components/cv/Cv";
 import Slettemodal from "~/components/slettemodal/Slettemodal";
 import Tilbakelenke from "~/components/tilbakelenke/Tilbakelenke";
-import type { Kandidat, Kandidatliste } from "~/services/domene";
 import useVirksomhet from "~/services/useVirksomhet";
+
+import type { LoaderFunction, ActionFunction } from "@remix-run/node";
+import type { Kandidat, Kandidatliste } from "~/services/domene";
+
 import css from "./index.module.css";
 
 type LoaderData = {

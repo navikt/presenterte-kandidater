@@ -1,9 +1,3 @@
-import type {
-    ErrorBoundaryComponent,
-    LinksFunction,
-    LoaderFunction,
-    MetaFunction,
-} from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import parse from "html-react-parser";
@@ -16,8 +10,9 @@ import {
     ScrollRestoration,
     useLoaderData,
 } from "@remix-run/react";
-import { cssBundleHref } from "@remix-run/css-bundle";
 import { configureMock } from "./mocks";
+import { cssBundleHref } from "@remix-run/css-bundle";
+import { hentDekoratør } from "./services/dekoratør.server";
 import { hentMiljø, Miljø } from "./services/miljø";
 import { Modal, Panel } from "@navikt/ds-react";
 import { proxyTilApi } from "./services/api/proxy";
@@ -27,9 +22,16 @@ import bedriftsmenyStyles from "@navikt/bedriftsmeny/lib/bedriftsmeny.css";
 import designsystemStyles from "@navikt/ds-css/dist/index.css";
 import Header from "./components/header/Header";
 import IngenOrganisasjoner from "./components/IngenOrganisasjoner";
+
+import type {
+    ErrorBoundaryComponent,
+    LinksFunction,
+    LoaderFunction,
+    MetaFunction,
+} from "@remix-run/node";
 import type { Dekoratørfragmenter } from "./services/dekoratør";
 import type { Organisasjon } from "@navikt/bedriftsmeny/lib/organisasjon";
-import { hentDekoratør } from "./services/dekoratør.server";
+
 import css from "./root.module.css";
 
 export const meta: MetaFunction = () => ({
