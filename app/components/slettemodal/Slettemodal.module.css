@@ -1,0 +1,17 @@
+.slettemodal {
+    padding: 1.5rem;
+    width: 32rem;
+}
+
+.knapper {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1rem;
+}
+
+.feilmelding {
+    text-align: right;
+    margin-top: 0.5rem;
+    color: var(--a-text-danger);
+}

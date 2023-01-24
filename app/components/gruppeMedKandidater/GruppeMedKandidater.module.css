@@ -1,0 +1,20 @@
+.header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.header svg {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.innhold {
+    padding: 0;
+}
+
+.kandidater {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}

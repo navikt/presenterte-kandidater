@@ -2,7 +2,7 @@
     padding: 1rem;
 }
 
-.samtykkeside__vilkår {
+.vilkår {
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -10,25 +10,21 @@
     line-height: 2rem;
 }
 
-.samtykkeside__vilkår h3:not(:first-of-type) {
+.vilkår h3:not(:first-of-type) {
     margin-top: 1rem;
 }
 
-.samtykkeside__vilkår ul {
+.vilkår ul {
     margin: 0;
 }
 
-.samtykkeside__topp {
+.topp {
     display: flex;
     flex-direction: column;
     margin-bottom: 1rem;
 }
 
-.samtykkeside__tilbakelenke {
-    margin-bottom: 1rem;
-}
-
-.samtykkeside__feilmelding {
+.feilmelding {
     color: var(--a-text-danger);
     font-style: italic;
 }
@@ -42,12 +38,12 @@
         padding: 1rem;
     }
 
-    .samtykkeside__vilkår {
+    .vilkår {
         margin: 0;
         padding: 2.5rem 2rem;
     }
 
-    .samtykkeside__topp {
+    .topp {
         align-items: center;
     }
 }

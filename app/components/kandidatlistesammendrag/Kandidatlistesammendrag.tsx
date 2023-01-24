@@ -1,14 +1,9 @@
 import { BodyShort, Panel } from "@navikt/ds-react";
 import { Link } from "@remix-run/react";
-import type { LinksFunction } from "@remix-run/node";
 import type { FunctionComponent } from "react";
 import type { Kandidatlistesammendrag as Sammendrag } from "~/services/domene";
-import css from "./Kandidatlistesammendrag.css";
 import useVirksomhet from "~/services/useVirksomhet";
-
-export const links: LinksFunction = () => {
-    return [{ rel: "stylesheet", href: css }];
-};
+import css from "./Kandidatlistesammendrag.module.css";
 
 type Props = {
     sammendrag: Sammendrag;
@@ -20,7 +15,7 @@ const Kandidatlistesammendrag: FunctionComponent<Props> = ({ sammendrag }) => {
     const virksomhet = useVirksomhet();
 
     return (
-        <Panel as="li" className="kandidatlistesammendrag">
+        <Panel as="li" className={css.sammendrag}>
             <span>
                 <Link
                     to={`/kandidatliste/${stillingId}?virksomhet=${virksomhet}`}

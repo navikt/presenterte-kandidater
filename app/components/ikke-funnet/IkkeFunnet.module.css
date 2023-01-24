@@ -1,17 +1,17 @@
-.ikke-funnet-side {
+.side {
     padding: 1rem;
 }
 
-.ikke-funnet {
+.ikkeFunnet {
     margin: 0 -1rem;
 }
 
-.ikke-funnet__tilbakelenke {
+.tilbakelenke {
     margin-bottom: 1rem;
 }
 
 @media (min-width: 600px) {
-    .ikke-funnet {
+    .ikkeFunnet {
         margin: 0;
         padding: 2.5rem 2rem;
     }
