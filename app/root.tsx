@@ -1,4 +1,4 @@
-import { redirect } from "@remix-run/node";
+import { redirect, Response } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import parse from "html-react-parser";
 import {
@@ -8,6 +8,7 @@ import {
     Outlet,
     Scripts as RemixScripts,
     ScrollRestoration,
+    useCatch,
     useLoaderData,
 } from "@remix-run/react";
 import { configureMock } from "./mocks";
@@ -33,6 +34,7 @@ import type { Dekoratørfragmenter } from "./services/dekoratør";
 import type { Organisasjon } from "@navikt/bedriftsmeny/lib/organisasjon";
 
 import css from "./root.module.css";
+import { CatchBoundaryComponent } from "@remix-run/react/dist/routeModules";
 
 export const meta: MetaFunction = () => ({
     charset: "utf-8",
@@ -59,7 +61,9 @@ export const loader: LoaderFunction = async ({ request }) => {
     ]);
 
     if (organisasjoner.status === 307) {
-        return redirect(`/kandidatliste/oauth2/login?redirect=${request.url}`);
+        throw new Response("Du er ikke logget inn", {
+            status: 401,
+        });
     }
 
     const samtykkeside = "/kandidatliste/samtykke";
@@ -129,7 +133,30 @@ export const ErrorBoundary: ErrorBoundaryComponent = ({ error }) => {
                 <header>
                     <Header organisasjoner={[]} />
                 </header>
-                <Panel>Det skjedde en feil: {error.message}</Panel>
+                <Panel>Det skjedde en uventet feil: {error.message}</Panel>
+                <RemixScripts />
+            </body>
+        </html>
+    );
+};
+
+export const CatchBoundary: CatchBoundaryComponent = () => {
+    const error = useCatch();
+
+    useEffect(() => {
+        if (error.status === 302) {
+            window.location.href = `/kandidatliste/oauth2/login?redirect=${window.location.pathname}`;
+        }
+    }, [error]);
+
+    return (
+        <html lang="no">
+            <head>
+                <Meta />
+                <Links />
+            </head>
+            <body>
+                <Panel>{error.statusText}</Panel>
                 <RemixScripts />
             </body>
         </html>
