@@ -1,3 +1,7 @@
+import { Form, useActionData, useLoaderData } from "@remix-run/react";
+import { json, redirect } from "@remix-run/node";
+import type { ActionFunction, LoaderFunction } from "@remix-run/node";
+import type { FunctionComponent } from "react";
 import {
     BodyLong,
     BodyShort,
@@ -8,16 +12,12 @@ import {
     Panel,
     Link as NavLink,
 } from "@navikt/ds-react";
-import { Form, Link, useActionData, useLoaderData } from "@remix-run/react";
-import type { FunctionComponent } from "react";
-import type { ActionFunction, LoaderFunction } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
-import { proxyTilApi } from "~/services/api/proxy";
-import useVirksomhet from "~/services/useVirksomhet";
-import { Back } from "@navikt/ds-icons";
+
 import { logger } from "server/logger";
-import css from "./index.module.css";
+import { proxyTilApi } from "~/services/api/proxy";
 import Tilbakelenke from "~/components/tilbakelenke/Tilbakelenke";
+import useVirksomhet from "~/services/useVirksomhet";
+import css from "./index.module.css";
 
 export const loader: LoaderFunction = async ({ request }) => {
     const respons = await proxyTilApi(request, "/samtykke");

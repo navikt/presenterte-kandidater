@@ -1,20 +1,21 @@
 import { Accordion, BodyLong, Heading, Panel } from "@navikt/ds-react";
-import { visVurdering } from "./kandidat/$kandidatId";
-import { Back, Close, ExternalLink } from "@navikt/ds-icons";
+import { Close, ExternalLink } from "@navikt/ds-icons";
 import { json, Response } from "@remix-run/node";
 import { Link as NavLink } from "@navikt/ds-react";
-import { Link, useCatch, useLoaderData } from "@remix-run/react";
-import { proxyTilApi } from "~/services/api/proxy";
+import { useCatch, useLoaderData } from "@remix-run/react";
 import type { LoaderFunction } from "@remix-run/node";
 import type { ReactNode } from "react";
-import type { Kandidat, Kandidatliste } from "~/services/domene";
+
 import { Kandidatvurdering } from "~/services/domene";
-import useVirksomhet from "~/services/useVirksomhet";
+import { proxyTilApi } from "~/services/api/proxy";
+import { visVurdering } from "./kandidat/$kandidatId";
 import IkkeFunnet from "~/components/ikke-funnet/IkkeFunnet";
-import Vurderingsikon from "~/components/endre-vurdering/Vurderingsikon";
 import Kandidatsammendrag from "~/components/kandidatsammendrag/Kandidatsammendrag";
-import css from "./index.module.css";
 import Tilbakelenke from "~/components/tilbakelenke/Tilbakelenke";
+import type { Kandidat, Kandidatliste } from "~/services/domene";
+import useVirksomhet from "~/services/useVirksomhet";
+import Vurderingsikon from "~/components/endre-vurdering/Vurderingsikon";
+import css from "./index.module.css";
 
 export const loader: LoaderFunction = async ({ request, params }) => {
     const stillingId = params.stillingId;

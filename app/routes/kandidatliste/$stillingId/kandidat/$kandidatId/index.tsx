@@ -1,26 +1,19 @@
-import { useState } from "react";
-import {
-    Link,
-    useActionData,
-    useCatch,
-    useLoaderData,
-    useParams,
-    useTransition,
-} from "@remix-run/react";
 import { Button, ReadMore } from "@navikt/ds-react";
 import { json, redirect } from "@remix-run/node";
-import { proxyTilApi } from "~/services/api/proxy";
-import { Back } from "@navikt/ds-icons";
-import KandidatCv, { KandidatUtenCv } from "~/components/cv/Cv";
-import { Kandidatvurdering } from "~/services/domene";
-import type { Kandidat, Kandidatliste } from "~/services/domene";
+import { useActionData, useCatch, useLoaderData, useParams, useTransition } from "@remix-run/react";
+import { useState } from "react";
 import type { LoaderFunction, ActionFunction } from "@remix-run/node";
-import useVirksomhet from "~/services/useVirksomhet";
-import Slettemodal from "~/components/slettemodal/Slettemodal";
+
+import { Kandidatvurdering } from "~/services/domene";
+import { proxyTilApi } from "~/services/api/proxy";
 import EndreVurdering from "~/components/endre-vurdering/EndreVurdering";
 import IkkeFunnet from "~/components/ikke-funnet/IkkeFunnet";
-import css from "./index.module.css";
+import KandidatCv, { KandidatUtenCv } from "~/components/cv/Cv";
+import Slettemodal from "~/components/slettemodal/Slettemodal";
 import Tilbakelenke from "~/components/tilbakelenke/Tilbakelenke";
+import type { Kandidat, Kandidatliste } from "~/services/domene";
+import useVirksomhet from "~/services/useVirksomhet";
+import css from "./index.module.css";
 
 type LoaderData = {
     kandidat: Kandidat;
