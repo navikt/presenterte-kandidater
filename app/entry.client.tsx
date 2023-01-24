@@ -1,4 +1,9 @@
-/* Remix krever denne filen */
+/* 
+  Entry-point for nettleseren. «Hydrerer» HTML-koden som
+  kommer fra serveren med klient-side React-kode.
+
+  Dette er boilerplate fra Remix.
+*/
 
 import { RemixBrowser } from "@remix-run/react";
 import { startTransition, StrictMode } from "react";
