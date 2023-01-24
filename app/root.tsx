@@ -60,7 +60,7 @@ export const loader: LoaderFunction = async ({ request }) => {
         proxyTilApi(request, "/organisasjoner"),
     ]);
 
-    if (organisasjoner.status === 307) {
+    if (organisasjoner.status === 307 || organisasjoner.status === 302) {
         throw new Response("Du er ikke logget inn", {
             status: 401,
         });
@@ -144,7 +144,7 @@ export const CatchBoundary: CatchBoundaryComponent = () => {
     const error = useCatch();
 
     useEffect(() => {
-        if (error.status === 302) {
+        if (error.status === 401) {
             window.location.href = `/kandidatliste/oauth2/login?redirect=${window.location.pathname}`;
         }
     }, [error]);
