@@ -1,0 +1,37 @@
+.desktop {
+    display: none;
+}
+
+.desktop :global(.navds-toggle-group) {
+    margin-top: 0.5rem;
+}
+
+.mobil label {
+    padding: 0.5rem 0;
+}
+
+.mobil button {
+    margin-top: 1rem;
+}
+
+.feilmelding {
+    margin-top: 0.5rem;
+    color: var(--a-text-danger);
+}
+
+@media (min-width: 40rem) {
+    .desktop {
+        display: unset;
+    }
+
+    .mobil {
+        display: none;
+    }
+}
+
+@media print {
+    .desktop,
+    .mobil {
+        display: none;
+    }
+}

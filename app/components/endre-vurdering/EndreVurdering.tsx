@@ -5,6 +5,7 @@ import type { FunctionComponent } from "react";
 import type { Kandidatliste } from "~/services/domene";
 import { Kandidatvurdering } from "~/services/domene";
 import Vurderingsikon from "./Vurderingsikon";
+import css from "./EndreVurdering.module.css";
 
 type Props = {
     kandidatliste: Kandidatliste;
@@ -23,7 +24,7 @@ const EndreVurdering: FunctionComponent<Props> = ({
 }) => (
     <Form method="put">
         <ToggleGroup
-            className="kandidatside--velg-status-desktop"
+            className={css.desktop}
             label={`Vurdering av kandidat til stilling «${kandidatliste.kandidatliste.tittel}»`}
             value={vurdering}
             onChange={(value) => setVurdering(value as Kandidatvurdering)}
@@ -34,7 +35,7 @@ const EndreVurdering: FunctionComponent<Props> = ({
         </ToggleGroup>
 
         <RadioGroup
-            className="kandidatside--velg-status-mobil"
+            className={css.mobil}
             legend={`Vurdering av kandidat til stilling «${kandidatliste.kandidatliste.tittel}»`}
             value={vurdering}
             onChange={setVurdering}
@@ -57,10 +58,7 @@ const EndreVurdering: FunctionComponent<Props> = ({
         <input type="hidden" name="vurdering" value={vurdering} />
         <input type="hidden" name="handling" value="endre-vurdering" />
         {feilmelding && (
-            <BodyShort
-                aria-live="assertive"
-                className="kandidatside__feilmeldingIEndringAvVurdering"
-            >
+            <BodyShort aria-live="assertive" className={css.feilmelding}>
                 {feilmelding}
             </BodyShort>
         )}

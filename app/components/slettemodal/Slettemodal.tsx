@@ -3,6 +3,7 @@ import { Form } from "@remix-run/react";
 import type { FunctionComponent } from "react";
 import type { ActionData as KandidatActionData } from "~/routes/kandidatliste/$stillingId/kandidat/$kandidatId";
 import type { Cv } from "~/services/domene";
+import css from "./Slettemodal.module.css";
 
 type Props = {
     cv: Cv | null;
@@ -19,14 +20,14 @@ const Slettemodal: FunctionComponent<Props> = ({
     sletterKandidat,
     feilmeldinger,
 }) => (
-    <Modal className="kandidatside__slettemodal" open={vis} onClose={onClose}>
+    <Modal className={css.slettemodal} open={vis} onClose={onClose}>
         <Heading spacing level="2" size="medium">
             Slett kandidat
             {cv ? ` ${cv.fornavn} ${cv.etternavn}` : ""}
         </Heading>
         <BodyLong>Du kan ikke angre på dette.</BodyLong>
 
-        <Form method="post" className="kandidatside__knapperISlettemodal">
+        <Form method="post" className={css.knapper}>
             <Button variant="tertiary" onClick={onClose}>
                 Avbryt
             </Button>
@@ -41,7 +42,7 @@ const Slettemodal: FunctionComponent<Props> = ({
             </Button>
         </Form>
         {feilmeldinger?.slett && (
-            <BodyShort aria-live="assertive" className="kandidatside__feilmeldingISlettemodal">
+            <BodyShort aria-live="assertive" className={css.feilmelding}>
                 {feilmeldinger.slett}
             </BodyShort>
         )}

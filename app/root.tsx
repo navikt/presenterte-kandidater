@@ -1,9 +1,3 @@
-import type {
-    ErrorBoundaryComponent,
-    LinksFunction,
-    LoaderFunction,
-    MetaFunction,
-} from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import parse from "html-react-parser";
@@ -17,6 +11,8 @@ import {
     useLoaderData,
 } from "@remix-run/react";
 import { configureMock } from "./mocks";
+import { cssBundleHref } from "@remix-run/css-bundle";
+import { hentDekoratør } from "./services/dekoratør.server";
 import { hentMiljø, Miljø } from "./services/miljø";
 import { Modal, Panel } from "@navikt/ds-react";
 import { proxyTilApi } from "./services/api/proxy";
@@ -26,10 +22,17 @@ import bedriftsmenyStyles from "@navikt/bedriftsmeny/lib/bedriftsmeny.css";
 import designsystemStyles from "@navikt/ds-css/dist/index.css";
 import Header from "./components/header/Header";
 import IngenOrganisasjoner from "./components/IngenOrganisasjoner";
+
+import type {
+    ErrorBoundaryComponent,
+    LinksFunction,
+    LoaderFunction,
+    MetaFunction,
+} from "@remix-run/node";
 import type { Dekoratørfragmenter } from "./services/dekoratør";
 import type { Organisasjon } from "@navikt/bedriftsmeny/lib/organisasjon";
-import rootCss from "./root.css";
-import { hentDekoratør } from "./services/dekoratør.server";
+
+import css from "./root.module.css";
 
 export const meta: MetaFunction = () => ({
     charset: "utf-8",
@@ -38,9 +41,9 @@ export const meta: MetaFunction = () => ({
 });
 
 export const links: LinksFunction = () => [
-    { rel: "stylesheet", href: rootCss },
     { rel: "stylesheet", href: designsystemStyles },
     { rel: "stylesheet", href: bedriftsmenyStyles },
+    ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
 ];
 
 export const loader: LoaderFunction = async ({ request }) => {
@@ -100,11 +103,11 @@ const App = () => {
                 {ssrDekoratør && parse(ssrDekoratør.styles)}
             </head>
             <body>
-                <div className="dekorator-og-bedriftsmeny">
+                <div className={css.header}>
                     {ssrDekoratør && parse(ssrDekoratør.header)}
                     <Header organisasjoner={organisasjoner} />
                 </div>
-                {visning}
+                <main className={css.side}>{visning}</main>
                 <ScrollRestoration />
                 <RemixScripts />
                 <LiveReload />

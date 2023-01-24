@@ -1,20 +1,15 @@
 import { BodyShort, Heading } from "@navikt/ds-react";
 import { json } from "@remix-run/node";
-import { links as kandidatsammendragCss } from "~/components/kandidatlistesammendrag/Kandidatlistesammendrag";
-import { proxyTilApi } from "~/services/api/proxy";
 import { Link, useLoaderData } from "@remix-run/react";
+import { proxyTilApi } from "~/services/api/proxy";
+import useVirksomhet from "~/services/useVirksomhet";
+import VisKandidatlistesammendrag from "~/components/kandidatlistesammendrag/Kandidatlistesammendrag";
+
 import type { Kandidatlistesammendrag } from "~/services/domene";
-import type { LinksFunction } from "@remix-run/server-runtime";
 import type { LoaderFunction } from "@remix-run/node";
 import type { Organisasjon } from "@navikt/bedriftsmeny/lib/organisasjon";
-import VisKandidatlistesammendrag from "~/components/kandidatlistesammendrag/Kandidatlistesammendrag";
-import css from "./index.css";
-import useVirksomhet from "~/services/useVirksomhet";
 
-export const links: LinksFunction = () => [
-    ...kandidatsammendragCss(),
-    { rel: "stylesheet", href: css },
-];
+import css from "./index.module.css";
 
 export const loader: LoaderFunction = async ({ request }) => {
     let virksomhet = hentValgtVirksomhet(request.url);
@@ -52,7 +47,7 @@ const Kandidatlister = () => {
 
     if (!harRiktigRolleIAltinn) {
         return (
-            <main className="side kandidatlister">
+            <main className={"side " + css.kandidatlister}>
                 <Heading level="2" size="small">
                     Ikke tilgang
                 </Heading>
@@ -64,13 +59,13 @@ const Kandidatlister = () => {
     const { pågående, avsluttede } = fordelPåStatus(sammendrag);
 
     return (
-        <main className="side kandidatlister">
+        <div className={css.kandidatlister}>
             <Heading level="2" size="small">
                 Aktive rekrutteringsprosesser
             </Heading>
 
             {pågående.length > 0 ? (
-                <ul className="kandidatlister__gruppe">
+                <ul className={css.gruppe}>
                     {pågående.map((sammendrag) => (
                         <VisKandidatlistesammendrag
                             key={sammendrag.kandidatliste.stillingId}
@@ -79,7 +74,7 @@ const Kandidatlister = () => {
                     ))}
                 </ul>
             ) : (
-                <BodyShort className="kandidatlister__tom-gruppe">
+                <BodyShort className={css.tomGruppe}>
                     <em>Ingen aktive rekrutteringsprosesser</em>
                 </BodyShort>
             )}
@@ -89,7 +84,7 @@ const Kandidatlister = () => {
             </Heading>
 
             {avsluttede.length > 0 ? (
-                <ul className="kandidatlister__gruppe">
+                <ul className={css.gruppe}>
                     {avsluttede.map((sammendrag) => (
                         <VisKandidatlistesammendrag
                             key={sammendrag.kandidatliste.stillingId}
@@ -98,11 +93,11 @@ const Kandidatlister = () => {
                     ))}
                 </ul>
             ) : (
-                <BodyShort className="kandidatlister__tom-gruppe">
+                <BodyShort className={css.tomGruppe}>
                     <em>Ingen avsluttede rekrutteringsprosesser</em>
                 </BodyShort>
             )}
-            <div className="kandidatlister__samtykkelenke">
+            <div className={css.samtykkelenke}>
                 <Link
                     className="navds-link"
                     to={`/kandidatliste/samtykke?virksomhet=${virksomhet}`}
@@ -110,7 +105,7 @@ const Kandidatlister = () => {
                     Vilkår for tjenesten
                 </Link>
             </div>
-        </main>
+        </div>
     );
 };
 

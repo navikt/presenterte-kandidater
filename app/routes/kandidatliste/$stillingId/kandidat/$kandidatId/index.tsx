@@ -1,37 +1,21 @@
-import { useState } from "react";
-import {
-    Link,
-    useActionData,
-    useCatch,
-    useLoaderData,
-    useParams,
-    useTransition,
-} from "@remix-run/react";
 import { Button, ReadMore } from "@navikt/ds-react";
 import { json, redirect } from "@remix-run/node";
-import { proxyTilApi } from "~/services/api/proxy";
-import { Back } from "@navikt/ds-icons";
-import KandidatCv, {
-    KandidatUtenCv,
-    links as kandidatCvLinks,
-} from "~/components/kandidat-cv/KandidatCv";
-import { Kandidatvurdering } from "~/services/domene";
-import type { Kandidat, Kandidatliste } from "~/services/domene";
-import type { LoaderFunction, LinksFunction, ActionFunction } from "@remix-run/node";
-import useVirksomhet from "~/services/useVirksomhet";
-import css from "./index.css";
-import Slettemodal from "~/components/slettemodal/Slettemodal";
-import EndreVurdering from "~/components/endre-vurdering/EndreVurdering";
-import IkkeFunnet, { links as ikkeFunnetLinks } from "~/components/ikke-funnet/IkkeFunnet";
+import { useActionData, useCatch, useLoaderData, useParams, useTransition } from "@remix-run/react";
+import { useState } from "react";
 
-export const links: LinksFunction = () => [
-    ...kandidatCvLinks(),
-    ...ikkeFunnetLinks(),
-    {
-        rel: "stylesheet",
-        href: css,
-    },
-];
+import { Kandidatvurdering } from "~/services/domene";
+import { proxyTilApi } from "~/services/api/proxy";
+import EndreVurdering from "~/components/endre-vurdering/EndreVurdering";
+import IkkeFunnet from "~/components/ikke-funnet/IkkeFunnet";
+import KandidatCv, { KandidatUtenCv } from "~/components/cv/Cv";
+import Slettemodal from "~/components/slettemodal/Slettemodal";
+import Tilbakelenke from "~/components/tilbakelenke/Tilbakelenke";
+import useVirksomhet from "~/services/useVirksomhet";
+
+import type { LoaderFunction, ActionFunction } from "@remix-run/node";
+import type { Kandidat, Kandidatliste } from "~/services/domene";
+
+import css from "./index.module.css";
 
 type LoaderData = {
     kandidat: Kandidat;
@@ -145,14 +129,10 @@ const Kandidatvisning = () => {
     };
 
     return (
-        <main className="side kandidatside">
-            <Link
-                to={`/kandidatliste/${stillingId}?virksomhet=${virksomhet}`}
-                className="navds-link"
-            >
-                <Back aria-hidden />
+        <div className={css.kandidatside}>
+            <Tilbakelenke href={`/kandidatliste/${stillingId}?virksomhet=${virksomhet}`}>
                 Alle kandidater
-            </Link>
+            </Tilbakelenke>
 
             <EndreVurdering
                 kandidatliste={kandidatliste}
@@ -162,21 +142,14 @@ const Kandidatvisning = () => {
                 endrerVurdering={handling === "endre-vurdering"}
             />
 
-            <ReadMore
-                className="kandidatside__slik-virker-statusene"
-                header="Slik virker statusene"
-            >
+            <ReadMore header="Slik virker statusene" className={css.slikVirkerStatusene}>
                 Statusene hjelper deg å holde oversikt over kandidatene NAV har sendt deg.
                 <br />
                 Informasjonen blir ikke formidlet videre til kandidaten eller NAV.
             </ReadMore>
             {kandidat.cv ? <KandidatCv cv={kandidat.cv} /> : <KandidatUtenCv />}
 
-            <Button
-                className="kandidatside__slett-kandidat"
-                onClick={åpneSlettemodal}
-                variant="secondary"
-            >
+            <Button className={css.slettIKandidat} onClick={åpneSlettemodal} variant="secondary">
                 Slett kandidat
             </Button>
 
@@ -187,7 +160,7 @@ const Kandidatvisning = () => {
                 feilmeldinger={feilmeldinger}
                 sletterKandidat={handling === "slett"}
             />
-        </main>
+        </div>
     );
 };
 

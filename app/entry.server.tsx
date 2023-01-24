@@ -1,4 +1,7 @@
-/* Remix krever denne filen */
+/*
+  Entry-point for Remix på serversiden.
+  Dette er boilerplate fra Remix.
+*/
 
 import { PassThrough } from "stream";
 import { Response } from "@remix-run/node";

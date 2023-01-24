@@ -1,30 +1,21 @@
-import { Accordion, BodyLong, Heading, Panel } from "@navikt/ds-react";
-import { visVurdering } from "./kandidat/$kandidatId";
-import { Back, Close, ExternalLink } from "@navikt/ds-icons";
+import { BodyLong, Heading, Panel } from "@navikt/ds-react";
+import { Close, ExternalLink } from "@navikt/ds-icons";
 import { json, Response } from "@remix-run/node";
 import { Link as NavLink } from "@navikt/ds-react";
-import { Link, useCatch, useLoaderData } from "@remix-run/react";
-import { proxyTilApi } from "~/services/api/proxy";
-import type { LinksFunction, LoaderFunction } from "@remix-run/node";
-import type { ReactNode } from "react";
-import type { Kandidat, Kandidatliste } from "~/services/domene";
-import { Kandidatvurdering } from "~/services/domene";
-import Kandidatsammendrag, {
-    links as kandidatsammendragLinks,
-} from "~/components/kandidatsammendrag/Kandidatsammendrag";
-import css from "./index.css";
-import useVirksomhet from "~/services/useVirksomhet";
-import IkkeFunnet, { links as ikkeFunnetLinks } from "~/components/ikke-funnet/IkkeFunnet";
-import Vurderingsikon from "~/components/endre-vurdering/Vurderingsikon";
+import { useCatch, useLoaderData } from "@remix-run/react";
 
-export const links: LinksFunction = () => [
-    ...kandidatsammendragLinks(),
-    ...ikkeFunnetLinks(),
-    {
-        rel: "stylesheet",
-        href: css,
-    },
-];
+import { Kandidatvurdering } from "~/services/domene";
+import { proxyTilApi } from "~/services/api/proxy";
+import IkkeFunnet from "~/components/ikke-funnet/IkkeFunnet";
+import Tilbakelenke from "~/components/tilbakelenke/Tilbakelenke";
+import useVirksomhet from "~/services/useVirksomhet";
+import Vurderingsikon from "~/components/endre-vurdering/Vurderingsikon";
+import GruppeMedKandidater from "~/components/gruppeMedKandidater/GruppeMedKandidater";
+
+import type { LoaderFunction } from "@remix-run/node";
+import type { Kandidatliste } from "~/services/domene";
+
+import css from "./index.module.css";
 
 export const loader: LoaderFunction = async ({ request, params }) => {
     const stillingId = params.stillingId;
@@ -45,15 +36,12 @@ const Kandidatlistevisning = () => {
     const virksomhet = useVirksomhet();
 
     return (
-        <main className="side kandidatlisteside">
-            <Link
-                to={`/kandidatliste?virksomhet=${virksomhet}`}
-                className="navds-link kandidatlisteside__tilbakelenke"
-            >
-                <Back aria-hidden />
+        <div className={css.kandidatlisteside}>
+            <Tilbakelenke href={`/kandidatliste?virksomhet=${virksomhet}`}>
                 Alle rekrutteringsprosesser
-            </Link>
-            <Panel className="kandidatlistevisning">
+            </Tilbakelenke>
+
+            <Panel className={css.kandidatlistevisning}>
                 <Heading aria-label={`Kandidater til stilling «${tittel}»`} level="2" size="medium">
                     {tittel}
                 </Heading>
@@ -103,53 +91,7 @@ const Kandidatlistevisning = () => {
                     </>
                 )}
             </Panel>
-        </main>
-    );
-};
-
-const GruppeMedKandidater = ({
-    vurdering,
-    icon,
-    kandidater,
-    stillingId,
-}: {
-    vurdering?: Kandidatvurdering;
-    icon: ReactNode;
-    kandidater: Kandidat[];
-    stillingId: string;
-}) => {
-    const kandidaterMedGittStatus = kandidater.filter(
-        (kandidat) => kandidat.kandidat.arbeidsgiversVurdering === vurdering
-    );
-
-    if (kandidaterMedGittStatus.length === 0) {
-        return null;
-    }
-
-    return (
-        <Accordion className="gruppe-med-kandidater">
-            <Accordion.Item defaultOpen={kandidaterMedGittStatus.length > 0}>
-                <Accordion.Header>
-                    <div className="gruppe-med-kandidater--header">
-                        {icon}
-                        <Heading level="3" size="small">
-                            {visVurdering(vurdering)} ({kandidaterMedGittStatus.length})
-                        </Heading>
-                    </div>
-                </Accordion.Header>
-                <Accordion.Content>
-                    <ul className="gruppe-med-kandidater--kandidater">
-                        {kandidaterMedGittStatus.map((kandidat) => (
-                            <Kandidatsammendrag
-                                key={kandidat.kandidat.uuid}
-                                kandidat={kandidat}
-                                stillingId={stillingId}
-                            />
-                        ))}
-                    </ul>
-                </Accordion.Content>
-            </Accordion.Item>
-        </Accordion>
+        </div>
     );
 };
 
