@@ -124,17 +124,9 @@ const App = () => {
 
 export const ErrorBoundary: ErrorBoundaryComponent = ({ error }) => {
     if (typeof window === "undefined") {
-        console.error(
-            "Kom til error boundary på server. Klient vil forsøke å redirect til innloggign",
-            error
-        );
+        console.error("Kom til error boundary på server.", error);
     } else {
-        console.log(
-            "Kom til error boundary hos klienten. Har ikke annet valgt enn å redirect til innlogging.",
-            error
-        );
-
-        redirectTilInnlogging();
+        console.log("Kom til error boundary hos klienten.", error);
     }
 
     return (
@@ -162,6 +154,12 @@ export const CatchBoundary: CatchBoundaryComponent = () => {
     } else {
         console.log("Kom til catch boundary hos klienten:", error);
     }
+
+    useEffect(() => {
+        if (error.status === 401) {
+            redirectTilInnlogging();
+        }
+    });
 
     return (
         <html lang="no">
