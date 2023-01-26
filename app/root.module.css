@@ -14,7 +14,7 @@ body {
     margin-bottom: 3rem;
 }
 
-#decorator-header {
+:global(#decorator-header) {
     background: white;
 }
 
