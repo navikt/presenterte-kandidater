@@ -71,10 +71,8 @@ export const loader: LoaderFunction = async ({ request }) => {
         return redirect(samtykkeside);
     }
 
-    const ssrDekoratør = await hentSsrDekoratør();
-
     return json({
-        ssrDekoratør,
+        ssrDekoratør: await hentSsrDekoratør(),
         organisasjoner: await organisasjoner.json(),
     });
 };
