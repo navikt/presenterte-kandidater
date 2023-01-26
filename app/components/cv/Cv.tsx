@@ -21,6 +21,7 @@ import Førerkort from "./erfaring/Førerkort";
 import Kurs from "./erfaring/Kurs";
 import Språk from "./erfaring/Språk";
 import Utdanning from "./erfaring/Utdanning";
+import KontaktInfo from "./KontaktInfo";
 import css from "./Cv.module.css";
 
 type Props = {
@@ -28,7 +29,6 @@ type Props = {
 };
 
 const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
-    const telefon = cv.mobiltelefonnummer || cv.telefonnummer;
     const navn = `${cv.fornavn} ${cv.etternavn}`;
 
     return (
@@ -40,28 +40,10 @@ const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
                 <BodyShort as="dt">Bosted</BodyShort>
                 <BodyShort as="dd">{cv.bosted}</BodyShort>
 
-                {telefon && (
-                    <>
-                        <BodyShort as="dt">Telefon</BodyShort>
-                        <BodyShort as="dd">{telefon}</BodyShort>
-                    </>
-                )}
-
-                {cv.epost && (
-                    <>
-                        <BodyShort as="dt">E-post</BodyShort>
-                        <BodyShort as="dd">
-                            <Tooltip
-                                className={css.epostTooltip}
-                                content="Skriv en e-post til kandidaten"
-                            >
-                                <a className={css.epost} href={`mailto:${cv.epost}`}>
-                                    {cv.epost}
-                                </a>
-                            </Tooltip>
-                        </BodyShort>
-                    </>
-                )}
+                <KontaktInfo
+                    epost={cv.epost}
+                    telefon={cv.mobiltelefonnummer || cv.telefonnummer}
+                ></KontaktInfo>
 
                 {cv.alder && (
                     <>
