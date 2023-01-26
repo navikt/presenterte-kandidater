@@ -121,12 +121,6 @@ const App = () => {
 };
 
 export const ErrorBoundary: ErrorBoundaryComponent = ({ error }) => {
-    if (typeof window === "undefined") {
-        console.error("Kom til error boundary på server.", error);
-    } else {
-        console.log("Kom til error boundary hos klienten.", error);
-    }
-
     return (
         <html lang="no">
             <head>
@@ -146,12 +140,6 @@ export const ErrorBoundary: ErrorBoundaryComponent = ({ error }) => {
 
 export const CatchBoundary: CatchBoundaryComponent = () => {
     const error = useCatch();
-
-    if (typeof window === "undefined") {
-        console.error("Kom til catch boundary på server:", error);
-    } else {
-        console.log("Kom til catch boundary hos klienten:", error);
-    }
 
     useEffect(() => {
         if (error.status === 401) {
