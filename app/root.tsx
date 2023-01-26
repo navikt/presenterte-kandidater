@@ -13,7 +13,7 @@ import {
 } from "@remix-run/react";
 import { configureMock } from "./mocks";
 import { cssBundleHref } from "@remix-run/css-bundle";
-import { hentDekoratør } from "./services/dekoratør.server";
+import { hentSsrDekoratør } from "./services/dekoratør.server";
 import { hentMiljø, Miljø } from "./services/miljø";
 import { Modal, Panel } from "@navikt/ds-react";
 import { proxyTilApi } from "./services/api/proxy";
@@ -32,9 +32,9 @@ import type {
 } from "@remix-run/node";
 import type { Dekoratørfragmenter } from "./services/dekoratør";
 import type { Organisasjon } from "@navikt/bedriftsmeny/lib/organisasjon";
+import type { CatchBoundaryComponent } from "@remix-run/react/dist/routeModules";
 
 import css from "./root.module.css";
-import { CatchBoundaryComponent } from "@remix-run/react/dist/routeModules";
 
 export const meta: MetaFunction = () => ({
     charset: "utf-8",
@@ -73,21 +73,21 @@ export const loader: LoaderFunction = async ({ request }) => {
         return redirect(samtykkeside);
     }
 
-    const dekoratør = miljø === Miljø.ProdGcp ? null : await hentDekoratør();
+    const ssrDekoratør = await hentSsrDekoratør();
 
     return json({
-        dekoratør,
+        ssrDekoratør,
         organisasjoner: await organisasjoner.json(),
     });
 };
 
 type LoaderData = {
-    dekoratør: Dekoratørfragmenter | null;
+    ssrDekoratør: Dekoratørfragmenter | null;
     organisasjoner: Organisasjon[];
 };
 
 const App = () => {
-    const { organisasjoner, dekoratør: ssrDekoratør } = useLoaderData<LoaderData>();
+    const { organisasjoner, ssrDekoratør } = useLoaderData<LoaderData>();
 
     useEffect(() => {
         if (ssrDekoratør === null) {
@@ -123,6 +123,20 @@ const App = () => {
 };
 
 export const ErrorBoundary: ErrorBoundaryComponent = ({ error }) => {
+    if (typeof window === "undefined") {
+        console.error(
+            "Kom til error boundary på server. Klient vil forsøke å redirect til innloggign",
+            error
+        );
+    } else {
+        console.log(
+            "Kom til error boundary hos klienten. Har ikke annet valgt enn å redirect til innlogging.",
+            error
+        );
+
+        redirectTilInnlogging();
+    }
+
     return (
         <html lang="no">
             <head>
@@ -143,11 +157,11 @@ export const ErrorBoundary: ErrorBoundaryComponent = ({ error }) => {
 export const CatchBoundary: CatchBoundaryComponent = () => {
     const error = useCatch();
 
-    useEffect(() => {
-        if (error.status === 401) {
-            window.location.href = `/kandidatliste/oauth2/login?redirect=${window.location.pathname}`;
-        }
-    }, [error]);
+    if (typeof window === "undefined") {
+        console.error("Kom til catch boundary på server:", error);
+    } else {
+        console.log("Kom til catch boundary hos klienten:", error);
+    }
 
     return (
         <html lang="no">
@@ -161,6 +175,10 @@ export const CatchBoundary: CatchBoundaryComponent = () => {
             </body>
         </html>
     );
+};
+
+const redirectTilInnlogging = () => {
+    window.location.href = `/kandidatliste/oauth2/login?redirect=${window.location.pathname}`;
 };
 
 export default App;
