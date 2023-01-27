@@ -10,6 +10,7 @@ import {
     ScrollRestoration,
     useCatch,
     useLoaderData,
+    useRouteError,
 } from "@remix-run/react";
 import { configureMock } from "./mocks";
 import { cssBundleHref } from "@remix-run/css-bundle";
@@ -49,7 +50,11 @@ export const links: LinksFunction = () => [
     ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
 ];
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader: LoaderFunction = async ({ request, context }) => {
+    if (!context.erAutorisert) {
+        return redirect(`/kandidatliste/oauth2/login?redirect=${window.location.pathname}`);
+    }
+
     const miljø = hentMiljø();
 
     if (miljø === Miljø.Lokalt) {
@@ -131,6 +136,10 @@ const App = () => {
 };
 
 export const ErrorBoundary: ErrorBoundaryComponent = ({ error }) => {
+    const routeError = useRouteError();
+
+    console.log("ERROR fra route error:", routeError);
+
     return (
         <html lang="no">
             <head>

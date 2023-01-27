@@ -32,13 +32,14 @@ const startServer = async () => {
 
     app.use(logRequests);
 
-    app.all("*", erAutorisert, handleRequestWithRemix);
+    app.all("*" /*, erAutorisert*/, handleRequestWithRemix);
 
     app.listen(port, () => {
         logger.info(`Server kjører på port ${port}`);
     });
 };
 
+/*
 const erAutorisert = (req: Request, res: Response, next: NextFunction) => {
     if (process.env.NODE_ENV === "development") {
         return next();
@@ -52,5 +53,6 @@ const erAutorisert = (req: Request, res: Response, next: NextFunction) => {
         next();
     }
 };
+*/
 
 startServer();

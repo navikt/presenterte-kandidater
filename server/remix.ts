@@ -2,6 +2,7 @@ import type { RequestHandler } from "express";
 
 import { createRequestHandler } from "@remix-run/express";
 import path from "path";
+import { logger } from "./logger";
 
 const buildDir = path.join(process.cwd(), "build");
 
@@ -31,6 +32,14 @@ const handleRequestWithRemix =
     process.env.NODE_ENV === "development"
         ? createRequestHandlerForDevelopment
         : createRequestHandler({
+              getLoadContext(req) {
+                  const erAutorisert =
+                      process.env.NODE_ENV === "development" ? true : req.headers.authorization;
+
+                  return {
+                      erAutorisert,
+                  };
+              },
               build: require(buildDir),
               mode: process.env.NODE_ENV,
           });
