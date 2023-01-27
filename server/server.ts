@@ -46,7 +46,8 @@ const erAutorisert = (req: Request, res: Response, next: NextFunction) => {
 
     if (!req.headers.authorization) {
         logger.info("Bruker er ikke logget inn – videresender til IDPorten");
-        res.redirect(`/kandidatliste/oauth2/login?redirect=${req.path}`);
+        res.status(401).send("Bruker er ikke logget inn. Dette kommer fra middleware på server.");
+        // res.redirect(`/kandidatliste/oauth2/login?redirect=${req.path}`);
     } else {
         next();
     }
