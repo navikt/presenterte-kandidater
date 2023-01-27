@@ -1,8 +1,9 @@
 import express from "express";
 import compression from "compression";
-import handleRequest from "./handleRequest";
-import type { Response } from "express";
+import handleRequestWithRemix from "./remix";
+import type { Response, NextFunction, Request } from "express";
 import { logger, logRequests } from "./logger";
+import { retrieveToken } from "../app/services/api/proxy";
 
 const port = process.env.PORT || 3000;
 const basePath = "/kandidatliste";
@@ -31,11 +32,25 @@ const startServer = async () => {
     );
 
     app.use(logRequests);
-    app.all("*", handleRequest);
+
+    app.all("*", erAutorisert, handleRequestWithRemix);
 
     app.listen(port, () => {
         logger.info(`Server kjører på port ${port}`);
     });
+};
+
+const erAutorisert = (req: Request, res: Response, next: NextFunction) => {
+    if (process.env.NODE_ENV === "development") {
+        return true;
+    }
+
+    if (!req.headers.authorization) {
+        logger.info("User is not logged in, redirecting to login");
+        res.redirect(`/kandidatliste/oauth2/login?redirect=${req.path}`);
+    } else {
+        next();
+    }
 };
 
 startServer();

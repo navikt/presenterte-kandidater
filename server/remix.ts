@@ -27,7 +27,7 @@ const createRequestHandlerForDevelopment: RequestHandler = (req, res, next) => {
     })(req, res, next);
 };
 
-const handleRequest =
+const handleRequestWithRemix =
     process.env.NODE_ENV === "development"
         ? createRequestHandlerForDevelopment
         : createRequestHandler({
@@ -35,4 +35,4 @@ const handleRequest =
               mode: process.env.NODE_ENV,
           });
 
-export default handleRequest;
+export default handleRequestWithRemix;
