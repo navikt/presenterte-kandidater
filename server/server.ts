@@ -32,27 +32,11 @@ const startServer = async () => {
 
     app.use(logRequests);
 
-    app.all("*" /*, erAutorisert*/, handleRequestWithRemix);
+    app.all("*", handleRequestWithRemix);
 
     app.listen(port, () => {
         logger.info(`Server kjører på port ${port}`);
     });
 };
-
-/*
-const erAutorisert = (req: Request, res: Response, next: NextFunction) => {
-    if (process.env.NODE_ENV === "development") {
-        return next();
-    }
-
-    if (!req.headers.authorization) {
-        logger.info("Bruker er ikke logget inn – videresender til IDPorten");
-        res.status(401).send("Bruker er ikke logget inn. Dette kommer fra middleware på server.");
-        // res.redirect(`/kandidatliste/oauth2/login?redirect=${req.path}`);
-    } else {
-        next();
-    }
-};
-*/
 
 startServer();

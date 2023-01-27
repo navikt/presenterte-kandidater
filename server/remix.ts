@@ -23,6 +23,9 @@ const createRequestHandlerForDevelopment: RequestHandler = (req, res, next) => {
     purgeRequireCache();
 
     return createRequestHandler({
+        getLoadContext: () => ({
+            erAutorisert: true,
+        }),
         build: require(buildDir),
         mode: process.env.NODE_ENV,
     })(req, res, next);
@@ -32,14 +35,9 @@ const handleRequestWithRemix =
     process.env.NODE_ENV === "development"
         ? createRequestHandlerForDevelopment
         : createRequestHandler({
-              getLoadContext(req) {
-                  const erAutorisert =
-                      process.env.NODE_ENV === "development" ? true : req.headers.authorization;
-
-                  return {
-                      erAutorisert,
-                  };
-              },
+              getLoadContext: (req) => ({
+                  erAutorisert: req.headers.authorization,
+              }),
               build: require(buildDir),
               mode: process.env.NODE_ENV,
           });
