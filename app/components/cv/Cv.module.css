@@ -16,26 +16,6 @@
     grid-template-columns: 5rem 1fr;
 }
 
-.gruppe {
-    align-self: stretch;
-    margin-top: 2rem;
-}
-
-.gruppeHeader {
-    display: flex;
-    align-items: center;
-    background-color: var(--a-gray-50);
-    gap: 1rem;
-    padding: 0.5rem 1.5rem;
-    margin: 0 -1rem 2rem;
-    border-bottom: 1px solid var(--a-gray-400);
-}
-
-.gruppeHeader svg {
-    width: 1.5rem;
-    height: 1.5rem;
-}
-
 a.epost {
     text-decoration: none;
     line-height: 1rem;
@@ -63,14 +43,6 @@ a.epost {
 
     .cv h2 {
         align-self: center;
-    }
-
-    .gruppe {
-        padding: 0 1.5rem;
-    }
-
-    .gruppeHeader {
-        margin: 0 -1.5rem 2rem;
     }
 
     .liste {
