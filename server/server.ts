@@ -41,7 +41,7 @@ const startServer = async () => {
 
 const erAutorisert = (req: Request, res: Response, next: NextFunction) => {
     if (process.env.NODE_ENV === "development") {
-        return true;
+        return next();
     }
 
     if (!req.headers.authorization) {
