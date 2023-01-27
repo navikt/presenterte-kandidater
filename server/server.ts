@@ -45,7 +45,7 @@ const erAutorisert = (req: Request, res: Response, next: NextFunction) => {
     }
 
     if (!req.headers.authorization) {
-        logger.info("User is not logged in, redirecting to login");
+        logger.info("Bruker er ikke logget inn – videresender til IDPorten");
         res.redirect(`/kandidatliste/oauth2/login?redirect=${req.path}`);
     } else {
         next();

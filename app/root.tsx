@@ -83,7 +83,9 @@ type LoaderData = {
 };
 
 const App = () => {
+    console.log("Denne koden kjører før useLoaderData.");
     const { organisasjoner, ssrDekoratør } = useLoaderData<LoaderData>();
+    console.log("Denne koden kjører rett etter useLoaderData:", organisasjoner);
 
     useEffect(() => {
         if (ssrDekoratør === null) {
