@@ -52,7 +52,7 @@ export const links: LinksFunction = () => [
 
 export const loader: LoaderFunction = async ({ request, context }) => {
     if (!context.erAutorisert) {
-        return redirect(`/kandidatliste/oauth2/login?redirect=${request.url}`);
+        throw new Response("Bruker er ikke autorisert", { status: 401 });
     }
 
     const miljø = hentMiljø();
