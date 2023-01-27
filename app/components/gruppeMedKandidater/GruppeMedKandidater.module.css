@@ -11,6 +11,7 @@
 
 .innhold {
     padding: 0;
+    border-bottom: none;
 }
 
 .kandidater {
