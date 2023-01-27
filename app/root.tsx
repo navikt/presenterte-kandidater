@@ -1,4 +1,4 @@
-import { redirect } from "@remix-run/node";
+import { redirect, Response } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import parse from "html-react-parser";
 import {
@@ -8,11 +8,13 @@ import {
     Outlet,
     Scripts as RemixScripts,
     ScrollRestoration,
+    useCatch,
     useLoaderData,
+    useRouteError,
 } from "@remix-run/react";
 import { configureMock } from "./mocks";
 import { cssBundleHref } from "@remix-run/css-bundle";
-import { hentDekoratør } from "./services/dekoratør.server";
+import { hentSsrDekoratør } from "./services/dekoratør.server";
 import { hentMiljø, Miljø } from "./services/miljø";
 import { Modal, Panel } from "@navikt/ds-react";
 import { proxyTilApi } from "./services/api/proxy";
@@ -31,6 +33,7 @@ import type {
 } from "@remix-run/node";
 import type { Dekoratørfragmenter } from "./services/dekoratør";
 import type { Organisasjon } from "@navikt/bedriftsmeny/lib/organisasjon";
+import type { CatchBoundaryComponent } from "@remix-run/react/dist/routeModules";
 
 import css from "./root.module.css";
 
@@ -46,7 +49,11 @@ export const links: LinksFunction = () => [
     ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
 ];
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader: LoaderFunction = async ({ request, context }) => {
+    if (!context.erAutorisert) {
+        throw new Response("Bruker er ikke autorisert", { status: 401 });
+    }
+
     const miljø = hentMiljø();
 
     if (miljø === Miljø.Lokalt) {
@@ -65,21 +72,19 @@ export const loader: LoaderFunction = async ({ request }) => {
         return redirect(samtykkeside);
     }
 
-    const dekoratør = miljø === Miljø.ProdGcp ? null : await hentDekoratør();
-
     return json({
-        dekoratør,
+        ssrDekoratør: await hentSsrDekoratør(),
         organisasjoner: await organisasjoner.json(),
     });
 };
 
 type LoaderData = {
-    dekoratør: Dekoratørfragmenter | null;
+    ssrDekoratør: Dekoratørfragmenter | null;
     organisasjoner: Organisasjon[];
 };
 
 const App = () => {
-    const { organisasjoner, dekoratør: ssrDekoratør } = useLoaderData<LoaderData>();
+    const { organisasjoner, ssrDekoratør } = useLoaderData<LoaderData>();
 
     useEffect(() => {
         if (ssrDekoratør === null) {
@@ -125,11 +130,40 @@ export const ErrorBoundary: ErrorBoundaryComponent = ({ error }) => {
                 <header>
                     <Header organisasjoner={[]} />
                 </header>
-                <Panel>Det skjedde en feil: {error.message}</Panel>
+                <Panel>Det skjedde en uventet feil: {error.message}</Panel>
                 <RemixScripts />
             </body>
         </html>
     );
+};
+
+export const CatchBoundary: CatchBoundaryComponent = () => {
+    const error = useCatch();
+
+    useEffect(() => {
+        if (error.status === 401) {
+            redirectTilInnlogging();
+        }
+    });
+
+    return (
+        <html lang="no">
+            <head>
+                <Meta />
+                <Links />
+            </head>
+            <body>
+                <Panel>{error.statusText}</Panel>
+                <RemixScripts />
+            </body>
+        </html>
+    );
+};
+
+const redirectTilInnlogging = () => {
+    if (typeof window !== "undefined") {
+        window.location.href = `/kandidatliste/oauth2/login?redirect=${window.location.pathname}`;
+    }
 };
 
 export default App;

@@ -1,14 +1,30 @@
 import { fetchDecoratorHtml } from "@navikt/nav-dekoratoren-moduler/ssr";
 import type { Dekoratørfragmenter } from "./dekoratør";
 import { hentBrødsmulesti, hentDekoratørMiljø } from "./dekoratør";
-import { hentMiljø } from "./miljø";
+import { hentMiljø, Miljø } from "./miljø";
 
-let dekoratør: Dekoratørfragmenter;
+const visDekoratørUnderUtvikling = false;
+const brukSsrDekoratørIMiljø = false;
 
-export const hentDekoratør = async (): Promise<Dekoratørfragmenter> => {
-    if (dekoratør) return dekoratør;
-
+export const hentSsrDekoratør = async (): Promise<Dekoratørfragmenter | null> => {
     const miljø = hentMiljø();
+
+    if (miljø === Miljø.Lokalt) {
+        if (visDekoratørUnderUtvikling) {
+            return await hentDekoratør(miljø);
+        } else {
+            return hentTomDekoratør();
+        }
+    } else {
+        if (brukSsrDekoratørIMiljø) {
+            return await hentDekoratør(miljø);
+        } else {
+            return null;
+        }
+    }
+};
+
+export const hentDekoratør = async (miljø: Miljø): Promise<Dekoratørfragmenter> => {
     const decorator = await fetchDecoratorHtml({
         env: hentDekoratørMiljø(miljø),
         simple: false,
@@ -17,12 +33,19 @@ export const hentDekoratør = async (): Promise<Dekoratørfragmenter> => {
         breadcrumbs: hentBrødsmulesti(miljø),
     });
 
-    dekoratør = {
+    return {
         styles: decorator.DECORATOR_STYLES,
         header: decorator.DECORATOR_HEADER,
         footer: decorator.DECORATOR_FOOTER,
         scripts: decorator.DECORATOR_SCRIPTS.replace('async=""', ""),
     };
+};
 
-    return dekoratør;
+export const hentTomDekoratør = (): Dekoratørfragmenter => {
+    return {
+        styles: "",
+        header: "",
+        footer: "",
+        scripts: "",
+    };
 };

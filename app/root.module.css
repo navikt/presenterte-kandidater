@@ -14,7 +14,7 @@ body {
     margin-bottom: 3rem;
 }
 
-#decorator-header {
+:global(#decorator-header) {
     background: white;
 }
 
@@ -26,8 +26,8 @@ body {
 }
 
 @media print {
-    #decorator-header,
-    #decorator-footer,
+    :global(#decorator-header),
+    :global(#decorator-footer),
     :global(.navbm-bedriftsmeny) {
         display: none;
     }

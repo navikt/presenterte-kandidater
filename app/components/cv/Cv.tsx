@@ -1,4 +1,4 @@
-import type { FunctionComponent, ReactNode } from "react";
+import type { FunctionComponent } from "react";
 import { BodyLong, BodyShort, Heading, Panel, Tooltip } from "@navikt/ds-react";
 import {
     Attachment,
@@ -22,6 +22,7 @@ import Kurs from "./erfaring/Kurs";
 import Språk from "./erfaring/Språk";
 import Utdanning from "./erfaring/Utdanning";
 import css from "./Cv.module.css";
+import Gruppe from "../gruppe/Gruppe";
 
 type Props = {
     cv: CvType;
@@ -140,24 +141,6 @@ const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
                 </Gruppe>
             )}
         </Panel>
-    );
-};
-
-const Gruppe: FunctionComponent<{
-    icon: ReactNode;
-    tittel: string;
-    children: ReactNode;
-}> = ({ icon, tittel, children }) => {
-    return (
-        <section className={css.gruppe}>
-            <div className={css.gruppeHeader}>
-                {icon}
-                <Heading level="3" size="small">
-                    {tittel}
-                </Heading>
-            </div>
-            {children}
-        </section>
     );
 };
 

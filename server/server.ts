@@ -1,7 +1,7 @@
 import express from "express";
 import compression from "compression";
-import handleRequest from "./handleRequest";
-import type { Response } from "express";
+import handleRequestWithRemix from "./remix";
+import type { Response, NextFunction, Request } from "express";
 import { logger, logRequests } from "./logger";
 
 const port = process.env.PORT || 3000;
@@ -31,7 +31,8 @@ const startServer = async () => {
     );
 
     app.use(logRequests);
-    app.all("*", handleRequest);
+
+    app.all("*", handleRequestWithRemix);
 
     app.listen(port, () => {
         logger.info(`Server kjører på port ${port}`);

@@ -20,12 +20,12 @@ const Kandidatsammendrag: FunctionComponent<Props> = ({ kandidat, stillingId }) 
     const { kompetanse, arbeidserfaring } = kandidat.cv;
 
     return (
-        <li className={css.kandidatsammendrag}>
+        <li className={css.kandidat}>
             <Link
                 to={`/kandidatliste/${stillingId}/kandidat/${kandidat.kandidat.uuid}?virksomhet=${virksomhet}`}
                 className="navds-link"
             >
-                <span>{visKandidatnavn(kandidat.cv)}</span>
+                <span className={css.navn}>{visKandidatnavn(kandidat.cv)}</span>
             </Link>
             <BodyShort>
                 <span className={css.punkt}>Kompetanse: </span>
@@ -45,12 +45,12 @@ export const KandidatsammendragUtenCv: FunctionComponent<Props> = ({ kandidat, s
     const virksomhet = useVirksomhet();
 
     return (
-        <li className={css.kandidatsammendrag}>
+        <li className={css.kandidat}>
             <Link
                 to={`/kandidatliste/${stillingId}/kandidat/${kandidat.kandidat.uuid}?virksomhet=${virksomhet}`}
                 className="navds-link"
             >
-                <span>Utilgjengelig kandidat</span>
+                <span className={css.navn}>Utilgjengelig kandidat</span>
             </Link>
             <BodyShort>Kandidaten er ikke lenger tilgjengelig</BodyShort>
         </li>

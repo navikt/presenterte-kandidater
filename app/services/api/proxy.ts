@@ -1,4 +1,4 @@
-import { logger } from "server/logger";
+import { logger } from "../../../server/logger";
 import { hentMiljø, Miljø } from "../miljø";
 import TokenClient from "./TokenClient.server";
 
