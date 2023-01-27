@@ -35,6 +35,7 @@ import type { Organisasjon } from "@navikt/bedriftsmeny/lib/organisasjon";
 import type { CatchBoundaryComponent } from "@remix-run/react/dist/routeModules";
 
 import css from "./root.module.css";
+import { logger } from "server/logger";
 
 export const meta: MetaFunction = () => ({
     charset: "utf-8",
@@ -55,10 +56,14 @@ export const loader: LoaderFunction = async ({ request }) => {
         configureMock();
     }
 
+    logger.info("Loader-funksjon på root, før henting av data");
+
     const [samtykke, organisasjoner] = await Promise.all([
         proxyTilApi(request, "/samtykke"),
         proxyTilApi(request, "/organisasjoner"),
     ]);
+
+    logger.info("Loader-funksjon på root, etter henting av data:", organisasjoner);
 
     if (!organisasjoner.ok) {
         throw organisasjoner;
@@ -85,7 +90,7 @@ type LoaderData = {
 const App = () => {
     console.log("Denne koden kjører før useLoaderData.");
     const { organisasjoner, ssrDekoratør } = useLoaderData<LoaderData>();
-    console.log("Denne koden kjører rett etter useLoaderData:", organisasjoner);
+    console.log("Denne koden kjører rett etter useLoaderData:");
 
     useEffect(() => {
         if (ssrDekoratør === null) {
@@ -140,6 +145,8 @@ export const ErrorBoundary: ErrorBoundaryComponent = ({ error }) => {
 
 export const CatchBoundary: CatchBoundaryComponent = () => {
     const error = useCatch();
+
+    console.log("Havnet i catch boundary med error:", error);
 
     useEffect(() => {
         if (error.status === 401) {
