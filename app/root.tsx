@@ -90,7 +90,12 @@ type LoaderData = {
 const App = () => {
     console.log("Denne koden kjører før useLoaderData.");
     const { organisasjoner, ssrDekoratør } = useLoaderData<LoaderData>();
-    console.log("Denne koden kjører rett etter useLoaderData:");
+    console.log("Denne koden kjører rett etter useLoaderData:", organisasjoner);
+
+    if (!organisasjoner) {
+        console.log("GOTCHA!");
+        redirectTilInnlogging();
+    }
 
     useEffect(() => {
         if (ssrDekoratør === null) {
@@ -169,7 +174,9 @@ export const CatchBoundary: CatchBoundaryComponent = () => {
 };
 
 const redirectTilInnlogging = () => {
-    window.location.href = `/kandidatliste/oauth2/login?redirect=${window.location.pathname}`;
+    if (typeof window !== "undefined") {
+        window.location.href = `/kandidatliste/oauth2/login?redirect=${window.location.pathname}`;
+    }
 };
 
 export default App;
