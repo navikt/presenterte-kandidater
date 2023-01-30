@@ -9,6 +9,10 @@
     margin-top: 0.5rem;
 }
 
+.kandidat:not(:last-child) {
+    border-bottom: 2px solid var(--a-gray-200);
+}
+
 .navn {
     font-size: var(--a-font-size-xlarge);
 }
