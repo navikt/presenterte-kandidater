@@ -10,3 +10,17 @@ a.epost {
 .epostTooltip {
     padding: 0.5rem 1rem;
 }
+
+@media print {
+    .kontaktinformasjon button {
+        display: none;
+    }
+
+    .kontaktinformasjon > div {
+        height: auto !important;
+    }
+
+    .kontaktinformasjon > div > div {
+        display: unset !important;
+    }
+}

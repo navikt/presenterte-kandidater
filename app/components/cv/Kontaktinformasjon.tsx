@@ -17,7 +17,11 @@ const Kontaktinformasjon: FunctionComponent<Props> = ({ epost, telefon }) => {
     };
 
     return (
-        <ReadMore onClick={onVisKontaktinformasjon} header="Vis kontaktinformasjon">
+        <ReadMore
+            className={css.kontaktinformasjon}
+            onClick={onVisKontaktinformasjon}
+            header="Vis kontaktinformasjon"
+        >
             <dl className={cvCss.personalia}>
                 {telefon && (
                     <>
