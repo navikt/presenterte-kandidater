@@ -11,16 +11,16 @@ a.epost {
     padding: 0.5rem 1rem;
 }
 
+.print {
+    display: none;
+}
+
 @media print {
-    .kontaktinformasjon button {
+    .print {
+        display: unset;
+    }
+
+    .ingenPrint {
         display: none;
-    }
-
-    .kontaktinformasjon > div {
-        height: auto !important;
-    }
-
-    .kontaktinformasjon > div > div {
-        display: unset !important;
     }
 }

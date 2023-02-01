@@ -16,37 +16,45 @@ const Kontaktinformasjon: FunctionComponent<Props> = ({ epost, telefon }) => {
         fetcher.submit({ handling: "vis-kontaktinformasjon" }, { method: "get" });
     };
 
-    return (
-        <ReadMore
-            className={css.kontaktinformasjon}
-            onClick={onVisKontaktinformasjon}
-            header="Vis kontaktinformasjon"
-        >
-            <dl className={cvCss.personalia}>
-                {telefon && (
-                    <>
-                        <BodyShort as="dt">Telefon</BodyShort>
-                        <BodyShort as="dd">{telefon}</BodyShort>
-                    </>
-                )}
+    const innhold = (
+        <dl className={cvCss.personalia}>
+            {telefon && (
+                <>
+                    <BodyShort as="dt">Telefon</BodyShort>
+                    <BodyShort as="dd">{telefon}</BodyShort>
+                </>
+            )}
 
-                {epost && (
-                    <>
-                        <BodyShort as="dt">E-post</BodyShort>
-                        <BodyShort as="dd">
-                            <Tooltip
-                                className={css.epostTooltip}
-                                content="Skriv en e-post til kandidaten"
-                            >
-                                <a className={css.epost} href={`mailto:${epost}`}>
-                                    {epost}
-                                </a>
-                            </Tooltip>
-                        </BodyShort>
-                    </>
-                )}
-            </dl>
-        </ReadMore>
+            {epost && (
+                <>
+                    <BodyShort as="dt">E-post</BodyShort>
+                    <BodyShort as="dd">
+                        <Tooltip
+                            className={css.epostTooltip}
+                            content="Skriv en e-post til kandidaten"
+                        >
+                            <a className={css.epost} href={`mailto:${epost}`}>
+                                {epost}
+                            </a>
+                        </Tooltip>
+                    </BodyShort>
+                </>
+            )}
+        </dl>
+    );
+
+    return (
+        <>
+            <div className={css.print}>{innhold}</div>
+            <ReadMore
+                className={css.ingenPrint}
+                onClick={onVisKontaktinformasjon}
+                header="Vis kontaktinformasjon"
+            >
+                {innhold}
+            </ReadMore>
+        </>
     );
 };
+
 export default Kontaktinformasjon;
