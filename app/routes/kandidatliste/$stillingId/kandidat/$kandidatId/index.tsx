@@ -79,7 +79,7 @@ const slett = async (request: Request, stillingId: string, kandidatId: string) =
     }
 };
 
-const loggVisKontaktinfo = async (request: Request, stillingId: string, kandidatId: string) => {
+const loggVisKontaktinfo = async (request: Request, kandidatId: string) => {
     await proxyTilApi(request, `/kandidat/${kandidatId}/viskontaktinfo`, "PUT");
 
     return null;
@@ -108,7 +108,7 @@ export const action: ActionFunction = async ({ request, context, params }) => {
     } else if (handling === "slett") {
         return slett(request, stillingId, kandidatId);
     } else if (handling === "vis-kontaktinformasjon") {
-        return loggVisKontaktinfo(request, stillingId, kandidatId);
+        return loggVisKontaktinfo(request, kandidatId);
     } else {
         throw new Error("Ukjent handling");
     }
