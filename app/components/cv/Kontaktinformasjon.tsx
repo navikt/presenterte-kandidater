@@ -13,7 +13,9 @@ const Kontaktinformasjon: FunctionComponent<Props> = ({ epost, telefon }) => {
     const fetcher = useFetcher();
 
     const onVisKontaktinformasjon = () => {
-        fetcher.submit({ handling: "vis-kontaktinformasjon" }, { method: "get" });
+        const formData = new FormData();
+        formData.set("handling", "vis-kontaktinformasjon");
+        fetcher.submit(formData, { method: "get" });
     };
 
     const innhold = (
