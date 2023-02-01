@@ -1,5 +1,5 @@
 import type { FunctionComponent, ReactNode } from "react";
-import { BodyLong, BodyShort, Heading, Panel, Tooltip } from "@navikt/ds-react";
+import { BodyLong, BodyShort, Heading, Panel } from "@navikt/ds-react";
 import {
     Attachment,
     Bag,
@@ -21,7 +21,7 @@ import Førerkort from "./erfaring/Førerkort";
 import Kurs from "./erfaring/Kurs";
 import Språk from "./erfaring/Språk";
 import Utdanning from "./erfaring/Utdanning";
-import KontaktInfo from "./KontaktInfo";
+import Kontaktinformasjon from "./Kontaktinformasjon";
 import css from "./Cv.module.css";
 
 type Props = {
@@ -40,11 +40,6 @@ const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
                 <BodyShort as="dt">Bosted</BodyShort>
                 <BodyShort as="dd">{cv.bosted}</BodyShort>
 
-                <KontaktInfo
-                    epost={cv.epost}
-                    telefon={cv.mobiltelefonnummer || cv.telefonnummer}
-                ></KontaktInfo>
-
                 {cv.alder && (
                     <>
                         <BodyShort as="dt">Alder</BodyShort>
@@ -52,6 +47,11 @@ const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
                     </>
                 )}
             </dl>
+
+            <Kontaktinformasjon
+                epost={cv.epost}
+                telefon={cv.mobiltelefonnummer || cv.telefonnummer}
+            />
 
             <Gruppe icon={<Star aria-hidden />} tittel="Kompetanse">
                 <Liste elementer={cv.kompetanse} />
