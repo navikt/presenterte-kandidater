@@ -46,7 +46,11 @@ const Kandidatlistevisning = () => {
                     {tittel}
                 </Heading>
 
-                <NavLink href={`https://www.nav.no/arbeid/stilling/${stillingId}`} target="__blank">
+                <NavLink
+                    className={css.stillingslenke}
+                    href={`https://www.nav.no/arbeid/stilling/${stillingId}`}
+                    target="__blank"
+                >
                     Se stilling
                     <ExternalLink aria-hidden />
                 </NavLink>

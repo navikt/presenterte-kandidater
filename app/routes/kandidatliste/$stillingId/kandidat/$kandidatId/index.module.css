@@ -6,6 +6,10 @@
     padding: 1rem;
 }
 
+.kandidatside a:first-child {
+    margin-bottom: 0;
+}
+
 .navigering {
     display: flex;
     align-items: center;

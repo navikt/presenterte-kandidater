@@ -9,6 +9,10 @@
     gap: 1.5rem;
 }
 
+.stillingslenke {
+    align-self: flex-start;
+}
+
 @media (min-width: 40rem) {
     .kandidatlistevisning {
         padding: 2.5rem;
