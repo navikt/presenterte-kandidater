@@ -80,7 +80,7 @@ const slett = async (request: Request, stillingId: string, kandidatId: string) =
 };
 
 const loggVisKontaktinfo = async (request: Request, kandidatId: string) => {
-    await proxyTilApi(request, `/kandidat/${kandidatId}/viskontaktinfo`, "PUT");
+    await proxyTilApi(request, `/kandidat/${kandidatId}/registrerviskontaktinfo`, "POST");
 
     return null;
 };
