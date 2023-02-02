@@ -39,4 +39,8 @@ export const handlers = [
     rest.delete(`${apiConfig.url}/kandidat/:kandidatId`, (req, res, ctx) => {
         return res(ctx.status(200));
     }),
+
+    rest.post(`${apiConfig.url}/kandidat/:kandidatId/registrerviskontaktinfo`, (req, res, ctx) => {
+        return res(ctx.status(200));
+    }),
 ];

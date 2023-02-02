@@ -1,0 +1,26 @@
+a.epost {
+    text-decoration: none;
+    line-height: 1rem;
+}
+
+.epost:hover {
+    text-decoration: underline;
+}
+
+.epostTooltip {
+    padding: 0.5rem 1rem;
+}
+
+.print {
+    display: none;
+}
+
+@media print {
+    .print {
+        display: unset;
+    }
+
+    .ingenPrint {
+        display: none;
+    }
+}

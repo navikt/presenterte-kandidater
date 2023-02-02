@@ -1,5 +1,5 @@
 import type { FunctionComponent } from "react";
-import { BodyLong, BodyShort, Heading, Panel, Tooltip } from "@navikt/ds-react";
+import { BodyLong, BodyShort, Heading, Panel } from "@navikt/ds-react";
 import {
     Attachment,
     Bag,
@@ -21,15 +21,15 @@ import Førerkort from "./erfaring/Førerkort";
 import Kurs from "./erfaring/Kurs";
 import Språk from "./erfaring/Språk";
 import Utdanning from "./erfaring/Utdanning";
-import css from "./Cv.module.css";
+import Kontaktinformasjon from "./Kontaktinformasjon";
 import Gruppe from "../gruppe/Gruppe";
+import css from "./Cv.module.css";
 
 type Props = {
     cv: CvType;
 };
 
 const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
-    const telefon = cv.mobiltelefonnummer || cv.telefonnummer;
     const navn = `${cv.fornavn} ${cv.etternavn}`;
 
     return (
@@ -41,29 +41,6 @@ const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
                 <BodyShort as="dt">Bosted</BodyShort>
                 <BodyShort as="dd">{cv.bosted}</BodyShort>
 
-                {telefon && (
-                    <>
-                        <BodyShort as="dt">Telefon</BodyShort>
-                        <BodyShort as="dd">{telefon}</BodyShort>
-                    </>
-                )}
-
-                {cv.epost && (
-                    <>
-                        <BodyShort as="dt">E-post</BodyShort>
-                        <BodyShort as="dd">
-                            <Tooltip
-                                className={css.epostTooltip}
-                                content="Skriv en e-post til kandidaten"
-                            >
-                                <a className={css.epost} href={`mailto:${cv.epost}`}>
-                                    {cv.epost}
-                                </a>
-                            </Tooltip>
-                        </BodyShort>
-                    </>
-                )}
-
                 {cv.alder && (
                     <>
                         <BodyShort as="dt">Alder</BodyShort>
@@ -71,6 +48,11 @@ const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
                     </>
                 )}
             </dl>
+
+            <Kontaktinformasjon
+                epost={cv.epost}
+                telefon={cv.mobiltelefonnummer || cv.telefonnummer}
+            />
 
             <Gruppe icon={<Star aria-hidden />} tittel="Kompetanse">
                 <Liste elementer={cv.kompetanse} />

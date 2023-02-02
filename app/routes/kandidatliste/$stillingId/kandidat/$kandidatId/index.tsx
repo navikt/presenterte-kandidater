@@ -79,7 +79,11 @@ const slett = async (request: Request, stillingId: string, kandidatId: string) =
     }
 };
 
-type Handling = "endre-vurdering" | "slett";
+const loggVisKontaktinfo = async (request: Request, kandidatId: string) => {
+    return await proxyTilApi(request, `/kandidat/${kandidatId}/registrerviskontaktinfo`, "POST");
+};
+
+type Handling = "endre-vurdering" | "slett" | "vis-kontaktinformasjon";
 
 export type ActionData =
     | undefined
@@ -101,6 +105,8 @@ export const action: ActionFunction = async ({ request, context, params }) => {
         return endreVurdering(request, kandidatId, formData.get("vurdering") as Kandidatvurdering);
     } else if (handling === "slett") {
         return slett(request, stillingId, kandidatId);
+    } else if (handling === "vis-kontaktinformasjon") {
+        return loggVisKontaktinfo(request, kandidatId);
     } else {
         throw new Error("Ukjent handling");
     }
