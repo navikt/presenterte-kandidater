@@ -2,18 +2,6 @@
 
 Arbeidsgiverflate for å se kandidater presentert av markedskontakter.
 
-## Feature toggle
-
-Applikasjonen er under utvikling, og alle virksomhetene som skal ha tilgang må legges til i følgende feature toggle:
-
-```
-namespace: toi
-cluster: dev-gcp/prod-gcp
-secret: presenterte-kandidater-toggle
-```
-
-Virksomhetene eksponeres i miljøvariabelen `PRESENTERTE_KANDIDATER_TOGGLE`.
-
 ## Lokal utvikling
 
 Noen pakker under `@navikt` hentes fra Github sitt NPM-repository. For at dette skal fungere må du først autentisere mot Github:
