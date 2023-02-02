@@ -10,7 +10,6 @@ import {
     ScrollRestoration,
     useCatch,
     useLoaderData,
-    useRouteError,
 } from "@remix-run/react";
 import { configureMock } from "./mocks";
 import { cssBundleHref } from "@remix-run/css-bundle";
@@ -78,7 +77,7 @@ export const loader: LoaderFunction = async ({ request, context }) => {
     });
 };
 
-type LoaderData = {
+export type LoaderData = {
     ssrDekoratør: Dekoratørfragmenter | null;
     organisasjoner: Organisasjon[];
 };

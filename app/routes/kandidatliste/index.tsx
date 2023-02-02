@@ -1,6 +1,6 @@
 import { BodyShort, Heading } from "@navikt/ds-react";
 import { json } from "@remix-run/node";
-import { Link, useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData, useRouteLoaderData } from "@remix-run/react";
 import { proxyTilApi } from "~/services/api/proxy";
 import useVirksomhet from "~/services/useVirksomhet";
 import VisKandidatlistesammendrag from "~/components/kandidatlistesammendrag/Kandidatlistesammendrag";
@@ -8,8 +8,11 @@ import VisKandidatlistesammendrag from "~/components/kandidatlistesammendrag/Kan
 import type { Kandidatlistesammendrag } from "~/services/domene";
 import type { LoaderFunction } from "@remix-run/node";
 import type { Organisasjon } from "@navikt/bedriftsmeny/lib/organisasjon";
+import type { LoaderData as RootLoaderData } from "~/root";
 
 import css from "./index.module.css";
+import { useEffect } from "react";
+import { sendEvent } from "~/services/amplitude";
 
 export const loader: LoaderFunction = async ({ request }) => {
     let virksomhet = hentValgtVirksomhet(request.url);
@@ -44,6 +47,17 @@ type LoaderData = {
 const Kandidatlister = () => {
     const virksomhet = useVirksomhet();
     const { harRiktigRolleIAltinn, sammendrag } = useLoaderData<LoaderData>();
+    const { organisasjoner } = useRouteLoaderData("root") as RootLoaderData;
+
+    const { aktive, avsluttede } = fordelPåStatus(sammendrag);
+
+    useEffect(() => {
+        sendEvent("app", "visning", {
+            antallOrganisasjoner: organisasjoner.length,
+            antallAktive: aktive.length,
+            antallAvsluttede: avsluttede.length,
+        });
+    }, [organisasjoner.length, aktive, avsluttede]);
 
     if (!harRiktigRolleIAltinn) {
         return (
@@ -56,17 +70,15 @@ const Kandidatlister = () => {
         );
     }
 
-    const { pågående, avsluttede } = fordelPåStatus(sammendrag);
-
     return (
         <div className={css.kandidatlister}>
             <Heading level="2" size="small">
                 Aktive rekrutteringsprosesser
             </Heading>
 
-            {pågående.length > 0 ? (
+            {aktive.length > 0 ? (
                 <ul className={css.gruppe}>
-                    {pågående.map((sammendrag) => (
+                    {aktive.map((sammendrag) => (
                         <VisKandidatlistesammendrag
                             key={sammendrag.kandidatliste.stillingId}
                             sammendrag={sammendrag}
@@ -110,19 +122,19 @@ const Kandidatlister = () => {
 };
 
 const fordelPåStatus = (sammendrag: Kandidatlistesammendrag[]) => {
-    const pågående: Kandidatlistesammendrag[] = [];
+    const aktive: Kandidatlistesammendrag[] = [];
     const avsluttede: Kandidatlistesammendrag[] = [];
 
     sammendrag.forEach((sammendrag) => {
         if (sammendrag.kandidatliste.status === "ÅPEN") {
-            pågående.push(sammendrag);
+            aktive.push(sammendrag);
         } else {
             avsluttede.push(sammendrag);
         }
     });
 
     return {
-        pågående,
+        aktive,
         avsluttede,
     };
 };
