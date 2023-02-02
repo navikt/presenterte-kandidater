@@ -80,9 +80,7 @@ const slett = async (request: Request, stillingId: string, kandidatId: string) =
 };
 
 const loggVisKontaktinfo = async (request: Request, kandidatId: string) => {
-    await proxyTilApi(request, `/kandidat/${kandidatId}/registrerviskontaktinfo`, "POST");
-
-    return null;
+    return await proxyTilApi(request, `/kandidat/${kandidatId}/registrerviskontaktinfo`, "POST");
 };
 
 type Handling = "endre-vurdering" | "slett" | "vis-kontaktinformasjon";

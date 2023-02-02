@@ -1,4 +1,5 @@
-import { FunctionComponent, useState } from "react";
+import type { FunctionComponent } from "react";
+import { useState } from "react";
 import { BodyShort, ReadMore, Tooltip } from "@navikt/ds-react";
 import { useFetcher } from "@remix-run/react";
 import css from "./Kontaktinformasjon.module.css";
