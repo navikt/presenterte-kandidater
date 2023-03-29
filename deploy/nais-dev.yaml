@@ -17,6 +17,10 @@ spec:
     readiness:
         initialDelay: 20
         path: /kandidatliste/internal/isReady
+    accessPolicy:
+        outbound:
+            rules:
+                - application: presenterte-kandidater-api
     tokenx:
         enabled: true
     idporten:
