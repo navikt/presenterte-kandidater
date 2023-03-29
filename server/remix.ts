@@ -2,7 +2,6 @@ import type { RequestHandler } from "express";
 
 import { createRequestHandler } from "@remix-run/express";
 import path from "path";
-import { logger } from "./logger";
 
 const buildDir = path.join(process.cwd(), "build");
 
