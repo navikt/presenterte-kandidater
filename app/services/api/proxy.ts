@@ -31,7 +31,9 @@ export const proxyTilApi = async (request: Request, url: string, method = "GET",
 
     console.log(`Gjør kall mot ${apiConfig.url}${url}`);
 
-    return await fetch(`${apiConfig.url}${url}`, options);
+    const respons = await fetch(`${apiConfig.url}${url}`, options);
+    console.log("Respons: ", respons);
+    return respons;
 };
 
 const opprettAuthorizationHeader = async (request: Request) => {
