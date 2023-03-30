@@ -30,6 +30,7 @@ export const proxyTilApi = async (request: Request, url: string, method = "GET",
     }
 
     console.log(`Gjør kall mot ${apiConfig.url}${url}`);
+    console.log("request", request);
 
     return await fetch(`${apiConfig.url}${url}`, options);
 };

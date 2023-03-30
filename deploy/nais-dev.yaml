@@ -19,8 +19,8 @@ spec:
         path: /kandidatliste/internal/isReady
     accessPolicy:
         outbound:
-            rules:
-                - application: presenterte-kandidater-api
+            external:
+                - host: www.presenterte-kandidater-api.dev.intern.nav.no
     tokenx:
         enabled: true
     idporten:

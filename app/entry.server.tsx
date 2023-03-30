@@ -17,8 +17,6 @@ const handleRequest = (
     responseHeaders: Headers,
     remixContext: EntryContext
 ) => {
-    console.log("Request URL", request.url);
-
     return new Promise((resolve, reject) => {
         let didError = false;
 
