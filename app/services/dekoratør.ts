@@ -42,7 +42,7 @@ export const hentBrødsmulesti = (miljø: Miljø) => {
             },
             {
                 title: "Kandidater til dine stillinger",
-                url: "https://presenterte-kandidater.dev.nav.no/kandidatliste/",
+                url: "https://presenterte-kandidater.intern.dev.nav.no/kandidatliste/",
             },
         ];
     }
