@@ -20,7 +20,7 @@ spec:
     accessPolicy:
         outbound:
             external:
-                - host: www.presenterte-kandidater-api.dev.intern.nav.no
+                - host: www.presenterte-kandidater-api.intern.dev.nav.no
     tokenx:
         enabled: true
     idporten:
@@ -39,4 +39,4 @@ spec:
         - name: NODE_EXTRA_CA_CERTS
           value: /etc/ssl/ca-bundle.pem
         - name: API_URL
-          value: https://presenterte-kandidater-api.dev.intern.nav.no
+          value: https://presenterte-kandidater-api.intern.dev.nav.no
