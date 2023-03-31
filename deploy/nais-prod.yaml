@@ -17,6 +17,10 @@ spec:
     readiness:
         initialDelay: 20
         path: /kandidatliste/internal/isReady
+    accessPolicy:
+        outbound:
+            external:
+                - host: www.presenterte-kandidater-api.intern.nav.no
     tokenx:
         enabled: true
     idporten:
