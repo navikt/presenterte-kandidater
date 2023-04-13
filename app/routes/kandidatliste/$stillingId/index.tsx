@@ -16,6 +16,12 @@ import type { LoaderFunction } from "@remix-run/node";
 import type { Kandidatliste } from "~/services/domene";
 
 import css from "./index.module.css";
+import { Miljø, hentMiljø } from "~/services/miljø";
+
+const visStillingUrl =
+    hentMiljø() === Miljø.DevGcp
+        ? "https://vis-stilling.intern.dev.nav.no/arbeid/stilling"
+        : "https://www.nav.no/arbeid/stilling";
 
 export const loader: LoaderFunction = async ({ request, params }) => {
     const stillingId = params.stillingId;
@@ -48,7 +54,7 @@ const Kandidatlistevisning = () => {
 
                 <NavLink
                     className={css.stillingslenke}
-                    href={`https://www.nav.no/arbeid/stilling/${stillingId}`}
+                    href={`${visStillingUrl}/${stillingId}`}
                     target="__blank"
                 >
                     Se stilling
