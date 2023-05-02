@@ -52,14 +52,6 @@ const Kandidatlister = () => {
     const { aktive, avsluttede } = fordelPåStatus(sammendrag);
 
     useEffect(() => {
-        console.log(
-            `Kom til listen over kandidatlister.\n\tValgt virksomhet: ${virksomhet}\n\tOrganisasjoner: ${JSON.stringify(
-                organisasjoner
-            )}`
-        );
-    });
-
-    useEffect(() => {
         sendEvent("app", "visning", {
             antallOrganisasjoner: organisasjoner.length,
             antallAktive: aktive.length,

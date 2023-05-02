@@ -14,23 +14,10 @@ const Header: FunctionComponent<Props> = ({ organisasjoner }) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log(
-            "Orgnummer i headeren:",
-            orgnummer,
-            "orgnummerfraUrl:",
-            searchParams.get("virksomhet")
-        );
-    });
-
-    useEffect(() => {
         if (orgnummer) {
             const orgnummerFraUrl = searchParams.get("virksomhet");
 
             if (orgnummerFraUrl !== null && orgnummer !== orgnummerFraUrl) {
-                console.log(
-                    `Orgnummer fra url er annerledes det i useState, så redirecter til "/kandidatliste?virksomhet=${orgnummer}"`
-                );
-
                 navigate(`/kandidatliste?virksomhet=${orgnummer}`);
             } else {
                 setSearchParams(
