@@ -7,9 +7,9 @@ let client: AmplitudeClient | null = null;
 export const settOppAmplitude = (): AmplitudeClient | null => {
     const miljø = hentMiljø();
 
-    // if (hentMiljø() === Miljø.Lokalt) {
-    //     return null;
-    // }
+    if (hentMiljø() === Miljø.Lokalt) {
+        return null;
+    }
 
     client = amplitudeJs.getInstance();
     client.init(
