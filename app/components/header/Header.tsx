@@ -9,8 +9,8 @@ type Props = {
 };
 
 const Header: FunctionComponent<Props> = ({ organisasjoner }) => {
-    const [orgnummer, setOrgnummer] = useState<string | null>();
     const [searchParams, setSearchParams] = useSearchParams();
+    const [orgnummer, setOrgnummer] = useState<string | null>(searchParams.get("virksomhet"));
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -27,6 +27,10 @@ const Header: FunctionComponent<Props> = ({ organisasjoner }) => {
             const orgnummerFraUrl = searchParams.get("virksomhet");
 
             if (orgnummerFraUrl !== null && orgnummer !== orgnummerFraUrl) {
+                console.log(
+                    `Orgnummer fra url er annerledes det i useState, så redirecter til "/kandidatliste?virksomhet=${orgnummer}"`
+                );
+
                 navigate(`/kandidatliste?virksomhet=${orgnummer}`);
             } else {
                 setSearchParams(
@@ -43,7 +47,7 @@ const Header: FunctionComponent<Props> = ({ organisasjoner }) => {
     }, [orgnummer, navigate, setSearchParams]);
 
     const useOrgnrHook: () => [string | null, (orgnr: string) => void] = useCallback(
-        () => [orgnummer || null, setOrgnummer],
+        () => [orgnummer, setOrgnummer],
         [orgnummer]
     );
 
