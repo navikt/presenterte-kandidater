@@ -38,7 +38,7 @@ export const hentBrødsmulesti = (miljø: Miljø) => {
         return [
             {
                 title: "Min side – arbeidsgiver",
-                url: "https://min-side-arbeidsgiver.dev.nav.no/min-side-arbeidsgiver/",
+                url: "https://arbeidsgiver.intern.dev.nav.no/min-side-arbeidsgiver/",
             },
             {
                 title: "Kandidater til dine stillinger",
