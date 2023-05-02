@@ -14,6 +14,15 @@ const Header: FunctionComponent<Props> = ({ organisasjoner }) => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        console.log(
+            "Orgnummer i headeren:",
+            orgnummer,
+            "orgnummerfraUrl:",
+            searchParams.get("virksomhet")
+        );
+    });
+
+    useEffect(() => {
         if (orgnummer) {
             const orgnummerFraUrl = searchParams.get("virksomhet");
 
