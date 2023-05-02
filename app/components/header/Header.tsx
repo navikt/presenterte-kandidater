@@ -9,8 +9,8 @@ type Props = {
 };
 
 const Header: FunctionComponent<Props> = ({ organisasjoner }) => {
-    const [orgnummer, setOrgnummer] = useState<string | null>();
     const [searchParams, setSearchParams] = useSearchParams();
+    const [orgnummer, setOrgnummer] = useState<string | null>(searchParams.get("virksomhet"));
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -34,7 +34,7 @@ const Header: FunctionComponent<Props> = ({ organisasjoner }) => {
     }, [orgnummer, navigate, setSearchParams]);
 
     const useOrgnrHook: () => [string | null, (orgnr: string) => void] = useCallback(
-        () => [orgnummer || null, setOrgnummer],
+        () => [orgnummer, setOrgnummer],
         [orgnummer]
     );
 
