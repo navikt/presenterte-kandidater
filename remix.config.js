@@ -1,9 +1,8 @@
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
-    ignoredRouteFiles: ["**/.*", "**/*.css"],
+    ignoredRouteFiles: ["**/.*", "**/*.module.css"],
     publicPath: "/kandidatliste/build/",
     future: {
-        // Bruk CSS-modules
-        unstable_cssModules: true,
+        unstable_dev: true,
     },
 };

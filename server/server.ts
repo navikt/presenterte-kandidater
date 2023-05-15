@@ -1,8 +1,8 @@
 import express from "express";
 import compression from "compression";
 import handleRequestWithRemix from "./remix";
-import type { Response, NextFunction, Request } from "express";
 import { logger, logRequests } from "./logger";
+import type { Response } from "express";
 
 const port = process.env.PORT || 3000;
 const basePath = "/kandidatliste";

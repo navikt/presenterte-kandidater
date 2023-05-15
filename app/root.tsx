@@ -49,14 +49,14 @@ export const links: LinksFunction = () => [
 ];
 
 export const loader: LoaderFunction = async ({ request, context }) => {
-    if (!context.erAutorisert) {
-        throw new Response("Bruker er ikke autorisert", { status: 401 });
-    }
-
     const miljø = hentMiljø();
 
     if (miljø === Miljø.Lokalt) {
         configureMock();
+    } else {
+        if (!context.erAutorisert) {
+            throw new Response("Bruker er ikke autorisert", { status: 401 });
+        }
     }
 
     const [samtykke, organisasjoner] = await Promise.all([
