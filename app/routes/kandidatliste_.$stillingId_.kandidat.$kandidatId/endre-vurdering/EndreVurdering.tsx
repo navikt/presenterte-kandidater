@@ -1,10 +1,11 @@
+import React from "react";
 import { ToggleGroup, RadioGroup, Radio, Button, BodyShort } from "@navikt/ds-react";
 import { Form } from "@remix-run/react";
-import { visVurdering } from "~/routes/kandidatliste/$stillingId/kandidat/$kandidatId";
-import type { FunctionComponent } from "react";
-import type { Kandidatliste } from "~/services/domene";
 import { Kandidatvurdering } from "~/services/domene";
-import Vurderingsikon from "./Vurderingsikon";
+import { visVurdering } from "../route";
+import Vurderingsikon from "~/components/vurderingsikon/Vurderingsikon";
+import type { Kandidatliste } from "~/services/domene";
+import type { FunctionComponent } from "react";
 import css from "./EndreVurdering.module.css";
 
 type Props = {

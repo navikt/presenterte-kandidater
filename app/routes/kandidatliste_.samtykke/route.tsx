@@ -19,7 +19,7 @@ import useVirksomhet from "~/services/useVirksomhet";
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import type { FunctionComponent } from "react";
 
-import css from "./index.module.css";
+import css from "./route.module.css";
 
 export const loader: LoaderFunction = async ({ request }) => {
     const respons = await proxyTilApi(request, "/samtykke");

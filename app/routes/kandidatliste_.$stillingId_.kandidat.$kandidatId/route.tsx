@@ -1,21 +1,28 @@
 import { Button, ReadMore } from "@navikt/ds-react";
 import { json, redirect } from "@remix-run/node";
-import { useActionData, useCatch, useLoaderData, useParams, useTransition } from "@remix-run/react";
+import {
+    isRouteErrorResponse,
+    useActionData,
+    useLoaderData,
+    useNavigation,
+    useParams,
+    useRouteError,
+} from "@remix-run/react";
 import { useState } from "react";
 
 import { Kandidatvurdering } from "~/services/domene";
 import { proxyTilApi } from "~/services/api/proxy";
-import EndreVurdering from "~/components/endre-vurdering/EndreVurdering";
+import EndreVurdering from "./endre-vurdering/EndreVurdering";
 import IkkeFunnet from "~/components/ikke-funnet/IkkeFunnet";
-import KandidatCv, { KandidatUtenCv } from "~/components/cv/Cv";
-import Slettemodal from "~/components/slettemodal/Slettemodal";
+import KandidatCv, { KandidatUtenCv } from "./cv/Cv";
+import Slettemodal from "./slettemodal/Slettemodal";
 import Tilbakelenke from "~/components/tilbakelenke/Tilbakelenke";
 import useVirksomhet from "~/services/useVirksomhet";
 
 import type { LoaderFunction, ActionFunction } from "@remix-run/node";
 import type { Kandidat, Kandidatliste } from "~/services/domene";
 
-import css from "./index.module.css";
+import css from "./route.module.css";
 
 type LoaderData = {
     kandidat: Kandidat;
@@ -119,8 +126,8 @@ const Kandidatvisning = () => {
     const virksomhet = useVirksomhet();
     const feilmeldinger = useActionData<ActionData>();
 
-    const transition = useTransition();
-    const handling = transition.submission?.formData.get("handling");
+    const navigation = useNavigation();
+    const handling = navigation.formData?.get("handling");
 
     const [kandidatvurdering, setKandidatvurdering] = useState<Kandidatvurdering>(
         kandidat.kandidat.arbeidsgiversVurdering
@@ -185,10 +192,16 @@ export const visVurdering = (vurdering?: Kandidatvurdering) => {
     }
 };
 
-export const CatchBoundary = () => {
-    const caught = useCatch();
+export const ErrorBoundary = () => {
+    const error = useRouteError();
 
-    return <IkkeFunnet forklaring={caught.data} />;
+    if (isRouteErrorResponse(error)) {
+        if (error.status === 404) {
+            return <IkkeFunnet forklaring={error.data.message} />;
+        }
+    }
+
+    return null;
 };
 
 export default Kandidatvisning;

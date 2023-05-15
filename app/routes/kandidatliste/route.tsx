@@ -1,18 +1,18 @@
+import { useEffect } from "react";
 import { BodyShort, Heading } from "@navikt/ds-react";
 import { json } from "@remix-run/node";
 import { Link, useLoaderData, useRouteLoaderData } from "@remix-run/react";
 import { proxyTilApi } from "~/services/api/proxy";
+import { sendEvent } from "~/services/amplitude";
 import useVirksomhet from "~/services/useVirksomhet";
-import VisKandidatlistesammendrag from "~/components/kandidatlistesammendrag/Kandidatlistesammendrag";
+import VisKandidatlistesammendrag from "~/routes/kandidatliste/kandidatlistesammendrag/Kandidatlistesammendrag";
 
 import type { Kandidatlistesammendrag } from "~/services/domene";
 import type { LoaderFunction } from "@remix-run/node";
 import type { Organisasjon } from "@navikt/bedriftsmeny/lib/organisasjon";
 import type { LoaderData as RootLoaderData } from "~/root";
 
-import css from "./index.module.css";
-import { useEffect } from "react";
-import { sendEvent } from "~/services/amplitude";
+import css from "./route.module.css";
 
 export const loader: LoaderFunction = async ({ request }) => {
     let virksomhet = hentValgtVirksomhet(request.url);
