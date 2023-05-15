@@ -1,6 +1,6 @@
+import { useEffect } from "react";
 import { redirect, Response } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import parse from "html-react-parser";
 import {
     isRouteErrorResponse,
     Links,
@@ -19,12 +19,12 @@ import { hentMiljø, Miljø } from "./services/miljø";
 import { BodyShort, Heading, Modal, Panel } from "@navikt/ds-react";
 import { proxyTilApi } from "./services/api/proxy";
 import { settInnDekoratørHosKlienten } from "./services/dekoratør";
-import { ReactNode, useEffect } from "react";
 import bedriftsmenyStyles from "@navikt/bedriftsmeny/lib/bedriftsmeny.css";
 import designsystemStyles from "@navikt/ds-css/dist/index.css";
 import Header from "./components/header/Header";
 import IngenOrganisasjoner from "./components/IngenOrganisasjoner";
 
+import type { ReactNode } from "react";
 import type { LinksFunction, LoaderFunction, MetaFunction } from "@remix-run/node";
 import type { Dekoratørfragmenter } from "./services/dekoratør";
 import type { Organisasjon } from "@navikt/bedriftsmeny/lib/organisasjon";
