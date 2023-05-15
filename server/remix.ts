@@ -22,9 +22,6 @@ const createRequestHandlerForDevelopment: RequestHandler = (req, res, next) => {
     purgeRequireCache();
 
     return createRequestHandler({
-        getLoadContext: () => ({
-            erAutorisert: true,
-        }),
         build: require(buildDir),
         mode: process.env.NODE_ENV,
     })(req, res, next);

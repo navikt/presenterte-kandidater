@@ -1,7 +1,7 @@
 import { Modal, Heading, BodyLong, Button, BodyShort } from "@navikt/ds-react";
 import { Form } from "@remix-run/react";
 import type { FunctionComponent } from "react";
-import type { ActionData as KandidatActionData } from "~/routes/kandidatliste/$stillingId/kandidat/$kandidatId";
+import type { ActionData as KandidatActionData } from "~/routes/kandidatliste.$stillingId.kandidat.$kandidatId._index";
 import type { Cv } from "~/services/domene";
 import css from "./Slettemodal.module.css";
 

@@ -6,17 +6,16 @@ import { isRouteErrorResponse, useLoaderData, useRouteError } from "@remix-run/r
 
 import { Kandidatvurdering } from "~/services/domene";
 import { proxyTilApi } from "~/services/api/proxy";
+import { Miljø, hentMiljø } from "~/services/miljø";
 import IkkeFunnet from "~/components/ikke-funnet/IkkeFunnet";
 import Tilbakelenke from "~/components/tilbakelenke/Tilbakelenke";
 import useVirksomhet from "~/services/useVirksomhet";
 import Vurderingsikon from "~/components/endre-vurdering/Vurderingsikon";
 import GruppeMedKandidater from "~/components/gruppeMedKandidater/GruppeMedKandidater";
-
 import type { LoaderFunction } from "@remix-run/node";
 import type { Kandidatliste } from "~/services/domene";
 
-import css from "./index.module.css";
-import { Miljø, hentMiljø } from "~/services/miljø";
+import css from "./kandidatliste.$stillingId._index.module.css";
 
 const visStillingUrl =
     hentMiljø() === Miljø.DevGcp

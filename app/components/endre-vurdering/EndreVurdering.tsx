@@ -1,6 +1,6 @@
 import { ToggleGroup, RadioGroup, Radio, Button, BodyShort } from "@navikt/ds-react";
 import { Form } from "@remix-run/react";
-import { visVurdering } from "~/routes/kandidatliste/$stillingId/kandidat/$kandidatId";
+import { visVurdering } from "~/routes/kandidatliste.$stillingId.kandidat.$kandidatId._index";
 import type { FunctionComponent } from "react";
 import type { Kandidatliste } from "~/services/domene";
 import { Kandidatvurdering } from "~/services/domene";

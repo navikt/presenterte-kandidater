@@ -4,9 +4,9 @@ import {
     isRouteErrorResponse,
     useActionData,
     useLoaderData,
+    useNavigation,
     useParams,
     useRouteError,
-    useTransition,
 } from "@remix-run/react";
 import { useState } from "react";
 
@@ -22,7 +22,7 @@ import useVirksomhet from "~/services/useVirksomhet";
 import type { LoaderFunction, ActionFunction } from "@remix-run/node";
 import type { Kandidat, Kandidatliste } from "~/services/domene";
 
-import css from "./index.module.css";
+import css from "./kandidatliste.$stillingId.kandidat.$kandidatId._index.module.css";
 
 type LoaderData = {
     kandidat: Kandidat;
@@ -126,8 +126,8 @@ const Kandidatvisning = () => {
     const virksomhet = useVirksomhet();
     const feilmeldinger = useActionData<ActionData>();
 
-    const transition = useTransition();
-    const handling = transition.submission?.formData.get("handling");
+    const navigation = useNavigation();
+    const handling = navigation.formData?.get("handling");
 
     const [kandidatvurdering, setKandidatvurdering] = useState<Kandidatvurdering>(
         kandidat.kandidat.arbeidsgiversVurdering
