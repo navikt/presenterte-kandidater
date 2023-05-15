@@ -25,17 +25,18 @@ import Header from "./components/header/Header";
 import IngenOrganisasjoner from "./routes/kandidatliste/IngenOrganisasjoner";
 
 import type { ReactNode } from "react";
-import type { LinksFunction, LoaderFunction, MetaFunction } from "@remix-run/node";
+import type { V2_MetaFunction } from "@remix-run/react";
+import type { LinksFunction, LoaderFunction } from "@remix-run/node";
 import type { Dekoratørfragmenter } from "./services/dekoratør";
 import type { Organisasjon } from "@navikt/bedriftsmeny/lib/organisasjon";
 
 import css from "./root.module.css";
 
-export const meta: MetaFunction = () => ({
-    charset: "utf-8",
-    title: "Foreslåtte kandidater",
-    viewport: "width=device-width,initial-scale=1",
-});
+export const meta: V2_MetaFunction = () => [
+    {
+        title: "Foreslåtte kandidater",
+    },
+];
 
 export const links: LinksFunction = () => [
     { rel: "stylesheet", href: designsystemStyles },
@@ -138,6 +139,8 @@ const Dokument = ({
 }) => (
     <html lang="nb">
         <head>
+            <meta charSet="utf-8" />
+            <meta name="viewport" content="width=device-width,initial-scale=1" />
             <Meta />
             <Links />
         </head>
