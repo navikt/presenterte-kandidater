@@ -2,20 +2,21 @@ import { redirect, Response } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import parse from "html-react-parser";
 import {
+    isRouteErrorResponse,
     Links,
     LiveReload,
     Meta,
     Outlet,
     Scripts as RemixScripts,
     ScrollRestoration,
-    useCatch,
     useLoaderData,
+    useRouteError,
 } from "@remix-run/react";
 import { configureMock } from "./mocks";
 import { cssBundleHref } from "@remix-run/css-bundle";
 import { hentSsrDekoratør } from "./services/dekoratør.server";
 import { hentMiljø, Miljø } from "./services/miljø";
-import { Modal, Panel } from "@navikt/ds-react";
+import { Heading, Modal, Panel } from "@navikt/ds-react";
 import { proxyTilApi } from "./services/api/proxy";
 import { settInnDekoratørHosKlienten } from "./services/dekoratør";
 import { useEffect } from "react";
@@ -24,15 +25,9 @@ import designsystemStyles from "@navikt/ds-css/dist/index.css";
 import Header from "./components/header/Header";
 import IngenOrganisasjoner from "./components/IngenOrganisasjoner";
 
-import type {
-    ErrorBoundaryComponent,
-    LinksFunction,
-    LoaderFunction,
-    MetaFunction,
-} from "@remix-run/node";
+import type { LinksFunction, LoaderFunction, MetaFunction } from "@remix-run/node";
 import type { Dekoratørfragmenter } from "./services/dekoratør";
 import type { Organisasjon } from "@navikt/bedriftsmeny/lib/organisasjon";
-import type { CatchBoundaryComponent } from "@remix-run/react/dist/routeModules";
 
 import css from "./root.module.css";
 
@@ -118,45 +113,40 @@ const App = () => {
     );
 };
 
-export const ErrorBoundary: ErrorBoundaryComponent = ({ error }) => {
-    return (
-        <html lang="no">
-            <head>
-                <Meta />
-                <Links />
-            </head>
-            <body>
-                <header>
-                    <Header organisasjoner={[]} />
-                </header>
-                <Panel>Det skjedde en uventet feil: {error.message}</Panel>
-                <RemixScripts />
-            </body>
-        </html>
-    );
-};
-
-export const CatchBoundary: CatchBoundaryComponent = () => {
-    const error = useCatch();
+export const ErrorBoundary = () => {
+    const error = useRouteError();
 
     useEffect(() => {
-        if (error.status === 401) {
+        if (isRouteErrorResponse(error) && error.status === 401) {
             redirectTilInnlogging();
         }
     });
 
-    return (
-        <html lang="no">
-            <head>
-                <Meta />
-                <Links />
-            </head>
-            <body>
-                <Panel>{error.statusText}</Panel>
-                <RemixScripts />
-            </body>
-        </html>
-    );
+    if (isRouteErrorResponse(error)) {
+        return (
+            <>
+                <header>
+                    <Header organisasjoner={[]} />
+                </header>
+                <Heading size="medium" level="2">
+                    {error.status}-feil
+                </Heading>
+                <Panel>Det skjedde en uventet feil: {error.data.message}</Panel>
+            </>
+        );
+    } else {
+        return (
+            <>
+                <header>
+                    <Header organisasjoner={[]} />
+                </header>
+                <Heading size="medium" level="2">
+                    Ojsann!
+                </Heading>
+                <Panel>Det skjedde en feil – vennligst prøv igjen senere</Panel>
+            </>
+        );
+    }
 };
 
 const redirectTilInnlogging = () => {

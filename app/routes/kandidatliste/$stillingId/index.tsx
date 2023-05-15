@@ -2,7 +2,7 @@ import { BodyLong, Heading, Panel } from "@navikt/ds-react";
 import { Close, ExternalLink } from "@navikt/ds-icons";
 import { json, Response } from "@remix-run/node";
 import { Link as NavLink } from "@navikt/ds-react";
-import { useCatch, useLoaderData } from "@remix-run/react";
+import { isRouteErrorResponse, useLoaderData, useRouteError } from "@remix-run/react";
 
 import { Kandidatvurdering } from "~/services/domene";
 import { proxyTilApi } from "~/services/api/proxy";
@@ -105,10 +105,16 @@ const Kandidatlistevisning = () => {
     );
 };
 
-export const CatchBoundary = () => {
-    const caught = useCatch();
+export const ErrorBoundary = () => {
+    const error = useRouteError();
 
-    return <IkkeFunnet forklaring={caught.data} />;
+    if (isRouteErrorResponse(error)) {
+        if (error.status === 404) {
+            return <IkkeFunnet forklaring={error.data.message} />;
+        }
+    }
+
+    return null;
 };
 
 export default Kandidatlistevisning;

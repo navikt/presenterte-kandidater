@@ -4,5 +4,6 @@ module.exports = {
     publicPath: "/kandidatliste/build/",
     future: {
         unstable_dev: true,
+        v2_errorBoundary: true,
     },
 };

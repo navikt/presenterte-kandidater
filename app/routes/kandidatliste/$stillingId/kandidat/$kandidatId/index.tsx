@@ -1,6 +1,13 @@
 import { Button, ReadMore } from "@navikt/ds-react";
 import { json, redirect } from "@remix-run/node";
-import { useActionData, useCatch, useLoaderData, useParams, useTransition } from "@remix-run/react";
+import {
+    isRouteErrorResponse,
+    useActionData,
+    useLoaderData,
+    useParams,
+    useRouteError,
+    useTransition,
+} from "@remix-run/react";
 import { useState } from "react";
 
 import { Kandidatvurdering } from "~/services/domene";
@@ -185,10 +192,16 @@ export const visVurdering = (vurdering?: Kandidatvurdering) => {
     }
 };
 
-export const CatchBoundary = () => {
-    const caught = useCatch();
+export const ErrorBoundary = () => {
+    const error = useRouteError();
 
-    return <IkkeFunnet forklaring={caught.data} />;
+    if (isRouteErrorResponse(error)) {
+        if (error.status === 404) {
+            return <IkkeFunnet forklaring={error.data.message} />;
+        }
+    }
+
+    return null;
 };
 
 export default Kandidatvisning;
