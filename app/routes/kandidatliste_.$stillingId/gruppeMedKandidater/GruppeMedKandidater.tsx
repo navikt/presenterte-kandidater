@@ -1,5 +1,5 @@
 import { Accordion, Heading } from "@navikt/ds-react";
-import { visVurdering } from "~/routes/kandidatliste.$stillingId.kandidat.$kandidatId._index";
+import { visVurdering } from "../../kandidatliste_.$stillingId_.kandidat.$kandidatId/route";
 import Kandidatsammendrag from "../kandidatsammendrag/Kandidatsammendrag";
 
 import type { ReactNode } from "react";

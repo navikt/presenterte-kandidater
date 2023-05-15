@@ -10,12 +10,12 @@ import { Miljø, hentMiljø } from "~/services/miljø";
 import IkkeFunnet from "~/components/ikke-funnet/IkkeFunnet";
 import Tilbakelenke from "~/components/tilbakelenke/Tilbakelenke";
 import useVirksomhet from "~/services/useVirksomhet";
-import Vurderingsikon from "~/components/endre-vurdering/Vurderingsikon";
-import GruppeMedKandidater from "~/components/gruppeMedKandidater/GruppeMedKandidater";
+import Vurderingsikon from "~/components/vurderingsikon/Vurderingsikon";
+import GruppeMedKandidater from "./gruppeMedKandidater/GruppeMedKandidater";
 import type { LoaderFunction } from "@remix-run/node";
 import type { Kandidatliste } from "~/services/domene";
 
-import css from "./kandidatliste.$stillingId._index.module.css";
+import css from "./route.module.css";
 
 const visStillingUrl =
     hentMiljø() === Miljø.DevGcp

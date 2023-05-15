@@ -12,17 +12,17 @@ import { useState } from "react";
 
 import { Kandidatvurdering } from "~/services/domene";
 import { proxyTilApi } from "~/services/api/proxy";
-import EndreVurdering from "~/components/endre-vurdering/EndreVurdering";
+import EndreVurdering from "./endre-vurdering/EndreVurdering";
 import IkkeFunnet from "~/components/ikke-funnet/IkkeFunnet";
-import KandidatCv, { KandidatUtenCv } from "~/components/cv/Cv";
-import Slettemodal from "~/components/slettemodal/Slettemodal";
+import KandidatCv, { KandidatUtenCv } from "./cv/Cv";
+import Slettemodal from "./slettemodal/Slettemodal";
 import Tilbakelenke from "~/components/tilbakelenke/Tilbakelenke";
 import useVirksomhet from "~/services/useVirksomhet";
 
 import type { LoaderFunction, ActionFunction } from "@remix-run/node";
 import type { Kandidat, Kandidatliste } from "~/services/domene";
 
-import css from "./kandidatliste.$stillingId.kandidat.$kandidatId._index.module.css";
+import css from "./route.module.css";
 
 type LoaderData = {
     kandidat: Kandidat;

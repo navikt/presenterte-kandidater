@@ -22,7 +22,7 @@ import { settInnDekoratørHosKlienten } from "./services/dekoratør";
 import bedriftsmenyStyles from "@navikt/bedriftsmeny/lib/bedriftsmeny.css";
 import designsystemStyles from "@navikt/ds-css/dist/index.css";
 import Header from "./components/header/Header";
-import IngenOrganisasjoner from "./components/IngenOrganisasjoner";
+import IngenOrganisasjoner from "./routes/kandidatliste/IngenOrganisasjoner";
 
 import type { ReactNode } from "react";
 import type { LinksFunction, LoaderFunction, MetaFunction } from "@remix-run/node";
