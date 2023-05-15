@@ -16,10 +16,10 @@ import { configureMock } from "./mocks";
 import { cssBundleHref } from "@remix-run/css-bundle";
 import { hentSsrDekoratør } from "./services/dekoratør.server";
 import { hentMiljø, Miljø } from "./services/miljø";
-import { Heading, Modal, Panel } from "@navikt/ds-react";
+import { BodyShort, Heading, Modal, Panel } from "@navikt/ds-react";
 import { proxyTilApi } from "./services/api/proxy";
 import { settInnDekoratørHosKlienten } from "./services/dekoratør";
-import { useEffect } from "react";
+import { ReactNode, useEffect } from "react";
 import bedriftsmenyStyles from "@navikt/bedriftsmeny/lib/bedriftsmeny.css";
 import designsystemStyles from "@navikt/ds-css/dist/index.css";
 import Header from "./components/header/Header";
@@ -90,27 +90,7 @@ const App = () => {
 
     const visning = organisasjoner.length === 0 ? <IngenOrganisasjoner /> : <Outlet />;
 
-    return (
-        <html lang="nb">
-            <head>
-                <Meta />
-                <Links />
-                {ssrDekoratør && parse(ssrDekoratør.styles)}
-            </head>
-            <body>
-                <div className={css.header}>
-                    {ssrDekoratør && parse(ssrDekoratør.header)}
-                    <Header organisasjoner={organisasjoner} />
-                </div>
-                <main className={css.side}>{visning}</main>
-                <ScrollRestoration />
-                <RemixScripts />
-                <LiveReload />
-                {ssrDekoratør && parse(ssrDekoratør.footer)}
-                {ssrDekoratør && parse(ssrDekoratør.scripts)}
-            </body>
-        </html>
-    );
+    return <Dokument organisasjoner={organisasjoner}>{visning}</Dokument>;
 };
 
 export const ErrorBoundary = () => {
@@ -124,30 +104,54 @@ export const ErrorBoundary = () => {
 
     if (isRouteErrorResponse(error)) {
         return (
-            <>
-                <header>
-                    <Header organisasjoner={[]} />
-                </header>
-                <Heading size="medium" level="2">
-                    {error.status}-feil
+            <Dokument>
+                <Heading spacing size="large" level="2">
+                    {error.status}
                 </Heading>
-                <Panel>Det skjedde en uventet feil: {error.data.message}</Panel>
-            </>
+                <Panel>
+                    <BodyShort>Det skjedde en uventet feil</BodyShort>
+                    <BodyShort>{error.data.message}</BodyShort>
+                </Panel>
+            </Dokument>
         );
     } else {
         return (
-            <>
-                <header>
-                    <Header organisasjoner={[]} />
-                </header>
-                <Heading size="medium" level="2">
+            <Dokument>
+                <Heading spacing size="large" level="2">
                     Ojsann!
                 </Heading>
-                <Panel>Det skjedde en feil – vennligst prøv igjen senere</Panel>
-            </>
+                <Panel>
+                    <BodyShort>Det skjedde en uventet feil.</BodyShort>
+                    <BodyShort>Vennligst prøv igjen senere</BodyShort>
+                </Panel>
+            </Dokument>
         );
     }
 };
+
+const Dokument = ({
+    organisasjoner = [],
+    children,
+}: {
+    organisasjoner?: Organisasjon[];
+    children: ReactNode;
+}) => (
+    <html lang="nb">
+        <head>
+            <Meta />
+            <Links />
+        </head>
+        <body>
+            <div className={css.header}>
+                <Header organisasjoner={organisasjoner} />
+            </div>
+            <main className={css.side}>{children}</main>
+            <ScrollRestoration />
+            <RemixScripts />
+            <LiveReload />
+        </body>
+    </html>
+);
 
 const redirectTilInnlogging = () => {
     if (typeof window !== "undefined") {
