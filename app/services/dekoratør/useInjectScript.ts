@@ -17,15 +17,11 @@ const useInjectDecoratorScript = (script?: string) => {
             const parsedDivElement = parsedElements[0] as HTMLDivElement;
             const parsedScriptElement = parsedElements[2] as HTMLScriptElement;
 
-            const divDataSource = (parsedDivElement as HTMLDivElement).getAttribute("data-src")!;
-            const divId = (parsedDivElement as HTMLDivElement).getAttribute("id")!;
-            const divElement = document.createElement("div");
-            divElement.setAttribute("data-src", divDataSource);
-            divElement.setAttribute("id", divId);
-
-            const scriptSource = (parsedScriptElement as HTMLScriptElement).src;
-            const scriptElement = document.createElement("script");
-            scriptElement.src = scriptSource;
+            const divElement = createElementWithAttributes("div", parsedDivElement.attributes);
+            const scriptElement = createElementWithAttributes(
+                "script",
+                parsedScriptElement.attributes
+            );
 
             document.body.appendChild(divElement);
             document.body.appendChild(scriptElement);
@@ -33,6 +29,16 @@ const useInjectDecoratorScript = (script?: string) => {
             isInjected.current = true;
         }
     }, [script]);
+};
+
+const createElementWithAttributes = (tag: string, attributes: NamedNodeMap) => {
+    const element = document.createElement(tag);
+
+    for (let i = 0; i < attributes.length; i++) {
+        element.setAttribute(attributes[i].name, attributes[i].value);
+    }
+
+    return element;
 };
 
 export default useInjectDecoratorScript;

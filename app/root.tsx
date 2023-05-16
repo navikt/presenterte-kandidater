@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import { redirect, Response } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
@@ -27,8 +27,8 @@ import IngenOrganisasjoner from "./routes/kandidatliste/IngenOrganisasjoner";
 import type { ReactNode } from "react";
 import type { V2_MetaFunction } from "@remix-run/react";
 import type { LinksFunction, LoaderFunction } from "@remix-run/node";
-import type { Dekoratørfragmenter } from "./services/dekoratør/dekoratør";
 import type { Organisasjon } from "@navikt/bedriftsmeny/lib/organisasjon";
+import type { Dekoratørfragmenter } from "./services/dekoratør/dekoratør.server";
 
 import css from "./root.module.css";
 import useInjectDecoratorScript from "./services/dekoratør/useInjectScript";
@@ -95,6 +95,41 @@ const App = () => {
     );
 };
 
+const Dokument = ({
+    dekoratør,
+    organisasjoner = [],
+    children,
+}: {
+    dekoratør?: Dekoratørfragmenter;
+    organisasjoner?: Organisasjon[];
+    children: ReactNode;
+}) => {
+    useInjectDecoratorScript(dekoratør?.scripts);
+
+    return (
+        <html lang="nb">
+            <head>
+                <meta charSet="utf-8" />
+                <meta name="viewport" content="width=device-width,initial-scale=1" />
+                <Meta />
+                <Links />
+                {dekoratør && parse(dekoratør.styles)}
+            </head>
+            <body>
+                {dekoratør && parse(dekoratør.header)}
+                <div className={css.header}>
+                    <Header organisasjoner={organisasjoner} />
+                </div>
+                <main className={css.side}>{children}</main>
+                <ScrollRestoration />
+                <RemixScripts />
+                <LiveReload />
+                {dekoratør && parse(dekoratør.footer)}
+            </body>
+        </html>
+    );
+};
+
 export const ErrorBoundary = () => {
     const error = useRouteError();
 
@@ -129,41 +164,6 @@ export const ErrorBoundary = () => {
             </Dokument>
         );
     }
-};
-
-const Dokument = ({
-    dekoratør,
-    organisasjoner = [],
-    children,
-}: {
-    dekoratør?: Dekoratørfragmenter;
-    organisasjoner?: Organisasjon[];
-    children: ReactNode;
-}) => {
-    useInjectDecoratorScript(dekoratør?.scripts);
-
-    return (
-        <html lang="nb">
-            <head>
-                <meta charSet="utf-8" />
-                <meta name="viewport" content="width=device-width,initial-scale=1" />
-                <Meta />
-                <Links />
-                {dekoratør && parse(dekoratør.styles)}
-            </head>
-            <body>
-                {dekoratør && parse(dekoratør.header)}
-                <div className={css.header}>
-                    <Header organisasjoner={organisasjoner} />
-                </div>
-                <main className={css.side}>{children}</main>
-                <ScrollRestoration />
-                <RemixScripts />
-                <LiveReload />
-                {dekoratør && parse(dekoratør.footer)}
-            </body>
-        </html>
-    );
 };
 
 const redirectTilInnlogging = () => {
