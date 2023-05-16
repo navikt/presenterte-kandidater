@@ -69,27 +69,27 @@ export const loader: LoaderFunction = async ({ request, context }) => {
     }
 
     return json({
-        ssrDekoratør: await hentSsrDekoratør(),
+        dekoratør: await hentSsrDekoratør(),
         organisasjoner: await organisasjoner.json(),
     });
 };
 
 export type LoaderData = {
-    ssrDekoratør: Dekoratørfragmenter | null;
+    dekoratør: Dekoratørfragmenter | null;
     organisasjoner: Organisasjon[];
 };
 
 const App = () => {
-    const { organisasjoner, ssrDekoratør } = useLoaderData<LoaderData>();
+    const { organisasjoner, dekoratør } = useLoaderData<LoaderData>();
 
     useEffect(() => {
         Modal.setAppElement(document.getElementsByTagName("body"));
-    }, [ssrDekoratør]);
+    }, [dekoratør]);
 
     const visning = organisasjoner.length === 0 ? <IngenOrganisasjoner /> : <Outlet />;
 
     return (
-        <Dokument dekoratør={ssrDekoratør || undefined} organisasjoner={organisasjoner}>
+        <Dokument dekoratør={dekoratør || undefined} organisasjoner={organisasjoner}>
             {visning}
         </Dokument>
     );

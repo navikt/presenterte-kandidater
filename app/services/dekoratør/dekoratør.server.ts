@@ -1,10 +1,15 @@
 import { fetchDecoratorHtml } from "@navikt/nav-dekoratoren-moduler/ssr";
-import type { Dekoratørfragmenter } from "./dekoratør";
-import { hentBrødsmulesti, hentDekoratørMiljø } from "./dekoratør";
 import { hentMiljø, Miljø } from "../miljø";
 
 const visDekoratørUnderUtvikling = false;
 const brukSsrDekoratørIMiljø = true;
+
+export type Dekoratørfragmenter = {
+    styles: string;
+    header: string;
+    footer: string;
+    scripts: string;
+};
 
 export const hentSsrDekoratør = async (): Promise<Dekoratørfragmenter | null> => {
     const miljø = hentMiljø();
@@ -13,7 +18,7 @@ export const hentSsrDekoratør = async (): Promise<Dekoratørfragmenter | null> 
         if (visDekoratørUnderUtvikling) {
             return await hentDekoratør(miljø);
         } else {
-            return hentTomDekoratør();
+            return null;
         }
     } else {
         if (brukSsrDekoratørIMiljø) {
@@ -26,11 +31,11 @@ export const hentSsrDekoratør = async (): Promise<Dekoratørfragmenter | null> 
 
 export const hentDekoratør = async (miljø: Miljø): Promise<Dekoratørfragmenter> => {
     const decorator = await fetchDecoratorHtml({
-        env: hentDekoratørMiljø(miljø),
+        env: miljø === Miljø.ProdGcp ? "prod" : "dev",
         simple: false,
         chatbot: false,
         context: "arbeidsgiver",
-        breadcrumbs: hentBrødsmulesti(miljø),
+        breadcrumbs: byggBrødsmulesti(miljø),
     });
 
     return {
@@ -41,11 +46,28 @@ export const hentDekoratør = async (miljø: Miljø): Promise<Dekoratørfragment
     };
 };
 
-export const hentTomDekoratør = (): Dekoratørfragmenter => {
-    return {
-        styles: "",
-        header: "",
-        footer: "",
-        scripts: "",
-    };
+export const byggBrødsmulesti = (miljø: Miljø) => {
+    if (miljø === Miljø.ProdGcp) {
+        return [
+            {
+                title: "Min side – arbeidsgiver",
+                url: "https://arbeidsgiver.nav.no/min-side-arbeidsgiver/",
+            },
+            {
+                title: "Kandidater til dine stillinger",
+                url: "https://arbeidsgiver.nav.no/kandidatliste/",
+            },
+        ];
+    } else {
+        return [
+            {
+                title: "Min side – arbeidsgiver",
+                url: "https://arbeidsgiver.intern.dev.nav.no/min-side-arbeidsgiver/",
+            },
+            {
+                title: "Kandidater til dine stillinger",
+                url: "https://presenterte-kandidater.intern.dev.nav.no/kandidatliste/",
+            },
+        ];
+    }
 };

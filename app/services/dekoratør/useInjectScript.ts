@@ -1,5 +1,10 @@
 import { useRef, useEffect } from "react";
 
+/*
+ * Injiser script-elementet til dekoratøren og en tilhørende div.
+ * useEffect()-hooken sørger for at dette gjøres utelukkende client-side,
+ * for ellers vil dekoratøren manipulere DOM-en og forstyrre hydreringen.
+ */
 const useInjectDecoratorScript = (script?: string) => {
     const isInjected = useRef(false);
 
