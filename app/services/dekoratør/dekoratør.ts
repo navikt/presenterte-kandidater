@@ -1,5 +1,5 @@
 import { injectDecoratorClientSide } from "@navikt/nav-dekoratoren-moduler";
-import { hentMiljø, Miljø } from "./miljø";
+import { hentMiljø, Miljø } from "../miljø";
 
 export type Dekoratørfragmenter = {
     styles: string;

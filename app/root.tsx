@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { redirect, Response } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
@@ -14,11 +14,11 @@ import {
 } from "@remix-run/react";
 import { configureMock } from "./mocks";
 import { cssBundleHref } from "@remix-run/css-bundle";
-import { hentSsrDekoratør } from "./services/dekoratør.server";
+import { hentSsrDekoratør } from "./services/dekoratør/dekoratør.server";
 import { hentMiljø, Miljø } from "./services/miljø";
 import { BodyShort, Heading, Modal, Panel } from "@navikt/ds-react";
 import { proxyTilApi } from "./services/api/proxy";
-import { settInnDekoratørHosKlienten } from "./services/dekoratør";
+import parse from "html-react-parser";
 import bedriftsmenyStyles from "@navikt/bedriftsmeny/lib/bedriftsmeny.css";
 import designsystemStyles from "@navikt/ds-css/dist/index.css";
 import Header from "./components/header/Header";
@@ -27,10 +27,11 @@ import IngenOrganisasjoner from "./routes/kandidatliste/IngenOrganisasjoner";
 import type { ReactNode } from "react";
 import type { V2_MetaFunction } from "@remix-run/react";
 import type { LinksFunction, LoaderFunction } from "@remix-run/node";
-import type { Dekoratørfragmenter } from "./services/dekoratør";
+import type { Dekoratørfragmenter } from "./services/dekoratør/dekoratør";
 import type { Organisasjon } from "@navikt/bedriftsmeny/lib/organisasjon";
 
 import css from "./root.module.css";
+import useInjectDecoratorScript from "./services/dekoratør/useInjectScript";
 
 export const meta: V2_MetaFunction = () => [
     {
@@ -82,16 +83,16 @@ const App = () => {
     const { organisasjoner, ssrDekoratør } = useLoaderData<LoaderData>();
 
     useEffect(() => {
-        if (ssrDekoratør === null) {
-            settInnDekoratørHosKlienten();
-        }
-
         Modal.setAppElement(document.getElementsByTagName("body"));
     }, [ssrDekoratør]);
 
     const visning = organisasjoner.length === 0 ? <IngenOrganisasjoner /> : <Outlet />;
 
-    return <Dokument organisasjoner={organisasjoner}>{visning}</Dokument>;
+    return (
+        <Dokument dekoratør={ssrDekoratør || undefined} organisasjoner={organisasjoner}>
+            {visning}
+        </Dokument>
+    );
 };
 
 export const ErrorBoundary = () => {
@@ -131,30 +132,39 @@ export const ErrorBoundary = () => {
 };
 
 const Dokument = ({
+    dekoratør,
     organisasjoner = [],
     children,
 }: {
+    dekoratør?: Dekoratørfragmenter;
     organisasjoner?: Organisasjon[];
     children: ReactNode;
-}) => (
-    <html lang="nb">
-        <head>
-            <meta charSet="utf-8" />
-            <meta name="viewport" content="width=device-width,initial-scale=1" />
-            <Meta />
-            <Links />
-        </head>
-        <body>
-            <div className={css.header}>
-                <Header organisasjoner={organisasjoner} />
-            </div>
-            <main className={css.side}>{children}</main>
-            <ScrollRestoration />
-            <RemixScripts />
-            <LiveReload />
-        </body>
-    </html>
-);
+}) => {
+    useInjectDecoratorScript(dekoratør?.scripts);
+
+    return (
+        <html lang="nb">
+            <head>
+                <meta charSet="utf-8" />
+                <meta name="viewport" content="width=device-width,initial-scale=1" />
+                <Meta />
+                <Links />
+                {dekoratør && parse(dekoratør.styles)}
+            </head>
+            <body>
+                {dekoratør && parse(dekoratør.header)}
+                <div className={css.header}>
+                    <Header organisasjoner={organisasjoner} />
+                </div>
+                <main className={css.side}>{children}</main>
+                <ScrollRestoration />
+                <RemixScripts />
+                <LiveReload />
+                {dekoratør && parse(dekoratør.footer)}
+            </body>
+        </html>
+    );
+};
 
 const redirectTilInnlogging = () => {
     if (typeof window !== "undefined") {

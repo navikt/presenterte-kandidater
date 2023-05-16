@@ -1,10 +1,10 @@
 import { fetchDecoratorHtml } from "@navikt/nav-dekoratoren-moduler/ssr";
 import type { Dekoratørfragmenter } from "./dekoratør";
 import { hentBrødsmulesti, hentDekoratørMiljø } from "./dekoratør";
-import { hentMiljø, Miljø } from "./miljø";
+import { hentMiljø, Miljø } from "../miljø";
 
 const visDekoratørUnderUtvikling = false;
-const brukSsrDekoratørIMiljø = false;
+const brukSsrDekoratørIMiljø = true;
 
 export const hentSsrDekoratør = async (): Promise<Dekoratørfragmenter | null> => {
     const miljø = hentMiljø();
@@ -37,7 +37,7 @@ export const hentDekoratør = async (miljø: Miljø): Promise<Dekoratørfragment
         styles: decorator.DECORATOR_STYLES,
         header: decorator.DECORATOR_HEADER,
         footer: decorator.DECORATOR_FOOTER,
-        scripts: decorator.DECORATOR_SCRIPTS.replace('async=""', ""),
+        scripts: decorator.DECORATOR_SCRIPTS,
     };
 };
 
