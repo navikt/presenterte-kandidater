@@ -21,6 +21,8 @@ spec:
         outbound:
             rules:
                 - application: presenterte-kandidater-api
+                - application: nav-dekoratoren
+                  namespace: personbruker
     tokenx:
         enabled: true
     idporten:
