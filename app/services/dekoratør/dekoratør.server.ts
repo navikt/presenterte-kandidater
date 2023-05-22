@@ -32,10 +32,12 @@ export const hentSsrDekoratør = async (): Promise<Dekoratørfragmenter | null> 
 export const hentDekoratør = async (miljø: Miljø): Promise<Dekoratørfragmenter> => {
     const decorator = await fetchDecoratorHtml({
         env: miljø === Miljø.ProdGcp ? "prod" : "dev",
-        simple: false,
-        chatbot: false,
-        context: "arbeidsgiver",
-        breadcrumbs: byggBrødsmulesti(miljø),
+        params: {
+            simple: false,
+            chatbot: false,
+            context: "arbeidsgiver",
+            breadcrumbs: byggBrødsmulesti(miljø),
+        },
     });
 
     return {

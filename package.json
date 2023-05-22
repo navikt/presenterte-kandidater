@@ -15,7 +15,7 @@
         "@navikt/ds-css": "^2.1.0",
         "@navikt/ds-icons": "^2.1.0",
         "@navikt/ds-react": "^2.1.0",
-        "@navikt/nav-dekoratoren-moduler": "^1.9.0",
+        "@navikt/nav-dekoratoren-moduler": "^2.0.1",
         "@remix-run/css-bundle": "^1.16.0",
         "@remix-run/express": "^1.16.0",
         "@remix-run/node": "^1.16.0",
