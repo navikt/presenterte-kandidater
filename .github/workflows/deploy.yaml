@@ -61,4 +61,4 @@ jobs:
               env:
                   APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
                   CLUSTER: prod-gcp
-                  RESOURCE: deploy/nais-prod.yaml
+                  RESOURCE: deploy/nais-prod.yaml,deploy/alerts-prod.yaml
