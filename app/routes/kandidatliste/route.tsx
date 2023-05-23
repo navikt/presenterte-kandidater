@@ -125,7 +125,7 @@ const fordelPåStatus = (sammendrag: Kandidatlistesammendrag[]) => {
     const aktive: Kandidatlistesammendrag[] = [];
     const avsluttede: Kandidatlistesammendrag[] = [];
 
-    sammendrag.forEach((sammendrag) => {
+    (sammendrag ?? []).forEach((sammendrag) => {
         if (sammendrag.kandidatliste.status === "ÅPEN") {
             aktive.push(sammendrag);
         } else {
