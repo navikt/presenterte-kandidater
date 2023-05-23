@@ -50,8 +50,6 @@ class TokenClient {
         const now = Math.floor(Date.now() / 1000);
         const tokenXClient = await this.hent();
 
-        logger.info(`Veksler inn brukerens accessToken til exchangeToken for scope ${scope}`);
-
         return tokenXClient.grant(
             {
                 grant_type: "urn:ietf:params:oauth:grant-type:token-exchange",
