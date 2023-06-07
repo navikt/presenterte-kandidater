@@ -16,6 +16,7 @@ import type { LoaderFunction } from "@remix-run/node";
 import type { Kandidatliste } from "~/services/domene";
 
 import css from "./route.module.css";
+import Spørreskjemalenke from "~/components/spørreskjemalenke/Spørreskjemalenke";
 
 const visStillingUrl =
     hentMiljø() === Miljø.DevGcp
@@ -100,6 +101,7 @@ const Kandidatlistevisning = () => {
                     </>
                 )}
             </Panel>
+            <Spørreskjemalenke />
         </div>
     );
 };
