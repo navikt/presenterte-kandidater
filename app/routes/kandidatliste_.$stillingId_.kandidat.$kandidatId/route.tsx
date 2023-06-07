@@ -23,6 +23,7 @@ import type { LoaderFunction, ActionFunction } from "@remix-run/node";
 import type { Kandidat, Kandidatliste } from "~/services/domene";
 
 import css from "./route.module.css";
+import Spørreskjemalenke from "~/components/spørreskjemalenke/Spørreskjemalenke";
 
 type LoaderData = {
     kandidat: Kandidat;
@@ -161,6 +162,8 @@ const Kandidatvisning = () => {
                 Informasjonen blir ikke formidlet videre til kandidaten eller NAV.
             </ReadMore>
             {kandidat.cv ? <KandidatCv cv={kandidat.cv} /> : <KandidatUtenCv />}
+
+            <Spørreskjemalenke />
 
             <Button className={css.slettIKandidat} onClick={åpneSlettemodal} variant="secondary">
                 Slett kandidat
