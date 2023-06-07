@@ -1,12 +1,12 @@
 import {BodyShort, Heading, Link, LinkPanel, Panel} from "@navikt/ds-react";
 import css from './Spørreskjemalenke.module.css';
-import {CheckmarkCircleIcon, ChevronRightDoubleIcon, ExternalLinkIcon} from "@navikt/aksel-icons";
+import {CheckmarkCircleIcon, ChevronRightIcon, ExternalLinkIcon} from "@navikt/aksel-icons";
 
 const Spørreskjemalenke = () => {
     return (
         <Panel className={css.wrapper}>
             <div className={css.ikon}>
-                <ChevronRightDoubleIcon fontSize="5rem" aria-hidden />
+                <ChevronRightIcon fontSize="5rem" aria-hidden />
             </div>
             <div className={css.tekst}>
                 <Heading level="3" size="medium" spacing>
@@ -19,7 +19,7 @@ const Spørreskjemalenke = () => {
                     <li><CheckmarkCircleIcon aria-hidden fontSize="1.5rem" /> Det tar bare to minutter</li>
                     <li><CheckmarkCircleIcon aria-hidden fontSize="1.5rem" /> Er helt anonymt</li>
                 </BodyShort>
-                <Link href="https://www.survey-xact.no/servlet/com.pls.morpheus.web.pages.CoreRespondentCollectLinkAnonymous">
+                <Link target="_blank" href="https://www.survey-xact.no/LinkCollector?key=X3QEX5RFLJ3P">
                     Gå til spørsmålene
                     <ExternalLinkIcon aria-hidden fontSize="1.5rem" />
                 </Link>
