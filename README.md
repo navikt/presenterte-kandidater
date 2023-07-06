@@ -24,6 +24,13 @@ For å starte utviklingsserveren, kjør:
 npm run dev
 ```
 
+## Hvordan teste i dev-miljøet
+1. Gå inn på ingressen (https://presenterte-kandidater.intern.dev.nav.no/kandidatliste)
+2. Logg inn med TestID
+3. Skriv inn et syntetisk fødselsnummer som tilhører en person med korrekte roller i Altinn.
+
+Se `#arbeidsgiver-toi` på Slack for mer informasjon om testpersoner.
+
 ## Teknologi
 
 - Appen er laget med [Remix](https://remix.run/docs), et SSR-rammeverk for React.
