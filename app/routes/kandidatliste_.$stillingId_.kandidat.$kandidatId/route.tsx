@@ -1,4 +1,4 @@
-import { Button, ReadMore } from "@navikt/ds-react";
+import { BodyLong, Button } from "@navikt/ds-react";
 import { json, redirect } from "@remix-run/node";
 import {
     isRouteErrorResponse,
@@ -10,20 +10,20 @@ import {
 } from "@remix-run/react";
 import { useState } from "react";
 
-import { Kandidatvurdering } from "~/services/domene";
-import { proxyTilApi } from "~/services/api/proxy";
-import EndreVurdering from "./endre-vurdering/EndreVurdering";
 import IkkeFunnet from "~/components/ikke-funnet/IkkeFunnet";
-import KandidatCv, { KandidatUtenCv } from "./cv/Cv";
-import Slettemodal from "./slettemodal/Slettemodal";
 import Tilbakelenke from "~/components/tilbakelenke/Tilbakelenke";
+import { proxyTilApi } from "~/services/api/proxy";
+import { Kandidatvurdering } from "~/services/domene";
 import useVirksomhet from "~/services/useVirksomhet";
+import KandidatCv, { KandidatUtenCv } from "./cv/Cv";
+import EndreVurdering from "./endre-vurdering/EndreVurdering";
+import Slettemodal from "./slettemodal/Slettemodal";
 
-import type { LoaderFunction, ActionFunction } from "@remix-run/node";
+import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import type { Kandidat, Kandidatliste } from "~/services/domene";
 
-import css from "./route.module.css";
 import Spørreskjemalenke from "~/components/spørreskjemalenke/Spørreskjemalenke";
+import css from "./route.module.css";
 
 type LoaderData = {
     kandidat: Kandidat;
@@ -156,11 +156,11 @@ const Kandidatvisning = () => {
                 endrerVurdering={handling === "endre-vurdering"}
             />
 
-            <ReadMore header="Slik virker statusene" className={css.slikVirkerStatusene}>
-                Statusene hjelper deg å holde oversikt over kandidatene NAV har sendt deg.
-                <br />
-                Informasjonen blir ikke formidlet videre til kandidaten eller NAV.
-            </ReadMore>
+            <BodyLong className={css.slikVirkerStatusene} id="endre-vurdering-beskrivelse">
+                Informasjonen blir ikke formidlet videre til kandidaten eller til NAV, men kan
+                hjelpe deg å holde oversikt over kandidatene.
+            </BodyLong>
+
             {kandidat.cv ? <KandidatCv cv={kandidat.cv} /> : <KandidatUtenCv />}
 
             <Spørreskjemalenke />

@@ -1,11 +1,10 @@
-import React from "react";
-import { ToggleGroup, RadioGroup, Radio, Button, BodyShort } from "@navikt/ds-react";
+import { BodyShort, Button, Radio, RadioGroup, ToggleGroup } from "@navikt/ds-react";
 import { Form } from "@remix-run/react";
-import { Kandidatvurdering } from "~/services/domene";
-import { visVurdering } from "../route";
+import type { FunctionComponent } from "react";
 import Vurderingsikon from "~/components/vurderingsikon/Vurderingsikon";
 import type { Kandidatliste } from "~/services/domene";
-import type { FunctionComponent } from "react";
+import { Kandidatvurdering } from "~/services/domene";
+import { visVurdering } from "../route";
 import css from "./EndreVurdering.module.css";
 
 type Props = {
@@ -25,6 +24,7 @@ const EndreVurdering: FunctionComponent<Props> = ({
 }) => (
     <Form method="put">
         <ToggleGroup
+            aria-describedby="endre-vurdering-beskrivelse"
             className={css.desktop}
             label={`Vurdering av kandidat til stilling «${kandidatliste.kandidatliste.tittel}»`}
             value={vurdering}
@@ -37,6 +37,7 @@ const EndreVurdering: FunctionComponent<Props> = ({
 
         <RadioGroup
             className={css.mobil}
+            aria-describedby="endre-vurdering-beskrivelse"
             legend={`Vurdering av kandidat til stilling «${kandidatliste.kandidatliste.tittel}»`}
             value={vurdering}
             onChange={setVurdering}

@@ -16,6 +16,10 @@
     gap: 1rem;
 }
 
+.slikVirkerStatusene {
+    max-width: 65ch;
+}
+
 @media print {
     .slikVirkerStatusene,
     .slettKandidat {
