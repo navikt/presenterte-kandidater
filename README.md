@@ -21,7 +21,7 @@ npm install
 For å starte utviklingsserveren, kjør:
 
 ```
-npm run dev
+npm run start
 ```
 
 ## Hvordan teste i dev-miljøet
