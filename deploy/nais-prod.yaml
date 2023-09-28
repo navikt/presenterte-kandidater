@@ -42,3 +42,5 @@ spec:
           value: /etc/ssl/ca-bundle.pem
         - name: API_URL
           value: http://presenterte-kandidater-api
+        - name: NOTIFIKASJON_API_URL
+          value: http://notifikasjon-bruker-api.fager

@@ -12,6 +12,11 @@ export const apiConfig = {
     url: apiUrl,
 };
 
+export const notifikasjonApiConfig = {
+    scope: `${naisCluster}:fager:notifikasjon-bruker-api`,
+    url: process.env.NOTIFIKASJON_API_URL,
+};
+
 export const proxyTilApi = async (request: Request, url: string, method = "GET", body?: object) => {
     let headers;
     try {
