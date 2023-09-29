@@ -14,8 +14,13 @@ type Props = {
 const Header: FunctionComponent<Props> = ({ organisasjoner }) => {
     const [searchParams, setSearchParams] = useSearchParams();
     const [orgnummer, setOrgnummer] = useState<string | null>(searchParams.get("virksomhet"));
+    const [renderWidget, setRenderWidget] = useState<boolean>(false);
     const navigate = useNavigate();
     const miljø = hentMiljøTilNotifikasjonWidget();
+
+    useEffect(() => {
+        setRenderWidget(true);
+    }, []);
 
     useEffect(() => {
         if (orgnummer) {
@@ -48,7 +53,9 @@ const Header: FunctionComponent<Props> = ({ organisasjoner }) => {
             organisasjoner={organisasjoner}
             orgnrSearchParam={useOrgnrHook}
         >
-            <NotifikasjonWidget miljo={miljø} apiUrl="/kandidatliste/notifikasjoner" />
+            {renderWidget && (
+                <NotifikasjonWidget miljo={miljø} apiUrl="/kandidatliste/notifikasjoner" />
+            )}
         </Bedriftsmeny>
     );
 };
@@ -61,8 +68,6 @@ const hentMiljøTilNotifikasjonWidget = (): NotifikasjonMiljø => {
             return "prod";
         case Miljø.Lokalt:
             return "local";
-        default:
-            return "prod";
     }
 };
 

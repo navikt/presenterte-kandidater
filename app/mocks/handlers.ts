@@ -1,6 +1,6 @@
 import { rest } from "msw";
 import { apiConfig } from "~/services/api/proxy";
-import { mockedeKandidatlistesammendrag, mockedeKandidatlister } from "./mockKandidatliste";
+import { mockedeKandidatlister, mockedeKandidatlistesammendrag } from "./mockKandidatliste";
 import mockedeOrganisasjoner from "./mockOrganisasjoner";
 
 export const handlers = [
@@ -41,6 +41,10 @@ export const handlers = [
     }),
 
     rest.post(`${apiConfig.url}/kandidat/:kandidatId/registrerviskontaktinfo`, (req, res, ctx) => {
+        return res(ctx.status(200));
+    }),
+
+    rest.all(`${apiConfig.url}/api/graphql`, (req, res, ctx) => {
         return res(ctx.status(200));
     }),
 ];
