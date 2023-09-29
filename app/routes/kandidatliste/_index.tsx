@@ -1,16 +1,16 @@
-import { useEffect } from "react";
 import { BodyShort, Heading } from "@navikt/ds-react";
 import { json } from "@remix-run/node";
 import { Link, useLoaderData, useRouteLoaderData } from "@remix-run/react";
-import { proxyTilApi } from "~/services/api/proxy";
+import { useEffect } from "react";
 import { sendEvent } from "~/services/amplitude";
+import { proxyTilApi } from "~/services/api/proxy";
 import useVirksomhet from "~/services/useVirksomhet";
-import VisKandidatlistesammendrag from "~/routes/kandidatliste/kandidatlistesammendrag/Kandidatlistesammendrag";
+import VisKandidatlistesammendrag from "./kandidatlistesammendrag/Kandidatlistesammendrag";
 
-import type { Kandidatlistesammendrag } from "~/services/domene";
-import type { LoaderFunction } from "@remix-run/node";
 import type { Organisasjon } from "@navikt/bedriftsmeny/lib/organisasjon";
+import type { LoaderFunction } from "@remix-run/node";
 import type { LoaderData as RootLoaderData } from "~/root";
+import type { Kandidatlistesammendrag } from "~/services/domene";
 
 import css from "./route.module.css";
 

@@ -4,7 +4,7 @@ module.exports = {
     publicPath: "/kandidatliste/build/",
     serverModuleFormat: "cjs",
     future: {
-        unstable_dev: true,
+        v2_dev: true,
         v2_errorBoundary: true,
         v2_routeConvention: true,
         v2_normalizeFormMethod: true,
