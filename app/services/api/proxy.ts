@@ -12,15 +12,10 @@ export const apiConfig = {
     url: apiUrl,
 };
 
-export const notifikasjonApiConfig = {
-    scope: `${naisCluster}:fager:notifikasjon-bruker-api`,
-    url: process.env.NOTIFIKASJON_API_URL,
-};
-
 export const proxyTilApi = async (request: Request, url: string, method = "GET", body?: object) => {
     let headers;
     try {
-        headers = await opprettAuthorizationHeader(request);
+        headers = await opprettAuthorizationHeader(request, apiConfig.scope);
     } catch (e) {
         logger.warning("Klarte ikke å opprette authorization header:", e);
     }
@@ -37,7 +32,7 @@ export const proxyTilApi = async (request: Request, url: string, method = "GET",
     return await fetch(`${apiConfig.url}${url}`, options);
 };
 
-const opprettAuthorizationHeader = async (request: Request) => {
+export const opprettAuthorizationHeader = async (request: Request, scope: string) => {
     if (process.env.NODE_ENV === "development") {
         return {
             authorization: "",
@@ -50,7 +45,7 @@ const opprettAuthorizationHeader = async (request: Request) => {
         throw Error("Fant ikke access token");
     }
 
-    const exchangeToken = await client.veksleToken(accessToken, apiConfig.scope);
+    const exchangeToken = await client.veksleToken(accessToken, scope);
 
     return {
         authorization: `Bearer ${exchangeToken.access_token}`,

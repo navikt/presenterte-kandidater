@@ -48,7 +48,7 @@ const Header: FunctionComponent<Props> = ({ organisasjoner }) => {
             organisasjoner={organisasjoner}
             orgnrSearchParam={useOrgnrHook}
         >
-            <NotifikasjonWidget miljo={miljø} />
+            <NotifikasjonWidget miljo={miljø} apiUrl="/kandidatliste/notifikasjoner" />
         </Bedriftsmeny>
     );
 };

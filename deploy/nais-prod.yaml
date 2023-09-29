@@ -23,6 +23,8 @@ spec:
                 - application: presenterte-kandidater-api
                 - application: nav-dekoratoren
                   namespace: personbruker
+                - application: notifikasjon-bruker-api
+                  namespace: fager
     tokenx:
         enabled: true
     idporten:
