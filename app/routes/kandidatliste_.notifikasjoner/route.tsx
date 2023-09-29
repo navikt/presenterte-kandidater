@@ -4,7 +4,7 @@ import { opprettAuthorizationHeader } from "~/services/api/proxy";
 import { Miljø, hentMiljø } from "~/services/miljø";
 
 const apiUrl =
-    hentMiljø() !== Miljø.Lokalt ? process.env.NOTIFIKASJON_API_URL : "http://localhost:3000";
+    hentMiljø() !== Miljø.Lokalt ? process.env.NOTIFIKASJON_API_URL! : "http://localhost:3000";
 
 export const notifikasjonApiConfig = {
     scope: `${process.env.NAIS_CLUSTER_NAME}:fager:notifikasjon-bruker-api`,
@@ -12,9 +12,8 @@ export const notifikasjonApiConfig = {
 };
 
 export const proxyTilNotifikasjonApi = async (request: Request) => {
-    logger.info(
-        `Proxy ${request.method}-request til notifikasjon-api: ${JSON.stringify(request.body)}`
-    );
+    const requestUrl = `${notifikasjonApiConfig.url}/api/graphql`;
+    logger.info(`Proxy ${request.method}-request til notifikasjon-api: ${requestUrl}`);
 
     let headers;
     try {
@@ -23,7 +22,7 @@ export const proxyTilNotifikasjonApi = async (request: Request) => {
         logger.warn("Klarte ikke å opprette authorization header:", e);
     }
 
-    const requestMedToken = new Request(request.url, {
+    const requestMedToken = new Request(requestUrl, {
         method: request.method,
         body: request.body,
         headers: {
