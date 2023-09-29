@@ -17,7 +17,7 @@ export const proxyTilApi = async (request: Request, url: string, method = "GET",
     try {
         headers = await opprettAuthorizationHeader(request, apiConfig.scope);
     } catch (e) {
-        logger.warning("Klarte ikke å opprette authorization header:", e);
+        logger.warn("Klarte ikke å opprette authorization header:", e);
     }
 
     const options: RequestInit = {

@@ -12,11 +12,13 @@ export const notifikasjonApiConfig = {
 };
 
 export const proxyTilNotifikasjonApi = async (request: Request, method = "GET", body?: object) => {
+    logger.info(`Proxy ${method}-request til notifikasjon-api: ${JSON.stringify(body)}`);
+
     let headers;
     try {
         headers = await opprettAuthorizationHeader(request, notifikasjonApiConfig.scope);
     } catch (e) {
-        logger.warning("Klarte ikke å opprette authorization header:", e);
+        logger.warn("Klarte ikke å opprette authorization header:", e);
     }
 
     const options: RequestInit = {
