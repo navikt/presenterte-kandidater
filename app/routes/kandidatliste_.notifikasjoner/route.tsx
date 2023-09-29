@@ -20,18 +20,19 @@ export const proxyTilNotifikasjonApi = async (request: Request) => {
         headers = await opprettAuthorizationHeader(request, notifikasjonApiConfig.scope);
     } catch (e) {
         logger.warn("Klarte ikke å opprette authorization header:", e);
+
+        return new Response("", { status: 401 });
     }
 
-    const requestMedToken = new Request(requestUrl, {
-        method: request.method,
-        body: request.body,
-        headers: {
-            ...request.headers,
-            ...headers,
-        },
-    });
+    const requestMedToken = new Request(request);
 
-    return await fetch(requestMedToken);
+    requestMedToken.headers.set("Authorization", headers.authorization);
+
+    return await fetch(requestUrl, {
+        method: requestMedToken.method,
+        headers: requestMedToken.headers,
+        body: requestMedToken.body,
+    });
 };
 
 export const loader: LoaderFunction = async ({ request }) => proxyTilNotifikasjonApi(request);
