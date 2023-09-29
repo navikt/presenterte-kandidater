@@ -11,8 +11,10 @@ export const notifikasjonApiConfig = {
     url: apiUrl,
 };
 
-export const proxyTilNotifikasjonApi = async (request: Request, method = "GET", body?: object) => {
-    logger.info(`Proxy ${method}-request til notifikasjon-api: ${JSON.stringify(body)}`);
+export const proxyTilNotifikasjonApi = async (request: Request) => {
+    logger.info(
+        `Proxy ${request.method}-request til notifikasjon-api: ${JSON.stringify(request.body)}`
+    );
 
     let headers;
     try {
@@ -21,16 +23,16 @@ export const proxyTilNotifikasjonApi = async (request: Request, method = "GET", 
         logger.warn("Klarte ikke å opprette authorization header:", e);
     }
 
-    const options: RequestInit = {
-        method,
-        headers,
-    };
+    const requestMedToken = new Request(request.url, {
+        method: request.method,
+        body: request.body,
+        headers: {
+            ...request.headers,
+            ...headers,
+        },
+    });
 
-    if (body) {
-        options.body = JSON.stringify(body);
-    }
-
-    return await fetch(`${notifikasjonApiConfig.url}/api/graphql`, options);
+    return await fetch(requestMedToken);
 };
 
 export const loader: LoaderFunction = async ({ request }) => proxyTilNotifikasjonApi(request);
