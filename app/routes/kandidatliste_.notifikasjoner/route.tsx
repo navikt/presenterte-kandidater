@@ -13,7 +13,6 @@ export const notifikasjonApiConfig = {
 
 export const proxyTilNotifikasjonApi = async (request: Request) => {
     const requestUrl = `${notifikasjonApiConfig.url}/api/graphql`;
-    logger.info(`Proxy ${request.method}-request til notifikasjon-api: ${requestUrl}`);
 
     let headers;
     try {

@@ -1,6 +1,7 @@
 import { rest } from "msw";
 import { apiConfig } from "~/services/api/proxy";
 import { mockedeKandidatlister, mockedeKandidatlistesammendrag } from "./mockKandidatliste";
+import { mockedeNotifikasjoner } from "./mockNotifikasjoner";
 import mockedeOrganisasjoner from "./mockOrganisasjoner";
 
 export const handlers = [
@@ -45,6 +46,6 @@ export const handlers = [
     }),
 
     rest.all(`${apiConfig.url}/api/graphql`, (req, res, ctx) => {
-        return res(ctx.status(200));
+        return res(ctx.json(mockedeNotifikasjoner));
     }),
 ];
