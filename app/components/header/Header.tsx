@@ -1,11 +1,12 @@
-import type { Miljø as NotifikasjonMiljø } from "@navikt/arbeidsgiver-notifikasjon-widget";
 import { NotifikasjonWidget } from "@navikt/arbeidsgiver-notifikasjon-widget";
 import Bedriftsmeny from "@navikt/bedriftsmeny";
-import type { Organisasjon } from "@navikt/bedriftsmeny/lib/organisasjon";
 import { useNavigate, useSearchParams } from "@remix-run/react";
-import type { FunctionComponent } from "react";
 import { useCallback, useEffect, useState } from "react";
 import { Miljø, hentMiljø } from "~/services/miljø";
+
+import type { Miljø as NotifikasjonMiljø } from "@navikt/arbeidsgiver-notifikasjon-widget";
+import type { Organisasjon } from "@navikt/bedriftsmeny";
+import type { FunctionComponent } from "react";
 
 type Props = {
     organisasjoner: Organisasjon[];

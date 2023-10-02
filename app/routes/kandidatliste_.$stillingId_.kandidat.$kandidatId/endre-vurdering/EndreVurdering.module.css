@@ -4,6 +4,7 @@
 
 .desktop :global(.navds-toggle-group) {
     margin-top: 0.5rem;
+    background-color: white;
 }
 
 .mobil label {

@@ -4,7 +4,7 @@ import { opprettAuthorizationHeader } from "~/services/api/proxy";
 import { Miljø, hentMiljø } from "~/services/miljø";
 
 const apiUrl =
-    hentMiljø() !== Miljø.Lokalt ? process.env.NOTIFIKASJON_API_URL! : "http://localhost:3000";
+    hentMiljø() !== Miljø.Lokalt ? process.env.NOTIFIKASJON_API_URL : "http://localhost:3000";
 
 export const notifikasjonApiConfig = {
     scope: `${process.env.NAIS_CLUSTER_NAME}:fager:notifikasjon-bruker-api`,
@@ -31,7 +31,10 @@ export const proxyTilNotifikasjonApi = async (request: Request) => {
         method: requestMedToken.method,
         headers: requestMedToken.headers,
         body: requestMedToken.body,
-    });
+
+        duplex: "half",
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } as any);
 };
 
 export const loader: LoaderFunction = async ({ request }) => proxyTilNotifikasjonApi(request);

@@ -29,7 +29,7 @@ export const settOppAmplitude = (): AmplitudeClient | null => {
     return client;
 };
 
-export const sendEvent = (område: string, hendelse: string, data?: Object): void => {
+export const sendEvent = (område: string, hendelse: string, data?: object): void => {
     if (client === null) {
         client = settOppAmplitude();
     }
