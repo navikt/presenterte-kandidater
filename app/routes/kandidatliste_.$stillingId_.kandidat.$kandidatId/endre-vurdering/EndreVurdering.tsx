@@ -27,10 +27,15 @@ const EndreVurdering: FunctionComponent<Props> = ({
             className={css.desktop}
             label={`Vurdering av kandidat til stilling «${kandidatliste.kandidatliste.tittel}»`}
             value={vurdering}
-            onChange={(vurdering) => setVurdering(vurdering as Kandidatvurdering)}
+            onChange={() => {}}
         >
             {Object.values(Kandidatvurdering).map((valg) => (
-                <Vurderingsvalg key={valg} vurdering={valg} valgtVurdering={vurdering} />
+                <Vurderingsvalg
+                    key={valg}
+                    vurdering={valg}
+                    valgtVurdering={vurdering}
+                    onClick={() => setVurdering(valg)}
+                />
             ))}
         </ToggleGroup>
 
@@ -69,9 +74,14 @@ const EndreVurdering: FunctionComponent<Props> = ({
 type VurderingsvalgProps = {
     valgtVurdering: Kandidatvurdering;
     vurdering: Kandidatvurdering;
+    onClick: () => void;
 };
 
-const Vurderingsvalg: FunctionComponent<VurderingsvalgProps> = ({ vurdering, valgtVurdering }) => {
+const Vurderingsvalg: FunctionComponent<VurderingsvalgProps> = ({
+    vurdering,
+    valgtVurdering,
+    onClick,
+}) => {
     return (
         <button
             role="radio"
@@ -79,6 +89,7 @@ const Vurderingsvalg: FunctionComponent<VurderingsvalgProps> = ({ vurdering, val
             name="vurdering"
             className="navds-toggle-group__button"
             aria-checked={vurdering === valgtVurdering}
+            onClick={onClick}
             value={vurdering}
         >
             <Label as="span" className="navds-toggle-group__button-inner">
