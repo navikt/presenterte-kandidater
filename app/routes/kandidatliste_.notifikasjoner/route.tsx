@@ -31,7 +31,10 @@ export const proxyTilNotifikasjonApi = async (request: Request) => {
         method: requestMedToken.method,
         headers: requestMedToken.headers,
         body: requestMedToken.body,
-    });
+
+        duplex: true,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } as any);
 };
 
 export const loader: LoaderFunction = async ({ request }) => proxyTilNotifikasjonApi(request);
