@@ -114,7 +114,9 @@ export const action: ActionFunction = async ({ request, context, params }) => {
     } else if (handling === "slett") {
         return slett(request, stillingId, kandidatId);
     } else if (handling === "vis-kontaktinformasjon") {
-        return loggVisKontaktinfo(request, kandidatId);
+        loggVisKontaktinfo(request, kandidatId);
+
+        return null;
     } else {
         return null;
     }
