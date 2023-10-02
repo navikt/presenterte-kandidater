@@ -1,33 +1,32 @@
-import { useEffect } from "react";
-import { redirect, Response } from "@remix-run/node";
-import { json } from "@remix-run/node";
+import bedriftsmenyStyles from "@navikt/bedriftsmeny/lib/bedriftsmeny.css";
+import designsystemStyles from "@navikt/ds-css/dist/index.css";
+import { BodyShort, Heading, Modal, Panel } from "@navikt/ds-react";
+import { cssBundleHref } from "@remix-run/css-bundle";
+import { json, redirect } from "@remix-run/node";
 import {
-    isRouteErrorResponse,
     Links,
     LiveReload,
     Meta,
     Outlet,
     Scripts as RemixScripts,
     ScrollRestoration,
+    isRouteErrorResponse,
     useLoaderData,
     useRouteError,
 } from "@remix-run/react";
-import { configureMock } from "./mocks";
-import { cssBundleHref } from "@remix-run/css-bundle";
-import { hentSsrDekoratør } from "./services/dekoratør/dekoratør.server";
-import { hentMiljø, Miljø } from "./services/miljø";
-import { BodyShort, Heading, Modal, Panel } from "@navikt/ds-react";
-import { proxyTilApi } from "./services/api/proxy";
 import parse from "html-react-parser";
-import bedriftsmenyStyles from "@navikt/bedriftsmeny/lib/bedriftsmeny.css";
-import designsystemStyles from "@navikt/ds-css/dist/index.css";
+import { useEffect } from "react";
 import Header from "./components/header/Header";
+import { configureMock } from "./mocks";
 import IngenOrganisasjoner from "./routes/kandidatliste/IngenOrganisasjoner";
+import { proxyTilApi } from "./services/api/proxy";
+import { hentSsrDekoratør } from "./services/dekoratør/dekoratør.server";
+import { Miljø, hentMiljø } from "./services/miljø";
 
-import type { ReactNode } from "react";
-import type { V2_MetaFunction } from "@remix-run/react";
-import type { LinksFunction, LoaderFunction } from "@remix-run/node";
 import type { Organisasjon } from "@navikt/bedriftsmeny/lib/organisasjon";
+import type { LinksFunction, LoaderFunction } from "@remix-run/node";
+import type { V2_MetaFunction } from "@remix-run/react";
+import type { ReactNode } from "react";
 import type { Dekoratørfragmenter } from "./services/dekoratør/dekoratør.server";
 
 import css from "./root.module.css";
@@ -52,7 +51,7 @@ export const loader: LoaderFunction = async ({ request, context }) => {
         configureMock();
     } else {
         if (!context.erAutorisert) {
-            throw new Response("Bruker er ikke autorisert", { status: 401 });
+            return redirect(`/kandidatliste/oauth2/login?redirect=${request.url}`);
         }
     }
 

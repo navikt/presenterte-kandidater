@@ -1,8 +1,8 @@
-import express from "express";
 import compression from "compression";
-import handleRequestWithRemix from "./remix";
-import { logger, logRequests } from "./logger";
 import type { Response } from "express";
+import express from "express";
+import { logger } from "./logger";
+import handleRequestWithRemix from "./remix";
 
 const port = process.env.PORT || 3000;
 const basePath = "/kandidatliste";
@@ -30,7 +30,7 @@ const startServer = async () => {
         res.sendStatus(200)
     );
 
-    app.use(logRequests);
+    // app.use(logRequests);
 
     app.all("*", handleRequestWithRemix);
 

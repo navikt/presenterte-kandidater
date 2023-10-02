@@ -5,6 +5,9 @@ on: [push]
 env:
     IMAGE: ghcr.io/${{ github.repository }}/presenterte-kandidater:${{ github.sha }}
 
+permissions:
+    packages: write
+
 jobs:
     bygg-og-push-docker-image:
         name: Bygg applikasjon
@@ -40,7 +43,7 @@ jobs:
     deploy-til-dev:
         name: Deploy til dev-gcp
         needs: bygg-og-push-docker-image
-        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/oppdater-docker-image'
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/bjella'
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v3

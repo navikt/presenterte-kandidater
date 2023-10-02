@@ -1,8 +1,8 @@
 import { fetchDecoratorHtml } from "@navikt/nav-dekoratoren-moduler/ssr";
-import { hentMiljø, Miljø } from "../miljø";
 import { logger } from "server/logger";
+import { hentMiljø, Miljø } from "../miljø";
 
-const visDekoratørUnderUtvikling = true;
+const visDekoratørUnderUtvikling = false;
 const brukSsrDekoratørIMiljø = true;
 
 export type Dekoratørfragmenter = {

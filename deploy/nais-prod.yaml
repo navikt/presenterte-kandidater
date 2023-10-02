@@ -23,6 +23,8 @@ spec:
                 - application: presenterte-kandidater-api
                 - application: nav-dekoratoren
                   namespace: personbruker
+                - application: notifikasjon-bruker-api
+                  namespace: fager
     tokenx:
         enabled: true
     idporten:
@@ -42,3 +44,5 @@ spec:
           value: /etc/ssl/ca-bundle.pem
         - name: API_URL
           value: http://presenterte-kandidater-api
+        - name: NOTIFIKASJON_API_URL
+          value: http://notifikasjon-bruker-api.fager
