@@ -32,7 +32,7 @@ export const proxyTilNotifikasjonApi = async (request: Request) => {
         headers: requestMedToken.headers,
         body: requestMedToken.body,
 
-        duplex: true,
+        duplex: "half",
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } as any);
 };
