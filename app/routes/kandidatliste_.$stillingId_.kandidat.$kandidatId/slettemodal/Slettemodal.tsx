@@ -1,8 +1,8 @@
-import { Modal, Heading, BodyLong, Button, BodyShort } from "@navikt/ds-react";
+import { BodyLong, BodyShort, Button, Heading, Modal } from "@navikt/ds-react";
 import { Form } from "@remix-run/react";
 import type { FunctionComponent } from "react";
-import type { ActionData as KandidatActionData } from "~/routes/kandidatliste.$stillingId.kandidat.$kandidatId/route";
 import type { Cv } from "~/services/domene";
+import type { ActionData as KandidatActionData } from "../route";
 import css from "./Slettemodal.module.css";
 
 type Props = {
@@ -28,7 +28,7 @@ const Slettemodal: FunctionComponent<Props> = ({
         <BodyLong>Du kan ikke angre på dette.</BodyLong>
 
         <Form method="post" className={css.knapper}>
-            <Button variant="tertiary" onClick={onClose}>
+            <Button variant="tertiary" onClick={onClose} type="button">
                 Avbryt
             </Button>
             <Button

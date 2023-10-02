@@ -1,6 +1,6 @@
 import bedriftsmenyStyles from "@navikt/bedriftsmeny/lib/bedriftsmeny.css";
 import designsystemStyles from "@navikt/ds-css/dist/index.css";
-import { BodyShort, Heading, Modal, Panel } from "@navikt/ds-react";
+import { BodyShort, Heading, Panel } from "@navikt/ds-react";
 import { cssBundleHref } from "@remix-run/css-bundle";
 import { json, redirect } from "@remix-run/node";
 import {
@@ -23,16 +23,16 @@ import { proxyTilApi } from "./services/api/proxy";
 import { hentSsrDekoratør } from "./services/dekoratør/dekoratør.server";
 import { Miljø, hentMiljø } from "./services/miljø";
 
-import type { Organisasjon } from "@navikt/bedriftsmeny/lib/organisasjon";
+import type { Organisasjon } from "@navikt/bedriftsmeny";
 import type { LinksFunction, LoaderFunction } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
+import type { MetaFunction } from "@remix-run/react";
 import type { ReactNode } from "react";
 import type { Dekoratørfragmenter } from "./services/dekoratør/dekoratør.server";
 
 import css from "./root.module.css";
 import useInjectDecoratorScript from "./services/dekoratør/useInjectScript";
 
-export const meta: V2_MetaFunction = () => [
+export const meta: MetaFunction = () => [
     {
         title: "Foreslåtte kandidater",
     },
@@ -80,10 +80,6 @@ export type LoaderData = {
 
 const App = () => {
     const { organisasjoner, dekoratør } = useLoaderData<LoaderData>();
-
-    useEffect(() => {
-        Modal.setAppElement(document.getElementsByTagName("body"));
-    }, [dekoratør]);
 
     const visning = organisasjoner.length === 0 ? <IngenOrganisasjoner /> : <Outlet />;
 

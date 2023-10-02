@@ -27,6 +27,7 @@ const EndreVurdering: FunctionComponent<Props> = ({
             className={css.desktop}
             label={`Vurdering av kandidat til stilling «${kandidatliste.kandidatliste.tittel}»`}
             value={vurdering}
+            // eslint-disable-next-line @typescript-eslint/no-empty-function
             onChange={() => {}}
         >
             {Object.values(Kandidatvurdering).map((valg) => (

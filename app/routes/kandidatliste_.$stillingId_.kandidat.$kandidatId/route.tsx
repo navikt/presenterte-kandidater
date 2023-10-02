@@ -116,7 +116,7 @@ export const action: ActionFunction = async ({ request, context, params }) => {
     } else if (handling === "vis-kontaktinformasjon") {
         return loggVisKontaktinfo(request, kandidatId);
     } else {
-        throw new Error("Ukjent handling");
+        return null;
     }
 };
 
