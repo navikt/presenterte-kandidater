@@ -1,7 +1,7 @@
 import compression from "compression";
 import type { Response } from "express";
 import express from "express";
-import { logger, logRequests } from "./logger";
+import { logger } from "./logger";
 import handleRequestWithRemix from "./remix";
 
 const port = process.env.PORT || 3000;
@@ -30,7 +30,7 @@ const startServer = async () => {
         res.sendStatus(200)
     );
 
-    app.use(logRequests);
+    // app.use(logRequests);
 
     app.all("*", handleRequestWithRemix);
 

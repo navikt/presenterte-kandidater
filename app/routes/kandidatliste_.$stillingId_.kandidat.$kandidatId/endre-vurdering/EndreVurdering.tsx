@@ -1,11 +1,10 @@
-import React from "react";
-import { ToggleGroup, RadioGroup, Radio, Button, BodyShort } from "@navikt/ds-react";
+import { BodyShort, Button, Label, Radio, RadioGroup, ToggleGroup } from "@navikt/ds-react";
 import { Form } from "@remix-run/react";
-import { Kandidatvurdering } from "~/services/domene";
-import { visVurdering } from "../route";
+import type { FunctionComponent } from "react";
 import Vurderingsikon from "~/components/vurderingsikon/Vurderingsikon";
 import type { Kandidatliste } from "~/services/domene";
-import type { FunctionComponent } from "react";
+import { Kandidatvurdering } from "~/services/domene";
+import { visVurdering } from "../route";
 import css from "./EndreVurdering.module.css";
 
 type Props = {
@@ -28,10 +27,10 @@ const EndreVurdering: FunctionComponent<Props> = ({
             className={css.desktop}
             label={`Vurdering av kandidat til stilling «${kandidatliste.kandidatliste.tittel}»`}
             value={vurdering}
-            onChange={(value) => setVurdering(value as Kandidatvurdering)}
+            onChange={(vurdering) => setVurdering(vurdering as Kandidatvurdering)}
         >
-            {Object.values(Kandidatvurdering).map((vurdering) => (
-                <Vurderingsvalg key={vurdering} vurdering={vurdering} valgtVurdering={vurdering} />
+            {Object.values(Kandidatvurdering).map((valg) => (
+                <Vurderingsvalg key={valg} vurdering={valg} valgtVurdering={vurdering} />
             ))}
         </ToggleGroup>
 
@@ -56,6 +55,7 @@ const EndreVurdering: FunctionComponent<Props> = ({
                 Endre vurdering
             </Button>
         </RadioGroup>
+
         <input type="hidden" name="vurdering" value={vurdering} />
         <input type="hidden" name="handling" value="endre-vurdering" />
         {feilmelding && (
@@ -71,17 +71,21 @@ type VurderingsvalgProps = {
     vurdering: Kandidatvurdering;
 };
 
-const Vurderingsvalg: FunctionComponent<VurderingsvalgProps> = ({ vurdering }) => {
+const Vurderingsvalg: FunctionComponent<VurderingsvalgProps> = ({ vurdering, valgtVurdering }) => {
     return (
-        <ToggleGroup.Item
-            // @ts-ignore
+        <button
+            role="radio"
             type="submit"
             name="vurdering"
+            className="navds-toggle-group__button"
+            aria-checked={vurdering === valgtVurdering}
             value={vurdering}
         >
-            <Vurderingsikon vurdering={vurdering} />
-            {visVurdering(vurdering)}
-        </ToggleGroup.Item>
+            <Label as="span" className="navds-toggle-group__button-inner">
+                <Vurderingsikon vurdering={vurdering} />
+                {visVurdering(vurdering)}
+            </Label>
+        </button>
     );
 };
 
