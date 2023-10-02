@@ -2,7 +2,7 @@ import bedriftsmenyStyles from "@navikt/bedriftsmeny/lib/bedriftsmeny.css";
 import designsystemStyles from "@navikt/ds-css/dist/index.css";
 import { BodyShort, Heading, Modal, Panel } from "@navikt/ds-react";
 import { cssBundleHref } from "@remix-run/css-bundle";
-import { Response, json, redirect } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import {
     Links,
     LiveReload,
@@ -51,7 +51,7 @@ export const loader: LoaderFunction = async ({ request, context }) => {
         configureMock();
     } else {
         if (!context.erAutorisert) {
-            throw new Response("Bruker er ikke autorisert", { status: 401 });
+            return redirect(`/kandidatliste/oauth2/login?redirect=${request.url}`);
         }
     }
 
