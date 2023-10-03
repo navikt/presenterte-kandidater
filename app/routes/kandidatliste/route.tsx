@@ -7,7 +7,7 @@ import { proxyTilApi } from "~/services/api/proxy";
 import useVirksomhet from "~/services/useVirksomhet";
 import VisKandidatlistesammendrag from "./kandidatlistesammendrag/Kandidatlistesammendrag";
 
-import type { Organisasjon } from "@navikt/bedriftsmeny/lib/organisasjon";
+import type { Organisasjon } from "@navikt/bedriftsmeny";
 import type { LoaderFunction } from "@remix-run/node";
 import type { LoaderData as RootLoaderData } from "~/root";
 import type { Kandidatlistesammendrag } from "~/services/domene";

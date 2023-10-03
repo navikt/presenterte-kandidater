@@ -1,10 +1,10 @@
-import { FunctionComponent, useEffect } from "react";
-import { useState } from "react";
 import { BodyShort, ReadMore, Tooltip } from "@navikt/ds-react";
-import { useFetcher } from "@remix-run/react";
-import css from "./Kontaktinformasjon.module.css";
-import cvCss from "./Cv.module.css";
+import { useSubmit } from "@remix-run/react";
+import type { FunctionComponent } from "react";
+import { useEffect, useState } from "react";
 import { sendEvent } from "~/services/amplitude";
+import cvCss from "./Cv.module.css";
+import css from "./Kontaktinformasjon.module.css";
 
 type Props = {
     epost: string | null;
@@ -13,7 +13,7 @@ type Props = {
 
 const Kontaktinformasjon: FunctionComponent<Props> = ({ epost, telefon }) => {
     const [harLogget, setHarLogget] = useState<boolean>(false);
-    const fetcher = useFetcher();
+    const submit = useSubmit();
 
     useEffect(() => {
         const loggPrinting = () => {
@@ -29,7 +29,7 @@ const Kontaktinformasjon: FunctionComponent<Props> = ({ epost, telefon }) => {
 
     const onVisKontaktinformasjon = () => {
         if (!harLogget) {
-            fetcher.submit({ handling: "vis-kontaktinformasjon" }, { method: "post" });
+            submit({ handling: "vis-kontaktinformasjon" }, { method: "post" });
             sendEvent("cv", "vis-kontaktinformasjon");
         }
 
