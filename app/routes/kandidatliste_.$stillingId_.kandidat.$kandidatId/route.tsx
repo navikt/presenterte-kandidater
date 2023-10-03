@@ -1,8 +1,8 @@
 import { Button, ReadMore } from "@navikt/ds-react";
 import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
+import type { ShouldRevalidateFunction } from "@remix-run/react";
 import {
-    ShouldRevalidateFunction,
     isRouteErrorResponse,
     useActionData,
     useLoaderData,

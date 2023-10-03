@@ -2,7 +2,7 @@ import { BodyLong, BodyShort, Button, Heading, Modal } from "@navikt/ds-react";
 import { Form } from "@remix-run/react";
 import type { FunctionComponent } from "react";
 import type { Cv } from "~/services/domene";
-import type { ActionData as KandidatActionData } from "../route";
+import type { ActionData } from "../routeAction";
 import css from "./Slettemodal.module.css";
 
 type Props = {
@@ -10,7 +10,7 @@ type Props = {
     vis: boolean;
     onClose: () => void;
     sletterKandidat: boolean;
-    feilmeldinger: KandidatActionData;
+    feilmeldinger: ActionData;
 };
 
 const Slettemodal: FunctionComponent<Props> = ({
