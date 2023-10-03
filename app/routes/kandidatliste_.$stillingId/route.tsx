@@ -1,22 +1,21 @@
-import { BodyLong, Heading, Panel } from "@navikt/ds-react";
 import { Close, ExternalLink } from "@navikt/ds-icons";
-import { json, Response } from "@remix-run/node";
-import { Link as NavLink } from "@navikt/ds-react";
+import { BodyLong, Heading, Link as NavLink, Panel } from "@navikt/ds-react";
+import { json } from "@remix-run/node";
 import { isRouteErrorResponse, useLoaderData, useRouteError } from "@remix-run/react";
 
-import { Kandidatvurdering } from "~/services/domene";
-import { proxyTilApi } from "~/services/api/proxy";
-import { Miljø, hentMiljø } from "~/services/miljø";
+import type { LoaderFunction } from "@remix-run/node";
 import IkkeFunnet from "~/components/ikke-funnet/IkkeFunnet";
 import Tilbakelenke from "~/components/tilbakelenke/Tilbakelenke";
-import useVirksomhet from "~/services/useVirksomhet";
 import Vurderingsikon from "~/components/vurderingsikon/Vurderingsikon";
-import GruppeMedKandidater from "./gruppeMedKandidater/GruppeMedKandidater";
-import type { LoaderFunction } from "@remix-run/node";
+import { proxyTilApi } from "~/services/api/proxy";
 import type { Kandidatliste } from "~/services/domene";
+import { Kandidatvurdering } from "~/services/domene";
+import { Miljø, hentMiljø } from "~/services/miljø";
+import useVirksomhet from "~/services/useVirksomhet";
+import GruppeMedKandidater from "./gruppeMedKandidater/GruppeMedKandidater";
 
-import css from "./route.module.css";
 import Spørreskjemalenke from "~/components/spørreskjemalenke/Spørreskjemalenke";
+import css from "./route.module.css";
 
 const visStillingUrl =
     hentMiljø() === Miljø.DevGcp
