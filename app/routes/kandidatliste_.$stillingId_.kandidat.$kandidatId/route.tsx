@@ -2,6 +2,7 @@ import { Button, ReadMore } from "@navikt/ds-react";
 import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
+    ShouldRevalidateFunction,
     isRouteErrorResponse,
     useActionData,
     useLoaderData,
@@ -58,6 +59,19 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 };
 
 export const action = routeAction;
+
+export const shouldRevalidate: ShouldRevalidateFunction = ({
+    formData,
+    defaultShouldRevalidate,
+}) => {
+    const handling = formData?.get("handling");
+
+    if (handling === "vis-kontaktinformasjon") {
+        return false;
+    } else {
+        return defaultShouldRevalidate;
+    }
+};
 
 const Kandidatvisning = () => {
     const { stillingId } = useParams();

@@ -73,6 +73,8 @@ export const loader: LoaderFunction = async ({ request, context }) => {
     });
 };
 
+export const shouldRevalidate = () => false;
+
 export type LoaderData = {
     dekoratør: Dekoratørfragmenter | null;
     organisasjoner: Organisasjon[];
