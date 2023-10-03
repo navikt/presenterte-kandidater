@@ -1,5 +1,6 @@
 import { Button, ReadMore } from "@navikt/ds-react";
-import { json, redirect } from "@remix-run/node";
+import type { LoaderFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import {
     isRouteErrorResponse,
     useActionData,
@@ -11,19 +12,18 @@ import {
 import { useState } from "react";
 
 import IkkeFunnet from "~/components/ikke-funnet/IkkeFunnet";
+import Spørreskjemalenke from "~/components/spørreskjemalenke/Spørreskjemalenke";
 import Tilbakelenke from "~/components/tilbakelenke/Tilbakelenke";
 import { proxyTilApi } from "~/services/api/proxy";
+import type { Kandidat, Kandidatliste } from "~/services/domene";
 import { Kandidatvurdering } from "~/services/domene";
 import useVirksomhet from "~/services/useVirksomhet";
 import KandidatCv, { KandidatUtenCv } from "./cv/Cv";
 import EndreVurdering from "./endre-vurdering/EndreVurdering";
-import Slettemodal from "./slettemodal/Slettemodal";
-
-import type { ActionFunction, LoaderFunction } from "@remix-run/node";
-import type { Kandidat, Kandidatliste } from "~/services/domene";
-
-import Spørreskjemalenke from "~/components/spørreskjemalenke/Spørreskjemalenke";
 import css from "./route.module.css";
+import type { ActionData } from "./routeAction";
+import { routeAction } from "./routeAction";
+import Slettemodal from "./slettemodal/Slettemodal";
 
 type LoaderData = {
     kandidat: Kandidat;
@@ -51,76 +51,13 @@ export const loader: LoaderFunction = async ({ request, params }) => {
             kandidatliste,
         });
     } else {
-        throw new Response("Fant ikke kandidatlisten. Har du skrevet riktig adresse?", {
+        throw new Response("Fant ikke kandidatlisten", {
             status: 404,
         });
     }
 };
 
-const endreVurdering = async (
-    request: Request,
-    kandidatId: string,
-    vurdering: Kandidatvurdering
-) => {
-    const respons = await proxyTilApi(request, `/kandidat/${kandidatId}/vurdering`, "PUT", {
-        arbeidsgiversVurdering: vurdering,
-    });
-
-    if (respons.ok) {
-        return null;
-    } else {
-        return json<ActionData>({
-            endreVurdering: "Klarte ikke å endre vurdering",
-        });
-    }
-};
-
-const slett = async (request: Request, stillingId: string, kandidatId: string) => {
-    const respons = await proxyTilApi(request, `/kandidat/${kandidatId}`, "DELETE");
-
-    if (respons.ok) {
-        return redirect(`/kandidatliste/${stillingId}`);
-    } else {
-        return json<ActionData>({
-            slett: "Klarte ikke å slette kandidaten",
-        });
-    }
-};
-
-const loggVisKontaktinfo = async (request: Request, kandidatId: string) => {
-    return await proxyTilApi(request, `/kandidat/${kandidatId}/registrerviskontaktinfo`, "POST");
-};
-
-type Handling = "endre-vurdering" | "slett" | "vis-kontaktinformasjon";
-
-export type ActionData =
-    | undefined
-    | {
-          slett?: string;
-          endreVurdering?: string;
-      };
-
-export const action: ActionFunction = async ({ request, context, params }) => {
-    const { stillingId, kandidatId } = params;
-    if (stillingId === undefined || kandidatId === undefined) {
-        throw new Error("Stilling eller kandidat er ikke definert");
-    }
-
-    const formData = await request.formData();
-    const handling = formData.get("handling") as Handling;
-
-    if (handling === "endre-vurdering") {
-        return endreVurdering(request, kandidatId, formData.get("vurdering") as Kandidatvurdering);
-    } else if (handling === "slett") {
-        return slett(request, stillingId, kandidatId);
-    } else if (handling === "vis-kontaktinformasjon") {
-        loggVisKontaktinfo(request, kandidatId);
-
-        return null;
-    } else {
-        return null;
-    }
-};
+export const action = routeAction;
 
 const Kandidatvisning = () => {
     const { stillingId } = useParams();
