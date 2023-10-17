@@ -13,11 +13,19 @@ export const apiConfig = {
 };
 
 export const proxyTilApi = async (request: Request, url: string, method = "GET", body?: object) => {
-    let headers;
+    let maybeAuthorizationHeader: MaybeAuthorizationHeader;
     try {
-        headers = await opprettAuthorizationHeader(request, apiConfig.scope);
+        maybeAuthorizationHeader = await opprettAuthorizationHeader(request, apiConfig.scope);
     } catch (e) {
         logger.warn("Klarte ikke å opprette authorization header:", e);
+    }
+    // TODO Are: Vi fortsetter bare etter exception? Burde vi returnere med status 401?
+
+    let headers;
+    if (maybeAuthorizationHeader.isPresent) {
+        headers = maybeAuthorizationHeader.authorizationHeader;
+    } else {
+        logger.info(maybeAuthorizationHeader.cause);
     }
 
     const options: RequestInit = {
@@ -32,26 +40,38 @@ export const proxyTilApi = async (request: Request, url: string, method = "GET",
     return await fetch(`${apiConfig.url}${url}`, options);
 };
 
-export const opprettAuthorizationHeader = async (request: Request, scope: string) => {
+export type MaybeAuthorizationHeader =
+    | { isPresent: true; authorizationHeader: { authorization: string } }
+    | { cause: string };
+export const opprettAuthorizationHeader = async (
+    request: Request,
+    scope: string
+): Promise<MaybeAuthorizationHeader> => {
     if (process.env.NODE_ENV === "development") {
         return {
-            authorization: "",
+            isPresent: true,
+            authorizationHeader: {
+                authorization: `whatever`,
+            },
         };
     }
 
-    const accessToken = retrieveToken(request);
-
+    const accessToken = accessToken(request);
     if (!accessToken) {
-        throw Error("Fant ikke access token");
+        return {
+            cause: "Request mangler access token, brukeren er sannsynligvis ikke logget inn",
+        };
     }
 
     const exchangeToken = await client.veksleToken(accessToken, scope);
-
     return {
-        authorization: `Bearer ${exchangeToken.access_token}`,
+        isPresent: true,
+        authorizationHeader: {
+            authorization: `Bearer ${exchangeToken.access_token}`,
+        },
     };
 };
 
-export const retrieveToken = (request: Request) => {
+const accessToken = (request: Request) => {
     return request.headers.get("authorization")?.replace("Bearer", "");
 };

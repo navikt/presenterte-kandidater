@@ -1,6 +1,6 @@
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { logger } from "server/logger";
-import { opprettAuthorizationHeader } from "~/services/api/proxy";
+import { MaybeAuthorizationHeader, opprettAuthorizationHeader } from "~/services/api/proxy";
 import { Miljø, hentMiljø } from "~/services/miljø";
 
 const apiUrl =
@@ -14,17 +14,25 @@ export const notifikasjonApiConfig = {
 export const proxyTilNotifikasjonApi = async (request: Request) => {
     const requestUrl = `${notifikasjonApiConfig.url}/api/graphql`;
 
-    let headers;
+    let maybeAuthorizationHeader: MaybeAuthorizationHeader;
     try {
-        headers = await opprettAuthorizationHeader(request, notifikasjonApiConfig.scope);
+        maybeAuthorizationHeader = await opprettAuthorizationHeader(
+            request,
+            notifikasjonApiConfig.scope
+        );
     } catch (e) {
         logger.warn("Klarte ikke å opprette authorization header:", e);
-
+        return new Response("", { status: 401 });
+    }
+    let headers;
+    if (maybeAuthorizationHeader.isPresent) {
+        headers = maybeAuthorizationHeader.authorizationHeader;
+    } else {
+        logger.info(maybeAuthorizationHeader.cause);
         return new Response("", { status: 401 });
     }
 
     const requestMedToken = new Request(request);
-
     requestMedToken.headers.set("Authorization", headers.authorization);
 
     return await fetch(requestUrl, {
