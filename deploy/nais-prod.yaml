@@ -9,6 +9,11 @@ spec:
     # prettier-ignore
     image: {{ image }}
     port: 3000
+    replicas:
+        min: 2
+    resources:
+        requests:
+            cpu: 50m
     ingresses:
         - https://arbeidsgiver.nav.no/kandidatliste
     liveness:
