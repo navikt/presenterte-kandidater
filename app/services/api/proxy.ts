@@ -18,8 +18,8 @@ export const proxyTilApi = async (request: Request, url: string, method = "GET",
         maybeAuthorizationHeader = await opprettAuthorizationHeader(request, apiConfig.scope);
     } catch (e) {
         logger.warn("Klarte ikke å opprette authorization header:", e);
+        return new Response("", { status: 401 });
     }
-    // TODO Are: Vi fortsetter bare etter exception? Burde vi returnere med status 401?
 
     let headers;
     if (maybeAuthorizationHeader.isPresent) {
@@ -42,7 +42,7 @@ export const proxyTilApi = async (request: Request, url: string, method = "GET",
 
 export type MaybeAuthorizationHeader =
     | { isPresent: true; authorizationHeader: { authorization: string } }
-    | { cause: string };
+    | { isPresent: false; cause: string };
 export const opprettAuthorizationHeader = async (
     request: Request,
     scope: string
@@ -51,7 +51,7 @@ export const opprettAuthorizationHeader = async (
         return {
             isPresent: true,
             authorizationHeader: {
-                authorization: `whatever`,
+                authorization: ``,
             },
         };
     }
@@ -59,6 +59,7 @@ export const opprettAuthorizationHeader = async (
     const accessToken = accessToken(request);
     if (!accessToken) {
         return {
+            isPresent: false,
             cause: "Request mangler access token, brukeren er sannsynligvis ikke logget inn",
         };
     }
