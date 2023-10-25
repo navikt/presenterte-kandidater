@@ -40,6 +40,10 @@ export const proxyTilApi = async (request: Request, url: string, method = "GET",
     return await fetch(`${apiConfig.url}${url}`, options);
 };
 
+const getAccessToken = (request: Request) => {
+    return request.headers.get("authorization")?.replace("Bearer", "");
+};
+
 export type MaybeAuthorizationHeader =
     | { isPresent: true; authorizationHeader: { authorization: string } }
     | { isPresent: false; cause: string };
@@ -56,7 +60,7 @@ export const opprettAuthorizationHeader = async (
         };
     }
 
-    const accessToken = accessToken(request);
+    const accessToken = getAccessToken(request);
     if (!accessToken) {
         return {
             isPresent: false,
@@ -71,8 +75,4 @@ export const opprettAuthorizationHeader = async (
             authorization: `Bearer ${exchangeToken.access_token}`,
         },
     };
-};
-
-const accessToken = (request: Request) => {
-    return request.headers.get("authorization")?.replace("Bearer", "");
 };
