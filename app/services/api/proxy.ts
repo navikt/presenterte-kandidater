@@ -13,11 +13,19 @@ export const apiConfig = {
 };
 
 export const proxyTilApi = async (request: Request, url: string, method = "GET", body?: object) => {
-    let headers;
+    let maybeAuthorizationHeader: MaybeAuthorizationHeader;
     try {
-        headers = await opprettAuthorizationHeader(request, apiConfig.scope);
+        maybeAuthorizationHeader = await opprettAuthorizationHeader(request, apiConfig.scope);
     } catch (e) {
         logger.warn("Klarte ikke å opprette authorization header:", e);
+        return new Response("", { status: 401 });
+    }
+
+    let headers;
+    if (maybeAuthorizationHeader.isPresent) {
+        headers = maybeAuthorizationHeader.authorizationHeader;
+    } else {
+        logger.info(maybeAuthorizationHeader.cause);
     }
 
     const options: RequestInit = {
@@ -32,26 +40,39 @@ export const proxyTilApi = async (request: Request, url: string, method = "GET",
     return await fetch(`${apiConfig.url}${url}`, options);
 };
 
-export const opprettAuthorizationHeader = async (request: Request, scope: string) => {
+const getAccessToken = (request: Request) => {
+    return request.headers.get("authorization")?.replace("Bearer", "");
+};
+
+export type MaybeAuthorizationHeader =
+    | { isPresent: true; authorizationHeader: { authorization: string } }
+    | { isPresent: false; cause: string };
+export const opprettAuthorizationHeader = async (
+    request: Request,
+    scope: string
+): Promise<MaybeAuthorizationHeader> => {
     if (process.env.NODE_ENV === "development") {
         return {
-            authorization: "",
+            isPresent: true,
+            authorizationHeader: {
+                authorization: ``,
+            },
         };
     }
 
-    const accessToken = retrieveToken(request);
-
+    const accessToken = getAccessToken(request);
     if (!accessToken) {
-        throw Error("Fant ikke access token");
+        return {
+            isPresent: false,
+            cause: "Request mangler access token, brukeren er sannsynligvis ikke logget inn",
+        };
     }
 
     const exchangeToken = await client.veksleToken(accessToken, scope);
-
     return {
-        authorization: `Bearer ${exchangeToken.access_token}`,
+        isPresent: true,
+        authorizationHeader: {
+            authorization: `Bearer ${exchangeToken.access_token}`,
+        },
     };
-};
-
-export const retrieveToken = (request: Request) => {
-    return request.headers.get("authorization")?.replace("Bearer", "");
 };
