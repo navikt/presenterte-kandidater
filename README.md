@@ -24,7 +24,29 @@ For å starte utviklingsserveren, kjør:
 npm run start
 ```
 
-## Hvordan teste i dev-miljøet
+## Hvordan teste manuelt i dev-miljøet
+
+### Testvirksomhet og testarbeidsgvier
+
+### Virksomhet
+Du trenger en testvirksomhet og en testperson som er tilknyttet denne virksomheten i Altinn og som har rettigheter til å se virksomhetens kandidatlister.
+
+Vi bruker et begrenset anntall testvirksomheter som er [hardkodet i appen Rekrutteringsbistand](https://github.com/navikt/rekrutteringsbistand/blob/master/src/stilling/api/devVirksomheter.ts).
+
+### Person
+Det finnes [en del testpersoner](https://github.com/navikt/pam-doc/blob/master/pam-doc/docs/Testdata%20-%20personer.md) som er opprettet i PAM, relatert til produktet arbeidsplassen.no, eid av [team Arbeidsmarked](https://teamkatalog.intern.nav.no/team/7a908a7b-a245-4150-92dc-15c5c8424cb5).
+Her finner du testpersoner som har rettigheter til å gi rettigheter til din testperson. For eksempel, for virksomheten "ORDKNAPP BLOMSTRETE TIGER AS org. nr. 311 185 268" kan du bruke personen "Usikker Jaktterreng" med fnr. 16823449716. 
+
+1. Du oppretter din egen testperson i [Dolly](https://dolly.ekstern.dev.nav.no/).
+2. Så går du til Altinn sitt testmiljø https://info.tt02.altinn.no.
+3. Velg "Logg inn"
+4. Velg "TestID"
+5. I feltet "Personidentififikator (syntetisk)", skriv inn fnr. til den testpersonen som har rettigheter til å gi rettigheter til virksomheten din. Klikk på knappen "Autentiser". Du skal kome inn i Altinn.
+6. TODO 
+ 
+
+
+
 1. Gå inn på ingressen (https://presenterte-kandidater.intern.dev.nav.no/kandidatliste)
 2. Logg inn med TestID
 3. Skriv inn et syntetisk fødselsnummer som tilhører en person med korrekte roller i Altinn.
