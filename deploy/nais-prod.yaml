@@ -34,8 +34,6 @@ spec:
         enabled: true
     idporten:
         enabled: true
-        redirectPath: "/kandidatliste/oauth2/callback"
-        frontchannelLogoutPath: "/kandidatliste/oauth2/logout"
         sidecar:
             enabled: true
             level: Level4
