@@ -1,5 +1,6 @@
 import bedriftsmenyStyles from "@navikt/bedriftsmeny/lib/bedriftsmeny.css";
 import designsystemStyles from "@navikt/ds-css/dist/index.css";
+import notifikasjonwidgetStyles from "@navikt/arbeidsgiver-notifikasjon-widget/lib/cjs/index.css";
 import { BodyShort, Heading, Panel } from "@navikt/ds-react";
 import { cssBundleHref } from "@remix-run/css-bundle";
 import { json, redirect } from "@remix-run/node";
@@ -29,7 +30,6 @@ import type { MetaFunction } from "@remix-run/react";
 import type { ReactNode } from "react";
 import type { Dekoratørfragmenter } from "./services/dekoratør/dekoratør.server";
 
-import "@navikt/arbeidsgiver-notifikasjon-widget/lib/cjs/index.css";
 import css from "./root.module.css";
 import useInjectDecoratorScript from "./services/dekoratør/useInjectScript";
 
@@ -42,6 +42,7 @@ export const meta: MetaFunction = () => [
 export const links: LinksFunction = () => [
     { rel: "stylesheet", href: designsystemStyles },
     { rel: "stylesheet", href: bedriftsmenyStyles },
+    { rel: "stylesheet", href: notifikasjonwidgetStyles },
     ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
 ];
 
