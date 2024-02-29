@@ -29,6 +29,7 @@ import type { MetaFunction } from "@remix-run/react";
 import type { ReactNode } from "react";
 import type { Dekoratørfragmenter } from "./services/dekoratør/dekoratør.server";
 
+import "@navikt/arbeidsgiver-notifikasjon-widget/lib/cjs/index.css";
 import css from "./root.module.css";
 import useInjectDecoratorScript from "./services/dekoratør/useInjectScript";
 
