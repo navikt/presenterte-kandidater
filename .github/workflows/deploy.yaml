@@ -3,15 +3,15 @@ name: Bygg og deploy
 on: [push]
 
 permissions:
-  contents: read
-  id-token: write
-  
+    contents: read
+    id-token: write
+
 jobs:
     bygg-og-push-docker-image:
         name: Bygg applikasjon
         runs-on: ubuntu-latest
         outputs:
-          image: ${{ steps.docker-build-push.outputs.image }}
+            image: ${{ steps.docker-build-push.outputs.image }}
         steps:
             - uses: actions/checkout@v3
             - uses: actions/setup-node@v3
@@ -31,14 +31,14 @@ jobs:
               uses: nais/docker-build-push@v0
               id: docker-build-push
               with:
-                team: toi
-                identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
-                project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }} 
+                  team: toi
+                  identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
+                  project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
 
     deploy-til-dev:
         name: Deploy til dev-gcp
         needs: bygg-og-push-docker-image
-        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/logging-av-manglende-access-token'
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/bjella-6.5.0'
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v3
@@ -60,4 +60,3 @@ jobs:
                   CLUSTER: prod-gcp
                   RESOURCE: deploy/nais-prod.yaml,deploy/alerts-prod.yaml
                   VAR: image=${{ needs.bygg-og-push-docker-image.outputs.image }}
-
