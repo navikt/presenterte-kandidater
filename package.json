@@ -26,7 +26,7 @@
         "amplitude-js": "^8.21.9",
         "compression": "^1.7.4",
         "cross-env": "^7.0.3",
-        "express": "^4.18.2",
+        "express": "^4.19.2",
         "fuzzysort": "^2.0.4",
         "html-react-parser": "^4.2.2",
         "http-proxy-middleware": "^2.0.6",
