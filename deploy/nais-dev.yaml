@@ -16,6 +16,7 @@ spec:
             cpu: 50m
     ingresses:
         - https://presenterte-kandidater.intern.dev.nav.no/kandidatliste
+        - https://presenterte-kandidater.ansatt.dev.nav.no/kandidatliste
     liveness:
         initialDelay: 20
         path: /kandidatliste/internal/isAlive
