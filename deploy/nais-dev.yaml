@@ -11,6 +11,7 @@ spec:
     port: 3000
     ingresses:
         - https://presenterte-kandidater.dev.nav.no/kandidatliste
+        - https://presenterte-kandidater.ansatt.dev.nav.no/kandidatliste
     liveness:
         initialDelay: 20
         path: /kandidatliste/internal/isAlive
