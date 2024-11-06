@@ -17,12 +17,12 @@ spec:
     ingresses:
         - https://presenterte-kandidater.intern.dev.nav.no/kandidatliste
         - https://presenterte-kandidater.ansatt.dev.nav.no/kandidatliste
-    liveness:
-        initialDelay: 20
-        path: /kandidatliste/internal/isAlive
-    readiness:
-        initialDelay: 20
-        path: /kandidatliste/internal/isReady
+    # liveness:
+    #     initialDelay: 20
+    #     path: /kandidatliste/internal/isAlive
+    # readiness:
+    #     initialDelay: 20
+    #     path: /kandidatliste/internal/isReady
     accessPolicy:
         outbound:
             rules:
