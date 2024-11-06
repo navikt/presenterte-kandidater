@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package.json package-lock.json* ./
 RUN --mount=type=secret,id=NODE_AUTH_TOKEN \
     echo '//npm.pkg.github.com/:_authToken='$(cat /run/secrets/NODE_AUTH_TOKEN) >> .npmrc
-RUN npm ci
+RUN npm ci --legacy-peer-deps  
 
 # Rebuild the source code only when needed
 FROM base AS builder
