@@ -1,62 +1,90 @@
-name: Bygg og deploy
+name: Build, Scan and Deploy
 
-on: [push]
-
-permissions:
-    contents: read
-    id-token: write
+on: [push, workflow_dispatch]
 
 jobs:
-    bygg-og-push-docker-image:
-        name: Bygg applikasjon
-        runs-on: ubuntu-latest
-        outputs:
-            image: ${{ steps.docker-build-push.outputs.image }}
-        steps:
-            - uses: actions/checkout@v3
-            - uses: actions/setup-node@v3
-              with:
-                  node-version: 18
-                  registry-url: "https://npm.pkg.github.com"
-                  cache: "npm"
-                  cache-dependency-path: |
-                      package-lock.json
-            - name: Installer avhengigheter
-              run: npm ci
-              env:
-                  NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
-            - name: Bygg applikasjon
-              run: npm run build
-            - name: Push docker image to GAR
-              uses: nais/docker-build-push@v0
-              id: docker-build-push
-              with:
-                  team: toi
-                  identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
-                  project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
+  build:
+    name: Bygg og push
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    outputs:
+      image: ${{ steps.docker-build-push.outputs.image }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Push Docker image to GAR
+        id: docker-build-push
+        uses: nais/docker-build-push@v0
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
+        with:
+          team: toi
+          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
+          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
+          build_secrets: 'NODE_AUTH_TOKEN=${{ secrets.READER_TOKEN }}'
+      - name: Set Image Output
+        id: set-image-output
+        run: echo "image=${{ steps.docker-build-push.outputs.image }}" >> $GITHUB_ENV
 
-    deploy-til-dev:
-        name: Deploy til dev-gcp
-        needs: bygg-og-push-docker-image
-        if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main' || github.ref == 'refs/heads/next-js'
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v3
-            - uses: nais/deploy/actions/deploy@v2
-              env:
-                  CLUSTER: dev-gcp
-                  RESOURCE: deploy/nais-dev.yaml
-                  VAR: image=${{ needs.bygg-og-push-docker-image.outputs.image }}
+  trivy:
+    runs-on: ubuntu-latest
+    name: Trivy vulnerability scanner
+    needs: build
+    permissions:
+      contents: write # to write sarif
+      security-events: write # push sarif to github security
+      id-token: write # for nais/login
+      actions: read # for private repositories
+    steps:
+      - uses: actions/checkout@v4
+      - uses: nais/login@v0
+        with:
+          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
+          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
+          team: toi
 
-    deploy-til-prod:
-        name: Deploy til prod-gcp
-        needs: [bygg-og-push-docker-image, deploy-til-dev]
-        if: github.ref == 'refs/heads/main'
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v3
-            - uses: nais/deploy/actions/deploy@v2
-              env:
-                  CLUSTER: prod-gcp
-                  RESOURCE: deploy/nais-prod.yaml,deploy/alerts-prod.yaml
-                  VAR: image=${{ needs.bygg-og-push-docker-image.outputs.image }}
+      - name: Pull docker image
+        run: docker pull ${{ needs.build.outputs.image }}
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: '${{ needs.build.outputs.image }}'
+          format: 'sarif'
+          output: 'trivy.sarif'
+          severity: 'HIGH,CRITICAL'
+          limit-severities-for-sarif: true
+
+      - name: Upload results to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: 'trivy.sarif'
+
+  deploy-til-dev:
+    name: Deploy til dev-gcp
+    needs: build
+    if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/master' || github.ref == 'refs/heads/next-js'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: nais/deploy/actions/deploy@v2
+        env:
+          CLUSTER: dev-gcp
+          RESOURCE: deploy/nais-dev.yaml
+          VARS: deploy/dev-gcp.json
+          VAR: image=${{ needs.build.outputs.image }}
+
+  deploy-to-prod:
+    name: Deploy til prod-gcp
+    needs: [build, deploy-til-dev]
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: nais/deploy/actions/deploy@v2
+        env:
+          CLUSTER: prod-gcp
+          RESOURCE: deploy/nais-prod.yaml
+          VARS: deploy/prod-gcp.json
+          VAR: image=${{ needs.build.outputs.image }}

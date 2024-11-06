@@ -49,12 +49,6 @@ For eksempel: For virksomheten "ORDKNAPP BLOMSTRETE TIGER AS org. nr. 311 185 26
 2. Logg inn med TestID, fnr til din testperson.
 
 
-## Teknologi
-
-- Appen er laget med [Remix](https://remix.run/docs), et SSR-rammeverk for React.
-- Vi bruker [MSW](https://mswjs.io/) for lokal mocking under utvikling.
-
-
 
 # Henvendelser
 

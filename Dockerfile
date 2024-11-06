@@ -1,11 +1,39 @@
-FROM gcr.io/distroless/nodejs20-debian11
+FROM node:20.14.0-alpine AS base
 
-WORKDIR /var
 
-COPY build/ build/
-COPY server/build server/
-COPY public/build public/build
-COPY node_modules/ node_modules/
+# Install deps
+FROM base AS deps
+
+WORKDIR /app
+COPY package.json package-lock.json* ./
+RUN --mount=type=secret,id=NODE_AUTH_TOKEN \
+    echo '//npm.pkg.github.com/:_authToken='$(cat /run/secrets/NODE_AUTH_TOKEN) >> .npmrc
+RUN npm ci
+
+# Rebuild the source code only when needed
+FROM base AS builder
+WORKDIR /app
+
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+
+# Build 
+RUN npm run build
+# RUN npm run tailwind-build
+
+
+# Production image
+FROM node:20.14.0-alpine AS runner
+WORKDIR /app
+
+COPY --from=builder /app/next.config.mjs ./
+# COPY --from=builder /app/public ./public   // Hvis aktuelt
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./
+
 
 EXPOSE 3000
-CMD ["./server/server.js"]
+
+
+CMD ["npm", "start"]
