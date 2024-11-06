@@ -2,6 +2,10 @@ name: Build, Scan and Deploy
 
 on: [push, workflow_dispatch]
 
+permissions:
+  contents: read
+  id-token: write
+
 jobs:
   build:
     name: Bygg og push
