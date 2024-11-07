@@ -7,7 +7,6 @@ import {
   OrganisasjonerDTO,
   useUseOrganisasjoner,
 } from './api/notifikasjon-bruker-api/organisasjoner/useOrganisasjoner';
-import IngenOrganisasjoner from './components/IngenOrganisasjoner';
 import { getBasePath } from './util/miljø';
 
 interface IApplikasjonsContext {
@@ -55,7 +54,7 @@ export const ApplikasjonsContextProvider: React.FC<
         orgnrHook: useOrgnrHook,
       }}
     >
-      {data ? children : <IngenOrganisasjoner />}
+      {children} kake
     </ApplikasjonsContext.Provider>
   );
 };

@@ -27,4 +27,3 @@ export const useUseOrganisasjoner = () =>
     useOrganisasjonerEndepunkt,
     getAPIwithSchema(OrganisasjonerSchema)
   );
-
