@@ -7,7 +7,7 @@ import type { Miljø as NotifikasjonMiljø } from '@navikt/arbeidsgiver-notifika
 import { Loader } from '@navikt/ds-react';
 import type { FunctionComponent } from 'react';
 import { useApplikasjonContext } from '../ApplikasjonsContext';
-import { hentMiljø, Miljø } from '../util/miljø';
+import { getBasePath, hentMiljø, Miljø } from '../util/miljø';
 
 const Header: FunctionComponent = () => {
   const { organisasjoner, orgnrHook } = useApplikasjonContext();
@@ -31,7 +31,7 @@ const Header: FunctionComponent = () => {
       {renderWidget && (
         <NotifikasjonWidget
           miljo={miljø}
-          apiUrl='/api/notifikasjon-bruker-api/graphql'
+          apiUrl={`${getBasePath()}/api/notifikasjon-bruker-api/graphql`}
         />
       )}
     </Bedriftsmeny>

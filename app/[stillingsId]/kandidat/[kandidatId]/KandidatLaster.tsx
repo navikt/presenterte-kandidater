@@ -1,7 +1,7 @@
 'use client';
 import * as React from 'react';
-import { useUseKandidatliste } from '../../../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/useKandidatliste';
-import SWRLaster from '../../../../components/SWRLaster';
+import { useUseKandidatliste } from '../../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/useKandidatliste';
+import SWRLaster from '../../../components/SWRLaster';
 import KandidatVisning from './KandidatVisning';
 
 export interface pageProps {

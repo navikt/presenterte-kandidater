@@ -1,7 +1,7 @@
 import { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  basePath: '/kandidatliste',
+  basePath: process.env.NODE_ENV === 'development' ? '' : '/kandidatliste',
   assetPrefix: '/kandidatliste',
   reactStrictMode: true,
   experimental: {

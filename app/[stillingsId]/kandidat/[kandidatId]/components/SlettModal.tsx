@@ -4,8 +4,9 @@ import { BodyLong, BodyShort, Button, Modal } from '@navikt/ds-react';
 import { logger } from '@navikt/next-logger';
 import { useRouter } from 'next/navigation';
 import { useRef } from 'react';
-import { useSlettKandidat } from '../../../../../api/presenterte-kandidater-api/kandidat/[kandidatId]/useSlettKandidat';
-import { KandidatCvDTO } from '../../../../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/kandidatliste.typer';
+import { useSlettKandidat } from '../../../../api/presenterte-kandidater-api/kandidat/[kandidatId]/useSlettKandidat';
+import { KandidatCvDTO } from '../../../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/kandidatliste.typer';
+import { getBasePath } from '../../../../util/miljø';
 
 type Props = {
   kandidatId: string;
@@ -23,7 +24,7 @@ export default function Slettemodal({ cv, kandidatId, stillingsId }: Props) {
   }
 
   if (slettAction.data) {
-    router.push(`/kandidatliste/${stillingsId}`);
+    router.push(`${getBasePath()}/${stillingsId}`);
   }
 
   if (slettAction.error) {

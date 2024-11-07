@@ -7,9 +7,10 @@ import {
   KandidatlisteDTO,
   KandidatMedCvDTO,
   Kandidatvurdering,
-} from '../../../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/kandidatliste.typer';
-import { useApplikasjonContext } from '../../../../ApplikasjonsContext';
-import Tilbakelenke from '../../../../components/TilbakeLenke';
+} from '../../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/kandidatliste.typer';
+import { useApplikasjonContext } from '../../../ApplikasjonsContext';
+import Tilbakelenke from '../../../components/TilbakeLenke';
+import { getBasePath } from '../../../util/miljø';
 import Spørreskjemalenke from '../../components/Spørreskjemalenke';
 import EndreVurdering from './components/EndreVurdering';
 import KandidatCv from './components/KandidatCv';
@@ -28,7 +29,9 @@ export default function Kandidatvisning({
   return (
     <div className='flex flex-col items-start gap-6 p-4'>
       <Tilbakelenke
-        href={`/kandidatliste/${kandidatliste.stillingId}?virksomhet=${valgtOrganisasjonsnummer}`}
+        href={`${getBasePath()}/${
+          kandidatliste.stillingId
+        }?virksomhet=${valgtOrganisasjonsnummer}`}
       >
         Alle kandidater
       </Tilbakelenke>

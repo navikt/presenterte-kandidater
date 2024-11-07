@@ -1,7 +1,6 @@
 import { ZodSchema } from 'zod';
 import { kastError } from '../util/kastError';
-
-const basePath = process.env.NAIS_CLUSTER_NAME === 'local' ? '' : '';
+import { getBasePath } from '../util/miljø';
 
 export const getAPIwithSchema = <T>(
   schema: ZodSchema<T>
@@ -13,7 +12,7 @@ export const getAPIwithSchema = <T>(
 };
 
 const getAPI = async (url: string) => {
-  const response = await fetch(basePath + url, {
+  const response = await fetch(getBasePath() + url, {
     method: 'GET',
     credentials: 'include',
   });
@@ -58,7 +57,7 @@ const postApi = async (
     url += `?${queryString}`;
   }
 
-  const response = await fetch(basePath + url, {
+  const response = await fetch(getBasePath() + url, {
     method: 'POST',
     credentials: 'include',
     headers: {
@@ -110,7 +109,7 @@ export const putApi = async (
     url += `?${queryString}`;
   }
 
-  const response = await fetch(basePath + url, {
+  const response = await fetch(getBasePath() + url, {
     method: 'PUT',
     credentials: 'include',
     headers: {

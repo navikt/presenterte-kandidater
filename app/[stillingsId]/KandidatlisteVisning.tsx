@@ -2,12 +2,12 @@
 import { Close, ExternalLink } from '@navikt/ds-icons';
 import { BodyLong, Box, Heading, Link as NavLink } from '@navikt/ds-react';
 import * as React from 'react';
-import { Kandidatvurdering } from '../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/kandidatliste.typer';
-import { useUseKandidatliste } from '../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/useKandidatliste';
-import { useApplikasjonContext } from '../../ApplikasjonsContext';
-import SWRLaster from '../../components/SWRLaster';
-import Tilbakelenke from '../../components/TilbakeLenke';
-import { hentMiljø, Miljø } from '../../util/miljø';
+import { Kandidatvurdering } from '../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/kandidatliste.typer';
+import { useUseKandidatliste } from '../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/useKandidatliste';
+import { useApplikasjonContext } from '../ApplikasjonsContext';
+import SWRLaster from '../components/SWRLaster';
+import Tilbakelenke from '../components/TilbakeLenke';
+import { getBasePath, hentMiljø, Miljø } from '../util/miljø';
 import GruppeMedKandidater from './components/GruppeMedKandidater';
 import Spørreskjemalenke from './components/Spørreskjemalenke';
 import Vurderingsikon from './components/Vurderingsikon';
@@ -35,7 +35,7 @@ const KandidatlisteVisning: React.FC<KandidatlisteVisningProps> = ({
         return (
           <div className='p-4'>
             <Tilbakelenke
-              href={`/kandidatliste?virksomhet=${valgtOrganisasjonsnummer}`}
+              href={`${getBasePath()}/?virksomhet=${valgtOrganisasjonsnummer}`}
             >
               Alle rekrutteringsprosesser
             </Tilbakelenke>

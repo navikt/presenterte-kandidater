@@ -4,9 +4,8 @@ export enum Miljø {
   Lokalt = 'lokalt',
 }
 
-export const getBaseUrl = () => {
-  return 'http://localhost:1336';
-};
+export const getBasePath = () =>
+  process.env.NODE_ENV === 'development' ? '' : '/kandidatliste';
 
 export const getClusterFSS = () => {
   // Sjekker om nåværende cluster er prod-gcp, hvis det er det returneres prod-fss, hvis ikke returneres dev-fss

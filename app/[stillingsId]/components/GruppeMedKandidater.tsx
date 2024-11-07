@@ -4,7 +4,7 @@ import { ReactNode } from 'react';
 import {
   KandidatMedCvDTO,
   Kandidatvurdering,
-} from '../../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/kandidatliste.typer';
+} from '../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/kandidatliste.typer';
 import Kandidatsammendrag from './Kandidatsammendrag';
 
 export interface GruppeMedKandidaterProps {

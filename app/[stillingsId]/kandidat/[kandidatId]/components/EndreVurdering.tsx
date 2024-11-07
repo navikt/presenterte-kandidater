@@ -10,12 +10,12 @@ import {
 } from '@navikt/ds-react';
 import { logger } from '@navikt/next-logger';
 import { useState } from 'react';
-import { useEndreVurdering } from '../../../../../api/presenterte-kandidater-api/kandidat/[kandidatId]/vurdering/useEndreVurdering';
+import { useEndreVurdering } from '../../../../api/presenterte-kandidater-api/kandidat/[kandidatId]/vurdering/useEndreVurdering';
 import {
   ArbeidsgiversVurderingDTO,
   Kandidatvurdering,
-} from '../../../../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/kandidatliste.typer';
-import { KandidatlisteDTO } from '../../../../../api/presenterte-kandidater-api/kandidatlister/[virksomhetsId]/kandidatlister.typer';
+} from '../../../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/kandidatliste.typer';
+import { KandidatlisteDTO } from '../../../../api/presenterte-kandidater-api/kandidatlister/[virksomhetsId]/kandidatlister.typer';
 import Vurderingsikon from '../../../components/Vurderingsikon';
 import { visVurdering } from '../KandidatVisning';
 

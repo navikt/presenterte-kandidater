@@ -1,6 +1,6 @@
 import { DecisionCheck, Helptext, Like } from '@navikt/ds-icons';
 import type { FunctionComponent } from 'react';
-import { Kandidatvurdering } from '../../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/kandidatliste.typer';
+import { Kandidatvurdering } from '../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/kandidatliste.typer';
 
 type Props = {
   vurdering: Kandidatvurdering;

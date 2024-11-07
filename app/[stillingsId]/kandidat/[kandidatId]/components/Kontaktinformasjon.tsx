@@ -1,7 +1,7 @@
 import { BodyShort, ReadMore, Tooltip } from '@navikt/ds-react';
 import * as React from 'react';
-import { sendEvent } from '../../../../../amplitude';
-import { useVisKontaktinfo } from '../../../../../api/presenterte-kandidater-api/kandidat/[kandidatId]/registrerviskontaktinfo/useVisKontaktinfo';
+import { sendEvent } from '../../../../amplitude';
+import { useVisKontaktinfo } from '../../../../api/presenterte-kandidater-api/kandidat/[kandidatId]/registrerviskontaktinfo/useVisKontaktinfo';
 
 export interface KontaktinformasjonProps {
   epost: string | null;

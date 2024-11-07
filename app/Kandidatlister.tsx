@@ -2,13 +2,16 @@
 import { BodyShort, Heading } from '@navikt/ds-react';
 import Link from 'next/link';
 
-import { sendEvent } from '../amplitude';
-import { useUseKandidatlister } from '../api/presenterte-kandidater-api/kandidatlister/[virksomhetsId]/useKandidatlister';
-import { useApplikasjonContext } from '../ApplikasjonsContext';
-import SWRLaster from '../components/SWRLaster';
-import VisKandidatlistesammendrag from './components/VisKandidatlistesammendrag';
+import { sendEvent } from './amplitude';
+import { useUseKandidatlister } from './api/presenterte-kandidater-api/kandidatlister/[virksomhetsId]/useKandidatlister';
+import { useApplikasjonContext } from './ApplikasjonsContext';
+import SWRLaster from './components/SWRLaster';
 
-export default function Kandidatlister() {
+import * as React from 'react';
+import VisKandidatlistesammendrag from './components/VisKandidatlistesammendrag';
+import { getBasePath } from './util/miljø';
+
+const Kandidatlister: React.FC = () => {
   const { valgtOrganisasjonsnummer } = useApplikasjonContext();
 
   const hook = useUseKandidatlister(valgtOrganisasjonsnummer);
@@ -75,7 +78,7 @@ export default function Kandidatlister() {
             <div className='flex justify-center'>
               <Link
                 className='navds-link'
-                href={`/kandidatliste/samtykke?virksomhet=${valgtOrganisasjonsnummer}`}
+                href={`${getBasePath()}/samtykke?virksomhet=${valgtOrganisasjonsnummer}`}
               >
                 Vilkår for tjenesten
               </Link>
@@ -85,4 +88,5 @@ export default function Kandidatlister() {
       }}
     </SWRLaster>
   );
-}
+};
+export default Kandidatlister;

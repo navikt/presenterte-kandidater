@@ -2,7 +2,7 @@ import { Heading } from '@navikt/ds-react';
 import {
   SpråkDTO,
   Språkkompetanse,
-} from '../../../../../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/kandidatliste.typer';
+} from '../../../../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/kandidatliste.typer';
 
 export default function Språk({ språk }: { språk: SpråkDTO }) {
   const { navn, muntlig, skriftlig } = språk;

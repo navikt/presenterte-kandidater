@@ -12,11 +12,12 @@ import {
 } from '@navikt/ds-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { PresenterteKandidaterAPI } from '../../api/api-routes';
-import { useSamtykke } from '../../api/presenterte-kandidater-api/samtykke/useSamtykke';
-import { useApplikasjonContext } from '../../ApplikasjonsContext';
-import SWRLaster from '../../components/SWRLaster';
-import Tilbakelenke from '../../components/TilbakeLenke';
+import { PresenterteKandidaterAPI } from '../api/api-routes';
+import { useSamtykke } from '../api/presenterte-kandidater-api/samtykke/useSamtykke';
+import { useApplikasjonContext } from '../ApplikasjonsContext';
+import SWRLaster from '../components/SWRLaster';
+import Tilbakelenke from '../components/TilbakeLenke';
+import { getBasePath } from '../util/miljø';
 
 export default function Samtykke() {
   const router = useRouter();
@@ -44,7 +45,7 @@ export default function Samtykke() {
         }
       );
       if (respons.ok) {
-        router.push(`/kandidatliste?virksomhet=${valgtOrganisasjonsnummer}`);
+        router.push(`${getBasePath()}/?virksomhet=${valgtOrganisasjonsnummer}`);
       } else {
         setFeilmelding('Klarte ikke å lagre samtykke.');
       }
@@ -59,7 +60,7 @@ export default function Samtykke() {
         <div className='p-4 md:p-4'>
           {data.harSamtykke && (
             <Tilbakelenke
-              href={`/kandidatliste?virksomhet=${valgtOrganisasjonsnummer}`}
+              href={`${getBasePath()}?virksomhet=${valgtOrganisasjonsnummer}`}
             >
               Tilbake
             </Tilbakelenke>

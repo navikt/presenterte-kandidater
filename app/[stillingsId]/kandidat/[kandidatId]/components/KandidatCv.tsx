@@ -12,7 +12,7 @@ import {
   Star,
 } from '@navikt/ds-icons';
 import { BodyLong, BodyShort, Box, Heading } from '@navikt/ds-react';
-import { KandidatCvDTO } from '../../../../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/kandidatliste.typer';
+import { KandidatCvDTO } from '../../../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/kandidatliste.typer';
 import AnnenErfaring from './CvVisning/AnnenErfaringVisning';
 import AnnenGodkjenning from './CvVisning/AnnenGodkjenningVisning';
 import Arbeidserfaring from './CvVisning/ArbeidserfaringVisning';
