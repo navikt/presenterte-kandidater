@@ -15,6 +15,7 @@ import {
   ArbeidsgiversVurderingDTO,
   Kandidatvurdering,
 } from '../../../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/kandidatliste.typer';
+import { useUseKandidatliste } from '../../../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/useKandidatliste';
 import { KandidatlisteDTO } from '../../../../api/presenterte-kandidater-api/kandidatlister/kandidatlister.typer';
 import Vurderingsikon from '../../../components/Vurderingsikon';
 import { visVurdering } from '../KandidatVisning';
@@ -33,6 +34,7 @@ export default function EndreVurdering({
   const [vurderingValgt, setVurderingValgt] = useState(vurdering);
 
   const endreVurdering = useEndreVurdering(kandidatId);
+  const { mutate } = useUseKandidatliste(kandidatliste.stillingId);
 
   async function handleSubmit() {
     setVurdering(vurderingValgt);
@@ -40,7 +42,7 @@ export default function EndreVurdering({
 
   const setVurdering = (vurdering: string) => {
     endreVurdering.trigger({ arbeidsgiversVurdering: vurdering }).then(() => {
-      setVurderingValgt(vurdering as Kandidatvurdering);
+      mutate();
     });
   };
 

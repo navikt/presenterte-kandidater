@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useRef } from 'react';
 import { useSlettKandidat } from '../../../../api/presenterte-kandidater-api/kandidat/[kandidatId]/useSlettKandidat';
 import { KandidatCvDTO } from '../../../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/kandidatliste.typer';
+import { useUseKandidatliste } from '../../../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/useKandidatliste';
 
 type Props = {
   kandidatId: string;
@@ -16,10 +17,15 @@ type Props = {
 export default function Slettemodal({ cv, kandidatId, stillingsId }: Props) {
   const ref = useRef<HTMLDialogElement>(null);
   const router = useRouter();
+
   const slettAction = useSlettKandidat(kandidatId);
 
+  const { mutate } = useUseKandidatliste(stillingsId);
+
   async function handleSubmit() {
-    slettAction.trigger();
+    slettAction.trigger().then(() => {
+      mutate();
+    });
   }
 
   if (slettAction.data) {
