@@ -9,6 +9,7 @@ import './globals.css';
 import { Loader } from '@navikt/ds-react';
 import { NuqsAdapter } from 'nuqs/adapters/next';
 import { Suspense } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 import { ApplikasjonsContextProvider } from './ApplikasjonsContext';
 import { hentSsrDekoratør } from './components/dekoratør/dekoratør.server';
 import Header from './components/Header';
@@ -19,11 +20,15 @@ export const metadata: Metadata = {
 
 function RootSuspense({ children }: { children: React.ReactNode }) {
   return (
-    <Suspense fallback={<Loader />}>
-      <NuqsAdapter>
-        <ApplikasjonsContextProvider>{children}</ApplikasjonsContextProvider>
-      </NuqsAdapter>
-    </Suspense>
+    <ErrorBoundary
+      fallback={<div>Noe gikk galt ved lasting av applikasjonen.</div>}
+    >
+      <Suspense fallback={<Loader />}>
+        <NuqsAdapter>
+          <ApplikasjonsContextProvider>{children}</ApplikasjonsContextProvider>
+        </NuqsAdapter>
+      </Suspense>
+    </ErrorBoundary>
   );
 }
 
