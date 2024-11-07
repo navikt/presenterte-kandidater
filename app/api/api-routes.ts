@@ -1,4 +1,4 @@
-import { getBasePath, getClusterGCP } from '../util/miljø';
+import { getClusterGCP } from '../util/miljø';
 
 export interface Iroute {
   api_route: string;
@@ -10,13 +10,13 @@ export interface Iroute {
 export const NotifikasjonAPI: Iroute = {
   api_route: `/api`,
   api_url: process.env.NOTIFIKASJON_API_URL ?? '',
-  internUrl: `${getBasePath()}/api/notifikasjon-bruker-api`,
+  internUrl: `/api/notifikasjon-bruker-api`,
   scope: `${getClusterGCP()}:fager:notifikasjon-bruker-api`,
 };
 
 export const PresenterteKandidaterAPI: Iroute = {
   api_route: ``,
   api_url: process.env.PRESENTERT_KANDIDATER_API ?? '',
-  internUrl: `${getBasePath()}/api/presenterte-kandidater-api`,
+  internUrl: `/api/presenterte-kandidater-api`,
   scope: `${getClusterGCP()}:toi:presenterte-kandidater-api`,
 };
