@@ -68,7 +68,6 @@ jobs:
   deploy-til-dev:
     name: Deploy til dev-gcp
     needs:
-      - trivy
       - build
     if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/master' || github.ref == 'refs/heads/next-js'
     runs-on: ubuntu-latest
@@ -82,7 +81,10 @@ jobs:
 
   deploy-to-prod:
     name: Deploy til prod-gcp
-    needs: [build, deploy-til-dev]
+    needs:
+      - build
+      - trivy
+      - deploy-til-dev
     if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
