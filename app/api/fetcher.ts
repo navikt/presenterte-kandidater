@@ -1,3 +1,4 @@
+import { logger } from '@navikt/next-logger';
 import { ZodSchema } from 'zod';
 import { kastError } from '../util/kastError';
 import { getBasePath } from '../util/miljø';
@@ -7,7 +8,13 @@ export const getAPIwithSchema = <T>(
 ): ((url: string) => Promise<T>) => {
   return async (url: string) => {
     const data = await getAPI(url);
-    return schema.parse(data);
+
+    const zodResult = schema.safeParse(data);
+
+    if (zodResult.error) {
+      logger.error(zodResult.error.message);
+    }
+    return data;
   };
 };
 
@@ -95,7 +102,13 @@ export const postApiWithSchema = <T>(
       props.queryParams ? props.url + `?${props.queryParams}` : props.url,
       props.body
     );
-    return schema.parse(data);
+    const zodResult = schema.safeParse(data);
+
+    if (zodResult.error) {
+      logger.error(zodResult.error.message);
+    }
+
+    return data;
   };
 };
 
