@@ -5,7 +5,7 @@ import { proxyWithOBO } from '../../../../oboProxy';
 
 export async function PUT(request: Request) {
   if (erLokalt()) {
-    return NextResponse.json({ message: 'Vurdert' });
+    return new NextResponse();
   }
   return proxyWithOBO(PresenterteKandidaterAPI, request);
 }

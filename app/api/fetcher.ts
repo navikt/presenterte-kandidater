@@ -153,7 +153,10 @@ export const putApi = async (
   });
 
   if (response.ok) {
-    return await response.json();
+    if (response.headers.get('Content-Type')?.includes('application/json')) {
+      return await response.json();
+    }
+    return response.status;
   } else if (response.status === 404) {
     throw new Error('404');
   } else if (response.status === 403) {
