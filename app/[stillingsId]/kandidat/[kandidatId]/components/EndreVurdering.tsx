@@ -39,7 +39,9 @@ export default function EndreVurdering({
   }
 
   const setVurdering = (vurdering: string) => {
-    endreVurdering.trigger({ arbeidsgiversVurdering: vurdering });
+    endreVurdering.trigger({ arbeidsgiversVurdering: vurdering }).then(() => {
+      setVurderingValgt(vurdering as Kandidatvurdering);
+    });
   };
 
   if (endreVurdering.error) {
