@@ -15,7 +15,7 @@ export const NotifikasjonAPI: Iroute = {
 };
 
 export const PresenterteKandidaterAPI: Iroute = {
-  api_route: '/api',
+  api_route: '',
   api_url: process.env.PRESENTERT_KANDIDATER_API ?? '',
   internUrl: `/api/presenterte-kandidater-api`,
   scope: `${getClusterGCP()}:toi:presenterte-kandidater-api`,
