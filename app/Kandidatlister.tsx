@@ -7,15 +7,26 @@ import { useUseKandidatlister } from './api/presenterte-kandidater-api/kandidatl
 import { useApplikasjonContext } from './ApplikasjonsContext';
 import SWRLaster from './components/SWRLaster';
 
+import { useRouter } from 'next/navigation';
 import * as React from 'react';
+import IngenOrganisasjoner from './components/IngenOrganisasjoner';
 import VisKandidatlistesammendrag from './components/VisKandidatlistesammendrag';
 import { getBasePath } from './util/miljø';
 
 const Kandidatlister: React.FC = () => {
-  const { valgtOrganisasjonsnummer } = useApplikasjonContext();
-
+  const { valgtOrganisasjonsnummer, organisasjoner } = useApplikasjonContext();
+  const router = useRouter();
   const hook = useUseKandidatlister(valgtOrganisasjonsnummer);
 
+  React.useEffect(() => {
+    if (organisasjoner && valgtOrganisasjonsnummer) {
+      router.push(`${getBasePath()}?virksomhet=${valgtOrganisasjonsnummer}`);
+    }
+  }, [organisasjoner, valgtOrganisasjonsnummer, router]);
+
+  if (!valgtOrganisasjonsnummer) {
+    return <IngenOrganisasjoner />;
+  }
   return (
     <SWRLaster hook={hook}>
       {(data) => {
