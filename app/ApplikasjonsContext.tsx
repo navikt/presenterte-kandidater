@@ -46,9 +46,6 @@ export const ApplikasjonsContextProvider: React.FC<
   if (isLoading) {
     return <Loader />;
   }
-  if (!data) {
-    return <IngenOrganisasjoner />;
-  }
 
   return (
     <ApplikasjonsContext.Provider
@@ -58,7 +55,7 @@ export const ApplikasjonsContextProvider: React.FC<
         orgnrHook: useOrgnrHook,
       }}
     >
-      {children}
+      {data ? children : <IngenOrganisasjoner />}
     </ApplikasjonsContext.Provider>
   );
 };
