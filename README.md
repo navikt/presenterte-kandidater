@@ -49,6 +49,16 @@ For eksempel: For virksomheten "ORDKNAPP BLOMSTRETE TIGER AS org. nr. 311 185 26
 2. Logg inn med TestID, fnr til din testperson.
 
 
+## Teknologi
+
+Appen er laget med Next.js, med SWR for å hente data fra APIet.
+Siden appen serves under en eksiterende ingress så er "basePath" definert i next.config.ts (som må taes høyde for).
+Se f.eks fetch() som bruker getBasePath() for å bygge opp url til APIet.
+
+Oasis håndterer autorisasjon og proxying av forespørsler til APIet er gjort i app/api/oboProxy.ts.
+
+
+
 
 # Henvendelser
 

@@ -86,11 +86,27 @@ export const proxyWithOBO = async (
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    if (response.headers.get('Content-Type')?.includes('application/json')) {
-      const data = await response.json();
+    const contentType = response.headers.get('Content-Type');
+    const responseText = await response.text();
+
+    //workaround da backend av og til returnerer application/json selv om det ikke er respons.
+    if (
+      contentType &&
+      contentType.includes('application/json') &&
+      responseText
+    ) {
+      const data = JSON.parse(responseText);
       return NextResponse.json(data);
+    } else if (!responseText) {
+      return NextResponse.json({
+        status: response.status,
+        message: 'No content',
+      });
     }
-    return NextResponse.json({ status: response.status });
+    return NextResponse.json({
+      status: response.status,
+      message: 'Non-JSON content received',
+    });
   } catch (error: unknown) {
     console.error({
       msg:
