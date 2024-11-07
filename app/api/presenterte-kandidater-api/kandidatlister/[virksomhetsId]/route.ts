@@ -14,5 +14,9 @@ export async function GET(
     const mock = mockedeKandidatlistesammendrag(virksomhetsId);
     return NextResponse.json(mock);
   }
-  return proxyWithOBO(PresenterteKandidaterAPI, request);
+  return proxyWithOBO(
+    PresenterteKandidaterAPI,
+    request,
+    `/kandidatlister?virksomhetsnummer=${virksomhetsId}`
+  );
 }

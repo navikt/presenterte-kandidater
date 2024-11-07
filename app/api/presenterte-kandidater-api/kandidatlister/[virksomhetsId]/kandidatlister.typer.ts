@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { PresenterteKandidaterAPI } from '../../../api-routes';
 
 export const kandidatlisterEndepunkt = (virksomhetsNummer: string) =>
-  `${PresenterteKandidaterAPI.internUrl}/kandidatlister?virksomhetsnummer=${virksomhetsNummer}`;
+  `${PresenterteKandidaterAPI.internUrl}/kandidatlister/${virksomhetsNummer}`;
 
 const Status = z.enum(['ÅPEN', 'LUKKET']);
 
