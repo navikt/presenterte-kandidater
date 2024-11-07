@@ -12,8 +12,7 @@ import {
 } from '@navikt/ds-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { PresenterteKandidaterAPI } from '../api/api-routes';
-import { postApi } from '../api/fetcher';
+import { useGiSamtykke } from '../api/presenterte-kandidater-api/samtykke/useGiSamtykke';
 import { useSamtykke } from '../api/presenterte-kandidater-api/samtykke/useSamtykke';
 import { useApplikasjonContext } from '../ApplikasjonsContext';
 import SWRLaster from '../components/SWRLaster';
@@ -27,28 +26,22 @@ export default function Samtykke() {
   const [feilmelding, setFeilmelding] = useState<string>();
 
   const hook = useSamtykke();
-
-  //   const [harSamtykket, setHarSamtykket] = useState(false);
-
+  const giSamtykke = useGiSamtykke();
   async function handleSubmit(formData: FormData) {
     const harGodkjent = formData.get('samtykke') === 'true';
     if (!harGodkjent) {
       setFeilmelding('Du må huke av for å godta vilkårene.');
       return;
     }
-    try {
-      const respons = await postApi(
-        `${PresenterteKandidaterAPI.internUrl}/samtykke`,
-        formData
-      );
-      if (respons.ok) {
+
+    giSamtykke
+      .trigger()
+      .then(() => {
         router.push(`/?virksomhet=${valgtOrganisasjonsnummer}`);
-      } else {
+      })
+      .catch(() => {
         setFeilmelding('Klarte ikke å lagre samtykke.');
-      }
-    } catch {
-      setFeilmelding('Klarte ikke å lagre samtykke.');
-    }
+      });
   }
 
   return (

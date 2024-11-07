@@ -10,3 +10,10 @@ export async function GET(request: Request) {
 
   return proxyWithOBO(PresenterteKandidaterAPI, request);
 }
+export async function POST(request: Request) {
+  if (erLokalt()) {
+    return NextResponse.json({ harSamtykke: true });
+  }
+
+  return proxyWithOBO(PresenterteKandidaterAPI, request);
+}

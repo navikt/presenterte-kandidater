@@ -14,5 +14,15 @@ const SamtykkeSchema = z.object({
 
 export type useSamtykkeDTO = z.infer<typeof SamtykkeSchema>;
 
-export const useSamtykke = () =>
-  useSWRImmutable(samtykkeEndepunkt, getAPIwithSchema(SamtykkeSchema));
+export const useSamtykke = () => {
+  //TODO Hack for å håndtere samtykke bare via http 200
+  const swr = useSWRImmutable(
+    samtykkeEndepunkt,
+    getAPIwithSchema(SamtykkeSchema)
+  );
+
+  return {
+    ...swr,
+    data: swr.data ? { harSamtykke: true } : { harSamtykke: false },
+  };
+};

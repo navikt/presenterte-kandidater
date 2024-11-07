@@ -26,6 +26,7 @@ const Kandidatlister: React.FC = () => {
   if (!valgtOrganisasjonsnummer) {
     return <IngenOrganisasjoner />;
   }
+
   return (
     <SWRLaster hook={hook}>
       {(data) => {
