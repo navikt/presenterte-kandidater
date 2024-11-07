@@ -86,9 +86,11 @@ export const proxyWithOBO = async (
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    const data = await response.json();
-
-    return NextResponse.json(data);
+    if (response.headers.get('Content-Type')?.includes('application/json')) {
+      const data = await response.json();
+      return NextResponse.json(data);
+    }
+    return NextResponse.json({ status: response.status });
   } catch (error: unknown) {
     console.error({
       msg:
