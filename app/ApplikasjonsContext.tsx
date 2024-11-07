@@ -30,7 +30,7 @@ export const ApplikasjonsContextProvider: React.FC<
 
   const oppdaterOrgnummer = React.useCallback(
     (orgnummer: string) => {
-      router.push(`?virksomhet=${orgnummer}`);
+      router.push(`/?virksomhet=${orgnummer}`);
     },
     [router]
   );

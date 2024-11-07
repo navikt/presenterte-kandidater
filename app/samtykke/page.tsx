@@ -13,6 +13,7 @@ import {
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { PresenterteKandidaterAPI } from '../api/api-routes';
+import { postApi } from '../api/fetcher';
 import { useSamtykke } from '../api/presenterte-kandidater-api/samtykke/useSamtykke';
 import { useApplikasjonContext } from '../ApplikasjonsContext';
 import SWRLaster from '../components/SWRLaster';
@@ -36,12 +37,9 @@ export default function Samtykke() {
       return;
     }
     try {
-      const respons = await fetch(
+      const respons = await postApi(
         `${PresenterteKandidaterAPI.internUrl}/samtykke`,
-        {
-          method: 'POST',
-          body: formData,
-        }
+        formData
       );
       if (respons.ok) {
         router.push(`/?virksomhet=${valgtOrganisasjonsnummer}`);

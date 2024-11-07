@@ -54,7 +54,26 @@ const getAPI = async (url: string) => {
   }
 };
 
-const postApi = async (
+export const deleteApi = async (url: string) => {
+  const response = await fetch(getBasePath() + url, {
+    method: 'DELETE',
+    credentials: 'include',
+  });
+
+  if (response.ok) {
+    return await response.json();
+  } else if (response.status === 404) {
+    throw new Error('404');
+  } else if (response.status === 403) {
+    throw new Error('403');
+  } else {
+    throw new Error(
+      `Feil respons fra server (http-status: ${response.status})`
+    );
+  }
+};
+
+export const postApi = async (
   url: string,
   body: unknown,
   queryParams?: URLSearchParams
