@@ -45,7 +45,8 @@ export default function Samtykke() {
         }
       );
       if (respons.ok) {
-        router.push(`${getBasePath()}/?virksomhet=${valgtOrganisasjonsnummer}`);
+        //TODO Naviger til root?
+        router.push(`?virksomhet=${valgtOrganisasjonsnummer}`);
       } else {
         setFeilmelding('Klarte ikke å lagre samtykke.');
       }

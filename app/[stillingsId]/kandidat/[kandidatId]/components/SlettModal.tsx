@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation';
 import { useRef } from 'react';
 import { useSlettKandidat } from '../../../../api/presenterte-kandidater-api/kandidat/[kandidatId]/useSlettKandidat';
 import { KandidatCvDTO } from '../../../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/kandidatliste.typer';
-import { getBasePath } from '../../../../util/miljø';
 
 type Props = {
   kandidatId: string;
@@ -24,7 +23,7 @@ export default function Slettemodal({ cv, kandidatId, stillingsId }: Props) {
   }
 
   if (slettAction.data) {
-    router.push(`${getBasePath()}/${stillingsId}`);
+    router.push(`/${stillingsId}`);
   }
 
   if (slettAction.error) {

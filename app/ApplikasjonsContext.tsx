@@ -7,7 +7,6 @@ import {
   OrganisasjonerDTO,
   useUseOrganisasjoner,
 } from './api/presenterte-kandidater-api/organisasjoner/useOrganisasjoner';
-import { getBasePath } from './util/miljø';
 
 interface IApplikasjonsContext {
   organisasjoner?: OrganisasjonerDTO;
@@ -31,7 +30,7 @@ export const ApplikasjonsContextProvider: React.FC<
 
   const oppdaterOrgnummer = React.useCallback(
     (orgnummer: string) => {
-      router.push(`${getBasePath()}/?virksomhet=${orgnummer}`);
+      router.push(`?virksomhet=${orgnummer}`);
     },
     [router]
   );

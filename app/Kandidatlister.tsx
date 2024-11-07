@@ -20,7 +20,7 @@ const Kandidatlister: React.FC = () => {
 
   React.useEffect(() => {
     if (organisasjoner && valgtOrganisasjonsnummer) {
-      router.push(`${getBasePath()}?virksomhet=${valgtOrganisasjonsnummer}`);
+      router.push(`?virksomhet=${valgtOrganisasjonsnummer}`);
     }
   }, [organisasjoner, valgtOrganisasjonsnummer, router]);
 
