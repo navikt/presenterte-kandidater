@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { PresenterteKandidaterAPI } from '../../../api-routes';
-import { KandidatlisteSchema } from '../../kandidatlister/[virksomhetsId]/kandidatlister.typer';
+import { KandidatlisteSchema } from '../../kandidatlister/kandidatlister.typer';
 
 export const kandidatlisteEndepunkt = (stillingId: string) =>
   `${PresenterteKandidaterAPI.internUrl}/kandidatliste/${stillingId}`;

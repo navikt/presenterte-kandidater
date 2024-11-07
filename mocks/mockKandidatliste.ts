@@ -6,7 +6,7 @@ import {
   OmfangEnhet,
   Språkkompetanse,
 } from '../app/api/presenterte-kandidater-api/kandidatliste/[stillingsId]/kandidatliste.typer';
-import { KandidatlisterDTO } from '../app/api/presenterte-kandidater-api/kandidatlister/[virksomhetsId]/kandidatlister.typer';
+import { KandidatlisterDTO } from '../app/api/presenterte-kandidater-api/kandidatlister/kandidatlister.typer';
 
 const mocketKandidatliste = (
   stillingId: string,

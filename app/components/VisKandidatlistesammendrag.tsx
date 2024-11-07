@@ -1,7 +1,7 @@
 import { BodyShort, Box, Link } from '@navikt/ds-react';
 
 import type { FunctionComponent } from 'react';
-import { KandidatlisteMedAntallKandidaterDTO } from '../api/presenterte-kandidater-api/kandidatlister/[virksomhetsId]/kandidatlister.typer';
+import { KandidatlisteMedAntallKandidaterDTO } from '../api/presenterte-kandidater-api/kandidatlister/kandidatlister.typer';
 import { getBasePath } from '../util/miljø';
 
 type Props = {

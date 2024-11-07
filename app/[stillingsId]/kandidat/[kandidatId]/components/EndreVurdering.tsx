@@ -15,7 +15,7 @@ import {
   ArbeidsgiversVurderingDTO,
   Kandidatvurdering,
 } from '../../../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/kandidatliste.typer';
-import { KandidatlisteDTO } from '../../../../api/presenterte-kandidater-api/kandidatlister/[virksomhetsId]/kandidatlister.typer';
+import { KandidatlisteDTO } from '../../../../api/presenterte-kandidater-api/kandidatlister/kandidatlister.typer';
 import Vurderingsikon from '../../../components/Vurderingsikon';
 import { visVurdering } from '../KandidatVisning';
 

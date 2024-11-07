@@ -2,7 +2,7 @@
  * Endepunkt /useKandidatlister
  */
 import useSWRImmutable from 'swr/immutable';
-import { getAPIwithSchema } from '../../../fetcher';
+import { getAPIwithSchema } from '../../fetcher';
 import {
   kandidatlisterEndepunkt,
   KandidatlisterSchema,

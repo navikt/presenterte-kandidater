@@ -3,7 +3,7 @@ import { BodyShort, Heading } from '@navikt/ds-react';
 import Link from 'next/link';
 
 import { sendEvent } from './amplitude';
-import { useUseKandidatlister } from './api/presenterte-kandidater-api/kandidatlister/[virksomhetsId]/useKandidatlister';
+import { useUseKandidatlister } from './api/presenterte-kandidater-api/kandidatlister/useKandidatlister';
 import { useApplikasjonContext } from './ApplikasjonsContext';
 import SWRLaster from './components/SWRLaster';
 
