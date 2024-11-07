@@ -6,7 +6,7 @@ import * as React from 'react';
 import {
   OrganisasjonerDTO,
   useUseOrganisasjoner,
-} from './api/notifikasjon-bruker-api/organisasjoner/useOrganisasjoner';
+} from './api/presenterte-kandidater-api/organisasjoner/useOrganisasjoner';
 import { getBasePath } from './util/miljø';
 
 interface IApplikasjonsContext {

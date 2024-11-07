@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import mockedeOrganisasjoner from '../../../../mocks/mockOrganisasjoner';
 import { erLokalt } from '../../../util/miljø';
-import { NotifikasjonAPI } from '../../api-routes';
+import { PresenterteKandidaterAPI } from '../../api-routes';
 import { proxyWithOBO } from '../../oboProxy';
 
 export async function GET(request: Request) {
@@ -9,5 +9,5 @@ export async function GET(request: Request) {
     return NextResponse.json(mockedeOrganisasjoner);
   }
 
-  return proxyWithOBO(NotifikasjonAPI, request);
+  return proxyWithOBO(PresenterteKandidaterAPI, request);
 }

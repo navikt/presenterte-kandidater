@@ -4,11 +4,11 @@
  */
 import useSWRImmutable from 'swr/immutable';
 import { z } from 'zod';
-import { NotifikasjonAPI } from '../../api-routes';
+import { PresenterteKandidaterAPI } from '../../api-routes';
 import { getAPIwithSchema } from '../../fetcher';
 
 const useOrganisasjonerEndepunkt =
-  NotifikasjonAPI.internUrl + '/organisasjoner';
+  PresenterteKandidaterAPI.internUrl + '/organisasjoner';
 
 const OrganisasjonDTO = z.object({
   Name: z.string(),
