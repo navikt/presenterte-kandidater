@@ -24,7 +24,9 @@ export default function Slettemodal({ cv, kandidatId, stillingsId }: Props) {
 
   async function handleSubmit() {
     slettAction.trigger().then(() => {
-      mutate();
+      mutate().then(() => {
+        router.push(`/${stillingsId}`);
+      });
     });
   }
 
