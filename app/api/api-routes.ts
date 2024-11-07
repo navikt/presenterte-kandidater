@@ -9,7 +9,7 @@ export interface Iroute {
 
 export const NotifikasjonAPI: Iroute = {
   api_route: '/notifikasjon-api',
-  api_url: process.env.NOTIFIKASJON_API ?? '',
+  api_url: process.env.NOTIFIKASJON_API_URL ?? '',
   internUrl: '/kandidatliste/api/notifikasjon-bruker-api',
   scope: `${getClusterGCP()}:fager:notifikasjon-bruker-api`,
 };
