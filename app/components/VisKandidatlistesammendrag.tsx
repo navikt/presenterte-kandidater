@@ -1,5 +1,6 @@
-import { BodyShort, Box, Link } from '@navikt/ds-react';
+import { BodyShort, Box } from '@navikt/ds-react';
 
+import Link from 'next/link';
 import type { FunctionComponent } from 'react';
 import { KandidatlisteMedAntallKandidaterDTO } from '../api/presenterte-kandidater-api/kandidatlister/kandidatlister.typer';
 
