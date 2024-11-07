@@ -27,7 +27,7 @@ export const ApplikasjonsContextProvider: React.FC<
 > = ({ children }) => {
   const { data, isLoading } = useUseOrganisasjoner();
   const router = useRouter();
-  const [orgnummer] = useQueryState('virksomhet');
+  const [orgnummer, setOrgnummer] = useQueryState('virksomhet');
 
   const oppdaterOrgnummer = React.useCallback(
     (orgnummer: string) => {
@@ -35,6 +35,10 @@ export const ApplikasjonsContextProvider: React.FC<
     },
     [router]
   );
+
+  if (!orgnummer && data) {
+    setOrgnummer(data[0].OrganizationNumber);
+  }
 
   const useOrgnrHook: () => [string | null, (orgnr: string) => void] =
     React.useCallback(
@@ -54,7 +58,7 @@ export const ApplikasjonsContextProvider: React.FC<
         orgnrHook: useOrgnrHook,
       }}
     >
-      {children} kake
+      {children}
     </ApplikasjonsContext.Provider>
   );
 };
