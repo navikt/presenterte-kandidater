@@ -11,7 +11,6 @@ import { useRouter } from 'next/navigation';
 import * as React from 'react';
 import IngenOrganisasjoner from './components/IngenOrganisasjoner';
 import VisKandidatlistesammendrag from './components/VisKandidatlistesammendrag';
-import { getBasePath } from './util/miljø';
 
 const Kandidatlister: React.FC = () => {
   const { valgtOrganisasjonsnummer, organisasjoner } = useApplikasjonContext();
@@ -89,7 +88,7 @@ const Kandidatlister: React.FC = () => {
             <div className='flex justify-center'>
               <Link
                 className='navds-link'
-                href={`${getBasePath()}/samtykke?virksomhet=${valgtOrganisasjonsnummer}`}
+                href={`/samtykke?virksomhet=${valgtOrganisasjonsnummer}`}
               >
                 Vilkår for tjenesten
               </Link>

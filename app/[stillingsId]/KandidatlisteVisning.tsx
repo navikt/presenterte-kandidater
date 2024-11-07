@@ -7,7 +7,7 @@ import { useUseKandidatliste } from '../api/presenterte-kandidater-api/kandidatl
 import { useApplikasjonContext } from '../ApplikasjonsContext';
 import SWRLaster from '../components/SWRLaster';
 import Tilbakelenke from '../components/TilbakeLenke';
-import { getBasePath, hentMiljø, Miljø } from '../util/miljø';
+import { hentMiljø, Miljø } from '../util/miljø';
 import GruppeMedKandidater from './components/GruppeMedKandidater';
 import Spørreskjemalenke from './components/Spørreskjemalenke';
 import Vurderingsikon from './components/Vurderingsikon';
@@ -34,9 +34,7 @@ const KandidatlisteVisning: React.FC<KandidatlisteVisningProps> = ({
         const { tittel, stillingId } = kandidatliste;
         return (
           <div className='p-4'>
-            <Tilbakelenke
-              href={`${getBasePath()}/?virksomhet=${valgtOrganisasjonsnummer}`}
-            >
+            <Tilbakelenke href={`/?virksomhet=${valgtOrganisasjonsnummer}`}>
               Alle rekrutteringsprosesser
             </Tilbakelenke>
 

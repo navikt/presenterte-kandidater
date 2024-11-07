@@ -2,7 +2,6 @@ import { BodyShort, Box, Link } from '@navikt/ds-react';
 
 import type { FunctionComponent } from 'react';
 import { KandidatlisteMedAntallKandidaterDTO } from '../api/presenterte-kandidater-api/kandidatlister/kandidatlister.typer';
-import { getBasePath } from '../util/miljø';
 
 type Props = {
   sammendrag: KandidatlisteMedAntallKandidaterDTO;
@@ -26,7 +25,7 @@ const VisKandidatlistesammendrag: FunctionComponent<Props> = ({
     >
       <span>
         <Link
-          href={`${getBasePath()}/${stillingId}?virksomhet=${virksomhet}`}
+          href={`/${stillingId}?virksomhet=${virksomhet}`}
           className='navds-link'
         >
           {tittel}

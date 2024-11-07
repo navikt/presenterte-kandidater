@@ -43,8 +43,6 @@ spec:
     envFrom:
         - secret: presenterte-kandidater-toggle
     env:
-        - name: NODE_EXTRA_CA_CERTS
-          value: /etc/ssl/ca-bundle.pem
         - name: PRESENTERT_KANDIDATER_API
           value: http://presenterte-kandidater-api
         - name: NOTIFIKASJON_API_URL

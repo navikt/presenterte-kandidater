@@ -17,7 +17,6 @@ import { useSamtykke } from '../api/presenterte-kandidater-api/samtykke/useSamty
 import { useApplikasjonContext } from '../ApplikasjonsContext';
 import SWRLaster from '../components/SWRLaster';
 import Tilbakelenke from '../components/TilbakeLenke';
-import { getBasePath } from '../util/miljø';
 
 export default function Samtykke() {
   const router = useRouter();
@@ -45,8 +44,7 @@ export default function Samtykke() {
         }
       );
       if (respons.ok) {
-        //TODO Naviger til root?
-        router.push(`?virksomhet=${valgtOrganisasjonsnummer}`);
+        router.push(`/?virksomhet=${valgtOrganisasjonsnummer}`);
       } else {
         setFeilmelding('Klarte ikke å lagre samtykke.');
       }
@@ -60,9 +58,7 @@ export default function Samtykke() {
       {(data) => (
         <div className='p-4 md:p-4'>
           {data.harSamtykke && (
-            <Tilbakelenke
-              href={`${getBasePath()}?virksomhet=${valgtOrganisasjonsnummer}`}
-            >
+            <Tilbakelenke href={`/?virksomhet=${valgtOrganisasjonsnummer}`}>
               Tilbake
             </Tilbakelenke>
           )}

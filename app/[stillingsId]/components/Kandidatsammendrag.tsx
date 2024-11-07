@@ -6,7 +6,6 @@ import {
   KandidatCvDTO,
   KandidatMedCvDTO,
 } from '../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/kandidatliste.typer';
-import { getBasePath } from '../../util/miljø';
 
 type Props = {
   kandidat: KandidatMedCvDTO;
@@ -30,9 +29,7 @@ const Kandidatsammendrag: FunctionComponent<Props> = ({
   return (
     <li className='flex flex-col items-start p-4 [&:not(:last-child)]:border-b-2 [&:not(:last-child)]:border-[--a-gray-200]'>
       <Link
-        href={`${getBasePath()}/${stillingId}/kandidat/${
-          kandidat.kandidat.uuid
-        }?virksomhet=${valgtOrganisasjonsnummer}`}
+        href={`/${stillingId}/kandidat/${kandidat.kandidat.uuid}?virksomhet=${valgtOrganisasjonsnummer}`}
         className='navds-link'
       >
         <span className='text-[--a-font-size-xlarge]'>
@@ -64,9 +61,7 @@ export const KandidatsammendragUtenCv: FunctionComponent<Props> = ({
   return (
     <li className='flex flex-col items-start p-4 [&:not(:last-child)]:border-b-2 [&:not(:last-child)]:border-[--a-gray-200]'>
       <Link
-        href={`${getBasePath()}/${stillingId}/kandidat/${
-          kandidat.kandidat.uuid
-        }?virksomhet=${valgtOrganisasjonsnummer}`}
+        href={`/${stillingId}/kandidat/${kandidat.kandidat.uuid}?virksomhet=${valgtOrganisasjonsnummer}`}
         className='navds-link'
       >
         <span className='text-[--a-font-size-xlarge]'>
