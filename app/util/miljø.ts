@@ -5,9 +5,6 @@ export enum Miljø {
 }
 
 export const getBasePath = () =>
-  process.env.NODE_ENV === 'development' ? '' : '';
-
-export const getApiPath = () =>
   process.env.NODE_ENV === 'development' ? '' : '/kandidatliste';
 
 export const getClusterFSS = () => {
