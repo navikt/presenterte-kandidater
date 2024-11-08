@@ -32,7 +32,6 @@ export const ApplikasjonsContextProvider: React.FC<
 
   configureLogger({
     basePath: getBasePath(),
-    apiPath: '/api',
   });
 
   const oppdaterOrgnummer = React.useCallback(
