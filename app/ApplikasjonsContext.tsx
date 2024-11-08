@@ -1,5 +1,6 @@
 'use client';
 import { Loader } from '@navikt/ds-react';
+import { configureLogger } from '@navikt/next-logger';
 import { useRouter } from 'next/navigation';
 import { useQueryState } from 'nuqs';
 import * as React from 'react';
@@ -7,6 +8,7 @@ import {
   OrganisasjonerDTO,
   useUseOrganisasjoner,
 } from './api/presenterte-kandidater-api/organisasjoner/useOrganisasjoner';
+import { getBasePath } from './util/miljø';
 
 interface IApplikasjonsContext {
   organisasjoner?: OrganisasjonerDTO;
@@ -27,6 +29,11 @@ export const ApplikasjonsContextProvider: React.FC<
   const { data, isLoading } = useUseOrganisasjoner();
   const router = useRouter();
   const [orgnummer, setOrgnummer] = useQueryState('virksomhet');
+
+  configureLogger({
+    basePath: getBasePath(),
+    apiPath: getBasePath() + '/api',
+  });
 
   const oppdaterOrgnummer = React.useCallback(
     (orgnummer: string) => {
