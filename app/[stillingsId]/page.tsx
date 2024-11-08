@@ -1,4 +1,3 @@
-'use server';
 import KandidatlisteVisning from './KandidatlisteVisning';
 
 export default async function KandidaterForKandidatliste({

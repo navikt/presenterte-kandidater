@@ -8,16 +8,21 @@ import './globals.css';
 
 import { Loader } from '@navikt/ds-react';
 import { fetchDecoratorReact } from '@navikt/nav-dekoratoren-moduler/ssr';
+import { configureLogger } from '@navikt/next-logger';
 import { NuqsAdapter } from 'nuqs/adapters/next';
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { ApplikasjonsContextProvider } from './ApplikasjonsContext';
 import Header from './components/Header';
-import { hentMiljø, Miljø } from './util/miljø';
+import { getBasePath, hentMiljø, Miljø } from './util/miljø';
 
 export const metadata: Metadata = {
   title: 'Foreslåtte kandidater',
 };
+
+configureLogger({
+  basePath: getBasePath(),
+});
 
 function RootSuspense({ children }: { children: React.ReactNode }) {
   return (
