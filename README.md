@@ -4,24 +4,28 @@ Arbeidsgiverflate for å se kandidater presentert av markedskontakter.
 
 ## Lokal utvikling
 
-Noen pakker under `@navikt` hentes fra Github sitt NPM-repository. For at dette skal fungere må du først autentisere mot Github:
+Noen pakker under `@navikt` hentes fra Github sitt NPM-repository. For at dette skal fungere må du først autentisere mot Github: 
+
+Se https://github.com/navikt/frontend#github-npm-registry 
+
+
+Når du har gjort dette, kan du kjøre på lts versjon av node: (22.*)
 
 ```
-npm login --registry https://npm.pkg.github.com
+nvm install --lts
+
+nvm use --lts
 ```
 
-Brukernavn er Github-brukernavnet ditt. Passordet er et [Personal Access Token](https://github.com/settings/tokens) med `read:packages`-scope. Tokenet må autentiseres med SSO mot navikt-organisasjonen.
-
-Når du er logget inn kan du kjøre:
-
+Når du har installert node, kan du installere pakker:
 ```
-npm install
+npm run npm:install
 ```
 
 For å starte utviklingsserveren, kjør:
 
 ```
-npm run start
+npm run dev
 ```
 
 ## Hvordan teste manuelt i dev-miljøet
