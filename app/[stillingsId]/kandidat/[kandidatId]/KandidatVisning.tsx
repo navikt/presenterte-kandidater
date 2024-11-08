@@ -40,10 +40,10 @@ export default function Kandidatvisning({
       />
 
       <ReadMore header='Slik virker statusene' className='print:hidden'>
-        Statusene hjelper deg å holde oversikt over kandidatene NAV har sendt
+        Statusene hjelper deg å holde oversikt over kandidatene Nav har sendt
         deg.
         <br />
-        Informasjonen blir ikke formidlet videre til kandidaten eller NAV.
+        Informasjonen blir ikke formidlet videre til kandidaten eller Nav.
       </ReadMore>
 
       {kandidat.cv ? (

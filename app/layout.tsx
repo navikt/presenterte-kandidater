@@ -20,11 +20,6 @@ export const metadata: Metadata = {
   title: 'Foreslåtte kandidater',
 };
 
-configureLogger({
-  basePath: getBasePath(),
-  apiPath: getBasePath() + '/api',
-});
-
 function RootSuspense({ children }: { children: React.ReactNode }) {
   return (
     <ErrorBoundary
@@ -78,6 +73,11 @@ export default async function RootLayout({
       simple: false,
       breadcrumbs: byggBrødsmulesti(hentMiljø()),
     },
+  });
+
+  configureLogger({
+    basePath: getBasePath(),
+    apiPath: getBasePath() + '/api',
   });
 
   return (

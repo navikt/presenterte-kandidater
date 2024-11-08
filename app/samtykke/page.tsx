@@ -61,7 +61,7 @@ export default function Samtykke() {
           >
             <div className='flex flex-col mb-4 md:items-center'>
               <Heading level='2' size='large'>
-                Vilkår for å motta CV-er fra NAV
+                Vilkår for å motta CV-er fra Nav
               </Heading>
             </div>
 
@@ -70,10 +70,10 @@ export default function Samtykke() {
             </Heading>
             <BodyLong>
               Arbeidsgiver gir tilganger til sine ansatte i Altinn. Hvis flere
-              ansatte har fått tilgang til å motta CV-er fra NAV, kan de se og
+              ansatte har fått tilgang til å motta CV-er fra Nav, kan de se og
               utføre det samme. De kan også endre det som andre har utført.
               Arbeidsgiver har ansvar for at kun ansatte med behov har tilgang
-              til CV-er fra NAV. Den som har fått tilgangen har ansvar for ikke
+              til CV-er fra Nav. Den som har fått tilgangen har ansvar for ikke
               å dele CV-er med andre uten behov. Tilgangsstyring skjer gjennom
               Altinn.
             </BodyLong>
@@ -99,7 +99,7 @@ export default function Samtykke() {
               <li>tilby personer arbeidstreningsplasser</li>
             </ul>
             <BodyLong>
-              NAV vil følge opp eventuelle brudd på disse vilkårene.
+              Nav vil følge opp eventuelle brudd på disse vilkårene.
             </BodyLong>
             <Heading level='3' size='medium'>
               Arbeidsgiver må være oppmerksom på dette:
@@ -117,26 +117,26 @@ export default function Samtykke() {
               </li>
             </ul>
             <Heading level='3' size='medium'>
-              NAV lagrer personopplysninger
+              Nav lagrer personopplysninger
             </Heading>
             <BodyLong>
               Vi er pålagt å drive en statlig arbeidsformidling og formidle
               arbeidskraft. For å tilby disse tjenestene til arbeidsgivere, må
               vi lagre nødvendige personopplysninger. Vi lagrer derfor
               kandidatene som er delt med arbeidsgivere og anonymiserte
-              opplysninger fra disse. Denne informasjonen bruker NAV til å
+              opplysninger fra disse. Denne informasjonen bruker Nav til å
               forbedre tjenesten.
             </BodyLong>
             <BodyLong>
               <span>For mer informasjon, </span>
               <NavLink href='https://www.nav.no/personvernerklaering'>
-                se NAVs personvernerklæring
+                se Navs personvernerklæring
               </NavLink>
             </BodyLong>
             <BodyLong>
               <span>Har du spørsmål, kan du kontakte oss på </span>
               <NavLink href='https://arbeidsgiver.nav.no/kontakt-oss/'>
-                Kontakt NAV - arbeidsgiver
+                Kontakt Nav - arbeidsgiver
               </NavLink>
             </BodyLong>
 
