@@ -22,6 +22,7 @@ export const metadata: Metadata = {
 
 configureLogger({
   basePath: getBasePath(),
+  apiPath: getBasePath() + '/api',
 });
 
 function RootSuspense({ children }: { children: React.ReactNode }) {
