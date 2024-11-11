@@ -8,7 +8,7 @@ COPY .next/static ./.next/static
 
 USER nonroot
 
-EXPOSE 3000
+EXPOSE 1336
 
 
 

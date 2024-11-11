@@ -17,12 +17,12 @@ spec:
     ingresses:
         - https://presenterte-kandidater.intern.dev.nav.no/kandidatliste
         - https://presenterte-kandidater.ansatt.dev.nav.no/kandidatliste
-    liveness:
-        initialDelay: 20
-        path: /status/isAlive
-    readiness:
-        initialDelay: 20
-        path: /status/isReady
+    # liveness:
+    #     initialDelay: 20
+    #     path: /status/isAlive
+    # readiness:
+    #     initialDelay: 20
+    #     path: /status/isReady
     accessPolicy:
         outbound:
             rules:
