@@ -1,6 +1,6 @@
 name: Build, Scan and Deploy
 
-on: [push, workflow_dispatch]
+on: [ push, workflow_dispatch ]
 
 permissions:
   contents: read
@@ -29,9 +29,6 @@ jobs:
           build_secrets: 'NODE_AUTH_TOKEN=${{ secrets.READER_TOKEN }}'
           # The tag "latest" should only be applied to images based on the default branch
           tag: ${{ contains(fromJSON('["refs/heads/master", "refs/heads/main"]'), github.ref) && 'latest' || github.sha }}
-      - name: Set Image Output
-        id: set-image-output
-        run: echo "image=${{ steps.docker-build-push.outputs.image }}" >> $GITHUB_ENV
 
   call-trivy-security-scan:
     needs: build
