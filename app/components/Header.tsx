@@ -1,6 +1,6 @@
 'use client';
 import { NotifikasjonWidget } from '@navikt/arbeidsgiver-notifikasjon-widget';
-import Bedriftsmeny from '@navikt/bedriftsmeny';
+import Bedriftsmeny, { Organisasjon } from '@navikt/bedriftsmeny';
 import { useEffect, useState } from 'react';
 
 import type { Miljø as NotifikasjonMiljø } from '@navikt/arbeidsgiver-notifikasjon-widget';
@@ -25,7 +25,8 @@ const Header: FunctionComponent = () => {
   return (
     <Bedriftsmeny
       sidetittel='Kandidater'
-      organisasjoner={organisasjoner}
+      //TODO Endre hvis bedriftmeny fikser null på parent organisasjon
+      organisasjoner={organisasjoner as unknown as Organisasjon[]}
       orgnrSearchParam={orgnrHook}
     >
       {renderWidget && (
