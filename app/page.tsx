@@ -1,14 +1,14 @@
 'use client';
 import { Loader } from '@navikt/ds-react';
-import { useSamtykke } from './api/presenterte-kandidater-api/samtykke/useSamtykke';
+import { useHentSamtykke } from './api/presenterte-kandidater-api/hentsamtykke/useHentSamtykke';
 import Kandidatlister from './Kandidatlister';
 import Samtykke from './samtykke/page';
 
 export default function Home() {
-  const harSamtykke = useSamtykke();
+  const samtykke = useHentSamtykke();
 
-  if (harSamtykke.isLoading) {
+  if (samtykke.isLoading) {
     return <Loader />;
   }
-  return harSamtykke?.data?.harSamtykke ? <Kandidatlister /> : <Samtykke />;
+  return samtykke?.data?.harSamtykket ? <Kandidatlister /> : <Samtykke />;
 }

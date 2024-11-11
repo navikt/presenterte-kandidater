@@ -12,8 +12,8 @@ import {
 } from '@navikt/ds-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { useHentSamtykke } from '../api/presenterte-kandidater-api/hentsamtykke/useHentSamtykke';
 import { useGiSamtykke } from '../api/presenterte-kandidater-api/samtykke/useGiSamtykke';
-import { useSamtykke } from '../api/presenterte-kandidater-api/samtykke/useSamtykke';
 import { useApplikasjonContext } from '../ApplikasjonsContext';
 import SWRLaster from '../components/SWRLaster';
 import Tilbakelenke from '../components/TilbakeLenke';
@@ -25,7 +25,7 @@ export default function Samtykke() {
 
   const [feilmelding, setFeilmelding] = useState<string>();
 
-  const hook = useSamtykke();
+  const hentSamtykke = useHentSamtykke();
   const giSamtykke = useGiSamtykke();
   async function handleSubmit(formData: FormData) {
     const harGodkjent = formData.get('samtykke') === 'true';
@@ -45,10 +45,10 @@ export default function Samtykke() {
   }
 
   return (
-    <SWRLaster hook={hook}>
-      {(data) => (
+    <SWRLaster hook={hentSamtykke}>
+      {({ harSamtykket }) => (
         <div className='p-4 md:p-4'>
-          {data.harSamtykke && (
+          {harSamtykket && (
             <Tilbakelenke href={`/?virksomhet=${valgtOrganisasjonsnummer}`}>
               Tilbake
             </Tilbakelenke>
@@ -140,7 +140,7 @@ export default function Samtykke() {
               </NavLink>
             </BodyLong>
 
-            {!data.harSamtykke && (
+            {!harSamtykket && (
               <form action={handleSubmit}>
                 <CheckboxGroup hideLegend legend='Godkjenner du vilkårene?'>
                   <Checkbox name='samtykke' value='true'>
