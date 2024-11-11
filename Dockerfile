@@ -10,6 +10,7 @@ USER nonroot
 
 EXPOSE 3000
 
-
+# Hostname for å kunne kalle isAlive og isReady 
+ENV HOSTNAME "0.0.0.0" 
 
 CMD ["server.js"]
