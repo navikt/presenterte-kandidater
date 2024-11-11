@@ -19,10 +19,10 @@ spec:
         - https://presenterte-kandidater.ansatt.dev.nav.no/kandidatliste
     liveness:
         initialDelay: 20
-        path: /status/isAlive
+        path: /kandidatliste/internal/isAlive
     readiness:
         initialDelay: 20
-        path: /status/isReady
+        path: /kandidatliste/internal/isReady
     accessPolicy:
         outbound:
             rules:
@@ -40,7 +40,7 @@ spec:
             level: Level4
             autoLogin: false
             autoLoginIgnorePaths:
-                - /status/*
+                - /kandidatliste/internal/*
     envFrom:
         - secret: presenterte-kandidater-toggle
     env:
