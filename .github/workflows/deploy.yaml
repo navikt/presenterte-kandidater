@@ -1,6 +1,6 @@
 name: Build, Scan and Deploy
 
-on: [ push, workflow_dispatch ]
+on: [push, workflow_dispatch]
 
 permissions:
   contents: read
@@ -8,16 +8,33 @@ permissions:
 
 jobs:
   build:
-    name: Bygg og push
+    name: 🏗️ Build and Push
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      id-token: write
-    outputs:
-      image: ${{ steps.docker-build-push.outputs.image }}
     steps:
-      - uses: actions/checkout@v4
-      - name: Push Docker image to GAR
+      - name: 🔄 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.14.0'
+          registry-url: 'https://npm.pkg.github.com'
+
+      - name: 📥 Install Dependencies
+        run: |
+          echo "::group::Installing NPM packages"
+          npm ci
+          echo "::endgroup::"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
+
+      - name: 🛠️ Build Next.js Application
+        run: |
+          echo "::group::Building Next.js application"
+          npm run build
+          echo "::endgroup::"
+
+      - name: 🐳 Push Docker image to GAR
         id: docker-build-push
         uses: nais/docker-build-push@v0
         env:
@@ -27,10 +44,12 @@ jobs:
           identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
           project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
           build_secrets: 'NODE_AUTH_TOKEN=${{ secrets.READER_TOKEN }}'
-          # The tag "latest" should only be applied to images based on the default branch
           tag: ${{ contains(fromJSON('["refs/heads/master", "refs/heads/main"]'), github.ref) && 'latest' || github.sha }}
+    outputs:
+      image: ${{ steps.docker-build-push.outputs.image }}
 
   call-trivy-security-scan:
+    name: 🔒 Security Scan
     needs: build
     uses: navikt/toi-github-actions-workflows/.github/workflows/trivy-security-scan.yaml@main
     with:
@@ -41,21 +60,24 @@ jobs:
     secrets: inherit
 
   deploy-til-dev:
-    name: Deploy til dev-gcp
+    name: 🚀 Deploy to dev-gcp
     needs:
       - build
     if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/master' || github.ref == 'refs/heads/next-js'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: nais/deploy/actions/deploy@v2
+      - name: 🔄 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 📦 Deploy to Dev
+        uses: nais/deploy/actions/deploy@v2
         env:
           CLUSTER: dev-gcp
           RESOURCE: deploy/dev-gcp.yaml
           VAR: image=${{ needs.build.outputs.image }}
 
   deploy-to-prod:
-    name: Deploy til prod-gcp
+    name: 🚀 Deploy to prod-gcp
     needs:
       - build
       - call-trivy-security-scan
@@ -63,9 +85,30 @@ jobs:
     if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: nais/deploy/actions/deploy@v2
+      - name: 🔄 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 📦 Deploy to Prod
+        uses: nais/deploy/actions/deploy@v2
         env:
           CLUSTER: prod-gcp
           RESOURCE: deploy/prod-gcp.yaml
           VAR: image=${{ needs.build.outputs.image }}
+
+      - name: 📝 Deployment Summary
+        if: success()
+        run: |
+          echo "## Deployment Complete! 🎉" >> $GITHUB_STEP_SUMMARY
+          echo "* Image: \`${{ needs.build.outputs.image }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "* Branch: \`${{ github.ref_name }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "* Commit: \`${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "* Environment: Production" >> $GITHUB_STEP_SUMMARY
+
+      - name: ⚠️ Deployment Failed
+        if: failure()
+        run: |
+          echo "## Deployment Failed ❌" >> $GITHUB_STEP_SUMMARY
+          echo "* Image: \`${{ needs.build.outputs.image }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "* Branch: \`${{ github.ref_name }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "* Environment: Production" >> $GITHUB_STEP_SUMMARY
+          echo "Please check the logs for more details." >> $GITHUB_STEP_SUMMARY
