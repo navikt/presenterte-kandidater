@@ -3,7 +3,7 @@ ENV NODE_ENV=production
 
 WORKDIR /app
 
-COPY next-logger.config.mjs /app/
+COPY next-logger.config.ts /app/
 COPY .next/standalone /app/
 COPY .next/static ./.next/static
 
