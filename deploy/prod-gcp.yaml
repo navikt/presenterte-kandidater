@@ -18,10 +18,10 @@ spec:
         - https://arbeidsgiver.nav.no/kandidatliste
     liveness:
         initialDelay: 20
-        path: /kandidatliste/internal/isAlive
+        path: /status/isAlive
     readiness:
         initialDelay: 20
-        path: /kandidatliste/internal/isReady
+        path: /status/isReady
     accessPolicy:
         outbound:
             rules:
@@ -39,7 +39,7 @@ spec:
             level: Level4
             autoLogin: false
             autoLoginIgnorePaths:
-                - /kandidatliste/internal/*
+                - /status/*
     envFrom:
         - secret: presenterte-kandidater-toggle
     env:
