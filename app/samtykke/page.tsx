@@ -37,7 +37,9 @@ export default function Samtykke() {
     giSamtykke
       .trigger()
       .then(() => {
-        router.push(`/?virksomhet=${valgtOrganisasjonsnummer}`);
+        hentSamtykke.mutate().then(() => {
+          router.push(`/?virksomhet=${valgtOrganisasjonsnummer}`);
+        });
       })
       .catch(() => {
         setFeilmelding('Klarte ikke å lagre samtykke.');
