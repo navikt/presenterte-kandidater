@@ -14,7 +14,7 @@ const OrganisasjonDTO = z.object({
   Name: z.string(),
   OrganizationNumber: z.string(),
   OrganizationForm: z.string(),
-  ParentOrganizationNumber: z.string(),
+  ParentOrganizationNumber: z.string().nullable(),
 });
 
 const OrganisasjonerSchema = z.array(OrganisasjonDTO);

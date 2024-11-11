@@ -13,8 +13,8 @@ export const KandidatlisteSchema = z.object({
   status: Status,
   slettet: z.boolean(),
   virksomhetsnummer: z.string(),
-  sistEndret: z.string().datetime(), // Expecting ISO string for ZonedDateTime
-  opprettet: z.string().datetime(), // Expecting ISO string for ZonedDateTime
+  sistEndret: z.string(), // Expecting ISO string for ZonedDateTime
+  opprettet: z.string(), // Expecting ISO string for ZonedDateTime
 });
 
 const KandidatlisteMedAntallKandidaterSchema = z.object({

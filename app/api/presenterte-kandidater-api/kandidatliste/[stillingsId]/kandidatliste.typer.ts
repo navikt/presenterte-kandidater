@@ -24,7 +24,7 @@ const KandidatSchema = z.object({
   aktørId: z.string().optional(),
   kandidatlisteId: z.string().optional(),
   arbeidsgiversVurdering: ArbeidsgiversVurdering,
-  sistEndret: z.string().datetime().optional(),
+  sistEndret: z.string().optional(),
 });
 
 //TODO CvSchema er ikker verifisert med backend
