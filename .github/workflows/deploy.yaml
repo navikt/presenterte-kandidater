@@ -63,7 +63,7 @@ jobs:
     name: 🚀 Deploy to dev-gcp
     needs:
       - build
-    if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/master' || github.ref == 'refs/heads/next-js'
+    if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main' || github.ref == 'refs/heads/next-js'
     runs-on: ubuntu-latest
     steps:
       - name: 🔄 Checkout Repository
@@ -82,7 +82,7 @@ jobs:
       - build
       - call-trivy-security-scan
       - deploy-til-dev
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - name: 🔄 Checkout Repository
