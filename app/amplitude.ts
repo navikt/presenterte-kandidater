@@ -1,32 +1,37 @@
-import type { AmplitudeClient } from 'amplitude-js';
-import amplitudeJs from 'amplitude-js';
+import * as amplitude from '@amplitude/analytics-browser';
+import { Types } from '@amplitude/analytics-browser';
 import { hentMiljø, Miljø } from './util/miljø';
 
-let client: AmplitudeClient | null = null;
-
-export const settOppAmplitude = (): AmplitudeClient | null => {
+export const settOppAmplitude = (): Pick<
+  Types.BrowserClient,
+  'logEvent' | 'identify'
+> | null => {
   const miljø = hentMiljø();
 
   if (hentMiljø() === Miljø.Lokalt) {
     return null;
   }
 
-  client = amplitudeJs.getInstance();
-  client.init(
+  amplitude.init(
     miljø === Miljø.ProdGcp
       ? 'a8243d37808422b4c768d31c88a22ef4'
       : '6ed1f00aabc6ced4fd6fcb7fcdc01b30',
-    '',
+    undefined,
     {
-      apiEndpoint: 'amplitude.nav.no/collect',
-      saveEvents: false,
-      includeUtm: true,
-      batchEvents: false,
-      includeReferrer: false,
+      serverUrl: 'https://amplitude.nav.no/collect',
+      useBatch: false,
+      autocapture: {
+        attribution: true,
+        fileDownloads: false,
+        formInteractions: false,
+        pageViews: true,
+        sessions: true,
+        elementInteractions: false,
+      },
     }
   );
 
-  return client;
+  return amplitude;
 };
 
 export const sendEvent = (
@@ -34,14 +39,15 @@ export const sendEvent = (
   hendelse: string,
   data?: object
 ): void => {
-  if (client === null) {
-    client = settOppAmplitude();
+  const amplitudeInstans = settOppAmplitude();
+
+  if (!amplitudeInstans) {
+    console.warn('Amplitude er ikke initialisert');
+    return;
   }
 
-  if (client) {
-    client.logEvent(
-      ['#presenterte-kandidater', område, hendelse].join('_'),
-      data
-    );
-  }
+  amplitudeInstans.logEvent(
+    ['#presenterte-kandidater', område, hendelse].join('_'),
+    data
+  );
 };
