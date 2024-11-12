@@ -1,11 +1,14 @@
-FROM gcr.io/distroless/nodejs20-debian11
+FROM gcr.io/distroless/nodejs20-debian12
+ENV NODE_ENV=production
 
-WORKDIR /var
+WORKDIR /app
 
-COPY build/ build/
-COPY server/build server/
-COPY public/build public/build
-COPY node_modules/ node_modules/
+COPY .next/standalone /app/
+COPY .next/static ./.next/static
+
+USER nonroot
 
 EXPOSE 3000
-CMD ["./server/server.js"]
+
+
+CMD ["server.js"]

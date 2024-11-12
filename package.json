@@ -1,71 +1,48 @@
 {
-    "private": true,
-    "sideEffects": false,
-    "scripts": {
-        "start": "remix dev",
-        "build": "run-p build:*",
-        "build:remix": "remix build",
-        "build:server": "tsc --project server/tsconfig.json",
-        "typecheck": "tsc",
-        "format": "prettier --write .",
-        "prepare": "husky install"
-    },
-    "dependencies": {
-        "@navikt/aksel-icons": "^5.6.1",
-        "@navikt/arbeidsgiver-notifikasjon-widget": "6.5.2",
-        "@navikt/bedriftsmeny": "^6.10.2",
-        "@navikt/ds-css": "^5.6.1",
-        "@navikt/ds-icons": "^3.4.3",
-        "@navikt/ds-react": "^5.6.1",
-        "@navikt/nav-dekoratoren-moduler": "^2.1.3",
-        "@remix-run/css-bundle": "^2.0.1",
-        "@remix-run/express": "^2.0.1",
-        "@remix-run/node": "^2.0.1",
-        "@remix-run/react": "^2.0.1",
-        "@types/http-proxy-middleware": "^1.0.0",
-        "amplitude-js": "^8.21.9",
-        "compression": "^1.7.4",
-        "cross-env": "^7.0.3",
-        "express": "^4.18.2",
-        "fuzzysort": "^2.0.4",
-        "html-react-parser": "^4.2.2",
-        "http-proxy-middleware": "^2.0.6",
-        "isbot": "^3.7.0",
-        "openid-client": "^5.5.0",
-        "react": "^18.2.0",
-        "react-dom": "^18.2.0",
-        "winston": "^3.10.0"
-    },
-    "devDependencies": {
-        "@remix-run/dev": "^2.0.1",
-        "@remix-run/eslint-config": "^2.0.1",
-        "@remix-run/serve": "^2.0.1",
-        "@types/compression": "^1.7.3",
-        "@types/express": "^4.17.18",
-        "@types/jsdom": "^21.1.3",
-        "@types/node": "^20.8.6",
-        "@types/react": "^18.2.24",
-        "@types/react-dom": "^18.2.8",
-        "@types/react-modal": "^3.16.1",
-        "eslint": "^8.50.0",
-        "husky": "^8.0.3",
-        "msw": "^1.3.2",
-        "nodemon": "^3.0.1",
-        "npm-run-all": "^4.1.5",
-        "pretty-quick": "^3.1.3",
-        "ts-node": "^10.9.1",
-        "typescript": "^5.2.2"
-    },
-    "engines": {
-        "node": ">=14"
-    },
-    "prettier": {
-        "tabWidth": 4,
-        "trailingComma": "es5",
-        "arrowParens": "always",
-        "printWidth": 100
-    },
-    "msw": {
-        "workerDirectory": "public"
-    }
+  "name": "presenterte-kandidater",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack  -p 1336",
+    "npm:install": "npm install",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@navikt/arbeidsgiver-notifikasjon-widget": "^7.1.4",
+    "@navikt/bedriftsmeny": "^7.0.3",
+    "@navikt/ds-css": "^7.4.3",
+    "@navikt/ds-icons": "^3.4.3",
+    "@navikt/ds-react": "^7.4.3",
+    "@navikt/nav-dekoratoren-moduler": "^3.1.1",
+    "@navikt/next-logger": "^1.34.0",
+    "@navikt/oasis": "^3.4.0",
+    "amplitude-js": "^8.21.9",
+    "html-react-parser": "^5.1.18",
+    "next": "15.0.2",
+    "nuqs": "^2.1.1",
+    "openid-client": "5.5.0",
+    "pino": "^9.5.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-error-boundary": "^4.1.2",
+    "react-router-dom": "^6.27.0",
+    "swr": "^2.2.5",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/amplitude-js": "^8.16.5",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10.4.20",
+    "csp-header": "^5.2.1",
+    "eslint": "^8",
+    "eslint-config-next": "15.0.2",
+    "jsdom": "^25.0.1",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
+  }
 }
