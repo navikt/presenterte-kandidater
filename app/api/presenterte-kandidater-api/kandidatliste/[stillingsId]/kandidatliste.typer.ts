@@ -82,7 +82,7 @@ const UtdanningSchema = z.object({
   beskrivelse: z.string(),
   utdannelsessted: z.string(),
   fra: z.string(),
-  til: z.string(),
+  til: z.string().nullable(),
 });
 
 const AnnenGodkjenningSchema = z.object({

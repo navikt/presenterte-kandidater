@@ -5,7 +5,7 @@ import { proxyWithOBO } from '../../oboProxy';
 
 export async function GET(request: Request) {
   if (erLokalt()) {
-    return NextResponse.json({ harSamtykket: false });
+    return NextResponse.json({ harSamtykket: true });
   }
 
   return proxyWithOBO(PresenterteKandidaterAPI, request);

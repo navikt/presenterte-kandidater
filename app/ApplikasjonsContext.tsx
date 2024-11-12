@@ -4,11 +4,13 @@ import { configureLogger } from '@navikt/next-logger';
 import { useRouter } from 'next/navigation';
 import { useQueryState } from 'nuqs';
 import * as React from 'react';
+import { useHentSamtykke } from './api/presenterte-kandidater-api/hentsamtykke/useHentSamtykke';
 import {
   OrganisasjonerDTO,
   useUseOrganisasjoner,
 } from './api/presenterte-kandidater-api/organisasjoner/useOrganisasjoner';
 import { getBasePath } from './util/miljø';
+import Samtykke from './samtykke/page';
 
 interface IApplikasjonsContext {
   organisasjoner?: OrganisasjonerDTO;
@@ -27,6 +29,8 @@ export const ApplikasjonsContextProvider: React.FC<
   ApplikasjonsContextProps
 > = ({ children }) => {
   const { data, isLoading } = useUseOrganisasjoner();
+  const samtykke = useHentSamtykke();
+
   const router = useRouter();
   const [orgnummer, setOrgnummer] = useQueryState('virksomhet');
 
@@ -51,7 +55,7 @@ export const ApplikasjonsContextProvider: React.FC<
       [orgnummer, oppdaterOrgnummer]
     );
 
-  if (isLoading) {
+  if (isLoading || samtykke.isLoading) {
     return <Loader />;
   }
 
@@ -63,7 +67,7 @@ export const ApplikasjonsContextProvider: React.FC<
         orgnrHook: useOrgnrHook,
       }}
     >
-      {children}
+      {samtykke?.data?.harSamtykket ? children : <Samtykke />}
     </ApplikasjonsContext.Provider>
   );
 };
