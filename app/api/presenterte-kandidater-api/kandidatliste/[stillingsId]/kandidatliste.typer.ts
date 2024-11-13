@@ -29,19 +29,10 @@ const KandidatSchema = z.object({
 
 //TODO CvSchema er ikker verifisert med backend
 
-export enum OmfangEnhet {
-  Dag = 'DAG',
-  Måned = 'MANED',
-  Uke = 'UKE',
-  Time = 'TIME',
-}
-
-export const omfangEnhetSchema = z.nativeEnum(OmfangEnhet);
-
 export const kursSchema = z.object({
   tittel: z.string(),
   omfangVerdi: z.number().nullable(),
-  omfangEnhet: omfangEnhetSchema.nullable(),
+  omfangEnhet: z.string().optional().nullable(),
   tilDato: z.string().nullable(),
 });
 

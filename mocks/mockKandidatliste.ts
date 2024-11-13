@@ -3,7 +3,6 @@ import {
   KandidatlisteForStillingDTO,
   KandidatMedCvDTO,
   Kandidatvurdering,
-  OmfangEnhet,
   Språkkompetanse,
 } from '../app/api/presenterte-kandidater-api/kandidatliste/[stillingsId]/kandidatliste.typer';
 import { KandidatlisterDTO } from '../app/api/presenterte-kandidater-api/kandidatlister/kandidatlister.typer';
@@ -103,7 +102,7 @@ const mocketCv: KandidatCvDTO = {
     {
       tittel: 'Sanitet nivå 2',
       tilDato: '2018-01-31',
-      omfangEnhet: OmfangEnhet.Dag,
+      omfangEnhet: 'DAG',
       omfangVerdi: 10,
     },
   ],

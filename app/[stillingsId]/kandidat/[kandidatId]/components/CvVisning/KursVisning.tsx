@@ -1,8 +1,5 @@
 import { Heading } from '@navikt/ds-react';
-import {
-  KursDTO,
-  OmfangEnhet,
-} from '../../../../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/kandidatliste.typer';
+import { KursDTO } from '../../../../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/kandidatliste.typer';
 import { formaterMånedOgÅr } from '../../../../../util/formatering';
 
 export default function Kurs({ kurs }: { kurs: KursDTO }) {
@@ -30,15 +27,16 @@ export default function Kurs({ kurs }: { kurs: KursDTO }) {
   );
 }
 
-function omfangTilVisning(omfangEnhet: OmfangEnhet): string {
+function omfangTilVisning(omfangEnhet: string): string {
   switch (omfangEnhet) {
-    case OmfangEnhet.Time:
+    case 'TIME':
       return 'timer';
-    case OmfangEnhet.Dag:
+    case 'DAG':
       return 'dager';
-    case OmfangEnhet.Uke:
+    case 'UKE':
       return 'uker';
-    case OmfangEnhet.Måned:
+    case 'MANED':
+    case 'MND':
       return 'måneder';
     default:
       return omfangEnhet;
