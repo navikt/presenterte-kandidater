@@ -27,8 +27,6 @@ const KandidatSchema = z.object({
   sistEndret: z.string().optional(),
 });
 
-//TODO CvSchema er ikker verifisert med backend
-
 export const kursSchema = z.object({
   tittel: z.string(),
   omfangVerdi: z.number().nullable(),
