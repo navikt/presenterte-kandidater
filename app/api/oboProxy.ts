@@ -18,10 +18,10 @@ export const proxyWithOBO = async (
     );
   }
   if (!token) {
-    logger.warn('Kunne ikke hente token');
+    logger.warn('Kunne ikke hente token, redirect til login');
     return NextResponse.json(
       { beskrivelse: 'Kunne ikke hente token' },
-      { status: 500 }
+      { status: 401 }
     );
   }
 

@@ -1,7 +1,10 @@
+'use client';
 import { Alert, BodyLong, BodyShort, Button } from '@navikt/ds-react';
 import { logger } from '@navikt/next-logger';
 import * as React from 'react';
+import { useEffect } from 'react';
 import { IFeilmelding } from '../util/feiltyper';
+import { getBasePath } from '../util/miljø';
 
 const Feilmelding: React.FC<IFeilmelding> = ({
   zodError,
@@ -12,6 +15,14 @@ const Feilmelding: React.FC<IFeilmelding> = ({
   url,
 }) => {
   const [showError, setShowError] = React.useState(false);
+
+  useEffect(() => {
+    if (statuskode === 401) {
+      window.location.href = `${getBasePath()}/oauth2/login?redirect=${
+        window.location.pathname
+      }`;
+    }
+  }, [statuskode]);
 
   if (zodError) {
     logger.info('ZodError', zodError);
