@@ -2,6 +2,7 @@
 
 import { Box } from '@navikt/ds-react';
 import { useEffect } from 'react';
+import { getBasePath } from './util/miljø';
 
 export default function Error({
   error,
@@ -10,7 +11,9 @@ export default function Error({
 }) {
   useEffect(() => {
     if (error instanceof Response && error.status === 401) {
-      window.location.href = `/oauth2/login?redirect=${window.location.pathname}`;
+      window.location.href = `${getBasePath()}/oauth2/login?redirect=${
+        window.location.pathname
+      }`;
     }
   }, [error]);
 

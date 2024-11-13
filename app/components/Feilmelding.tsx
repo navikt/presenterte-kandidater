@@ -4,6 +4,7 @@ import { logger } from '@navikt/next-logger';
 import * as React from 'react';
 import { useEffect } from 'react';
 import { IFeilmelding } from '../util/feiltyper';
+import { getBasePath } from '../util/miljø';
 
 const Feilmelding: React.FC<IFeilmelding> = ({
   zodError,
@@ -17,7 +18,9 @@ const Feilmelding: React.FC<IFeilmelding> = ({
 
   useEffect(() => {
     if (statuskode === 401) {
-      window.location.href = `/oauth2/login?redirect=${window.location.pathname}`;
+      window.location.href = `${getBasePath()}/oauth2/login?redirect=${
+        window.location.pathname
+      }`;
     }
   }, [statuskode]);
 
