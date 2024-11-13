@@ -35,7 +35,6 @@ function omfangTilVisning(omfangEnhet: string): string {
       return 'dager';
     case 'UKE':
       return 'uker';
-    case 'MANED':
     case 'MND':
       return 'måneder';
     default:
