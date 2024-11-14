@@ -82,7 +82,7 @@ const AnnenGodkjenningSchema = z.object({
 export const CvSchema = z.object({
   fornavn: z.string(),
   etternavn: z.string(),
-  bosted: z.string(),
+  bosted: z.string().nullable(),
   mobiltelefonnummer: z.string().nullable(),
   telefonnummer: z.string().nullable(),
   epost: z.string().nullable(),
