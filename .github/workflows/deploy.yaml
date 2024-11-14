@@ -5,11 +5,11 @@ on:
 
 jobs:
   build-and-deploy:
-    name: TOI NextJS-workflow
+    name: NextJS
     uses: navikt/toi-github-actions-workflows/.github/workflows/build-and-deploy-nextjs.yaml@main
     with:
-      app: presenterte-kandidater
-      deploy-to-dev-if-branch-name-is: deploy-script
+      app: 'presenterte-kandidater'
+      deploy-to-dev-if-branch-name-is: 'deploy-script'
     secrets: inherit
     permissions:
       contents: read
