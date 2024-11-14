@@ -8,7 +8,7 @@ jobs:
     name: Next
     uses: navikt/toi-github-actions-workflows/.github/workflows/build-and-deploy-nextjs.yaml@main
     with:
-      app: 'presenterte-kandidater'
+      app_name: 'presenterte-kandidater'
       deploy-to-dev-if-branch-name-is: 'deploy-script'
     secrets: inherit
     permissions:
