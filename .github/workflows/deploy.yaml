@@ -5,7 +5,7 @@ on:
 
 jobs:
   build-and-deploy:
-    name: NextJS
+    name: Next
     uses: navikt/toi-github-actions-workflows/.github/workflows/build-and-deploy-nextjs.yaml@main
     with:
       app: 'presenterte-kandidater'
