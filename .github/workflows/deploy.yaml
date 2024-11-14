@@ -1,113 +1,21 @@
-name: Build, Scan and Deploy
-
-on: [push, workflow_dispatch]
-
-permissions:
-  contents: read
-  id-token: write
+name: Bygg og Deploy NextJS
+on:
+  push:
+    branches:
+      - main
+      - master
+      - dev
+  workflow_dispatch: # Legger til mulighet for manuell kjøring
 
 jobs:
-  build:
-    name: 🏗️ Build and Push
-    runs-on: ubuntu-latest
-    steps:
-      - name: 🔄 Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: 📦 Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20.14.0'
-          registry-url: 'https://npm.pkg.github.com'
-
-      - name: 📥 Install Dependencies
-        run: |
-          echo "::group::Installing NPM packages"
-          npm ci
-          echo "::endgroup::"
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
-
-      - name: 🛠️ Build Next.js Application
-        run: |
-          echo "::group::Building Next.js application"
-          npm run build
-          echo "::endgroup::"
-
-      - name: 🐳 Push Docker image to GAR
-        id: docker-build-push
-        uses: nais/docker-build-push@v0
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
-        with:
-          team: toi
-          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
-          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
-          build_secrets: 'NODE_AUTH_TOKEN=${{ secrets.READER_TOKEN }}'
-          tag: ${{ github.ref == 'refs/heads/main' && 'latest' || github.sha }}
-    outputs:
-      image: ${{ steps.docker-build-push.outputs.image }}
-
-  call-trivy-security-scan:
-    name: 🔒 Security Scan
-    needs: build
-    uses: navikt/toi-github-actions-workflows/.github/workflows/trivy-security-scan.yaml@main
+  build-and-deploy:
+    name: TOI NextJS-workflow
+    uses: navikt/toi-github-actions-workflows/.github/workflows/build-and-deploy-nextjs.yaml@main
     with:
-      image: ${{ needs.build.outputs.image }}
+      app: presenterte-kandidater
+      deploy-to-dev-if-branch-name-is: deploy-script
+    secrets: inherit
     permissions:
+      contents: read
       id-token: write
       security-events: write
-    secrets: inherit
-
-  deploy-til-dev:
-    name: 🚀 Deploy to dev-gcp
-    needs:
-      - build
-    runs-on: ubuntu-latest
-    steps:
-      - name: 🔄 Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: 📦 Deploy to Dev
-        uses: nais/deploy/actions/deploy@v2
-        env:
-          CLUSTER: dev-gcp
-          RESOURCE: deploy/dev-gcp.yaml
-          VAR: image=${{ needs.build.outputs.image }}
-
-  deploy-to-prod:
-    name: 🚀 Deploy to prod-gcp
-    needs:
-      - build
-      - call-trivy-security-scan
-      - deploy-til-dev
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    steps:
-      - name: 🔄 Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: 📦 Deploy to Prod
-        uses: nais/deploy/actions/deploy@v2
-        env:
-          CLUSTER: prod-gcp
-          RESOURCE: deploy/prod-gcp.yaml
-          VAR: image=${{ needs.build.outputs.image }}
-
-      - name: 📝 Deployment Summary
-        if: success()
-        run: |
-          echo "## Deployment Complete! 🎉" >> $GITHUB_STEP_SUMMARY
-          echo "* Image: \`${{ needs.build.outputs.image }}\`" >> $GITHUB_STEP_SUMMARY
-          echo "* Branch: \`${{ github.ref_name }}\`" >> $GITHUB_STEP_SUMMARY
-          echo "* Commit: \`${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY
-          echo "* Environment: Production" >> $GITHUB_STEP_SUMMARY
-
-      - name: ⚠️ Deployment Failed
-        if: failure()
-        run: |
-          echo "## Deployment Failed ❌" >> $GITHUB_STEP_SUMMARY
-          echo "* Image: \`${{ needs.build.outputs.image }}\`" >> $GITHUB_STEP_SUMMARY
-          echo "* Branch: \`${{ github.ref_name }}\`" >> $GITHUB_STEP_SUMMARY
-          echo "* Environment: Production" >> $GITHUB_STEP_SUMMARY
-          echo "Please check the logs for more details." >> $GITHUB_STEP_SUMMARY
