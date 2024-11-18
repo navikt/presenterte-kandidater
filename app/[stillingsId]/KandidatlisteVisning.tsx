@@ -52,69 +52,77 @@ const KandidatlisteVisning: React.FC<KandidatlisteVisningProps> = ({
                 {tittel}
               </Heading>
 
-              <NavLink
-                className='self-start'
-                href={`${visStillingUrl}/${stillingId}`}
-                target='__blank'
-              >
-                Se stilling
-                <ExternalLink aria-hidden />
-              </NavLink>
-
-              {kandidater.length === 0 ? (
-                <BodyLong>
-                  Det er foreløpig ingen kandidater i denne kandidatlisten.
-                </BodyLong>
+              {data.kandidatliste.slettet ? (
+                <div>Stillingen er slettet og kan ikke vises.</div>
               ) : (
-                <>
-                  <GruppeMedKandidater
-                    vurdering={Kandidatvurdering.TilVurdering}
-                    icon={
-                      <Vurderingsikon
+                <div>
+                  <NavLink
+                    className='self-start'
+                    href={`${visStillingUrl}/${stillingId}`}
+                    target='__blank'
+                  >
+                    Se stilling
+                    <ExternalLink aria-hidden />
+                  </NavLink>
+
+                  {kandidater.length === 0 ? (
+                    <BodyLong>
+                      Det er foreløpig ingen kandidater i denne kandidatlisten.
+                    </BodyLong>
+                  ) : (
+                    <>
+                      <GruppeMedKandidater
                         vurdering={Kandidatvurdering.TilVurdering}
+                        icon={
+                          <Vurderingsikon
+                            vurdering={Kandidatvurdering.TilVurdering}
+                          />
+                        }
+                        kandidater={kandidater}
+                        stillingId={stillingId}
                       />
-                    }
-                    kandidater={kandidater}
-                    stillingId={stillingId}
-                  />
 
-                  <GruppeMedKandidater
-                    vurdering={Kandidatvurdering.Aktuell}
-                    icon={
-                      <Vurderingsikon vurdering={Kandidatvurdering.Aktuell} />
-                    }
-                    kandidater={kandidater}
-                    stillingId={stillingId}
-                  />
+                      <GruppeMedKandidater
+                        vurdering={Kandidatvurdering.Aktuell}
+                        icon={
+                          <Vurderingsikon
+                            vurdering={Kandidatvurdering.Aktuell}
+                          />
+                        }
+                        kandidater={kandidater}
+                        stillingId={stillingId}
+                      />
 
-                  <GruppeMedKandidater
-                    vurdering={Kandidatvurdering.FåttJobben}
-                    icon={
-                      <Vurderingsikon
+                      <GruppeMedKandidater
                         vurdering={Kandidatvurdering.FåttJobben}
+                        icon={
+                          <Vurderingsikon
+                            vurdering={Kandidatvurdering.FåttJobben}
+                          />
+                        }
+                        kandidater={kandidater}
+                        stillingId={stillingId}
                       />
-                    }
-                    kandidater={kandidater}
-                    stillingId={stillingId}
-                  />
 
-                  <GruppeMedKandidater
-                    vurdering={Kandidatvurdering.IkkeAktuell}
-                    icon={
-                      <Vurderingsikon
+                      <GruppeMedKandidater
                         vurdering={Kandidatvurdering.IkkeAktuell}
+                        icon={
+                          <Vurderingsikon
+                            vurdering={Kandidatvurdering.IkkeAktuell}
+                          />
+                        }
+                        kandidater={kandidater}
+                        stillingId={stillingId}
                       />
-                    }
-                    kandidater={kandidater}
-                    stillingId={stillingId}
-                  />
 
-                  <GruppeMedKandidater
-                    icon={<Close />}
-                    kandidater={kandidater}
-                    stillingId={stillingId}
-                  />
-                </>
+                      <GruppeMedKandidater
+                        icon={<Close />}
+                        kandidater={kandidater}
+                        stillingId={stillingId}
+                      />
+                    </>
+                  )}
+                </div>
               )}
             </Box>
             <Spørreskjemalenke />
