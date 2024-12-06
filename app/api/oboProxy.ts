@@ -116,14 +116,11 @@ export const proxyWithOBO = async (
         originalUrl,
       obj: error,
     });
-    logger.error({
-      msg:
-        'Feil ved proxying av forespørselen til url:' +
-        requestUrl +
-        ' fra url: ' +
-        originalUrl,
-      obj: error,
-    });
+    if (error instanceof Error) {
+      logger.error(error, `Feil ved proxying av forespørselen til url: ${requestUrl} fra url: ${originalUrl}`);
+    } else {
+      logger.error({ msg: 'Unknown error', error }, `Feil ved proxying av forespørselen til url: ${requestUrl} fra url: ${originalUrl}`);
+    }
     return NextResponse.json(
       { beskrivelse: error instanceof Error ? error.message : 'Feil i proxy' },
       {
