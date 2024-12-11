@@ -11,7 +11,6 @@ spec:
           rules:
               - alert: presenterte-kandidater
                 expr: kube_deployment_status_replicas_available{deployment="presenterte-kandidater"} == 0
-
                 for: 1s
                 annotations:
                     summary: Appen er nede
