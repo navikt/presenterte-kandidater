@@ -88,7 +88,7 @@ export const proxyWithOBO = async (
           body,
           ok,
         },
-        'Feil respons i proxy'
+        'Response status er ikke OK i proxy'
       );
     }
 
