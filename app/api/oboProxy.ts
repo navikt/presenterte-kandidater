@@ -75,11 +75,6 @@ export const proxyWithOBO = async (
     const response = await fetch(requestUrl, fetchOptions);
 
     if (!response.ok) {
-      console.error({
-        msg: 'HTTP error! Url: ' + requestUrl + ' fra url: ' + originalUrl,
-        obj: response,
-      });
-
       const { status, statusText, url, body, ok, headers } = response;
 
       logger.error(
@@ -121,14 +116,6 @@ export const proxyWithOBO = async (
       message: 'Non-JSON content received',
     });
   } catch (error: unknown) {
-    console.error({
-      msg:
-        'Feil ved proxying av forespørselen til url:' +
-        requestUrl +
-        ' fra url: ' +
-        originalUrl,
-      obj: error,
-    });
     if (error instanceof Error) {
       logger.error(
         error,
