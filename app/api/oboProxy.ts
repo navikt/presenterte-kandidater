@@ -90,8 +90,6 @@ export const proxyWithOBO = async (
         },
         'Feil respons i proxy'
       );
-
-      throw new Error(`HTTP error! status: ${response.status}`);
     }
 
     const contentType = response.headers.get('Content-Type');
