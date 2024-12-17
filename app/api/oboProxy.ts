@@ -79,10 +79,23 @@ export const proxyWithOBO = async (
         msg: 'HTTP error! Url: ' + requestUrl + ' fra url: ' + originalUrl,
         obj: response,
       });
-      logger.error({
-        msg: 'HTTP error! Url: ' + requestUrl + ' fra url: ' + originalUrl,
-        obj: response,
-      });
+
+      const { status, statusText, url, body, ok, headers } = response;
+
+      logger.error(
+        {
+          headers,
+          status,
+          statusText,
+          url,
+          tilUrl: requestUrl,
+          fraUrl: originalUrl,
+          body,
+          ok,
+        },
+        'Feil respons i proxy'
+      );
+
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
@@ -117,9 +130,15 @@ export const proxyWithOBO = async (
       obj: error,
     });
     if (error instanceof Error) {
-      logger.error(error, `Feil ved proxying av forespørselen til url: ${requestUrl} fra url: ${originalUrl}`);
+      logger.error(
+        error,
+        `Feil ved proxying av forespørselen til url: ${requestUrl} fra url: ${originalUrl}`
+      );
     } else {
-      logger.error({ msg: 'Unknown error', error }, `Feil ved proxying av forespørselen til url: ${requestUrl} fra url: ${originalUrl}`);
+      logger.error(
+        { msg: 'Unknown error', error },
+        `Feil ved proxying av forespørselen til url: ${requestUrl} fra url: ${originalUrl}`
+      );
     }
     return NextResponse.json(
       { beskrivelse: error instanceof Error ? error.message : 'Feil i proxy' },
