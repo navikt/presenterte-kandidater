@@ -11,7 +11,7 @@ jobs:
       app_name: 'presenterte-kandidater'
       dev-vars-path: '.nais/dev-gcp.json'
       prod-vars-path: '.nais/prod-gcp.json'
-      deploy-to-dev-if-branch-name-is: 'logger-response'
+      deploy-to-dev-if-branch-name-is: 'nais-struktur'
     secrets: inherit
     permissions:
       contents: read
