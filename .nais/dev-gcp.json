@@ -1,0 +1,7 @@
+{
+  "ingresses": [
+    "https://presenterte-kandidater.intern.dev.nav.no/kandidatliste",
+    "https://presenterte-kandidater.ansatt.dev.nav.no/kandidatliste"
+  ],
+  "min_replicas": 1
+}

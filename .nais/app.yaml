@@ -10,13 +10,11 @@ spec:
     image: {{ image }}
     port: 3000
     replicas:
-        min: 1
+        min: {{ min_replicas }}
     resources:
         requests:
             cpu: 50m
-    ingresses:
-        - https://presenterte-kandidater.intern.dev.nav.no/kandidatliste
-        - https://presenterte-kandidater.ansatt.dev.nav.no/kandidatliste
+    ingresses: {{ ingresses }}
     liveness:
         initialDelay: 20
         path: /kandidatliste/api/internal/isAlive

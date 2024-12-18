@@ -1,0 +1,4 @@
+{
+  "ingresses": ["https://arbeidsgiver.nav.no/kandidatliste"],
+  "min_replicas": 2
+}
