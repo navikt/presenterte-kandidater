@@ -14,7 +14,10 @@ spec:
     resources:
         requests:
             cpu: 50m
-    ingresses: {{ ingresses }}
+    ingresses:
+        {{#each ingresses as |url|}}
+        - {{url}}
+        {{/each}}
     liveness:
         initialDelay: 20
         path: /kandidatliste/api/internal/isAlive
