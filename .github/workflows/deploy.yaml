@@ -8,6 +8,7 @@ jobs:
     name: Next
     uses: navikt/toi-github-actions-workflows/.github/workflows/build-and-deploy-nextjs.yaml@main
     with:
+      pnpm: true
       app_name: 'presenterte-kandidater'
       dev-vars-path: '.nais/dev-gcp.json'
       prod-vars-path: '.nais/prod-gcp.json'
