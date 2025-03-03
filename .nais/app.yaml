@@ -18,12 +18,12 @@ spec:
         {{#each ingresses as |url|}}
         - {{url}}
         {{/each}}
-    # liveness:
-    #     initialDelay: 20
-    #     path: /kandidatliste/api/internal/isAlive
-    # readiness:
-    #     initialDelay: 20
-    #     path: /kandidatliste/api/internal/isReady
+    liveness:
+        initialDelay: 20
+        path: /kandidatliste/api/internal/isAlive
+    readiness:
+        initialDelay: 20
+        path: /kandidatliste/api/internal/isReady
     accessPolicy:
         outbound:
             rules:

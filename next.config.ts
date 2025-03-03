@@ -2,7 +2,8 @@
 const nextConfig = {
   output: 'standalone',
   transpilePackages: ['@navikt/ds-react', '@navikt/ds-css', '@navikt/navspa'],
-  productionBrowserSourceMaps: true,
+  basePath: process.env.NODE_ENV === 'development' ? '' : '/kandidatliste',
+  assetPrefix: '/kandidatliste',
   reactStrictMode: true,
   experimental: {
     optimizePackageImports: ['@navikt/ds-react', '@navikt/aksel-icons'],

@@ -29,9 +29,6 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
 }
 
 export const config = {
-  matcher: [
-    // Match all request paths except those starting with:
-    '/((?!kandidatliste/api/internal/|api/|_next/|favicon.ico|internal/).*)',
-  ],
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
   missing: [{ type: 'header', key: 'x-path' }],
 };
