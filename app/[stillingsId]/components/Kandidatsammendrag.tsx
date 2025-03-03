@@ -27,12 +27,12 @@ const Kandidatsammendrag: FunctionComponent<Props> = ({
   const { kompetanse, arbeidserfaring } = kandidat.cv;
 
   return (
-    <li className='flex flex-col items-start p-4 [&:not(:last-child)]:border-b-2 [&:not(:last-child)]:border-[--a-gray-200]'>
+    <li className='flex flex-col items-start p-4 [&:not(:last-child)]:border-b-2 [&:not(:last-child)]:border-gray-200'>
       <Link
         href={`/${stillingId}/kandidat/${kandidat.kandidat.uuid}?virksomhet=${valgtOrganisasjonsnummer}`}
         className='navds-link'
       >
-        <span className='text-[--a-font-size-xlarge]'>
+        <span className='text-font-size-xlarge'>
           {visKandidatnavn(kandidat.cv)}
         </span>
       </Link>
@@ -59,14 +59,12 @@ export const KandidatsammendragUtenCv: FunctionComponent<Props> = ({
   const { valgtOrganisasjonsnummer } = useApplikasjonContext();
 
   return (
-    <li className='flex flex-col items-start p-4 [&:not(:last-child)]:border-b-2 [&:not(:last-child)]:border-[--a-gray-200]'>
+    <li className='flex flex-col items-start p-4 [&:not(:last-child)]:border-b-2 [&:not(:last-child)]:border-gray-200'>
       <Link
         href={`/${stillingId}/kandidat/${kandidat.kandidat.uuid}?virksomhet=${valgtOrganisasjonsnummer}`}
         className='navds-link'
       >
-        <span className='text-[--a-font-size-xlarge]'>
-          Utilgjengelig kandidat
-        </span>
+        <span className='text-font-size-xlarge'>Utilgjengelig kandidat</span>
       </Link>
       <BodyShort>Kandidaten er ikke lenger tilgjengelig</BodyShort>
     </li>

@@ -10,7 +10,7 @@ type GruppeProps = {
 export default function Gruppe({ icon, tittel, children }: GruppeProps) {
   return (
     <section className='self-stretch mt-8 md:px-6'>
-      <div className='flex items-center gap-4 px-6 py-2 -mx-4 md:-mx-6 mb-8 bg-[--a-gray-50] border-b border-[--a-gray-400]'>
+      <div className='flex items-center gap-4 px-6 py-2 -mx-4 md:-mx-6 mb-8 bg-gray-50 border-b border-gray-400'>
         <div className='w-6 h-6'>{icon}</div>
         <Heading level='3' size='small'>
           {tittel}

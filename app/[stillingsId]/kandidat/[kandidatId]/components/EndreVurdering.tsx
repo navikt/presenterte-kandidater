@@ -97,10 +97,7 @@ export default function EndreVurdering({
       <input type='hidden' name='handling' value='endre-vurdering' />
 
       {endreVurdering.error && (
-        <BodyShort
-          aria-live='assertive'
-          className='mt-2 text-[--a-text-danger]'
-        >
+        <BodyShort aria-live='assertive' className='mt-2 text-red-700'>
           Det skjedde en feil ved endring av vurdering
         </BodyShort>
       )}

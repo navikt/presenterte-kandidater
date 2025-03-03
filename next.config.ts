@@ -1,9 +1,8 @@
-import { NextConfig } from 'next';
-
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   output: 'standalone',
-  basePath: process.env.NODE_ENV === 'development' ? '' : '/kandidatliste',
-  assetPrefix: '/kandidatliste',
+  transpilePackages: ['@navikt/ds-react', '@navikt/ds-css', '@navikt/navspa'],
+  productionBrowserSourceMaps: true,
   reactStrictMode: true,
   experimental: {
     optimizePackageImports: ['@navikt/ds-react', '@navikt/aksel-icons'],

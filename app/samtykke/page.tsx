@@ -150,7 +150,7 @@ export default function Samtykke() {
                   </Checkbox>
                 </CheckboxGroup>
                 {feilmelding && (
-                  <BodyShort className='text-[--a-text-danger] italic'>
+                  <BodyShort className='text-red-800 italic'>
                     {feilmelding}
                   </BodyShort>
                 )}

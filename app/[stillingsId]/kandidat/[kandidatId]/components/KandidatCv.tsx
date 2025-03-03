@@ -1,16 +1,16 @@
 import {
-  Attachment,
-  Bag,
-  Calender,
-  Car,
-  Cognition,
-  Dialog,
-  FileContent,
-  Law,
-  Office1,
-  Office2,
-  Star,
-} from '@navikt/ds-icons';
+  BriefcaseClockIcon,
+  BriefcaseIcon,
+  CarIcon,
+  ClipboardCheckmarkIcon,
+  ClipboardIcon,
+  HatSchoolIcon,
+  LanguageIcon,
+  PersonCircleIcon,
+  SealCheckmarkIcon,
+  ShieldCheckmarkIcon,
+  ShieldLockIcon,
+} from '@navikt/aksel-icons';
 import { BodyLong, BodyShort, Box, Heading } from '@navikt/ds-react';
 import { KandidatCvDTO } from '../../../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/kandidatliste.typer';
 import AnnenErfaring from './CvVisning/AnnenErfaringVisning';
@@ -69,15 +69,15 @@ const KandidatCv: React.FC<KandidatCv> = ({ cv, kandidatId }) => {
         kandidatId={kandidatId}
       />
 
-      <Gruppe icon={<Star aria-hidden />} tittel='Kompetanse'>
+      <Gruppe icon={<ClipboardCheckmarkIcon aria-hidden />} tittel='Kompetanse'>
         <Liste elementer={cv.kompetanse} />
       </Gruppe>
 
-      <Gruppe icon={<FileContent aria-hidden />} tittel='Sammendrag'>
+      <Gruppe icon={<PersonCircleIcon aria-hidden />} tittel='Sammendrag'>
         {cv.sammendrag}
       </Gruppe>
 
-      <Gruppe icon={<Office2 aria-hidden />} tittel='Utdanning'>
+      <Gruppe icon={<HatSchoolIcon aria-hidden />} tittel='Utdanning'>
         {cv.utdanning.map((utdanning) => (
           <Utdanning key={utdanning.utdanningsretning} utdanning={utdanning} />
         ))}
@@ -85,14 +85,14 @@ const KandidatCv: React.FC<KandidatCv> = ({ cv, kandidatId }) => {
 
       {cv.fagdokumentasjon.length > 0 && (
         <Gruppe
-          icon={<Bag aria-hidden />}
+          icon={<SealCheckmarkIcon aria-hidden />}
           tittel='Fagbrev, svennebrev og mesterbrev'
         >
           <Liste elementer={cv.fagdokumentasjon} />
         </Gruppe>
       )}
 
-      <Gruppe icon={<Office1 aria-hidden />} tittel='Arbeidserfaring'>
+      <Gruppe icon={<BriefcaseIcon aria-hidden />} tittel='Arbeidserfaring'>
         {cv.arbeidserfaring.map((arbeidserfaring) => (
           <Arbeidserfaring
             key={arbeidserfaring.stillingstittel}
@@ -102,13 +102,19 @@ const KandidatCv: React.FC<KandidatCv> = ({ cv, kandidatId }) => {
       </Gruppe>
 
       {cv.godkjenninger.length > 0 && (
-        <Gruppe icon={<Law aria-hidden />} tittel='Offentlige godkjenninger'>
+        <Gruppe
+          icon={<ShieldLockIcon aria-hidden />}
+          tittel='Offentlige godkjenninger'
+        >
           <Liste elementer={cv.godkjenninger} />
         </Gruppe>
       )}
 
       {cv.andreGodkjenninger.length > 0 && (
-        <Gruppe icon={<Attachment aria-hidden />} tittel='Andre godkjenninger'>
+        <Gruppe
+          icon={<ShieldCheckmarkIcon aria-hidden />}
+          tittel='Andre godkjenninger'
+        >
           {cv.andreGodkjenninger.map((godkjenning) => (
             <AnnenGodkjenning
               key={godkjenning.tittel}
@@ -119,7 +125,7 @@ const KandidatCv: React.FC<KandidatCv> = ({ cv, kandidatId }) => {
       )}
 
       {cv.førerkort.length > 0 && (
-        <Gruppe icon={<Car aria-hidden />} tittel='Førerkort'>
+        <Gruppe icon={<CarIcon aria-hidden />} tittel='Førerkort'>
           {cv.førerkort.map((førerkort) => (
             <Førerkort
               key={førerkort.førerkortKodeKlasse}
@@ -130,7 +136,7 @@ const KandidatCv: React.FC<KandidatCv> = ({ cv, kandidatId }) => {
       )}
 
       {cv.språk.length > 0 && (
-        <Gruppe icon={<Dialog aria-hidden />} tittel='Språk'>
+        <Gruppe icon={<LanguageIcon aria-hidden />} tittel='Språk'>
           {cv.språk.map((språk) => (
             <Språk key={språk.navn} språk={språk} />
           ))}
@@ -138,7 +144,7 @@ const KandidatCv: React.FC<KandidatCv> = ({ cv, kandidatId }) => {
       )}
 
       {cv.kurs.length > 0 && (
-        <Gruppe icon={<Calender aria-hidden />} tittel='Kurs'>
+        <Gruppe icon={<ClipboardIcon aria-hidden />} tittel='Kurs'>
           {cv.kurs.map((kurs) => (
             <Kurs key={kurs.tittel} kurs={kurs} />
           ))}
@@ -146,7 +152,10 @@ const KandidatCv: React.FC<KandidatCv> = ({ cv, kandidatId }) => {
       )}
 
       {cv.andreErfaringer.length > 0 && (
-        <Gruppe icon={<Cognition aria-hidden />} tittel='Andre erfaringer'>
+        <Gruppe
+          icon={<BriefcaseClockIcon aria-hidden />}
+          tittel='Andre erfaringer'
+        >
           {cv.andreErfaringer.map((erfaring) => (
             <AnnenErfaring key={erfaring.beskrivelse} erfaring={erfaring} />
           ))}

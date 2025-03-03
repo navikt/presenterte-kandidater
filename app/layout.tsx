@@ -81,7 +81,7 @@ export default async function RootLayout({
         <meta name='viewport' content='width=device-width,initial-scale=1' />
         <Decorator.HeadAssets />
       </head>
-      <body className='min-h-screen bg-[--a-gray-100]'>
+      <body className='min-h-screen bg-gray-100'>
         <Decorator.Header />
         <RootSuspense>
           <div className='min-h-screen'>

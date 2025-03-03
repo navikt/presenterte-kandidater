@@ -39,7 +39,7 @@ const GruppeMedKandidater: React.FC<GruppeMedKandidaterProps> = ({
             </Heading>
           </div>
         </Accordion.Header>
-        <Accordion.Content className='p-0 border-b-0'>
+        <Accordion.Content>
           <ul className='list-none p-0 m-0'>
             {kandidaterMedGittStatus.map((kandidat) => (
               <Kandidatsammendrag

@@ -86,7 +86,7 @@ export default function Slettemodal({ cv, kandidatId, stillingsId }: Props) {
           {slettAction.error && (
             <BodyShort
               aria-live='assertive'
-              className='text-right mt-2 text-[--a-text-danger]'
+              className='text-right mt-2 text-red-700'
             >
               Det skjedde en feil ved sletting av kandidat
             </BodyShort>
