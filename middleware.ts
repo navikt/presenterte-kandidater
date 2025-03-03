@@ -29,6 +29,8 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
 }
 
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
+  matcher: [
+    '/((?!api/internal/isAlive|api/internal/isReady|api|_next/static|_next/image|favicon.ico|internal).*)',
+  ],
   missing: [{ type: 'header', key: 'x-path' }],
 };
