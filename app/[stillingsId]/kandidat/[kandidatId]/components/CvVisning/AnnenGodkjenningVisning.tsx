@@ -1,7 +1,7 @@
-import { Heading } from '@navikt/ds-react';
-import { Fragment } from 'react';
 import { AnnenGodkjenningDTO } from '../../../../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/kandidatliste.typer';
 import { formaterMånedOgÅr } from '../../../../../util/formatering';
+import { Heading } from '@navikt/ds-react';
+import { Fragment } from 'react';
 
 export default function AnnenGodkjenning({
   godkjenning,

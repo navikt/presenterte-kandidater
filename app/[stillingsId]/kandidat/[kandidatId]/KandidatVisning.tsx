@@ -1,20 +1,19 @@
 'use client';
 
-import { ReadMore } from '@navikt/ds-react';
-
+import { useApplikasjonContext } from '../../../ApplikasjonsContext';
 import {
   ArbeidsgiversVurderingDTO,
   KandidatlisteDTO,
   KandidatMedCvDTO,
   Kandidatvurdering,
 } from '../../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/kandidatliste.typer';
-import { useApplikasjonContext } from '../../../ApplikasjonsContext';
 import Tilbakelenke from '../../../components/TilbakeLenke';
 import Spørreskjemalenke from '../../components/Spørreskjemalenke';
 import EndreVurdering from './components/EndreVurdering';
 import KandidatCv from './components/KandidatCv';
 import { KandidatUtenCv } from './components/KandidatUtenCv';
 import Slettemodal from './components/SlettModal';
+import { ReadMore } from '@navikt/ds-react';
 
 export default function Kandidatvisning({
   kandidat,

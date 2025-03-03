@@ -1,5 +1,5 @@
-import { z } from 'zod';
 import { PresenterteKandidaterAPI } from '../../api-routes';
+import { z } from 'zod';
 
 export const kandidatlisterEndepunkt = (virksomhetsNummer: string) =>
   `${PresenterteKandidaterAPI.internUrl}/kandidatlister?virksomhetsnummer=${virksomhetsNummer}`;

@@ -1,7 +1,7 @@
-import { logger } from '@navikt/next-logger';
-import { ZodSchema } from 'zod';
 import { kastError } from '../util/kastError';
 import { getBasePath } from '../util/miljø';
+import { logger } from '@navikt/next-logger';
+import { ZodSchema } from 'zod';
 
 export const getAPIwithSchema = <T>(
   schema: ZodSchema<T>,

@@ -1,6 +1,6 @@
-import useSWRMutation from 'swr/mutation';
 import { PresenterteKandidaterAPI } from '../../../api-routes';
 import { deleteApi } from '../../../fetcher';
+import useSWRMutation from 'swr/mutation';
 
 const slettKandidatEndepunkt = (kandidatId: string) =>
   `${PresenterteKandidaterAPI.internUrl}/kandidat/${kandidatId}`;

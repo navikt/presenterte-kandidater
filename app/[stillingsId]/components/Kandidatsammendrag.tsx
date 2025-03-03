@@ -1,11 +1,11 @@
-import { BodyShort } from '@navikt/ds-react';
-import Link from 'next/link';
-import type { FunctionComponent } from 'react';
 import { useApplikasjonContext } from '../../ApplikasjonsContext';
 import {
   KandidatCvDTO,
   KandidatMedCvDTO,
 } from '../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/kandidatliste.typer';
+import { BodyShort } from '@navikt/ds-react';
+import Link from 'next/link';
+import type { FunctionComponent } from 'react';
 
 type Props = {
   kandidat: KandidatMedCvDTO;

@@ -1,11 +1,12 @@
 'use client';
+
 /**
  * Endepunkt /useOrganisasjoner
  */
-import useSWRImmutable from 'swr/immutable';
-import { z } from 'zod';
 import { PresenterteKandidaterAPI } from '../../api-routes';
 import { getAPIwithSchema } from '../../fetcher';
+import useSWRImmutable from 'swr/immutable';
+import { z } from 'zod';
 
 const useOrganisasjonerEndepunkt =
   PresenterteKandidaterAPI.internUrl + '/organisasjoner';

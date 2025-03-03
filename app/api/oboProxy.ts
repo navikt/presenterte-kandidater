@@ -1,8 +1,8 @@
+import { erLokalt } from '../util/miljø';
+import { Iroute } from './api-routes';
 import { logger } from '@navikt/next-logger';
 import { getToken, requestOboToken, TokenResult } from '@navikt/oasis';
 import { NextResponse } from 'next/server';
-import { erLokalt } from '../util/miljø';
-import { Iroute } from './api-routes';
 
 export const proxyWithOBO = async (
   proxy: Iroute,

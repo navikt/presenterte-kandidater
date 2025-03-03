@@ -1,6 +1,6 @@
-import useSWRMutation from 'swr/mutation';
 import { PresenterteKandidaterAPI } from '../../../../api-routes';
 import { putApi } from '../../../../fetcher';
+import useSWRMutation from 'swr/mutation';
 
 const endreVurderingEndepunkt = (kandidatId: string) =>
   `${PresenterteKandidaterAPI.internUrl}/kandidat/${kandidatId}/vurdering`;

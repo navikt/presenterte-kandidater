@@ -1,6 +1,7 @@
+import { hentMiljø, Miljø } from './app/util/miljø';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
-import { hentMiljø, Miljø } from './app/util/miljø';
+
 /**
  * This middleware is purely a hack to be able to provide the react server component auth
  * with the current path. This is needed to be able to redirect to the correct page after

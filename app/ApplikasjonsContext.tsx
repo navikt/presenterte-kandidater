@@ -1,16 +1,17 @@
 'use client';
-import { Loader } from '@navikt/ds-react';
-import { configureLogger } from '@navikt/next-logger';
-import { useRouter } from 'next/navigation';
-import { useQueryState } from 'nuqs';
-import * as React from 'react';
+
 import { useHentSamtykke } from './api/presenterte-kandidater-api/hentsamtykke/useHentSamtykke';
 import {
   OrganisasjonerDTO,
   useUseOrganisasjoner,
 } from './api/presenterte-kandidater-api/organisasjoner/useOrganisasjoner';
-import { getBasePath } from './util/miljø';
 import Samtykke from './samtykke/page';
+import { getBasePath } from './util/miljø';
+import { Loader } from '@navikt/ds-react';
+import { configureLogger } from '@navikt/next-logger';
+import { useRouter } from 'next/navigation';
+import { useQueryState } from 'nuqs';
+import * as React from 'react';
 
 interface IApplikasjonsContext {
   organisasjoner?: OrganisasjonerDTO;

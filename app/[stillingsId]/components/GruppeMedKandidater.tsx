@@ -1,11 +1,11 @@
-import { Accordion, Heading } from '@navikt/ds-react';
-import * as React from 'react';
-import { ReactNode } from 'react';
 import {
   KandidatMedCvDTO,
   Kandidatvurdering,
 } from '../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/kandidatliste.typer';
 import Kandidatsammendrag from './Kandidatsammendrag';
+import { Accordion, Heading } from '@navikt/ds-react';
+import * as React from 'react';
+import { ReactNode } from 'react';
 
 export interface GruppeMedKandidaterProps {
   vurdering?: Kandidatvurdering;

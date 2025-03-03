@@ -1,3 +1,13 @@
+import { KandidatCvDTO } from '../../../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/kandidatliste.typer';
+import AnnenErfaring from './CvVisning/AnnenErfaringVisning';
+import AnnenGodkjenning from './CvVisning/AnnenGodkjenningVisning';
+import Arbeidserfaring from './CvVisning/ArbeidserfaringVisning';
+import Førerkort from './CvVisning/FørerkortVisning';
+import Gruppe from './CvVisning/GruppeVisning';
+import Kurs from './CvVisning/KursVisning';
+import Språk from './CvVisning/SpråkVisning';
+import Utdanning from './CvVisning/UtdanningVisning';
+import Kontaktinformasjon from './Kontaktinformasjon';
 import {
   BriefcaseClockIcon,
   BriefcaseIcon,
@@ -12,16 +22,6 @@ import {
   ShieldLockIcon,
 } from '@navikt/aksel-icons';
 import { BodyLong, BodyShort, Box, Heading } from '@navikt/ds-react';
-import { KandidatCvDTO } from '../../../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/kandidatliste.typer';
-import AnnenErfaring from './CvVisning/AnnenErfaringVisning';
-import AnnenGodkjenning from './CvVisning/AnnenGodkjenningVisning';
-import Arbeidserfaring from './CvVisning/ArbeidserfaringVisning';
-import Førerkort from './CvVisning/FørerkortVisning';
-import Gruppe from './CvVisning/GruppeVisning';
-import Kurs from './CvVisning/KursVisning';
-import Språk from './CvVisning/SpråkVisning';
-import Utdanning from './CvVisning/UtdanningVisning';
-import Kontaktinformasjon from './Kontaktinformasjon';
 
 type KandidatCv = {
   cv: KandidatCvDTO;

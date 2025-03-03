@@ -1,6 +1,6 @@
+import { hentMiljø, Miljø } from './util/miljø';
 import * as amplitude from '@amplitude/analytics-browser';
 import { Types } from '@amplitude/analytics-browser';
-import { hentMiljø, Miljø } from './util/miljø';
 
 export const settOppAmplitude = (): Pick<
   Types.BrowserClient,

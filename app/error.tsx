@@ -1,8 +1,8 @@
 'use client';
 
+import { getBasePath } from './util/miljø';
 import { Box } from '@navikt/ds-react';
 import { useEffect } from 'react';
-import { getBasePath } from './util/miljø';
 
 export default function Error({
   error,

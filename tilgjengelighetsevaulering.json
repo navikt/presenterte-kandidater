@@ -64,31 +64,6 @@
     "type": "@type",
     "language": "@language"
   },
-  "language": "en",
-  "type": "Evaluation",
-  "reportToolVersion": "3.0.3",
-  "defineScope": {
-    "id": "_:defineScope",
-    "scope": {
-      "description": "Alt webinnhold under \"Kandidatlister\" på nav.no > Arbeidsgiver > Min side – arbeidsgiver. Finnes på https://arbeidsgiver.nav.no/kandidatliste.",
-      "title": "Arbeidsgivers kandidatliste"
-    },
-    "conformanceTarget": "AA",
-    "accessibilitySupportBaseline": "Chromium-baserte nettlesere, Firefox og Safari. Både desktop og mobil. Testet med VoiceOver på Mac.",
-    "additionalEvaluationRequirements": "",
-    "wcagVersion": "2.1"
-  },
-  "exploreTarget": {
-    "id": "_:exploreTarget",
-    "essentialFunctionality": "Arbeidsgivers kandidatliste",
-    "pageTypeVariety": "",
-    "technologiesReliedUpon": ["HTML", "CSS", "WAI-ARIA", "JavaScript", "SVG"]
-  },
-  "selectSample": {
-    "id": "_:selectSample",
-    "structuredSample": [],
-    "randomSample": []
-  },
   "auditSample": [
     {
       "type": "Assertion",
@@ -1441,6 +1416,24 @@
       }
     }
   ],
+  "defineScope": {
+    "id": "_:defineScope",
+    "scope": {
+      "description": "Alt webinnhold under \"Kandidatlister\" på nav.no > Arbeidsgiver > Min side – arbeidsgiver. Finnes på https://arbeidsgiver.nav.no/kandidatliste.",
+      "title": "Arbeidsgivers kandidatliste"
+    },
+    "conformanceTarget": "AA",
+    "accessibilitySupportBaseline": "Chromium-baserte nettlesere, Firefox og Safari. Både desktop og mobil. Testet med VoiceOver på Mac.",
+    "additionalEvaluationRequirements": "",
+    "wcagVersion": "2.1"
+  },
+  "exploreTarget": {
+    "id": "_:exploreTarget",
+    "essentialFunctionality": "Arbeidsgivers kandidatliste",
+    "pageTypeVariety": "",
+    "technologiesReliedUpon": ["HTML", "CSS", "WAI-ARIA", "JavaScript", "SVG"]
+  },
+  "language": "en",
   "reportFindings": {
     "date": {
       "type": "http://www.w3.org/TR/NOTE-datetime",
@@ -1457,5 +1450,12 @@
       { "id": "_:selectSample" }
     ],
     "evaluationSpecifics": ""
-  }
+  },
+  "reportToolVersion": "3.0.3",
+  "selectSample": {
+    "id": "_:selectSample",
+    "structuredSample": [],
+    "randomSample": []
+  },
+  "type": "Evaluation"
 }

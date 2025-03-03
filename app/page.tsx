@@ -1,4 +1,5 @@
 'use client';
+
 import Kandidatlister from './Kandidatlister';
 
 export default function Home() {

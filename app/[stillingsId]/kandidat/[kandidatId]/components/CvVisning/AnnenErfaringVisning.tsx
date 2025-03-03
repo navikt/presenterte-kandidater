@@ -1,6 +1,6 @@
-import { Heading } from '@navikt/ds-react';
 import { AnnenErfaringDTO } from '../../../../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/kandidatliste.typer';
 import { formaterPeriode } from '../../../../../util/formatering';
+import { Heading } from '@navikt/ds-react';
 
 type Props = {
   erfaring: AnnenErfaringDTO;

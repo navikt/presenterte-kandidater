@@ -1,16 +1,15 @@
 'use client';
-import { BodyShort, Heading } from '@navikt/ds-react';
-import Link from 'next/link';
 
+import { useApplikasjonContext } from './ApplikasjonsContext';
 import { sendEvent } from './amplitude';
 import { useUseKandidatlister } from './api/presenterte-kandidater-api/kandidatlister/useKandidatlister';
-import { useApplikasjonContext } from './ApplikasjonsContext';
+import IngenOrganisasjoner from './components/IngenOrganisasjoner';
 import SWRLaster from './components/SWRLaster';
-
+import VisKandidatlistesammendrag from './components/VisKandidatlistesammendrag';
+import { BodyShort, Heading } from '@navikt/ds-react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import * as React from 'react';
-import IngenOrganisasjoner from './components/IngenOrganisasjoner';
-import VisKandidatlistesammendrag from './components/VisKandidatlistesammendrag';
 
 const Kandidatlister: React.FC = () => {
   const { valgtOrganisasjonsnummer, organisasjoner } = useApplikasjonContext();

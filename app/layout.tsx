@@ -1,19 +1,17 @@
-import type { Metadata } from 'next';
-
+import { ApplikasjonsContextProvider } from './ApplikasjonsContext';
+import Header from './components/Header';
+import './globals.css';
+import { hentMiljø, Miljø } from './util/miljø';
 import '@navikt/arbeidsgiver-notifikasjon-widget/lib/cjs/index.css';
 import '@navikt/bedriftsmeny/lib/bedriftsmeny.css';
 import '@navikt/ds-css';
-import Script from 'next/script';
-import './globals.css';
-
 import { Loader } from '@navikt/ds-react';
 import { fetchDecoratorReact } from '@navikt/nav-dekoratoren-moduler/ssr';
+import type { Metadata } from 'next';
+import Script from 'next/script';
 import { NuqsAdapter } from 'nuqs/adapters/next';
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
-import { ApplikasjonsContextProvider } from './ApplikasjonsContext';
-import Header from './components/Header';
-import { hentMiljø, Miljø } from './util/miljø';
 
 export const metadata: Metadata = {
   title: 'Foreslåtte kandidater',

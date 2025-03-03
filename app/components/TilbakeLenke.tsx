@@ -1,6 +1,7 @@
 import { ArrowLeftIcon } from '@navikt/aksel-icons';
 import Link from 'next/link';
 import type { FunctionComponent, ReactNode } from 'react';
+
 type Props = {
   href: string;
   children: ReactNode;

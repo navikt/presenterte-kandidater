@@ -1,3 +1,4 @@
+import { Kandidatvurdering } from '../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/kandidatliste.typer';
 import {
   PersonCheckmarkIcon,
   QuestionmarkCircleIcon,
@@ -5,7 +6,6 @@ import {
   ThumbUpIcon,
 } from '@navikt/aksel-icons';
 import type { FunctionComponent } from 'react';
-import { Kandidatvurdering } from '../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/kandidatliste.typer';
 
 type Props = {
   vurdering: Kandidatvurdering;

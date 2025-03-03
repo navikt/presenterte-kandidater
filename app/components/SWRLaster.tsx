@@ -1,8 +1,8 @@
+import Feilmelding from './Feilmelding';
 import { Loader } from '@navikt/ds-react';
 import * as React from 'react';
 import { SWRResponse } from 'swr';
 import { ZodError } from 'zod';
-import Feilmelding from './Feilmelding';
 
 export interface ISWRLasterProps<T> {
   hook: SWRResponse<T, Error> | undefined;
