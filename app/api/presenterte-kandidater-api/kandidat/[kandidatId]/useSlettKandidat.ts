@@ -7,6 +7,6 @@ const slettKandidatEndepunkt = (kandidatId: string) =>
 
 export const useSlettKandidat = (kandidatId: string) => {
   return useSWRMutation(slettKandidatEndepunkt(kandidatId), (url) =>
-    deleteApi(url)
+    deleteApi(url),
   );
 };

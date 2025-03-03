@@ -17,6 +17,6 @@ export type useHentSamtykkeDTO = z.infer<typeof HentSamtykkeSchema>;
 export const useHentSamtykke = () => {
   return useSWRImmutable(
     hentSamtykkeEndepunkt,
-    getAPIwithSchema(HentSamtykkeSchema)
+    getAPIwithSchema(HentSamtykkeSchema),
   );
 };

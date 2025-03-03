@@ -25,5 +25,5 @@ export type OrganisasjonDTO = z.infer<typeof OrganisasjonDTO>;
 export const useUseOrganisasjoner = () =>
   useSWRImmutable(
     useOrganisasjonerEndepunkt,
-    getAPIwithSchema(OrganisasjonerSchema)
+    getAPIwithSchema(OrganisasjonerSchema),
   );

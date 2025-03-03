@@ -7,6 +7,6 @@ const visKontaktinfoEndepunkt = (kandidatId: string) =>
 
 export const useVisKontaktinfo = (kandidatId: string) => {
   return useSWRMutation(visKontaktinfoEndepunkt(kandidatId), (url) =>
-    postApi(url, {})
+    postApi(url, {}),
   );
 };

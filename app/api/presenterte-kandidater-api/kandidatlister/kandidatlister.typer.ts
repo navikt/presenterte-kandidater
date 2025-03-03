@@ -23,7 +23,7 @@ const KandidatlisteMedAntallKandidaterSchema = z.object({
 });
 
 export const KandidatlisterSchema = z.array(
-  KandidatlisteMedAntallKandidaterSchema
+  KandidatlisteMedAntallKandidaterSchema,
 );
 
 export type KandidatlisterDTO = z.infer<typeof KandidatlisterSchema>;

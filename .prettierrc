@@ -1,0 +1,6 @@
+{
+  "jsxSingleQuote": true,
+  "pluginSearchDirs": ["."],
+  "singleQuote": true,
+  "trailingComma": "all"
+}

@@ -3,3 +3,9 @@ package-lock.json
 build
 public/build
 server/build
+.nais
+.next
+.github
+.vscode
+.history
+pnpm-lock.yaml

@@ -15,7 +15,7 @@ const KandidatLaster: React.FC<pageProps> = ({ stillingsId, kandidatId }) => {
     <SWRLaster hook={hook}>
       {(data) => {
         const kandidat = data.kandidater.find(
-          (kandidat) => kandidat.kandidat.uuid === kandidatId
+          (kandidat) => kandidat.kandidat.uuid === kandidatId,
         );
 
         if (!kandidat) {

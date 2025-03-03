@@ -21,7 +21,7 @@ const GruppeMedKandidater: React.FC<GruppeMedKandidaterProps> = ({
   stillingId,
 }) => {
   const kandidaterMedGittStatus = kandidater.filter(
-    (kandidat) => kandidat.kandidat.arbeidsgiversVurdering === vurdering
+    (kandidat) => kandidat.kandidat.arbeidsgiversVurdering === vurdering,
   );
 
   if (kandidaterMedGittStatus.length === 0) {

@@ -11,6 +11,6 @@ import {
 export const useUseKandidatlister = (virksomhetsNummer: string | null) => {
   return useSWRImmutable(
     virksomhetsNummer ? kandidatlisterEndepunkt(virksomhetsNummer) : null,
-    getAPIwithSchema(KandidatlisterSchema)
+    getAPIwithSchema(KandidatlisterSchema),
   );
 };

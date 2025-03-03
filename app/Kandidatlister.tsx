@@ -32,11 +32,11 @@ const Kandidatlister: React.FC = () => {
       {(data) => {
         const aktive =
           data?.filter(
-            (sammendrag) => sammendrag.kandidatliste.status === 'ÅPEN'
+            (sammendrag) => sammendrag.kandidatliste.status === 'ÅPEN',
           ) ?? [];
         const avsluttede =
           data?.filter(
-            (sammendrag) => sammendrag.kandidatliste.status !== 'ÅPEN'
+            (sammendrag) => sammendrag.kandidatliste.status !== 'ÅPEN',
           ) ?? [];
 
         sendEvent('app', 'visning', {
