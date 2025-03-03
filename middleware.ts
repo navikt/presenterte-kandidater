@@ -30,7 +30,8 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
 
 export const config = {
   matcher: [
-    '/((?!api/internal/isAlive|api/internal/isReady|api|_next/static|_next/image|favicon.ico|internal).*)',
+    // Match all request paths except those starting with:
+    '/((?!api/internal/|api/|_next/|favicon.ico|internal/).*)',
   ],
   missing: [{ type: 'header', key: 'x-path' }],
 };
