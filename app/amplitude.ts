@@ -1,6 +1,6 @@
+import { hentMiljø, Miljø } from './util/miljø';
 import * as amplitude from '@amplitude/analytics-browser';
 import { Types } from '@amplitude/analytics-browser';
-import { hentMiljø, Miljø } from './util/miljø';
 
 export const settOppAmplitude = (): Pick<
   Types.BrowserClient,
@@ -28,7 +28,7 @@ export const settOppAmplitude = (): Pick<
         sessions: true,
         elementInteractions: false,
       },
-    }
+    },
   );
 
   return amplitude;
@@ -37,7 +37,7 @@ export const settOppAmplitude = (): Pick<
 export const sendEvent = (
   område: string,
   hendelse: string,
-  data?: object
+  data?: object,
 ): void => {
   const amplitudeInstans = settOppAmplitude();
 
@@ -48,6 +48,6 @@ export const sendEvent = (
 
   amplitudeInstans.logEvent(
     ['#presenterte-kandidater', område, hendelse].join('_'),
-    data
+    data,
   );
 };

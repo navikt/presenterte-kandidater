@@ -1,11 +1,11 @@
-import { Accordion, Heading } from '@navikt/ds-react';
-import * as React from 'react';
-import { ReactNode } from 'react';
 import {
   KandidatMedCvDTO,
   Kandidatvurdering,
 } from '../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/kandidatliste.typer';
 import Kandidatsammendrag from './Kandidatsammendrag';
+import { Accordion, Heading } from '@navikt/ds-react';
+import * as React from 'react';
+import { ReactNode } from 'react';
 
 export interface GruppeMedKandidaterProps {
   vurdering?: Kandidatvurdering;
@@ -21,7 +21,7 @@ const GruppeMedKandidater: React.FC<GruppeMedKandidaterProps> = ({
   stillingId,
 }) => {
   const kandidaterMedGittStatus = kandidater.filter(
-    (kandidat) => kandidat.kandidat.arbeidsgiversVurdering === vurdering
+    (kandidat) => kandidat.kandidat.arbeidsgiversVurdering === vurdering,
   );
 
   if (kandidaterMedGittStatus.length === 0) {
@@ -39,7 +39,7 @@ const GruppeMedKandidater: React.FC<GruppeMedKandidaterProps> = ({
             </Heading>
           </div>
         </Accordion.Header>
-        <Accordion.Content className='p-0 border-b-0'>
+        <Accordion.Content>
           <ul className='list-none p-0 m-0'>
             {kandidaterMedGittStatus.map((kandidat) => (
               <Kandidatsammendrag

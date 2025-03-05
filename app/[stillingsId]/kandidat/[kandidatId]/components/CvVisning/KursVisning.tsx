@@ -1,6 +1,6 @@
-import { Heading } from '@navikt/ds-react';
 import { KursDTO } from '../../../../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/kandidatliste.typer';
 import { formaterMånedOgÅr } from '../../../../../util/formatering';
+import { Heading } from '@navikt/ds-react';
 
 export default function Kurs({ kurs }: { kurs: KursDTO }) {
   const { tittel, omfangEnhet, omfangVerdi, tilDato } = kurs;

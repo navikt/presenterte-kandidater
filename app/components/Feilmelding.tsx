@@ -1,10 +1,11 @@
 'use client';
+
+import { IFeilmelding } from '../util/feiltyper';
+import { getBasePath } from '../util/miljø';
 import { Alert, BodyLong, BodyShort, Button } from '@navikt/ds-react';
 import { logger } from '@navikt/next-logger';
 import * as React from 'react';
 import { useEffect } from 'react';
-import { IFeilmelding } from '../util/feiltyper';
-import { getBasePath } from '../util/miljø';
 
 const Feilmelding: React.FC<IFeilmelding> = ({
   zodError,

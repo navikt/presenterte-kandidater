@@ -1,4 +1,4 @@
-import { Back } from '@navikt/ds-icons';
+import { ArrowLeftIcon } from '@navikt/aksel-icons';
 import Link from 'next/link';
 import type { FunctionComponent, ReactNode } from 'react';
 
@@ -9,7 +9,7 @@ type Props = {
 
 const Tilbakelenke: FunctionComponent<Props> = ({ href, children }) => (
   <Link href={href} className={'navds-link mb-4'}>
-    <Back aria-hidden />
+    <ArrowLeftIcon aria-hidden />
     {children}
   </Link>
 );

@@ -1,10 +1,10 @@
 /**
  * Endepunkt /useHentSamtykke
  */
-import useSWRImmutable from 'swr/immutable';
-import { z } from 'zod';
 import { PresenterteKandidaterAPI } from '../../api-routes';
 import { getAPIwithSchema } from '../../fetcher';
+import useSWRImmutable from 'swr/immutable';
+import { z } from 'zod';
 
 const hentSamtykkeEndepunkt = `${PresenterteKandidaterAPI.internUrl}/hentsamtykke`;
 
@@ -17,6 +17,6 @@ export type useHentSamtykkeDTO = z.infer<typeof HentSamtykkeSchema>;
 export const useHentSamtykke = () => {
   return useSWRImmutable(
     hentSamtykkeEndepunkt,
-    getAPIwithSchema(HentSamtykkeSchema)
+    getAPIwithSchema(HentSamtykkeSchema),
   );
 };

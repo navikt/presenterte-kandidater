@@ -1,16 +1,17 @@
 'use client';
-import { Close, ExternalLink } from '@navikt/ds-icons';
-import { BodyLong, Box, Heading, Link as NavLink } from '@navikt/ds-react';
-import * as React from 'react';
+
+import { useApplikasjonContext } from '../ApplikasjonsContext';
 import { Kandidatvurdering } from '../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/kandidatliste.typer';
 import { useUseKandidatliste } from '../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/useKandidatliste';
-import { useApplikasjonContext } from '../ApplikasjonsContext';
 import SWRLaster from '../components/SWRLaster';
 import Tilbakelenke from '../components/TilbakeLenke';
 import { hentMiljø, Miljø } from '../util/miljø';
 import GruppeMedKandidater from './components/GruppeMedKandidater';
 import Spørreskjemalenke from './components/Spørreskjemalenke';
 import Vurderingsikon from './components/Vurderingsikon';
+import { ExternalLinkIcon, XMarkIcon } from '@navikt/aksel-icons';
+import { BodyLong, Box, Heading, Link as NavLink } from '@navikt/ds-react';
+import * as React from 'react';
 
 export interface KandidatlisteVisningProps {
   stillingsId: string;
@@ -62,7 +63,7 @@ const KandidatlisteVisning: React.FC<KandidatlisteVisningProps> = ({
                     target='__blank'
                   >
                     Se stilling
-                    <ExternalLink aria-hidden />
+                    <ExternalLinkIcon aria-hidden />
                   </NavLink>
 
                   {kandidater.length === 0 ? (
@@ -116,7 +117,7 @@ const KandidatlisteVisning: React.FC<KandidatlisteVisningProps> = ({
                       />
 
                       <GruppeMedKandidater
-                        icon={<Close />}
+                        icon={<XMarkIcon />}
                         kandidater={kandidater}
                         stillingId={stillingId}
                       />

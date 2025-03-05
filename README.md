@@ -2,30 +2,22 @@
 
 Arbeidsgiverflate for å se kandidater presentert av markedskontakter.
 
-## Lokal utvikling
+## 🚀 Kom i gang
 
-Noen pakker under `@navikt` hentes fra Github sitt NPM-repository. For at dette skal fungere må du først autentisere mot Github: 
+Du trenger token for navikt pakke: https://github.com/navikt/frontend#github-npm-registry
 
-Se https://github.com/navikt/frontend#github-npm-registry 
+```bash
+# Installer pnpm hvis du ikke har det
+brew install pnpm
+# eller
+curl -fsSL https://get.pnpm.io/install.sh | sh -
 
+# Installer avhengigheter
+pnpm install
 
-Når du har gjort dette, kan du kjøre på lts versjon av node: (22.*)
+# Start utviklingsserver
+pnpm dev
 
-```
-nvm install --lts
-
-nvm use --lts
-```
-
-Når du har installert node, kan du installere pakker:
-```
-npm run npm:install
-```
-
-For å starte utviklingsserveren, kjør:
-
-```
-npm run dev
 ```
 
 ## Hvordan teste manuelt i dev-miljøet

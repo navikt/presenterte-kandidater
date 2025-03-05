@@ -9,7 +9,7 @@ import { KandidatlisterDTO } from '../app/api/presenterte-kandidater-api/kandida
 
 const mocketKandidatliste = (
   stillingId: string,
-  tittel: string
+  tittel: string,
   // status = 'ÅPEN' as unknown as any
 ): KandidatlisteForStillingDTO => {
   return {
@@ -30,7 +30,7 @@ const mocketKandidatliste = (
 const mocketKandidat = (
   kandidatId: string,
   cv: Partial<KandidatCvDTO> | null = {},
-  arbeidsgiversVurdering: Kandidatvurdering = Kandidatvurdering.TilVurdering
+  arbeidsgiversVurdering: Kandidatvurdering = Kandidatvurdering.TilVurdering,
 ): KandidatMedCvDTO => ({
   kandidat: {
     uuid: kandidatId,
@@ -152,37 +152,37 @@ export const mockedeKandidater = [
       fornavn: 'Ola',
       etternavn: 'Nordmann',
     },
-    Kandidatvurdering.Aktuell
+    Kandidatvurdering.Aktuell,
   ),
   mocketKandidat(
     '4b175a91-5ee8-4811-be11-5a5d2d33b967',
     null,
-    Kandidatvurdering.IkkeAktuell
+    Kandidatvurdering.IkkeAktuell,
   ),
 ];
 
 export const mockedeKandidatlister = [
   mocketKandidatliste(
     '1c6894d1-127d-47d5-b3b0-c2778677ee49',
-    'Volleyballskuespillere til Pascara Beach'
+    'Volleyballskuespillere til Pascara Beach',
   ),
   mocketKandidatliste(
     'f2387b55-c562-4d89-a337-0ae20ac22692',
-    'Bartender på Galgeberg Corner'
+    'Bartender på Galgeberg Corner',
   ),
   mocketKandidatliste(
     '720696c9-0077-464f-b0dc-c12b95db32d4',
-    'Misjonærer for Gather Town'
+    'Misjonærer for Gather Town',
   ),
 ];
 
 export const mockedeKandidatlistesammendrag = (
-  virksomhet: string | null
+  virksomhet: string | null,
 ): KandidatlisterDTO =>
   mockedeKandidatlister
     .filter(
       (kandidatliste) =>
-        kandidatliste.kandidatliste.virksomhetsnummer === virksomhet
+        kandidatliste.kandidatliste.virksomhetsnummer === virksomhet,
     )
     .map((kandidatliste) => ({
       kandidatliste: kandidatliste.kandidatliste,

@@ -1,5 +1,14 @@
 'use client';
 
+import { useEndreVurdering } from '../../../../api/presenterte-kandidater-api/kandidat/[kandidatId]/vurdering/useEndreVurdering';
+import {
+  ArbeidsgiversVurderingDTO,
+  Kandidatvurdering,
+} from '../../../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/kandidatliste.typer';
+import { useUseKandidatliste } from '../../../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/useKandidatliste';
+import { KandidatlisteDTO } from '../../../../api/presenterte-kandidater-api/kandidatlister/kandidatlister.typer';
+import Vurderingsikon from '../../../components/Vurderingsikon';
+import { visVurdering } from '../KandidatVisning';
 import {
   BodyShort,
   Button,
@@ -10,15 +19,6 @@ import {
 } from '@navikt/ds-react';
 import { logger } from '@navikt/next-logger';
 import { useState } from 'react';
-import { useEndreVurdering } from '../../../../api/presenterte-kandidater-api/kandidat/[kandidatId]/vurdering/useEndreVurdering';
-import {
-  ArbeidsgiversVurderingDTO,
-  Kandidatvurdering,
-} from '../../../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/kandidatliste.typer';
-import { useUseKandidatliste } from '../../../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/useKandidatliste';
-import { KandidatlisteDTO } from '../../../../api/presenterte-kandidater-api/kandidatlister/kandidatlister.typer';
-import Vurderingsikon from '../../../components/Vurderingsikon';
-import { visVurdering } from '../KandidatVisning';
 
 type Props = {
   kandidatId: string;
@@ -97,10 +97,7 @@ export default function EndreVurdering({
       <input type='hidden' name='handling' value='endre-vurdering' />
 
       {endreVurdering.error && (
-        <BodyShort
-          aria-live='assertive'
-          className='mt-2 text-[--a-text-danger]'
-        >
+        <BodyShort aria-live='assertive' className='mt-2 text-red-700'>
           Det skjedde en feil ved endring av vurdering
         </BodyShort>
       )}

@@ -13,7 +13,7 @@ const Spørreskjemalenke = () => {
       borderRadius='small'
       className='flex w-full -mx-4 mt-8 md:mx-0 md:p-10 bg-white'
     >
-      <div className='flex-shrink-0 flex items-center bg-[--a-green-100] text-[--a-gray-900] [clip-path:circle()]'>
+      <div className='flex-shrink-0 flex items-center bg-green-100 text-gray-900 [clip-path:circle()]'>
         <ChevronRightIcon fontSize='5rem' aria-hidden />
       </div>
       <div className='pl-8'>

@@ -1,5 +1,5 @@
-import { z } from 'zod';
 import { PresenterteKandidaterAPI } from '../../api-routes';
+import { z } from 'zod';
 
 export const kandidatlisterEndepunkt = (virksomhetsNummer: string) =>
   `${PresenterteKandidaterAPI.internUrl}/kandidatlister?virksomhetsnummer=${virksomhetsNummer}`;
@@ -23,7 +23,7 @@ const KandidatlisteMedAntallKandidaterSchema = z.object({
 });
 
 export const KandidatlisterSchema = z.array(
-  KandidatlisteMedAntallKandidaterSchema
+  KandidatlisteMedAntallKandidaterSchema,
 );
 
 export type KandidatlisterDTO = z.infer<typeof KandidatlisterSchema>;

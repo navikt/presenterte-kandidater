@@ -1,13 +1,13 @@
 'use client';
-import { NotifikasjonWidget } from '@navikt/arbeidsgiver-notifikasjon-widget';
-import Bedriftsmeny, { Organisasjon } from '@navikt/bedriftsmeny';
-import { useEffect, useState } from 'react';
 
-import type { Miljø as NotifikasjonMiljø } from '@navikt/arbeidsgiver-notifikasjon-widget';
-import { Loader } from '@navikt/ds-react';
-import type { FunctionComponent } from 'react';
 import { useApplikasjonContext } from '../ApplikasjonsContext';
 import { getBasePath, hentMiljø, Miljø } from '../util/miljø';
+import { NotifikasjonWidget } from '@navikt/arbeidsgiver-notifikasjon-widget';
+import type { Miljø as NotifikasjonMiljø } from '@navikt/arbeidsgiver-notifikasjon-widget';
+import Bedriftsmeny, { Organisasjon } from '@navikt/bedriftsmeny';
+import { Loader } from '@navikt/ds-react';
+import { useEffect, useState } from 'react';
+import type { FunctionComponent } from 'react';
 
 const Header: FunctionComponent = () => {
   const { organisasjoner, orgnrHook } = useApplikasjonContext();

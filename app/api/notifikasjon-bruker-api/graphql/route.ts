@@ -1,8 +1,8 @@
-import { NextResponse } from 'next/server';
 import { mockedeNotifikasjoner } from '../../../../mocks/mockNotifikasjoner';
 import { erLokalt } from '../../../util/miljø';
 import { NotifikasjonAPI } from '../../api-routes';
 import { proxyWithOBO } from '../../oboProxy';
+import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {
   return proxyWithOBO(NotifikasjonAPI, request);

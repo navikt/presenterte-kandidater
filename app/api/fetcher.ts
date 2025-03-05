@@ -1,10 +1,10 @@
-import { logger } from '@navikt/next-logger';
-import { ZodSchema } from 'zod';
 import { kastError } from '../util/kastError';
 import { getBasePath } from '../util/miljø';
+import { logger } from '@navikt/next-logger';
+import { ZodSchema } from 'zod';
 
 export const getAPIwithSchema = <T>(
-  schema: ZodSchema<T>
+  schema: ZodSchema<T>,
 ): ((url: string) => Promise<T>) => {
   return async (url: string) => {
     const data = await getAPI(url);
@@ -49,7 +49,7 @@ const getAPI = async (url: string) => {
     return await response.json();
   } else {
     throw new Error(
-      `Feil respons fra server: (http-status: ${response.status})`
+      `Feil respons fra server: (http-status: ${response.status})`,
     );
   }
 };
@@ -68,7 +68,7 @@ export const deleteApi = async (url: string) => {
     throw new Error('403');
   } else {
     throw new Error(
-      `Feil respons fra server (http-status: ${response.status})`
+      `Feil respons fra server (http-status: ${response.status})`,
     );
   }
 };
@@ -76,7 +76,7 @@ export const deleteApi = async (url: string) => {
 export const postApi = async (
   url: string,
   body: unknown,
-  queryParams?: URLSearchParams
+  queryParams?: URLSearchParams,
 ) => {
   if (queryParams) {
     const queryString = new URLSearchParams(queryParams).toString();
@@ -90,7 +90,7 @@ export const postApi = async (
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(body, (_key, value) =>
-      value instanceof Set ? [...value] : value
+      value instanceof Set ? [...value] : value,
     ),
   });
 
@@ -102,7 +102,7 @@ export const postApi = async (
     throw new Error('403');
   } else {
     throw new Error(
-      `Feil respons fra server (http-status: ${response.status})`
+      `Feil respons fra server (http-status: ${response.status})`,
     );
   }
 };
@@ -114,12 +114,12 @@ export type postApiProps = {
 };
 
 export const postApiWithSchema = <T>(
-  schema: ZodSchema<T>
+  schema: ZodSchema<T>,
 ): ((props: postApiProps) => Promise<T>) => {
   return async (props) => {
     const data = await postApi(
       props.queryParams ? props.url + `?${props.queryParams}` : props.url,
-      props.body
+      props.body,
     );
     const zodResult = schema.safeParse(data);
 
@@ -134,7 +134,7 @@ export const postApiWithSchema = <T>(
 export const putApi = async (
   url: string,
   body: unknown,
-  queryParams?: URLSearchParams
+  queryParams?: URLSearchParams,
 ) => {
   if (queryParams) {
     const queryString = new URLSearchParams(queryParams).toString();
@@ -148,7 +148,7 @@ export const putApi = async (
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(body, (_key, value) =>
-      value instanceof Set ? [...value] : value
+      value instanceof Set ? [...value] : value,
     ),
   });
 
@@ -163,7 +163,7 @@ export const putApi = async (
     throw new Error('403');
   } else {
     throw new Error(
-      `Feil respons fra server (http-status: ${response.status})`
+      `Feil respons fra server (http-status: ${response.status})`,
     );
   }
 };

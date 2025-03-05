@@ -1,8 +1,9 @@
 'use client';
-import * as React from 'react';
+
 import { useUseKandidatliste } from '../../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/useKandidatliste';
 import SWRLaster from '../../../components/SWRLaster';
 import KandidatVisning from './KandidatVisning';
+import * as React from 'react';
 
 export interface pageProps {
   stillingsId: string;
@@ -15,7 +16,7 @@ const KandidatLaster: React.FC<pageProps> = ({ stillingsId, kandidatId }) => {
     <SWRLaster hook={hook}>
       {(data) => {
         const kandidat = data.kandidater.find(
-          (kandidat) => kandidat.kandidat.uuid === kandidatId
+          (kandidat) => kandidat.kandidat.uuid === kandidatId,
         );
 
         if (!kandidat) {

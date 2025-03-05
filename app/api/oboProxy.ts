@@ -1,27 +1,27 @@
+import { erLokalt } from '../util/miljø';
+import { Iroute } from './api-routes';
 import { logger } from '@navikt/next-logger';
 import { getToken, requestOboToken, TokenResult } from '@navikt/oasis';
 import { NextResponse } from 'next/server';
-import { erLokalt } from '../util/miljø';
-import { Iroute } from './api-routes';
 
 export const proxyWithOBO = async (
   proxy: Iroute,
   req: Request,
-  customRoute?: string
+  customRoute?: string,
 ) => {
   const token = erLokalt() ? 'DEV' : getToken(req.headers);
 
   if (!proxy.api_url) {
     return NextResponse.json(
       { beskrivelse: 'Ingen url oppgitt for proxy' },
-      { status: 500 }
+      { status: 500 },
     );
   }
   if (!token) {
     logger.info('Kunne ikke hente token, redirect til login');
     return NextResponse.json(
       { beskrivelse: 'Kunne ikke hente token' },
-      { status: 401 }
+      { status: 401 },
     );
   }
 
@@ -34,7 +34,7 @@ export const proxyWithOBO = async (
     logger.error('Feil ved henting av OBO-token:', error);
     return NextResponse.json(
       { beskrivelse: 'Kunne ikke hente OBO-token' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 
@@ -42,7 +42,7 @@ export const proxyWithOBO = async (
     logger.error('Ugyldig OBO-token mottatt:', obo);
     return NextResponse.json(
       { beskrivelse: 'Ugyldig OBO-token mottatt' },
-      { status: 500 }
+      { status: 500 },
     );
   }
   const originalUrl = new URL(req.url);
@@ -88,7 +88,7 @@ export const proxyWithOBO = async (
           body,
           ok,
         },
-        'Responsen er ikke OK i proxy'
+        'Responsen er ikke OK i proxy',
       );
     }
 
@@ -117,19 +117,19 @@ export const proxyWithOBO = async (
     if (error instanceof Error) {
       logger.error(
         error,
-        `Feil ved proxying av forespørselen til url: ${requestUrl} fra url: ${originalUrl}`
+        `Feil ved proxying av forespørselen til url: ${requestUrl} fra url: ${originalUrl}`,
       );
     } else {
       logger.error(
         { msg: 'Unknown error', error },
-        `Feil ved proxying av forespørselen til url: ${requestUrl} fra url: ${originalUrl}`
+        `Feil ved proxying av forespørselen til url: ${requestUrl} fra url: ${originalUrl}`,
       );
     }
     return NextResponse.json(
       { beskrivelse: error instanceof Error ? error.message : 'Feil i proxy' },
       {
         status: 500,
-      }
+      },
     );
   }
 };

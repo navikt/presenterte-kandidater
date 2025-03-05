@@ -1,7 +1,7 @@
-import { NextConfig } from 'next';
-
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   output: 'standalone',
+  transpilePackages: ['@navikt/ds-react', '@navikt/ds-css', '@navikt/navspa'],
   basePath: process.env.NODE_ENV === 'development' ? '' : '/kandidatliste',
   assetPrefix: '/kandidatliste',
   reactStrictMode: true,

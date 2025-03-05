@@ -1,5 +1,10 @@
 'use client';
 
+import { useApplikasjonContext } from '../ApplikasjonsContext';
+import { useHentSamtykke } from '../api/presenterte-kandidater-api/hentsamtykke/useHentSamtykke';
+import { useGiSamtykke } from '../api/presenterte-kandidater-api/samtykke/useGiSamtykke';
+import SWRLaster from '../components/SWRLaster';
+import Tilbakelenke from '../components/TilbakeLenke';
 import {
   BodyLong,
   BodyShort,
@@ -12,11 +17,6 @@ import {
 } from '@navikt/ds-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { useHentSamtykke } from '../api/presenterte-kandidater-api/hentsamtykke/useHentSamtykke';
-import { useGiSamtykke } from '../api/presenterte-kandidater-api/samtykke/useGiSamtykke';
-import { useApplikasjonContext } from '../ApplikasjonsContext';
-import SWRLaster from '../components/SWRLaster';
-import Tilbakelenke from '../components/TilbakeLenke';
 
 export default function Samtykke() {
   const router = useRouter();
@@ -150,7 +150,7 @@ export default function Samtykke() {
                   </Checkbox>
                 </CheckboxGroup>
                 {feilmelding && (
-                  <BodyShort className='text-[--a-text-danger] italic'>
+                  <BodyShort className='text-red-800 italic'>
                     {feilmelding}
                   </BodyShort>
                 )}

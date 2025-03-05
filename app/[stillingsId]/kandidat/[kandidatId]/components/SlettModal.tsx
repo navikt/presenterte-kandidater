@@ -1,12 +1,12 @@
 'use client';
 
+import { useSlettKandidat } from '../../../../api/presenterte-kandidater-api/kandidat/[kandidatId]/useSlettKandidat';
+import { KandidatCvDTO } from '../../../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/kandidatliste.typer';
+import { useUseKandidatliste } from '../../../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/useKandidatliste';
 import { BodyLong, BodyShort, Button, Modal } from '@navikt/ds-react';
 import { logger } from '@navikt/next-logger';
 import { useRouter } from 'next/navigation';
 import { useRef } from 'react';
-import { useSlettKandidat } from '../../../../api/presenterte-kandidater-api/kandidat/[kandidatId]/useSlettKandidat';
-import { KandidatCvDTO } from '../../../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/kandidatliste.typer';
-import { useUseKandidatliste } from '../../../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/useKandidatliste';
 
 type Props = {
   kandidatId: string;
@@ -86,7 +86,7 @@ export default function Slettemodal({ cv, kandidatId, stillingsId }: Props) {
           {slettAction.error && (
             <BodyShort
               aria-live='assertive'
-              className='text-right mt-2 text-[--a-text-danger]'
+              className='text-right mt-2 text-red-700'
             >
               Det skjedde en feil ved sletting av kandidat
             </BodyShort>
