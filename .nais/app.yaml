@@ -15,7 +15,7 @@ spec:
     requests:
       cpu: 50m
   ingresses:
-    {{ #each ingresses as |url|}}
+    {{#each ingresses as |url|}}
         - {{ url }}
       {{/each}}
   liveness:
