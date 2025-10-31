@@ -1,4 +1,5 @@
 import { FlatCompat } from '@eslint/eslintrc';
+import reactCompiler from 'eslint-plugin-react-compiler';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -24,6 +25,11 @@ const config = [
       'build/**',
       'next-env.d.ts',
     ],
+  },
+  {
+    plugins: {
+      'react-compiler': reactCompiler,
+    },
   },
 ];
 export default config;

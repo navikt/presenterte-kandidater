@@ -26,7 +26,7 @@ const Feilmelding: React.FC<IFeilmelding> = ({
   }, [statuskode]);
 
   if (zodError) {
-    logger.info('ZodError', zodError);
+    logger.info(zodError, 'ZodError');
     return (
       <Alert className='w-full' style={{ margin: '1rem' }} variant='error'>
         <strong>Feil ved validering av data (ZodError)</strong>
