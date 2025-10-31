@@ -47,9 +47,10 @@ export default function EndreVurdering({
   };
 
   if (endreVurdering.error) {
-    logger.error('Feil ved endring av vurdering', {
-      error: endreVurdering.error,
-    });
+    logger.error(
+      { error: endreVurdering.error },
+      'Feil ved endring av vurdering',
+    );
   }
   return (
     <form action={handleSubmit}>

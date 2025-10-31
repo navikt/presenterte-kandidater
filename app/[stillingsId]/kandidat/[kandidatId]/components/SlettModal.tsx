@@ -35,9 +35,7 @@ export default function Slettemodal({ cv, kandidatId, stillingsId }: Props) {
   }
 
   if (slettAction.error) {
-    logger.error('Feil ved sletting av kandidat', {
-      error: slettAction.error,
-    });
+    logger.error(slettAction.error, 'Feil ved sletting av kandidat');
   }
 
   return (
