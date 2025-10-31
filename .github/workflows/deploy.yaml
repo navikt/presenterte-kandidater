@@ -11,7 +11,7 @@ jobs:
       pnpm: true
       dev-vars-path: '.nais/dev-gcp.json'
       prod-vars-path: '.nais/prod-gcp.json'
-      deploy-to-dev-if-branch-name-is: 'dev'
+      deploy-to-dev-if-branch-name-is: 'update-deps'
     secrets: inherit
     permissions:
       contents: write
