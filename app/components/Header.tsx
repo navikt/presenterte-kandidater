@@ -2,22 +2,15 @@
 
 import { useApplikasjonContext } from '../ApplikasjonsContext';
 import { getBasePath, hentMiljø, Miljø } from '../util/miljø';
-import { NotifikasjonWidget } from '@navikt/arbeidsgiver-notifikasjon-widget';
 import type { Miljø as NotifikasjonMiljø } from '@navikt/arbeidsgiver-notifikasjon-widget';
+import { NotifikasjonWidget } from '@navikt/arbeidsgiver-notifikasjon-widget';
 import Bedriftsmeny, { Organisasjon } from '@navikt/bedriftsmeny';
 import { Loader } from '@navikt/ds-react';
-import { useEffect, useState } from 'react';
 import type { FunctionComponent } from 'react';
 
 const Header: FunctionComponent = () => {
   const { organisasjoner, orgnrHook } = useApplikasjonContext();
-
-  const [renderWidget, setRenderWidget] = useState<boolean>(false);
   const miljø = hentMiljøTilNotifikasjonWidget();
-
-  useEffect(() => {
-    setRenderWidget(true);
-  }, []);
 
   if (!organisasjoner) {
     return <Loader />;
@@ -29,12 +22,10 @@ const Header: FunctionComponent = () => {
       organisasjoner={organisasjoner as unknown as Organisasjon[]}
       orgnrSearchParam={orgnrHook}
     >
-      {renderWidget && (
-        <NotifikasjonWidget
-          miljo={miljø}
-          apiUrl={`${getBasePath()}/api/notifikasjon-bruker-api/graphql`}
-        />
-      )}
+      <NotifikasjonWidget
+        miljo={miljø}
+        apiUrl={`${getBasePath()}/api/notifikasjon-bruker-api/graphql`}
+      />
     </Bedriftsmeny>
   );
 };
