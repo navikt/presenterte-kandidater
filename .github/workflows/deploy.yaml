@@ -11,7 +11,7 @@ jobs:
       pnpm: true
       dev-vars-path: '.nais/dev-gcp.json'
       prod-vars-path: '.nais/prod-gcp.json'
-      deploy-to-dev-if-branch-name-is: 'next16'
+      deploy-to-dev-if-branch-name-is: 'altinn3'
     secrets: inherit
     permissions:
       contents: write

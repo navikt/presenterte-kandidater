@@ -46,8 +46,13 @@ export const ApplikasjonsContextProvider: React.FC<
     [router],
   );
 
-  if (!orgnummer && data) {
-    setOrgnummer(data[0].OrganizationNumber);
+  if (!orgnummer && data && data.length > 0) {
+    const underenheter = data.filter(
+      (org) => org.ParentOrganizationNumber !== null,
+    );
+    if (underenheter.length > 0 && underenheter[0].OrganizationNumber) {
+      setOrgnummer(underenheter[0].OrganizationNumber);
+    }
   }
 
   const useOrgnrHook: () => [string | null, (orgnr: string) => void] =
