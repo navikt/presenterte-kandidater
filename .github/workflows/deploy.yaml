@@ -6,12 +6,13 @@ on:
 jobs:
   build-and-deploy:
     name: Next
-    uses: navikt/toi-github-actions-workflows/.github/workflows/build-and-deploy-nextjs.yaml@v5.2
+    uses: navikt/toi-github-actions-workflows/.github/workflows/build-and-deploy-nextjs.yaml@v7.1
     with:
       pnpm: true
+      a11y: true
       dev-vars-path: '.nais/dev-gcp.json'
       prod-vars-path: '.nais/prod-gcp.json'
-      deploy-to-dev-if-branch-name-is: 'next16'
+      deploy-to-dev-if-branch-name-is: 'pa11y'
     secrets: inherit
     permissions:
       contents: write

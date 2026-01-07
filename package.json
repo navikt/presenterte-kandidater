@@ -7,6 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
+    "a11y": "PUPPETEER_EXECUTABLE_PATH=$(node -e \"console.log(require('@playwright/test').chromium.executablePath())\") pa11y-ci",
+    "test-dev": "next dev -p 1337",
     "prepare": "husky"
   },
   "dependencies": {
@@ -34,6 +36,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
+    "@playwright/test": "^1.57.0",
     "@trivago/prettier-plugin-sort-imports": "^5.2.2",
     "@types/node": "^22.19.1",
     "@types/react": "^19.0.10",
@@ -46,6 +49,8 @@
     "eslint-plugin-react-compiler": "19.1.0-rc.2",
     "husky": "^9.1.7",
     "jsdom": "^26.0.0",
+    "pa11y": "^9.0.1",
+    "pa11y-ci": "^4.0.1",
     "prettier": "3.5.3",
     "prettier-plugin-sort-json": "^4.1.1",
     "prettier-plugin-tailwindcss": "^0.6.11",
