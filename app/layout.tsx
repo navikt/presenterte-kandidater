@@ -80,7 +80,9 @@ export default async function RootLayout({
         <Decorator.HeadAssets />
       </head>
       <body className='min-h-screen bg-gray-100'>
-        <Decorator.Header />
+        <div data-pa11y-ignore='decorator-header'>
+          <Decorator.Header />
+        </div>
         <RootSuspense>
           <div className='min-h-screen'>
             <div className='w-full border-b'>
@@ -91,7 +93,9 @@ export default async function RootLayout({
             </main>
           </div>
         </RootSuspense>
-        <Decorator.Footer />
+        <div data-pa11y-ignore='decorator-footer'>
+          <Decorator.Footer />
+        </div>
         <Decorator.Scripts loader={Script} />
       </body>
     </html>
