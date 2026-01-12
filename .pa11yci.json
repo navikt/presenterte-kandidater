@@ -1,0 +1,20 @@
+{
+  "defaults": {
+    "chromeLaunchConfig": {
+      "args": ["--no-sandbox"]
+    },
+    "hideElements": [
+      "[data-pa11y-ignore='decorator-header']",
+      "[data-pa11y-ignore='decorator-footer']"
+    ],
+    "standard": "WCAG2AA",
+    "threshold": 0,
+    "timeout": 60000,
+    "wait": 1000
+  },
+  "urls": [
+    "http://localhost:1337/?virksomhet=811076422",
+    "http://localhost:1337/720696c9-0077-464f-b0dc-c12b95db32d4?virksomhet=811076422 ",
+    "http://localhost:1337/720696c9-0077-464f-b0dc-c12b95db32d4/kandidat/23d45ba2-ce9e-446e-9137-5ebb44bf6490?virksomhet=811076422 "
+  ]
+}
