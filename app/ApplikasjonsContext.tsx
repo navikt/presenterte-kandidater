@@ -9,7 +9,6 @@ import Samtykke from './samtykke/page';
 import { getBasePath } from './util/miljø';
 import { Loader } from '@navikt/ds-react';
 import { configureLogger } from '@navikt/next-logger';
-import { useRouter } from 'next/navigation';
 import { useQueryState } from 'nuqs';
 import * as React from 'react';
 
@@ -32,7 +31,6 @@ export const ApplikasjonsContextProvider: React.FC<
   const { data, isLoading } = useUseOrganisasjoner();
   const samtykke = useHentSamtykke();
 
-  const router = useRouter();
   const [orgnummer, setOrgnummer] = useQueryState('virksomhet');
 
   configureLogger({
@@ -41,9 +39,9 @@ export const ApplikasjonsContextProvider: React.FC<
 
   const oppdaterOrgnummer = React.useCallback(
     (orgnummer: string) => {
-      router.push(`/?virksomhet=${orgnummer}`);
+      void setOrgnummer(orgnummer);
     },
-    [router],
+    [setOrgnummer],
   );
 
   if (!orgnummer && data && data.length > 0) {
