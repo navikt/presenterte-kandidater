@@ -44,14 +44,17 @@ export const ApplikasjonsContextProvider: React.FC<
     [setOrgnummer],
   );
 
-  if (!orgnummer && data && data.length > 0) {
+  React.useEffect(() => {
+    if (orgnummer || !data || data.length === 0) {
+      return;
+    }
     const underenheter = data.filter(
       (org) => org.ParentOrganizationNumber !== null,
     );
     if (underenheter.length > 0 && underenheter[0].OrganizationNumber) {
-      setOrgnummer(underenheter[0].OrganizationNumber);
+      void setOrgnummer(underenheter[0].OrganizationNumber);
     }
-  }
+  }, [orgnummer, data, setOrgnummer]);
 
   const useOrgnrHook: () => [string | null, (orgnr: string) => void] =
     React.useCallback(
