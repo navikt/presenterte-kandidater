@@ -7,6 +7,9 @@ import { logger } from '@navikt/next-logger';
 import * as React from 'react';
 import { useEffect } from 'react';
 
+const STANDARD_BESKRIVELSE =
+  'Det skjedde en uventet feil. Vennligst prøv igjen senere.';
+
 const Feilmelding: React.FC<IFeilmelding> = ({
   zodError,
   tittel,
@@ -66,7 +69,7 @@ const Feilmelding: React.FC<IFeilmelding> = ({
       case 403:
         return 'Du har ikke rett tilgang i Altinn (Statuskode 403)';
       default:
-        return 'Noe gikk galt!';
+        return tittel ?? 'Noe gikk galt!';
     }
   };
 
@@ -75,7 +78,7 @@ const Feilmelding: React.FC<IFeilmelding> = ({
       case 403:
         return 'Det er kun arbeidsgivere med riktig tilgang i Altinn som kan ta i bruk min side arbeidsgiver for denne virksomheten.';
       default:
-        return beskrivelse;
+        return beskrivelse ?? STANDARD_BESKRIVELSE;
     }
   };
 

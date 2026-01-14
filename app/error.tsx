@@ -1,64 +1,32 @@
 'use client';
 
-import { erLokalt, getBasePath } from './util/miljø';
-import { Box } from '@navikt/ds-react';
-import { useEffect } from 'react';
+import Feilmelding from './components/Feilmelding';
 
-export default function Error({
-  error,
-}: {
-  error: Error & { digest?: string };
-}) {
+type ErrorWithStatus = Error & { digest?: string; status?: number };
+
+export default function Error({ error }: { error: ErrorWithStatus }) {
   const response = error instanceof Response ? error : undefined;
-  const { title, messages } = getErrorContent(response?.status);
-
-  useEffect(() => {
-    if (!erLokalt() && response?.status === 401) {
-      window.location.href = `${getBasePath()}/oauth2/login?redirect=${
-        window.location.pathname
-      }`;
-    }
-  }, [response?.status]);
+  const statuskode = resolveStatuskode(response, error);
 
   return (
-    <div className='space-y-4'>
-      <h2 className='text-2xl font-semibold'>{title}</h2>
-      <Box
-        padding='4'
-        borderWidth='1'
-        borderRadius='small'
-        className='bg-white'
-      >
-        {messages.map((message) => (
-          <p key={message}>{message}</p>
-        ))}
-      </Box>
-    </div>
+    <Feilmelding
+      statuskode={statuskode}
+      tittel={response ? response.statusText : error.message}
+    />
   );
 }
 
-function getErrorContent(status?: number) {
-  if (status === 401) {
-    return {
-      title: 'Logg inn for å fortsette',
-      messages: [
-        'Du er ikke logget inn eller sesjonen har utløpt.',
-        'Sender deg videre til innlogging. Hvis det ikke skjer automatisk kan du prøve igjen fra forsiden.',
-      ],
-    };
+function resolveStatuskode(
+  response: Response | undefined,
+  error: ErrorWithStatus,
+) {
+  if (response?.status) {
+    return response.status;
   }
 
-  if (status === 403) {
-    return {
-      title: 'Du har ikke tilgang',
-      messages: [
-        'Du mangler rettigheter til å se denne siden eller kandidatlisten.',
-      ],
-    };
+  if (typeof error.status === 'number') {
+    return error.status;
   }
 
-  return {
-    title: 'Ojsann!',
-    messages: ['Det skjedde en uventet feil.', 'Vennligst prøv igjen senere.'],
-  };
+  return undefined;
 }
