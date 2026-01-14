@@ -1,6 +1,6 @@
 'use client';
 
-import { getBasePath } from './util/miljø';
+import { erLokalt, getBasePath } from './util/miljø';
 import { Box } from '@navikt/ds-react';
 import { useEffect } from 'react';
 
@@ -13,7 +13,7 @@ export default function Error({
   const { title, messages } = getErrorContent(response?.status);
 
   useEffect(() => {
-    if (response?.status === 401) {
+    if (!erLokalt() && response?.status === 401) {
       window.location.href = `${getBasePath()}/oauth2/login?redirect=${
         window.location.pathname
       }`;
