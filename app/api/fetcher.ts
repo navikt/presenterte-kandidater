@@ -46,7 +46,16 @@ const getAPI = async (url: string) => {
   }
 
   if (response.ok) {
-    return await response.json();
+    const responseData = await response.json();
+    if (responseData.status === 403 || responseData.status === 401) {
+      const error = new kastError({
+        url: response.url,
+        statuskode: responseData.status,
+      });
+      throw error;
+    } else {
+      return responseData;
+    }
   } else {
     throw new Error(
       `Feil respons fra server: (http-status: ${response.status})`,

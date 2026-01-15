@@ -7,6 +7,9 @@ import { logger } from '@navikt/next-logger';
 import * as React from 'react';
 import { useEffect } from 'react';
 
+const STANDARD_BESKRIVELSE =
+  'Det skjedde en uventet feil. Vennligst prøv igjen senere.';
+
 const Feilmelding: React.FC<IFeilmelding> = ({
   zodError,
   tittel,
@@ -58,32 +61,32 @@ const Feilmelding: React.FC<IFeilmelding> = ({
       </Alert>
     );
   }
+
+  const tittelTekst = () => {
+    switch (statuskode) {
+      case 401:
+        return 'Du er ikke autentisert (Statuskode 401)';
+      case 403:
+        return 'Du har ikke rett tilgang i Altinn (Statuskode 403)';
+      default:
+        return tittel ?? 'Noe gikk galt!';
+    }
+  };
+
+  const beskrivelseTekst = () => {
+    switch (statuskode) {
+      case 403:
+        return 'Det er kun arbeidsgivere med riktig tilgang i Altinn som kan ta i bruk min side arbeidsgiver for denne virksomheten.';
+      default:
+        return beskrivelse ?? STANDARD_BESKRIVELSE;
+    }
+  };
+
   return (
     <div style={{ width: '100%' }}>
       <Alert style={{ margin: '1rem' }} variant='error'>
-        <strong>Noe gikk galt!</strong>
-        <BodyShort>{tittel}</BodyShort>
-        <BodyLong>{beskrivelse}</BodyLong>
-        <Button
-          className='mt-4 mb-4'
-          size='small'
-          variant={showError ? 'secondary-neutral' : 'secondary'}
-          onClick={() => setShowError(!showError)}
-        >
-          {showError ? 'Skjul' : 'Vis'} detaljert feilmelding
-        </Button>
-        {showError && (
-          <dl>
-            <dt className='font-bold italic'>Statuskode</dt>
-            <dd className='mb-4 ml-4'>{statuskode ?? '-'}</dd>
-
-            <dt className='font-bold italic'>URL</dt>
-            <dd className='mb-4 ml-4'>{url ?? '-'}</dd>
-
-            <dt className='font-bold italic'>Teknisk feilmelding</dt>
-            <dd className='mb-4 ml-4'>{stack ?? '-'}</dd>
-          </dl>
-        )}
+        <strong>{tittelTekst()}</strong>
+        <BodyLong>{beskrivelseTekst()}</BodyLong>
       </Alert>
     </div>
   );
