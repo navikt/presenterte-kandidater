@@ -6,7 +6,7 @@ on:
 jobs:
   build-and-deploy:
     name: Next
-    uses: navikt/toi-github-actions-workflows/.github/workflows/build-and-deploy-nextjs.yaml@v7.1
+    uses: navikt/toi-github-actions-workflows/.github/workflows/build-and-deploy-nextjs.yaml@v8.1
     with:
       pnpm: true
       a11y: true
