@@ -8,7 +8,7 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ['@navikt/ds-react', '@navikt/aksel-icons'],
   },
-  serverExternalPackages: ['@navikt/next-logger'],
+  serverExternalPackages: ['@navikt/next-logger', 'msw', '@mswjs/interceptors'],
 };
 
 export default nextConfig;

@@ -9,9 +9,10 @@ export const proxyWithOBO = async (
   req: Request,
   customRoute?: string,
 ) => {
-  const token = erLokalt() ? 'DEV' : getToken(req.headers);
+  const lokalt = erLokalt();
+  const token = lokalt ? 'DEV' : getToken(req.headers);
 
-  if (!proxy.api_url) {
+  if (!proxy.api_url && !lokalt) {
     return NextResponse.json(
       { beskrivelse: 'Ingen url oppgitt for proxy' },
       { status: 500 },
@@ -27,7 +28,7 @@ export const proxyWithOBO = async (
 
   let obo: TokenResult;
   try {
-    obo = erLokalt()
+    obo = lokalt
       ? ({ ok: true, token: 'DEV' } as TokenResult)
       : await requestOboToken(token, proxy.scope);
   } catch (error) {
@@ -53,7 +54,7 @@ export const proxyWithOBO = async (
     ? proxy.api_url + customRoute
     : `${proxy.api_url}${path}${originalUrl.search}`;
 
-  const requestUrl = erLokalt() ? originalUrl : newUrl;
+  const requestUrl = lokalt ? originalUrl.toString() : newUrl;
 
   try {
     const originalHeaders = new Headers(req.headers);
