@@ -38,11 +38,10 @@ const KandidatlisteVisning: React.FC<KandidatlisteVisningProps> = ({
             <Tilbakelenke href={`/?virksomhet=${valgtOrganisasjonsnummer}`}>
               Alle rekrutteringsprosesser
             </Tilbakelenke>
-
             <Box
-              padding='4'
+              padding='space-16'
               borderWidth='1'
-              borderRadius='small'
+              borderRadius='2'
               className='-mx-4 flex flex-col gap-6 md:m-0 md:p-10 bg-white'
             >
               <Heading

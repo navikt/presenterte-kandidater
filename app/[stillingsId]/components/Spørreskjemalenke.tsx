@@ -8,9 +8,9 @@ import { BodyShort, Box, Heading, Link } from '@navikt/ds-react';
 const Spørreskjemalenke = () => {
   return (
     <Box
-      padding='4'
+      padding='space-16'
       borderWidth='1'
-      borderRadius='small'
+      borderRadius='2'
       className='flex w-full -mx-4 mt-8 md:mx-0 md:p-10 bg-white'
     >
       <div className='flex-shrink-0 flex items-center bg-green-100 text-gray-900 [clip-path:circle()]'>
