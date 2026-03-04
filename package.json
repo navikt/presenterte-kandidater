@@ -3,14 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack  -p 1336",
+    "dev": "next dev --turbopack -p 1337",
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
     "a11y": "PUPPETEER_EXECUTABLE_PATH=$(node -e \"console.log(require('@playwright/test').chromium.executablePath())\") pa11y-ci",
     "test": "playwright test",
     "test-build": "NEXT_PUBLIC_PLAYWRIGHT_TEST_MODE=true next build",
-    "test-dev": "NEXT_PUBLIC_PLAYWRIGHT_TEST_MODE=true next dev -p 1336",
+    "test-dev": "NEXT_PUBLIC_PLAYWRIGHT_TEST_MODE=true next dev -p 1337",
     "prepare": "husky"
   },
   "dependencies": {

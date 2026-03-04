@@ -1,7 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
 // Tillat overstyring av port i CI hvis flere prosesser kjører parallelt
-const PLAYWRIGHT_PORT = process.env.PLAYWRIGHT_PORT || '1336';
+const PLAYWRIGHT_PORT = process.env.PLAYWRIGHT_PORT || '1337';
 
 /**
  * Read environment variables from file.
