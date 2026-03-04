@@ -6,8 +6,8 @@ import { useUseKandidatlister } from './api/presenterte-kandidater-api/kandidatl
 import IngenOrganisasjoner from './components/IngenOrganisasjoner';
 import SWRLaster from './components/SWRLaster';
 import VisKandidatlistesammendrag from './components/VisKandidatlistesammendrag';
-import { BodyShort, Heading } from '@navikt/ds-react';
-import Link from 'next/link';
+import { Link as AkselLink, BodyShort, Heading } from '@navikt/ds-react';
+import NextLink from 'next/link';
 import { useRouter } from 'next/navigation';
 import * as React from 'react';
 
@@ -86,12 +86,12 @@ const Kandidatlister: React.FC = () => {
               </BodyShort>
             )}
             <div className='flex justify-center'>
-              <Link
-                className='navds-link'
+              <AkselLink
+                as={NextLink}
                 href={`/samtykke?virksomhet=${valgtOrganisasjonsnummer}`}
               >
                 Vilkår for tjenesten
-              </Link>
+              </AkselLink>
             </div>
           </div>
         );

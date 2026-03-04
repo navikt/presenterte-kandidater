@@ -62,13 +62,16 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const miljø = hentMiljø();
+  const erLokalt = miljø === Miljø.Lokalt;
+
   const Decorator = await fetchDecoratorReact({
-    env: hentMiljø() === Miljø.ProdGcp ? 'prod' : 'dev',
+    env: miljø === Miljø.ProdGcp ? 'prod' : 'dev',
     params: {
       context: 'arbeidsgiver',
       chatbot: false,
       simple: false,
-      breadcrumbs: byggBrødsmulesti(hentMiljø()),
+      breadcrumbs: byggBrødsmulesti(miljø),
     },
   });
 
@@ -79,12 +82,12 @@ export default async function RootLayout({
         <meta name='viewport' content='width=device-width,initial-scale=1' />
         <Decorator.HeadAssets />
       </head>
-      <body className='min-h-screen bg-gray-100'>
+      <body className='min-h-screen bg-gray-100' data-testid='app-root'>
         <div data-pa11y-ignore='decorator-header'>
           <Decorator.Header />
         </div>
         <RootSuspense>
-          <div className='min-h-screen'>
+          <div data-testid='app-root' className='min-h-screen'>
             <div className='w-full border-b'>
               <Header />
             </div>
@@ -96,7 +99,7 @@ export default async function RootLayout({
         <div data-pa11y-ignore='decorator-footer'>
           <Decorator.Footer />
         </div>
-        <Decorator.Scripts loader={Script} />
+        {!erLokalt && <Decorator.Scripts loader={Script} />}
       </body>
     </html>
   );

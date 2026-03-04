@@ -1,6 +1,6 @@
 import { KandidatlisteMedAntallKandidaterDTO } from '../api/presenterte-kandidater-api/kandidatlister/kandidatlister.typer';
-import { BodyShort, Box } from '@navikt/ds-react';
-import Link from 'next/link';
+import { Link as AkselLink, BodyShort, Box } from '@navikt/ds-react';
+import NextLink from 'next/link';
 import type { FunctionComponent } from 'react';
 
 type Props = {
@@ -17,19 +17,19 @@ const VisKandidatlistesammendrag: FunctionComponent<Props> = ({
 
   return (
     <Box
-      padding='4'
+      padding='space-16'
       borderWidth='1'
-      borderRadius='small'
+      borderRadius='2'
       as='li'
       className='flex flex-col gap-4 -mx-4 md:grid md:grid-cols-[1fr,auto] md:p-6 md:m-0 bg-white'
     >
       <span>
-        <Link
+        <AkselLink
+          as={NextLink}
           href={`/${stillingId}?virksomhet=${virksomhet}`}
-          className='navds-link'
         >
           {tittel}
-        </Link>
+        </AkselLink>
       </span>
       <BodyShort>Opprettet {formaterOpprettetTidspunkt(opprettet)}</BodyShort>
       <BodyShort>

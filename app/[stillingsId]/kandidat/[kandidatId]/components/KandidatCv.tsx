@@ -33,9 +33,9 @@ const KandidatCv: React.FC<KandidatCv> = ({ cv, kandidatId }) => {
 
   return (
     <Box
-      padding='4'
+      padding='space-16'
       borderWidth='1'
-      borderRadius='small'
+      borderRadius='2'
       className='flex flex-col items-start self-stretch p-4 -mx-4 md:p-10 md:mx-0 bg-white'
     >
       <Heading
@@ -46,7 +46,6 @@ const KandidatCv: React.FC<KandidatCv> = ({ cv, kandidatId }) => {
       >
         {navn}
       </Heading>
-
       <dl className='grid grid-cols-[5rem_1fr]'>
         <BodyShort as='dt' className='font-bold'>
           Bosted
@@ -62,27 +61,22 @@ const KandidatCv: React.FC<KandidatCv> = ({ cv, kandidatId }) => {
           </>
         )}
       </dl>
-
       <Kontaktinformasjon
         epost={cv.epost}
         telefon={cv.mobiltelefonnummer || cv.telefonnummer}
         kandidatId={kandidatId}
       />
-
       <Gruppe icon={<ClipboardCheckmarkIcon aria-hidden />} tittel='Kompetanse'>
         <Liste elementer={cv.kompetanse} />
       </Gruppe>
-
       <Gruppe icon={<PersonCircleIcon aria-hidden />} tittel='Sammendrag'>
         {cv.sammendrag}
       </Gruppe>
-
       <Gruppe icon={<HatSchoolIcon aria-hidden />} tittel='Utdanning'>
         {cv.utdanning.map((utdanning) => (
           <Utdanning key={utdanning.utdanningsretning} utdanning={utdanning} />
         ))}
       </Gruppe>
-
       {cv.fagdokumentasjon.length > 0 && (
         <Gruppe
           icon={<SealCheckmarkIcon aria-hidden />}
@@ -91,7 +85,6 @@ const KandidatCv: React.FC<KandidatCv> = ({ cv, kandidatId }) => {
           <Liste elementer={cv.fagdokumentasjon} />
         </Gruppe>
       )}
-
       <Gruppe icon={<BriefcaseIcon aria-hidden />} tittel='Arbeidserfaring'>
         {cv.arbeidserfaring.map((arbeidserfaring) => (
           <Arbeidserfaring
@@ -100,7 +93,6 @@ const KandidatCv: React.FC<KandidatCv> = ({ cv, kandidatId }) => {
           />
         ))}
       </Gruppe>
-
       {cv.godkjenninger.length > 0 && (
         <Gruppe
           icon={<ShieldLockIcon aria-hidden />}
@@ -109,7 +101,6 @@ const KandidatCv: React.FC<KandidatCv> = ({ cv, kandidatId }) => {
           <Liste elementer={cv.godkjenninger} />
         </Gruppe>
       )}
-
       {cv.andreGodkjenninger.length > 0 && (
         <Gruppe
           icon={<ShieldCheckmarkIcon aria-hidden />}
@@ -123,7 +114,6 @@ const KandidatCv: React.FC<KandidatCv> = ({ cv, kandidatId }) => {
           ))}
         </Gruppe>
       )}
-
       {cv.førerkort.length > 0 && (
         <Gruppe icon={<CarIcon aria-hidden />} tittel='Førerkort'>
           {cv.førerkort.map((førerkort) => (
@@ -134,7 +124,6 @@ const KandidatCv: React.FC<KandidatCv> = ({ cv, kandidatId }) => {
           ))}
         </Gruppe>
       )}
-
       {cv.språk.length > 0 && (
         <Gruppe icon={<LanguageIcon aria-hidden />} tittel='Språk'>
           {cv.språk.map((språk) => (
@@ -142,7 +131,6 @@ const KandidatCv: React.FC<KandidatCv> = ({ cv, kandidatId }) => {
           ))}
         </Gruppe>
       )}
-
       {cv.kurs.length > 0 && (
         <Gruppe icon={<ClipboardIcon aria-hidden />} tittel='Kurs'>
           {cv.kurs.map((kurs) => (
@@ -150,7 +138,6 @@ const KandidatCv: React.FC<KandidatCv> = ({ cv, kandidatId }) => {
           ))}
         </Gruppe>
       )}
-
       {cv.andreErfaringer.length > 0 && (
         <Gruppe
           icon={<BriefcaseClockIcon aria-hidden />}
@@ -180,9 +167,9 @@ function Liste({ elementer }: { elementer: Array<string | null> }) {
 export function KandidatUtenCv() {
   return (
     <Box
-      padding='4'
+      padding='space-16'
       borderWidth='1'
-      borderRadius='small'
+      borderRadius='2'
       className='flex flex-col items-start self-stretch p-4 -mx-4 md:p-10 md:mx-0 bg-white'
     >
       <Heading size='large' level='2' className='mb-8 md:self-center'>

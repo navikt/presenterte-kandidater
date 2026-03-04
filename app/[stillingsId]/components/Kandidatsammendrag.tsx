@@ -3,8 +3,8 @@ import {
   KandidatCvDTO,
   KandidatMedCvDTO,
 } from '../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/kandidatliste.typer';
-import { BodyShort } from '@navikt/ds-react';
-import Link from 'next/link';
+import { Link as AkselLink, BodyShort } from '@navikt/ds-react';
+import NextLink from 'next/link';
 import type { FunctionComponent } from 'react';
 
 type Props = {
@@ -28,14 +28,14 @@ const Kandidatsammendrag: FunctionComponent<Props> = ({
 
   return (
     <li className='flex flex-col items-start p-4 [&:not(:last-child)]:border-b-2 [&:not(:last-child)]:border-gray-200'>
-      <Link
+      <AkselLink
+        as={NextLink}
         href={`/${stillingId}/kandidat/${kandidat.kandidat.uuid}?virksomhet=${valgtOrganisasjonsnummer}`}
-        className='navds-link'
       >
         <span className='text-font-size-xlarge'>
           {visKandidatnavn(kandidat.cv)}
         </span>
-      </Link>
+      </AkselLink>
       <BodyShort className='mt-2'>
         <span className='leading-7 font-bold'>Kompetanse: </span>
         <span>{kompetanse.join(', ')}</span>
@@ -48,6 +48,20 @@ const Kandidatsammendrag: FunctionComponent<Props> = ({
             .join(', ')}
         </span>
       </BodyShort>
+      {kandidat.kandidat.opprettet && (
+        <BodyShort>
+          <span className='leading-7 font-bold'>Dato lagt til: </span>
+          <span>
+            {new Date(kandidat.kandidat.opprettet).toLocaleString('nb-NO', {
+              day: 'numeric',
+              month: 'long',
+              year: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit',
+            })}
+          </span>
+        </BodyShort>
+      )}
     </li>
   );
 };
@@ -60,12 +74,12 @@ export const KandidatsammendragUtenCv: FunctionComponent<Props> = ({
 
   return (
     <li className='flex flex-col items-start p-4 [&:not(:last-child)]:border-b-2 [&:not(:last-child)]:border-gray-200'>
-      <Link
+      <AkselLink
+        as={NextLink}
         href={`/${stillingId}/kandidat/${kandidat.kandidat.uuid}?virksomhet=${valgtOrganisasjonsnummer}`}
-        className='navds-link'
       >
         <span className='text-font-size-xlarge'>Utilgjengelig kandidat</span>
-      </Link>
+      </AkselLink>
       <BodyShort>Kandidaten er ikke lenger tilgjengelig</BodyShort>
     </li>
   );

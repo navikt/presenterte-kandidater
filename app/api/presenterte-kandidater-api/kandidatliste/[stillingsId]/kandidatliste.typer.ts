@@ -25,6 +25,7 @@ const KandidatSchema = z.object({
   kandidatlisteId: z.string().optional(),
   arbeidsgiversVurdering: ArbeidsgiversVurdering,
   sistEndret: z.string().optional(),
+  opprettet: z.string().optional(),
 });
 
 export const kursSchema = z.object({

@@ -5,7 +5,10 @@ export enum Miljø {
 }
 
 export const getBasePath = () =>
-  process.env.NODE_ENV === 'development' ? '' : '/kandidatliste';
+  process.env.NODE_ENV === 'development' ||
+  process.env.NEXT_PUBLIC_PLAYWRIGHT_TEST_MODE === 'true'
+    ? ''
+    : '/kandidatliste';
 
 export const getClusterFSS = () => {
   // Sjekker om nåværende cluster er prod-gcp, hvis det er det returneres prod-fss, hvis ikke returneres dev-fss

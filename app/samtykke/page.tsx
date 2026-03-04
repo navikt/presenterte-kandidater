@@ -56,9 +56,9 @@ export default function Samtykke() {
             </Tilbakelenke>
           )}
           <Box
-            padding='4'
+            padding='space-16'
             borderWidth='1'
-            borderRadius='small'
+            borderRadius='2'
             className='flex flex-col gap-4 -mx-4 leading-8 md:m-0 md:p-10 bg-white'
           >
             <div className='flex flex-col mb-4 md:items-center'>
