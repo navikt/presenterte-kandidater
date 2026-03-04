@@ -12,11 +12,15 @@ test.describe('Kandidatvisning', () => {
       page,
       `/${STILLING_ID}/kandidat/${KANDIDAT_ID}?virksomhet=${VIRKSOMHET}`,
     );
-    await expect(page.getByText('Joare Mossby')).toBeVisible();
+    await expect(
+      page.getByRole('heading', { name: 'CV-en til Joare Mossby' }),
+    ).toBeVisible();
   });
 
   test('viser kandidat-CV', async ({ page }) => {
-    await expect(page.getByText('Joare Mossby')).toBeVisible();
+    await expect(
+      page.getByRole('heading', { name: 'CV-en til Joare Mossby' }),
+    ).toBeVisible();
   });
 
   snapshotTest(test);

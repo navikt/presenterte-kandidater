@@ -10,7 +10,7 @@ jobs:
     with:
       dev-vars-path: '.nais/dev-gcp.json'
       prod-vars-path: '.nais/prod-gcp.json'
-      deploy-dev-branch: 'altinn3'
+      deploy-dev-branch: 'update'
       a11y-command: 'pnpm a11y'
       playwright-command: 'pnpm test'
       playwright-snapshots: true

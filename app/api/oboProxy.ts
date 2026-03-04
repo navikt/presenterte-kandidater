@@ -54,7 +54,9 @@ export const proxyWithOBO = async (
     ? proxy.api_url + customRoute
     : `${proxy.api_url}${path}${originalUrl.search}`;
 
-  const requestUrl = lokalt ? originalUrl.toString() : newUrl;
+  const requestUrl = lokalt
+    ? `http://mock-api${path}${originalUrl.search}`
+    : newUrl;
 
   try {
     const originalHeaders = new Headers(req.headers);

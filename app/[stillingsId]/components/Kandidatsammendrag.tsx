@@ -48,6 +48,20 @@ const Kandidatsammendrag: FunctionComponent<Props> = ({
             .join(', ')}
         </span>
       </BodyShort>
+      {kandidat.kandidat.opprettet && (
+        <BodyShort>
+          <span className='leading-7 font-bold'>Dato lagt til: </span>
+          <span>
+            {new Date(kandidat.kandidat.opprettet).toLocaleString('nb-NO', {
+              day: 'numeric',
+              month: 'long',
+              year: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit',
+            })}
+          </span>
+        </BodyShort>
+      )}
     </li>
   );
 };

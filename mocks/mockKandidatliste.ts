@@ -35,7 +35,7 @@ const mocketKandidat = (
   kandidat: {
     uuid: kandidatId,
     arbeidsgiversVurdering,
-    // opprettet: new Date().toISOString(),
+    opprettet: '2026-03-04T12:25:20.436143+01:00',
   },
   cv:
     cv === null

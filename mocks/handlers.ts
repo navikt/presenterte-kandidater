@@ -45,7 +45,7 @@ export const handlers = [
     return new HttpResponse(null, { status: 200 });
   }),
 
-  http.post('*/graphql', () => {
+  http.post('*/api/graphql', () => {
     return HttpResponse.json(mockedeNotifikasjoner);
   }),
 ];
