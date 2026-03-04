@@ -82,7 +82,7 @@ export default async function RootLayout({
         <meta name='viewport' content='width=device-width,initial-scale=1' />
         <Decorator.HeadAssets />
       </head>
-      <body className='min-h-screen bg-gray-100'>
+      <body className='min-h-screen bg-gray-100' data-testid='app-root'>
         <div data-pa11y-ignore='decorator-header'>
           <Decorator.Header />
         </div>
