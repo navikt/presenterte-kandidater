@@ -9,8 +9,8 @@
     "lint": "eslint .",
     "a11y": "PUPPETEER_EXECUTABLE_PATH=$(node -e \"console.log(require('@playwright/test').chromium.executablePath())\") pa11y-ci",
     "test": "playwright test",
-    "test-build": "next build",
-    "test-dev": "next dev -p 1336",
+    "test-build": "NEXT_PUBLIC_PLAYWRIGHT_TEST_MODE=true next build",
+    "test-dev": "NEXT_PUBLIC_PLAYWRIGHT_TEST_MODE=true next dev -p 1336",
     "prepare": "husky"
   },
   "dependencies": {
