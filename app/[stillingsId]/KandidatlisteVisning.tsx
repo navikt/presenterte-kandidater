@@ -7,7 +7,6 @@ import SWRLaster from '../components/SWRLaster';
 import Tilbakelenke from '../components/TilbakeLenke';
 import { hentMiljø, Miljø } from '../util/miljø';
 import GruppeMedKandidater from './components/GruppeMedKandidater';
-import Spørreskjemalenke from './components/Spørreskjemalenke';
 import Vurderingsikon from './components/Vurderingsikon';
 import { ExternalLinkIcon, XMarkIcon } from '@navikt/aksel-icons';
 import { BodyLong, Box, Heading, Link as NavLink } from '@navikt/ds-react';
@@ -125,7 +124,6 @@ const KandidatlisteVisning: React.FC<KandidatlisteVisningProps> = ({
                 </div>
               )}
             </Box>
-            <Spørreskjemalenke />
           </div>
         );
       }}
