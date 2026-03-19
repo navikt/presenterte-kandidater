@@ -53,6 +53,8 @@ Se f.eks fetch() som bruker getBasePath() for å bygge opp url til APIet.
 
 Oasis håndterer autorisasjon og proxying av forespørsler til APIet er gjort i app/api/oboProxy.ts.
 
+## Kode generert av GitHub Copilot
+Dette repoet bruker GitHub Copilot til å generere kode.
 
 ## Henvendelser
 
