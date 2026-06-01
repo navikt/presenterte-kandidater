@@ -8,7 +8,6 @@ import {
   Kandidatvurdering,
 } from '../../../api/presenterte-kandidater-api/kandidatliste/[stillingsId]/kandidatliste.typer';
 import Tilbakelenke from '../../../components/TilbakeLenke';
-import Spørreskjemalenke from '../../components/Spørreskjemalenke';
 import EndreVurdering from './components/EndreVurdering';
 import KandidatCv from './components/KandidatCv';
 import { KandidatUtenCv } from './components/KandidatUtenCv';
@@ -50,8 +49,6 @@ export default function Kandidatvisning({
       ) : (
         <KandidatUtenCv />
       )}
-
-      <Spørreskjemalenke />
 
       <Slettemodal
         kandidatId={kandidat.kandidat.uuid}

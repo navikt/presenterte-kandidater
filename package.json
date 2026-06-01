@@ -21,16 +21,16 @@
     "@navikt/ds-css": "^8.6.0",
     "@navikt/ds-react": "^8.6.0",
     "@navikt/ds-tailwind": "^8.6.0",
-    "@navikt/nav-dekoratoren-moduler": "^3.4.0",
+    "@navikt/nav-dekoratoren-moduler": "^3.7.0",
     "@navikt/next-logger": "^4.4.1",
     "@navikt/oasis": "^4.1.0",
     "@tailwindcss/postcss": "^4.1.16",
     "html-react-parser": "^5.2.7",
-    "next": "16.1.6",
+    "next": "16.2.6",
     "nuqs": "^2.8.9",
     "pino": "^10.1.0",
-    "react": "19.2.4",
-    "react-dom": "19.2.4",
+    "react": "19.2.5",
+    "react-dom": "19.2.5",
     "react-error-boundary": "^6.0.0",
     "swr": "^2.3.6",
     "tailwindcss": "^4.1.16",
@@ -41,12 +41,12 @@
     "@playwright/test": "^1.57.0",
     "@trivago/prettier-plugin-sort-imports": "^6.0.2",
     "@types/node": "^25.3.3",
-    "@types/react": "^19.0.10",
-    "@types/react-dom": "^19.0.4",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
     "autoprefixer": "^10.4.20",
     "csp-header": "^6.0.1",
-    "eslint": "^9.21.0",
-    "eslint-config-next": "16.1.0",
+    "eslint": "9.26.0",
+    "eslint-config-next": "16.2.6",
     "eslint-config-prettier": "^10.0.2",
     "eslint-plugin-react-compiler": "19.1.0-rc.2",
     "husky": "^9.1.7",
@@ -58,5 +58,11 @@
     "prettier-plugin-sort-json": "^4.1.1",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "typescript": "^5.8.2"
+  },
+  "pnpm": {
+    "overrides": {
+      "@types/react": "19.2.14",
+      "@types/react-dom": "19.2.3"
+    }
   }
 }
