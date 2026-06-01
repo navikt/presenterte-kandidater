@@ -6,7 +6,7 @@ on:
 jobs:
   build-and-deploy:
     name: Next
-    uses: navikt/toi-github-actions-workflows/.github/workflows/build-and-deploy-nextjs.yaml@v11.2
+    uses: navikt/toi-frontend-workflows/.github/workflows/build-and-deploy-nextjs.yaml@v1
     with:
       dev-vars-path: '.nais/dev-gcp.json'
       prod-vars-path: '.nais/prod-gcp.json'
