@@ -1,4 +1,9 @@
 packages: []
 
+allowBuilds:
+  msw: true
+  puppeteer: true
+  sharp: true
+
 ignoredBuiltDependencies:
   - msw

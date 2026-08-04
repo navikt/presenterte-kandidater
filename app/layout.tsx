@@ -2,9 +2,7 @@ import { ApplikasjonsContextProvider } from './ApplikasjonsContext';
 import Header from './components/Header';
 import './globals.css';
 import { hentMiljø, Miljø } from './util/miljø';
-import '@navikt/arbeidsgiver-notifikasjon-widget/lib/cjs/index.css';
-import '@navikt/bedriftsmeny/lib/bedriftsmeny.css';
-import '@navikt/ds-css';
+import NotifikasjonProvider from '@/app/components/NotifikasjonProvider';
 import { Loader } from '@navikt/ds-react';
 import { fetchDecoratorReact } from '@navikt/nav-dekoratoren-moduler/ssr';
 import type { Metadata } from 'next';
@@ -31,7 +29,7 @@ function RootSuspense({ children }: { children: React.ReactNode }) {
   );
 }
 
-export const byggBrødsmulesti = (miljø: Miljø) => {
+const byggBrødsmulesti = (miljø: Miljø) => {
   if (miljø === Miljø.ProdGcp) {
     return [
       {
@@ -81,21 +79,24 @@ export default async function RootLayout({
         <meta charSet='utf-8' />
         <meta name='viewport' content='width=device-width,initial-scale=1' />
         <Decorator.HeadAssets />
+        <title>Foreslåtte kandidater</title>
       </head>
       <body className='min-h-screen bg-gray-100' data-testid='app-root'>
         <div data-pa11y-ignore='decorator-header'>
           <Decorator.Header />
         </div>
-        <RootSuspense>
-          <div data-testid='app-root' className='min-h-screen'>
-            <div className='w-full border-b'>
-              <Header />
+        <NotifikasjonProvider>
+          <RootSuspense>
+            <div data-testid='app-root' className='min-h-screen'>
+              <div className='w-full border-b'>
+                <Header />
+              </div>
+              <main className='flex flex-col max-w-[56rem] mb-12 md:mx-auto md:my-4 md:p-4'>
+                {children}
+              </main>
             </div>
-            <main className='flex flex-col max-w-[56rem] mb-12 md:mx-auto md:my-4 md:p-4'>
-              {children}
-            </main>
-          </div>
-        </RootSuspense>
+          </RootSuspense>
+        </NotifikasjonProvider>
         <div data-pa11y-ignore='decorator-footer'>
           <Decorator.Footer />
         </div>

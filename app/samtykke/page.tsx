@@ -73,11 +73,13 @@ export default function Samtykke() {
             <BodyLong>
               Arbeidsgiver gir tilganger til sine ansatte i Altinn. Hvis flere
               ansatte har fått tilgang til å motta CV-er fra Nav, kan de se og
-              utføre det samme. De kan også endre det som andre har utført.
-              Arbeidsgiver har ansvar for at kun ansatte med behov har tilgang
-              til CV-er fra Nav. Den som har fått tilgangen har ansvar for ikke
-              å dele CV-er med andre uten behov. Tilgangsstyring skjer gjennom
-              Altinn.
+              utføre det samme. De kan også endre det som andre har utført. En
+              presisering er at det eneste arbeidsgiver kan utføre i tillegg til
+              å se de mottatte CV-er, er å legge på status om en CV er aktuell
+              eller ikke samt mulighet for å slette CV-er når det ikke lenger er
+              behov for dem. Arbeidsgiver har ansvar for at kun ansatte med
+              behov har tilgang til CV-ene, og CV-ene skal ikke deles videre til
+              personer uten behov.
             </BodyLong>
             <Heading level='3' size='medium'>
               Bruk av opplysninger i CV-er
@@ -87,9 +89,9 @@ export default function Samtykke() {
               rekruttere eller oppfordre personer til å søke på stillinger.
             </BodyLong>
             <BodyLong>
-              Det er ikke tillatt å bruke CV-er til andre formål, slik som å
+              Det er ikke tillatt å bruke CV-er til andre formål, slik som å:
             </BodyLong>
-            <ul>
+            <ul className={'list-disc list-inside'}>
               <li>
                 bruke opplysninger i forbindelse med salg eller markedsføring av
                 varer eller tjenester
@@ -106,15 +108,15 @@ export default function Samtykke() {
             <Heading level='3' size='medium'>
               Arbeidsgiver må være oppmerksom på dette:
             </Heading>
-            <ul>
+            <ul className={'list-disc list-inside'}>
               <li>
                 CV-ene slettes automatisk seks måneder etter at de mottatt. Hvis
-                du ikke lenger har behov for CV-ene, skal du slette de og ikke
+                du ikke lenger har behov for CV-ene, skal du slette dem og ikke
                 vente på den automatiske slettingen.
               </li>
               <li>
                 Arbeidsgiver har behandlingsansvaret for personopplysningene
-                dersom kopi av CV-en på nav.no printes ut eller lagres i egne
+                dersom kopi av CV-en på nav.no skrives ut eller lagres i egne
                 systemer.
               </li>
             </ul>
@@ -138,7 +140,7 @@ export default function Samtykke() {
             <BodyLong>
               <span>Har du spørsmål, kan du kontakte oss på </span>
               <NavLink href='https://arbeidsgiver.nav.no/kontakt-oss/'>
-                Kontakt Nav - arbeidsgiver
+                Kontakt Nav – arbeidsgiver
               </NavLink>
             </BodyLong>
 

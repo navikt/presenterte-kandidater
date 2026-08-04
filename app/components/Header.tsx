@@ -1,44 +1,70 @@
 'use client';
 
 import { useApplikasjonContext } from '../ApplikasjonsContext';
-import { getBasePath, hentMiljø, Miljø } from '../util/miljø';
-import type { Miljø as NotifikasjonMiljø } from '@navikt/arbeidsgiver-notifikasjon-widget';
+import {
+  OrganisasjonDTO,
+  OrganisasjonerDTO,
+} from '@/app/api/presenterte-kandidater-api/organisasjoner/useOrganisasjoner';
 import { NotifikasjonWidget } from '@navikt/arbeidsgiver-notifikasjon-widget';
-import Bedriftsmeny, { Organisasjon } from '@navikt/bedriftsmeny';
+import '@navikt/arbeidsgiver-notifikasjon-widget/lib/cjs/index.css';
+import '@navikt/ds-css';
 import { Loader } from '@navikt/ds-react';
-import type { FunctionComponent } from 'react';
+import {
+  Banner,
+  Organisasjon,
+  Virksomhetsvelger,
+} from '@navikt/virksomhetsvelger';
+import '@navikt/virksomhetsvelger/dist/assets/style.css';
+import { FunctionComponent, useCallback, useMemo } from 'react';
+
+const tilOrganisasjonstre = (
+  organisasjoner: OrganisasjonerDTO,
+): Organisasjon[] => {
+  const tilOrg = (organisasjon: OrganisasjonDTO): Organisasjon => ({
+    orgnr: organisasjon.OrganizationNumber,
+    navn: organisasjon.Name,
+    underenheter: organisasjoner
+      .filter(
+        (underenhet) =>
+          underenhet.ParentOrganizationNumber ===
+          organisasjon.OrganizationNumber,
+      )
+      .map(tilOrg),
+  });
+
+  return organisasjoner
+    .filter((organisasjon) => !organisasjon.ParentOrganizationNumber)
+    .map(tilOrg);
+};
 
 const Header: FunctionComponent = () => {
   const { organisasjoner, orgnrHook } = useApplikasjonContext();
-  const miljø = hentMiljøTilNotifikasjonWidget();
+  const [orgnr, settOrgnr] = orgnrHook?.() ?? [null, () => {}];
+
+  const organisasjonstre = useMemo(
+    () => (organisasjoner ? tilOrganisasjonstre(organisasjoner) : []),
+    [organisasjoner],
+  );
+
+  const håndterEndreVirksomhet = useCallback(
+    (org: Organisasjon) => settOrgnr(org.orgnr),
+    [settOrgnr],
+  );
 
   if (!organisasjoner) {
     return <Loader />;
   }
-  return (
-    <Bedriftsmeny
-      sidetittel='Kandidater'
-      //TODO Endre hvis bedriftmeny fikser null på parent organisasjon
-      organisasjoner={organisasjoner as unknown as Organisasjon[]}
-      orgnrSearchParam={orgnrHook}
-    >
-      <NotifikasjonWidget
-        miljo={miljø}
-        apiUrl={`${getBasePath()}/api/notifikasjon-bruker-api/graphql`}
-      />
-    </Bedriftsmeny>
-  );
-};
 
-const hentMiljøTilNotifikasjonWidget = (): NotifikasjonMiljø => {
-  switch (hentMiljø()) {
-    case Miljø.DevGcp:
-      return 'dev';
-    case Miljø.ProdGcp:
-      return 'prod';
-    case Miljø.Lokalt:
-      return 'local';
-  }
+  return (
+    <Banner tittel='Kandidater'>
+      <Virksomhetsvelger
+        organisasjoner={organisasjonstre}
+        initValgtOrgnr={orgnr ?? undefined}
+        onChange={håndterEndreVirksomhet}
+      />
+      <NotifikasjonWidget />
+    </Banner>
+  );
 };
 
 export default Header;

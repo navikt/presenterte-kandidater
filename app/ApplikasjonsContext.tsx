@@ -33,9 +33,9 @@ export const ApplikasjonsContextProvider: React.FC<
 
   const [orgnummer, setOrgnummer] = useQueryState('virksomhet');
 
-  configureLogger({
-    basePath: getBasePath(),
-  });
+  React.useEffect(() => {
+    configureLogger({ basePath: getBasePath() });
+  }, []);
 
   const oppdaterOrgnummer = React.useCallback(
     (orgnummer: string) => {
@@ -49,7 +49,7 @@ export const ApplikasjonsContextProvider: React.FC<
       return;
     }
     const underenheter = data.filter(
-      (org) => org.ParentOrganizationNumber !== null,
+      (organisasjon) => !!organisasjon.ParentOrganizationNumber,
     );
     if (underenheter.length > 0 && underenheter[0].OrganizationNumber) {
       void setOrgnummer(underenheter[0].OrganizationNumber);
@@ -62,18 +62,21 @@ export const ApplikasjonsContextProvider: React.FC<
       [orgnummer, oppdaterOrgnummer],
     );
 
+  const contextVerdi = React.useMemo(
+    () => ({
+      organisasjoner: data,
+      valgtOrganisasjonsnummer: orgnummer,
+      orgnrHook: useOrgnrHook,
+    }),
+    [data, orgnummer, useOrgnrHook],
+  );
+
   if (isLoading || samtykke.isLoading) {
     return <Loader />;
   }
 
   return (
-    <ApplikasjonsContext.Provider
-      value={{
-        organisasjoner: data,
-        valgtOrganisasjonsnummer: orgnummer,
-        orgnrHook: useOrgnrHook,
-      }}
-    >
+    <ApplikasjonsContext.Provider value={contextVerdi}>
       {samtykke?.data?.harSamtykket ? children : <Samtykke />}
     </ApplikasjonsContext.Provider>
   );
