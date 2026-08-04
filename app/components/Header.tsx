@@ -6,14 +6,12 @@ import {
   OrganisasjonerDTO,
 } from '@/app/api/presenterte-kandidater-api/organisasjoner/useOrganisasjoner';
 import { NotifikasjonWidget } from '@navikt/arbeidsgiver-notifikasjon-widget';
-import '@navikt/arbeidsgiver-notifikasjon-widget/lib/cjs/index.css';
 import { Loader } from '@navikt/ds-react';
 import {
   Banner,
   Organisasjon,
   Virksomhetsvelger,
 } from '@navikt/virksomhetsvelger';
-import '@navikt/virksomhetsvelger/dist/assets/style.css';
 import { FunctionComponent, useCallback, useMemo } from 'react';
 
 const tilOrganisasjonstre = (

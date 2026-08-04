@@ -3,9 +3,11 @@ import Header from './components/Header';
 import './globals.css';
 import { hentMiljø, Miljø } from './util/miljø';
 import NotifikasjonProvider from '@/app/components/NotifikasjonProvider';
+import '@navikt/arbeidsgiver-notifikasjon-widget/lib/cjs/index.css';
 import '@navikt/ds-css';
 import { Loader } from '@navikt/ds-react';
 import { fetchDecoratorReact } from '@navikt/nav-dekoratoren-moduler/ssr';
+import '@navikt/virksomhetsvelger/dist/assets/style.css';
 import type { Metadata } from 'next';
 import Script from 'next/script';
 import { NuqsAdapter } from 'nuqs/adapters/next';
@@ -80,7 +82,6 @@ export default async function RootLayout({
         <meta charSet='utf-8' />
         <meta name='viewport' content='width=device-width,initial-scale=1' />
         <Decorator.HeadAssets />
-        <title>Foreslåtte kandidater</title>
       </head>
       <body className='min-h-screen bg-gray-100' data-testid='app-root'>
         <div data-pa11y-ignore='decorator-header'>
