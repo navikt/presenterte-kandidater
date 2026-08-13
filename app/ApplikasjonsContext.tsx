@@ -12,6 +12,8 @@ import { configureLogger } from '@navikt/next-logger';
 import { useQueryState } from 'nuqs';
 import * as React from 'react';
 
+configureLogger({ basePath: getBasePath() });
+
 interface IApplikasjonsContext {
   organisasjoner?: OrganisasjonerDTO;
   valgtOrganisasjonsnummer: string | null;
@@ -32,10 +34,6 @@ export const ApplikasjonsContextProvider: React.FC<
   const samtykke = useHentSamtykke();
 
   const [orgnummer, setOrgnummer] = useQueryState('virksomhet');
-
-  React.useEffect(() => {
-    configureLogger({ basePath: getBasePath() });
-  }, []);
 
   const oppdaterOrgnummer = React.useCallback(
     (orgnummer: string) => {
