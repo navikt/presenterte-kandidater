@@ -1,10 +1,7 @@
 'use client';
 
 import { useApplikasjonContext } from '../ApplikasjonsContext';
-import {
-  OrganisasjonDTO,
-  OrganisasjonerDTO,
-} from '@/app/api/presenterte-kandidater-api/organisasjoner/useOrganisasjoner';
+import { tilOrganisasjonstre } from '@/app/util/organisasjonstreMapper';
 import { NotifikasjonWidget } from '@navikt/arbeidsgiver-notifikasjon-widget';
 import { Loader } from '@navikt/ds-react';
 import {
@@ -14,29 +11,12 @@ import {
 } from '@navikt/virksomhetsvelger';
 import { FunctionComponent, useCallback, useMemo } from 'react';
 
-const tilOrganisasjonstre = (
-  organisasjoner: OrganisasjonerDTO,
-): Organisasjon[] => {
-  const tilOrg = (organisasjon: OrganisasjonDTO): Organisasjon => ({
-    orgnr: organisasjon.OrganizationNumber,
-    navn: organisasjon.Name,
-    underenheter: organisasjoner
-      .filter(
-        (underenhet) =>
-          underenhet.ParentOrganizationNumber ===
-          organisasjon.OrganizationNumber,
-      )
-      .map(tilOrg),
-  });
-
-  return organisasjoner
-    .filter((organisasjon) => !organisasjon.ParentOrganizationNumber)
-    .map(tilOrg);
-};
-
 const Header: FunctionComponent = () => {
-  const { organisasjoner, orgnrHook } = useApplikasjonContext();
-  const [orgnr, settOrgnr] = orgnrHook?.() ?? [null, () => {}];
+  const {
+    organisasjoner,
+    valgtOrganisasjonsnummer,
+    settValgtOrganisasjonsnummer,
+  } = useApplikasjonContext();
 
   const organisasjonstre = useMemo(
     () => (organisasjoner ? tilOrganisasjonstre(organisasjoner) : []),
@@ -44,8 +24,9 @@ const Header: FunctionComponent = () => {
   );
 
   const håndterEndreVirksomhet = useCallback(
-    (org: Organisasjon) => settOrgnr(org.orgnr),
-    [settOrgnr],
+    (organisasjon: Organisasjon) =>
+      settValgtOrganisasjonsnummer(organisasjon.orgnr),
+    [settValgtOrganisasjonsnummer],
   );
 
   if (!organisasjoner) {
@@ -56,7 +37,7 @@ const Header: FunctionComponent = () => {
     <Banner tittel='Kandidater'>
       <Virksomhetsvelger
         organisasjoner={organisasjonstre}
-        initValgtOrgnr={orgnr ?? undefined}
+        initValgtOrgnr={valgtOrganisasjonsnummer ?? undefined}
         onChange={håndterEndreVirksomhet}
       />
       <NotifikasjonWidget />

@@ -15,11 +15,11 @@ import * as React from 'react';
 interface IApplikasjonsContext {
   organisasjoner?: OrganisasjonerDTO;
   valgtOrganisasjonsnummer: string | null;
-  orgnrHook?: () => [string | null, (orgnr: string) => void];
+  settValgtOrganisasjonsnummer: (orgnr: string) => void;
 }
-export const ApplikasjonsContext = React.createContext<IApplikasjonsContext>({
-  valgtOrganisasjonsnummer: null,
-});
+export const ApplikasjonsContext = React.createContext<
+  IApplikasjonsContext | undefined
+>(undefined);
 
 export interface ApplikasjonsContextProps {
   children?: React.ReactNode | undefined;
@@ -56,19 +56,13 @@ export const ApplikasjonsContextProvider: React.FC<
     }
   }, [orgnummer, data, setOrgnummer]);
 
-  const useOrgnrHook: () => [string | null, (orgnr: string) => void] =
-    React.useCallback(
-      () => [orgnummer, oppdaterOrgnummer],
-      [orgnummer, oppdaterOrgnummer],
-    );
-
   const contextVerdi = React.useMemo(
     () => ({
       organisasjoner: data,
       valgtOrganisasjonsnummer: orgnummer,
-      orgnrHook: useOrgnrHook,
+      settValgtOrganisasjonsnummer: oppdaterOrgnummer,
     }),
-    [data, orgnummer, useOrgnrHook],
+    [data, orgnummer, oppdaterOrgnummer],
   );
 
   if (isLoading || samtykke.isLoading) {
