@@ -6,8 +6,8 @@ import { useUseKandidatlister } from './api/presenterte-kandidater-api/kandidatl
 import IngenOrganisasjoner from './components/IngenOrganisasjoner';
 import SWRLaster from './components/SWRLaster';
 import VisKandidatlistesammendrag from './components/VisKandidatlistesammendrag';
-import { Link as AkselLink, BodyShort, Heading } from '@navikt/ds-react';
-import NextLink from 'next/link';
+import { FileParagraphIcon } from '@navikt/aksel-icons';
+import { BodyShort, Heading, LinkCard } from '@navikt/ds-react';
 import { useRouter } from 'next/navigation';
 import * as React from 'react';
 
@@ -45,53 +45,61 @@ const Kandidatlister: React.FC = () => {
         });
 
         return (
-          <div className='p-4'>
-            <Heading level='2' size='small' className='mb-4'>
-              Aktive rekrutteringsprosesser
-            </Heading>
+          <div className='p-4 flex flex-row flex-wrap justify-around gap-6'>
+            <div>
+              <Heading level='2' size='small' className='mb-4'>
+                Aktive rekrutteringsprosesser
+              </Heading>
 
-            {valgtOrganisasjonsnummer && aktive.length > 0 ? (
-              <ul className='p-0 flex flex-col gap-6 list-none mb-12'>
-                {aktive.map((sammendrag) => (
-                  <VisKandidatlistesammendrag
-                    virksomhet={valgtOrganisasjonsnummer}
-                    key={sammendrag.kandidatliste.stillingId}
-                    sammendrag={sammendrag}
-                  />
-                ))}
-              </ul>
-            ) : (
-              <BodyShort className='mb-12'>
-                <em>Ingen aktive rekrutteringsprosesser</em>
-              </BodyShort>
-            )}
+              {valgtOrganisasjonsnummer && aktive.length > 0 ? (
+                <ul className='p-0 flex flex-col gap-6 list-none mb-12'>
+                  {aktive.map((sammendrag) => (
+                    <VisKandidatlistesammendrag
+                      virksomhet={valgtOrganisasjonsnummer}
+                      key={sammendrag.kandidatliste.stillingId}
+                      sammendrag={sammendrag}
+                    />
+                  ))}
+                </ul>
+              ) : (
+                <BodyShort className='mb-12'>
+                  <em>Ingen aktive rekrutteringsprosesser</em>
+                </BodyShort>
+              )}
 
-            <Heading level='2' size='small' className='mb-4'>
-              Avsluttede rekrutteringsprosesser
-            </Heading>
+              <Heading level='2' size='small' className='mb-4'>
+                Avsluttede rekrutteringsprosesser
+              </Heading>
 
-            {valgtOrganisasjonsnummer && avsluttede.length > 0 ? (
-              <ul className='p-0 flex flex-col gap-6 list-none mb-12'>
-                {avsluttede.map((sammendrag) => (
-                  <VisKandidatlistesammendrag
-                    virksomhet={valgtOrganisasjonsnummer}
-                    key={sammendrag.kandidatliste.stillingId}
-                    sammendrag={sammendrag}
-                  />
-                ))}
-              </ul>
-            ) : (
-              <BodyShort className='mb-12'>
-                <em>Ingen avsluttede rekrutteringsprosesser</em>
-              </BodyShort>
-            )}
+              {valgtOrganisasjonsnummer && avsluttede.length > 0 ? (
+                <ul className='p-0 flex flex-col gap-6 list-none mb-12'>
+                  {avsluttede.map((sammendrag) => (
+                    <VisKandidatlistesammendrag
+                      virksomhet={valgtOrganisasjonsnummer}
+                      key={sammendrag.kandidatliste.stillingId}
+                      sammendrag={sammendrag}
+                    />
+                  ))}
+                </ul>
+              ) : (
+                <BodyShort className='mb-12'>
+                  <em>Ingen avsluttede rekrutteringsprosesser</em>
+                </BodyShort>
+              )}
+            </div>
             <div className='flex justify-center'>
-              <AkselLink
-                as={NextLink}
-                href={`/samtykke?virksomhet=${valgtOrganisasjonsnummer}`}
-              >
-                Vilkår for tjenesten
-              </AkselLink>
+              <LinkCard>
+                <LinkCard.Icon>
+                  <FileParagraphIcon fontSize='2rem' />
+                </LinkCard.Icon>
+                <LinkCard.Title>
+                  <LinkCard.Anchor
+                    href={`/samtykke?virksomhet=${valgtOrganisasjonsnummer}`}
+                  >
+                    Vilkår for tjenesten
+                  </LinkCard.Anchor>
+                </LinkCard.Title>
+              </LinkCard>
             </div>
           </div>
         );
