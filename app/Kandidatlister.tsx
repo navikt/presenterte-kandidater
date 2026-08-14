@@ -87,7 +87,7 @@ const Kandidatlister: React.FC = () => {
                 </BodyShort>
               )}
             </div>
-            <div className='flex justify-center'>
+            <div className='flex justify-center h-fit'>
               <LinkCard>
                 <LinkCard.Icon>
                   <FileParagraphIcon fontSize='2rem' />
