@@ -12,14 +12,16 @@ import { configureLogger } from '@navikt/next-logger';
 import { useQueryState } from 'nuqs';
 import * as React from 'react';
 
+configureLogger({ basePath: getBasePath() });
+
 interface IApplikasjonsContext {
   organisasjoner?: OrganisasjonerDTO;
   valgtOrganisasjonsnummer: string | null;
-  orgnrHook?: () => [string | null, (orgnr: string) => void];
+  settValgtOrganisasjonsnummer: (orgnr: string) => void;
 }
-export const ApplikasjonsContext = React.createContext<IApplikasjonsContext>({
-  valgtOrganisasjonsnummer: null,
-});
+export const ApplikasjonsContext = React.createContext<
+  IApplikasjonsContext | undefined
+>(undefined);
 
 export interface ApplikasjonsContextProps {
   children?: React.ReactNode | undefined;
@@ -33,10 +35,6 @@ export const ApplikasjonsContextProvider: React.FC<
 
   const [orgnummer, setOrgnummer] = useQueryState('virksomhet');
 
-  configureLogger({
-    basePath: getBasePath(),
-  });
-
   const oppdaterOrgnummer = React.useCallback(
     (orgnummer: string) => {
       void setOrgnummer(orgnummer);
@@ -49,31 +47,28 @@ export const ApplikasjonsContextProvider: React.FC<
       return;
     }
     const underenheter = data.filter(
-      (org) => org.ParentOrganizationNumber !== null,
+      (organisasjon) => !!organisasjon.ParentOrganizationNumber,
     );
     if (underenheter.length > 0 && underenheter[0].OrganizationNumber) {
       void setOrgnummer(underenheter[0].OrganizationNumber);
     }
   }, [orgnummer, data, setOrgnummer]);
 
-  const useOrgnrHook: () => [string | null, (orgnr: string) => void] =
-    React.useCallback(
-      () => [orgnummer, oppdaterOrgnummer],
-      [orgnummer, oppdaterOrgnummer],
-    );
+  const contextVerdi = React.useMemo(
+    () => ({
+      organisasjoner: data,
+      valgtOrganisasjonsnummer: orgnummer,
+      settValgtOrganisasjonsnummer: oppdaterOrgnummer,
+    }),
+    [data, orgnummer, oppdaterOrgnummer],
+  );
 
   if (isLoading || samtykke.isLoading) {
     return <Loader />;
   }
 
   return (
-    <ApplikasjonsContext.Provider
-      value={{
-        organisasjoner: data,
-        valgtOrganisasjonsnummer: orgnummer,
-        orgnrHook: useOrgnrHook,
-      }}
-    >
+    <ApplikasjonsContext.Provider value={contextVerdi}>
       {samtykke?.data?.harSamtykket ? children : <Samtykke />}
     </ApplikasjonsContext.Provider>
   );

@@ -2,11 +2,12 @@ import { ApplikasjonsContextProvider } from './ApplikasjonsContext';
 import Header from './components/Header';
 import './globals.css';
 import { hentMiljø, Miljø } from './util/miljø';
+import NotifikasjonProvider from '@/app/components/NotifikasjonProvider';
 import '@navikt/arbeidsgiver-notifikasjon-widget/lib/cjs/index.css';
-import '@navikt/bedriftsmeny/lib/bedriftsmeny.css';
 import '@navikt/ds-css';
 import { Loader } from '@navikt/ds-react';
 import { fetchDecoratorReact } from '@navikt/nav-dekoratoren-moduler/ssr';
+import '@navikt/virksomhetsvelger/dist/assets/style.css';
 import type { Metadata } from 'next';
 import Script from 'next/script';
 import { NuqsAdapter } from 'nuqs/adapters/next';
@@ -31,7 +32,7 @@ function RootSuspense({ children }: { children: React.ReactNode }) {
   );
 }
 
-export const byggBrødsmulesti = (miljø: Miljø) => {
+const byggBrødsmulesti = (miljø: Miljø) => {
   if (miljø === Miljø.ProdGcp) {
     return [
       {
@@ -86,16 +87,18 @@ export default async function RootLayout({
         <div data-pa11y-ignore='decorator-header'>
           <Decorator.Header />
         </div>
-        <RootSuspense>
-          <div data-testid='app-root' className='min-h-screen'>
-            <div className='w-full border-b'>
-              <Header />
+        <NotifikasjonProvider>
+          <RootSuspense>
+            <div data-testid='app-root' className='min-h-screen'>
+              <div className='w-full border-b'>
+                <Header />
+              </div>
+              <main className='flex flex-col max-w-[56rem] mb-12 md:mx-auto md:my-4 md:p-4'>
+                {children}
+              </main>
             </div>
-            <main className='flex flex-col max-w-[56rem] mb-12 md:mx-auto md:my-4 md:p-4'>
-              {children}
-            </main>
-          </div>
-        </RootSuspense>
+          </RootSuspense>
+        </NotifikasjonProvider>
         <div data-pa11y-ignore='decorator-footer'>
           <Decorator.Footer />
         </div>
