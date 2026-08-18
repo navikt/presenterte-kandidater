@@ -52,7 +52,7 @@ const Kandidatlister: React.FC = () => {
                 Aktive rekrutteringsprosesser
               </Heading>
 
-              {valgtOrganisasjonsnummer && aktive.length > 0 ? (
+              {aktive.length > 0 ? (
                 <ul className='p-0 flex flex-col gap-6 list-none mb-12'>
                   {aktive.map((sammendrag) => (
                     <VisKandidatlistesammendrag
@@ -72,7 +72,7 @@ const Kandidatlister: React.FC = () => {
                 Avsluttede rekrutteringsprosesser
               </Heading>
 
-              {valgtOrganisasjonsnummer && avsluttede.length > 0 ? (
+              {avsluttede.length > 0 ? (
                 <ul className='p-0 flex flex-col gap-6 list-none mb-12'>
                   {avsluttede.map((sammendrag) => (
                     <VisKandidatlistesammendrag
@@ -91,7 +91,7 @@ const Kandidatlister: React.FC = () => {
             <div className='flex justify-center h-fit'>
               <LinkCard>
                 <LinkCard.Icon>
-                  <FileParagraphIcon fontSize='2rem' />
+                  <FileParagraphIcon aria-hidden fontSize='2rem' />
                 </LinkCard.Icon>
                 <LinkCard.Title>
                   <LinkCard.Anchor asChild>
