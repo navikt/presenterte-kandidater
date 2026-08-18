@@ -8,6 +8,7 @@ import SWRLaster from './components/SWRLaster';
 import VisKandidatlistesammendrag from './components/VisKandidatlistesammendrag';
 import { FileParagraphIcon } from '@navikt/aksel-icons';
 import { BodyShort, Heading, LinkCard } from '@navikt/ds-react';
+import NextLink from 'next/link';
 import { useRouter } from 'next/navigation';
 import * as React from 'react';
 
@@ -93,10 +94,12 @@ const Kandidatlister: React.FC = () => {
                   <FileParagraphIcon fontSize='2rem' />
                 </LinkCard.Icon>
                 <LinkCard.Title>
-                  <LinkCard.Anchor
-                    href={`/samtykke?virksomhet=${valgtOrganisasjonsnummer}`}
-                  >
-                    Vilkår for tjenesten
+                  <LinkCard.Anchor asChild>
+                    <NextLink
+                      href={`/samtykke?virksomhet=${valgtOrganisasjonsnummer}`}
+                    >
+                      Vilkår for tjenesten
+                    </NextLink>
                   </LinkCard.Anchor>
                 </LinkCard.Title>
               </LinkCard>
