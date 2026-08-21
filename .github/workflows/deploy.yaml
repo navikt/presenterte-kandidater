@@ -10,7 +10,7 @@ jobs:
     with:
       dev-vars-path: '.nais/dev-gcp.json'
       prod-vars-path: '.nais/prod-gcp.json'
-      deploy-dev-branch: 'vilkar-synlighet'
+      deploy-dev-branch: 'endre_innlogging_level'
       a11y-command: 'pnpm a11y'
       playwright-command: 'pnpm test'
       playwright-snapshots: true
