@@ -34,7 +34,7 @@ const Feilmelding: React.FC<IFeilmelding> = ({
       <Alert className='w-full' style={{ margin: '1rem' }} variant='error'>
         <strong>Feil ved validering av data (ZodError)</strong>
         <BodyLong>{tittel}</BodyLong>
-        <BodyShort>Antall feil {zodError?.errors.length ?? 'N/A'}</BodyShort>
+        <BodyShort>Antall feil {zodError.issues.length}</BodyShort>
         <Button
           className='mt-4 mb-4'
           size='small'
@@ -45,7 +45,7 @@ const Feilmelding: React.FC<IFeilmelding> = ({
         </Button>
         {showError && (
           <div>
-            {zodError?.errors?.map((e, i) => (
+            {zodError.issues.map((e, i) => (
               <div key={i} className='mb-2'>
                 <dd>
                   <strong>{e.code}:</strong> {e.message}
