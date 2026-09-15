@@ -4,6 +4,14 @@ import { logger } from '@navikt/next-logger';
 import { getToken, requestOboToken, TokenResult } from '@navikt/oasis';
 import { NextResponse } from 'next/server';
 
+const isAbortLikeError = (error: unknown): boolean => {
+  if (!error || typeof error !== 'object') {
+    return false;
+  }
+  const abortError = error as { name?: unknown; message?: unknown };
+  return abortError.name === 'AbortError' || abortError.message === 'aborted';
+};
+
 export const proxyWithOBO = async (
   proxy: Iroute,
   req: Request,
@@ -121,12 +129,10 @@ export const proxyWithOBO = async (
   } catch (error: unknown) {
     const message = `Feil ved proxying av forespørselen til url: ${requestUrl} fra url: ${originalUrl}`;
 
-    if (error instanceof Error) {
-      if (error.message === 'aborted' || error.name === 'AbortError') {
-        logger.info(error, message);
-      } else {
-        logger.error(error, message);
-      }
+    if (isAbortLikeError(error)) {
+      logger.info({ error }, message);
+    } else if (error instanceof Error) {
+      logger.error(error, message);
     } else {
       logger.error({ msg: 'Unknown error', error }, message);
     }
