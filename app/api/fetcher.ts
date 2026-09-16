@@ -12,7 +12,7 @@ export const getAPIwithSchema = <T>(
     const zodResult = schema.safeParse(data);
 
     if (zodResult.error) {
-      logger.error(zodResult.error.message);
+      logger.error(zodResult.error, 'Feil ved validering av API-respons');
     }
     return data;
   };
@@ -133,7 +133,7 @@ export const postApiWithSchema = <T>(
     const zodResult = schema.safeParse(data);
 
     if (zodResult.error) {
-      logger.error(zodResult.error.message);
+      logger.error(zodResult.error, 'Feil ved validering av API-respons');
     }
 
     return data;
