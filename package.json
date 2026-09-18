@@ -15,7 +15,6 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@amplitude/analytics-browser": "^2.45.8",
     "@navikt/aksel-icons": "^8.16.2",
     "@navikt/arbeidsgiver-notifikasjon-widget": "^8.0.5",
     "@navikt/ds-css": "^8.16.2",

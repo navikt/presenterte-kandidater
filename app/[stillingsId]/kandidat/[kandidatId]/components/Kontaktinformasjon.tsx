@@ -1,4 +1,3 @@
-import { sendEvent } from '../../../../amplitude';
 import { useVisKontaktinfo } from '../../../../api/presenterte-kandidater-api/kandidat/[kandidatId]/registrerviskontaktinfo/useVisKontaktinfo';
 import { BodyShort, ReadMore, Tooltip } from '@navikt/ds-react';
 import * as React from 'react';
@@ -16,21 +15,11 @@ const Kontaktinformasjon: React.FC<KontaktinformasjonProps> = ({
 }) => {
   const [harLogget, setHarLogget] = React.useState<boolean>(false);
 
-  React.useEffect(() => {
-    const loggPrinting = () => {
-      sendEvent('cv', 'lukk-print-dialog');
-    };
-
-    window.addEventListener('afterprint', loggPrinting);
-    return () => window.removeEventListener('afterprint', loggPrinting);
-  }, []);
-
   const visKontaktinfo = useVisKontaktinfo(kandidatId);
 
   async function onVisKontaktinformasjon() {
     if (!harLogget) {
       visKontaktinfo.trigger();
-      sendEvent('cv', 'vis-kontaktinformasjon');
     }
 
     setHarLogget(true);
