@@ -4,6 +4,14 @@ import { logger } from '@navikt/next-logger';
 import { getToken, requestOboToken, TokenResult } from '@navikt/oasis';
 import { NextResponse } from 'next/server';
 
+const isAbortLikeError = (error: unknown): boolean => {
+  if (!error || typeof error !== 'object') {
+    return false;
+  }
+  const abortError = error as { name?: unknown; message?: unknown };
+  return abortError.name === 'AbortError' || abortError.message === 'aborted';
+};
+
 export const proxyWithOBO = async (
   proxy: Iroute,
   req: Request,
@@ -18,6 +26,7 @@ export const proxyWithOBO = async (
       { status: 500 },
     );
   }
+
   if (!token) {
     logger.info('Kunne ikke hente token, redirect til login');
     return NextResponse.json(
@@ -46,8 +55,8 @@ export const proxyWithOBO = async (
       { status: 500 },
     );
   }
-  const originalUrl = new URL(req.url);
 
+  const originalUrl = new URL(req.url);
   const path =
     proxy.api_route + originalUrl.pathname.replace(proxy.internUrl, '');
   const newUrl = customRoute
@@ -98,7 +107,7 @@ export const proxyWithOBO = async (
     const contentType = response.headers.get('Content-Type');
     const responseText = await response.text();
 
-    //workaround da backend av og til returnerer application/json selv om det ikke er respons.
+    // workaround da backend av og til returnerer application/json selv om det ikke er respons.
     if (
       contentType &&
       contentType.includes('application/json') &&
@@ -112,22 +121,22 @@ export const proxyWithOBO = async (
         message: 'No content',
       });
     }
+
     return NextResponse.json({
       status: response.status,
       message: 'Non-JSON content received',
     });
   } catch (error: unknown) {
-    if (error instanceof Error) {
-      logger.error(
-        error,
-        `Feil ved proxying av forespørselen til url: ${requestUrl} fra url: ${originalUrl}`,
-      );
+    const message = `Feil ved proxying av forespørselen til url: ${requestUrl} fra url: ${originalUrl}`;
+
+    if (isAbortLikeError(error)) {
+      logger.info({ error }, message);
+    } else if (error instanceof Error) {
+      logger.error(error, message);
     } else {
-      logger.error(
-        { msg: 'Unknown error', error },
-        `Feil ved proxying av forespørselen til url: ${requestUrl} fra url: ${originalUrl}`,
-      );
+      logger.error({ msg: 'Unknown error', error }, message);
     }
+
     return NextResponse.json(
       { beskrivelse: error instanceof Error ? error.message : 'Feil i proxy' },
       {
