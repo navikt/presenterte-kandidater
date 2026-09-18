@@ -36,10 +36,13 @@ export const ApplikasjonsContextProvider: React.FC<
   const [orgnummer, setOrgnummer] = useQueryState('virksomhet');
 
   const oppdaterOrgnummer = React.useCallback(
-    (orgnummer: string) => {
-      void setOrgnummer(orgnummer);
+    (nyttOrgnummer: string) => {
+      if (nyttOrgnummer === orgnummer) {
+        return;
+      }
+      void setOrgnummer(nyttOrgnummer);
     },
-    [setOrgnummer],
+    [orgnummer, setOrgnummer],
   );
 
   React.useEffect(() => {
@@ -64,7 +67,11 @@ export const ApplikasjonsContextProvider: React.FC<
   );
 
   if (isLoading || samtykke.isLoading) {
-    return <Loader />;
+    return (
+      <div className='flex justify-center'>
+        <Loader />
+      </div>
+    );
   }
 
   return (
