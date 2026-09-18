@@ -1,7 +1,6 @@
 'use client';
 
 import { useApplikasjonContext } from './ApplikasjonsContext';
-import { sendEvent } from './amplitude';
 import { useUseKandidatlister } from './api/presenterte-kandidater-api/kandidatlister/useKandidatlister';
 import IngenOrganisasjoner from './components/IngenOrganisasjoner';
 import SWRLaster from './components/SWRLaster';
@@ -38,12 +37,6 @@ const Kandidatlister: React.FC = () => {
           data?.filter(
             (sammendrag) => sammendrag.kandidatliste.status !== 'ÅPEN',
           ) ?? [];
-
-        sendEvent('app', 'visning', {
-          antallOrganisasjoner: data.length,
-          antallAktive: aktive.length,
-          antallAvsluttede: avsluttede.length,
-        });
 
         return (
           <div className='p-4 flex flex-row flex-wrap justify-around gap-6'>

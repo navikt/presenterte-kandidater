@@ -9,7 +9,13 @@ import { hentMiljø, Miljø } from '../util/miljø';
 import GruppeMedKandidater from './components/GruppeMedKandidater';
 import Vurderingsikon from './components/Vurderingsikon';
 import { ExternalLinkIcon, XMarkIcon } from '@navikt/aksel-icons';
-import { BodyLong, Box, Heading, Link as NavLink } from '@navikt/ds-react';
+import {
+  BodyLong,
+  Box,
+  Heading,
+  Link as NavLink,
+  Skeleton,
+} from '@navikt/ds-react';
 import * as React from 'react';
 
 export interface KandidatlisteVisningProps {
@@ -28,7 +34,29 @@ const KandidatlisteVisning: React.FC<KandidatlisteVisningProps> = ({
   const hook = useUseKandidatliste(stillingsId);
 
   return (
-    <SWRLaster hook={hook}>
+    <SWRLaster
+      hook={hook}
+      skeleton={
+        <div className='p-4'>
+          <Skeleton variant='text' width='12rem' className='mb-4' />
+          <Box
+            padding='space-16'
+            borderWidth='1'
+            borderRadius='2'
+            className='-mx-4 flex flex-col gap-6 md:m-0 md:p-10 bg-white'
+          >
+            <Skeleton variant='text' width='70%' height='2rem' />
+            <Skeleton variant='text' width='6rem' />
+            {[1, 2, 3].map((gruppe) => (
+              <div key={gruppe} className='flex flex-col gap-4'>
+                <Skeleton variant='text' width='30%' height='1.5rem' />
+                <Skeleton variant='rounded' height='5rem' />
+              </div>
+            ))}
+          </Box>
+        </div>
+      }
+    >
       {(data) => {
         const { kandidatliste, kandidater } = data;
         const { tittel, stillingId } = kandidatliste;

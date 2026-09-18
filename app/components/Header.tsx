@@ -9,14 +9,12 @@ import {
   Organisasjon,
   Virksomhetsvelger,
 } from '@navikt/virksomhetsvelger';
+import { useRouter } from 'next/navigation';
 import { FunctionComponent, useCallback, useMemo } from 'react';
 
 const Header: FunctionComponent = () => {
-  const {
-    organisasjoner,
-    valgtOrganisasjonsnummer,
-    settValgtOrganisasjonsnummer,
-  } = useApplikasjonContext();
+  const { organisasjoner, valgtOrganisasjonsnummer } = useApplikasjonContext();
+  const router = useRouter();
 
   const organisasjonstre = useMemo(
     () => (organisasjoner ? tilOrganisasjonstre(organisasjoner) : []),
@@ -24,9 +22,13 @@ const Header: FunctionComponent = () => {
   );
 
   const håndterEndreVirksomhet = useCallback(
-    (organisasjon: Organisasjon) =>
-      settValgtOrganisasjonsnummer(organisasjon.orgnr),
-    [settValgtOrganisasjonsnummer],
+    (organisasjon: Organisasjon) => {
+      if (organisasjon.orgnr === valgtOrganisasjonsnummer) {
+        return;
+      }
+      router.push(`/?virksomhet=${organisasjon.orgnr}`);
+    },
+    [router, valgtOrganisasjonsnummer],
   );
 
   if (!organisasjoner) {

@@ -22,7 +22,13 @@ function RootSuspense({ children }: { children: React.ReactNode }) {
     <ErrorBoundary
       fallback={<div>Noe gikk galt ved lasting av applikasjonen.</div>}
     >
-      <Suspense fallback={<Loader />}>
+      <Suspense
+        fallback={
+          <div className='flex justify-center'>
+            <Loader />
+          </div>
+        }
+      >
         <NuqsAdapter>
           <ApplikasjonsContextProvider>{children}</ApplikasjonsContextProvider>
         </NuqsAdapter>
