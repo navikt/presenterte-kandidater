@@ -7,5 +7,7 @@ ignoreScripts: true
 blockExoticSubdeps: true
 registries:
   '@navikt': https://npm.pkg.github.com
-ignoredBuiltDependencies:
-  - msw
+allowBuilds:
+  msw: true
+  puppeteer: true
+  unrs-resolver: true

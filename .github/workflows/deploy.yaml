@@ -6,11 +6,11 @@ on:
 jobs:
   build-and-deploy:
     name: Next
-    uses: navikt/toi-frontend-workflows/.github/workflows/build-and-deploy-nextjs.yaml@v2.2
+    uses: navikt/toi-frontend-workflows/.github/workflows/build-and-deploy-nextjs.yaml@v2.3
     with:
       dev-vars-path: '.nais/dev-gcp.json'
       prod-vars-path: '.nais/prod-gcp.json'
-      deploy-dev-branch: 'endre_innlogging_level'
+      deploy-dev-branch: 'fjern-amplitude'
       a11y-command: 'pnpm a11y'
       playwright-command: 'pnpm test'
       playwright-snapshots: true

@@ -3,7 +3,6 @@ import Header from './components/Header';
 import './globals.css';
 import { hentMiljø, Miljø } from './util/miljø';
 import NotifikasjonProvider from '@/app/components/NotifikasjonProvider';
-import '@navikt/arbeidsgiver-notifikasjon-widget/lib/cjs/index.css';
 import '@navikt/ds-css';
 import { Loader } from '@navikt/ds-react';
 import { fetchDecoratorReact } from '@navikt/nav-dekoratoren-moduler/ssr';
@@ -23,7 +22,13 @@ function RootSuspense({ children }: { children: React.ReactNode }) {
     <ErrorBoundary
       fallback={<div>Noe gikk galt ved lasting av applikasjonen.</div>}
     >
-      <Suspense fallback={<Loader />}>
+      <Suspense
+        fallback={
+          <div className='flex justify-center'>
+            <Loader />
+          </div>
+        }
+      >
         <NuqsAdapter>
           <ApplikasjonsContextProvider>{children}</ApplikasjonsContextProvider>
         </NuqsAdapter>

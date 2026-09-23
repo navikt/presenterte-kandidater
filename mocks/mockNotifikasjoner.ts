@@ -32,5 +32,9 @@ export const mockedeNotifikasjoner = {
       ],
       __typename: 'NotifikasjonerResultat',
     },
+    notifikasjonerSistLest: {
+      __typename: 'NotifikasjonerSistLest',
+      tidspunkt: '2023-09-27T07:59:07Z',
+    },
   },
 };
