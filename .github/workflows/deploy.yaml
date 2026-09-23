@@ -2,12 +2,20 @@ name: Bygg og Deploy NextJS
 on:
   push:
   workflow_dispatch:
+    inputs:
+      kjor-chainguard-sjekk:
+        description: Kjør Chainguard-sjekk (som schedule)
+        type: boolean
+        default: false
+  schedule:
+    - cron: '0 6 * * *'
 
 jobs:
   build-and-deploy:
-    name: Next
-    uses: navikt/toi-frontend-workflows/.github/workflows/build-and-deploy-nextjs.yaml@v3
+    name: 🤖
+    uses: navikt/toi-frontend-workflows/.github/workflows/build-and-deploy-nextjs.yaml@v3.1
     with:
+      baseimage: europe-north1-docker.pkg.dev/cgr-nav/pull-through/nav.no/node:24
       dev-vars-path: '.nais/dev-gcp.json'
       prod-vars-path: '.nais/prod-gcp.json'
       deploy-dev-branch: 'reduser-loglevel-for-aborted'
@@ -16,6 +24,7 @@ jobs:
       playwright-snapshots: true
     secrets: inherit
     permissions:
+      actions: write
       contents: write
       id-token: write
       security-events: write
