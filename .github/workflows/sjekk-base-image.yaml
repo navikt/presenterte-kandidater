@@ -12,4 +12,5 @@ jobs:
       deploy-workflow: deploy.yaml
     permissions:
       actions: write
+      contents: read
       id-token: write
