@@ -11,7 +11,7 @@ jobs:
       baseimage: europe-north1-docker.pkg.dev/cgr-nav/pull-through/nav.no/node:24
       dev-vars-path: '.nais/dev-gcp.json'
       prod-vars-path: '.nais/prod-gcp.json'
-      deploy-dev-branch: 'reduser-loglevel-for-aborted'
+      deploy-dev-branch: 'oppdater_nav_dekorator'
       a11y-command: 'pnpm a11y'
       playwright-command: 'pnpm test'
       playwright-snapshots: true
