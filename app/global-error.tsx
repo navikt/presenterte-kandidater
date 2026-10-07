@@ -7,10 +7,10 @@ import { useEffect } from 'react';
 
 export default function GlobalError({
   error,
-  reset,
+  retry,
 }: {
   error: Error & { digest?: string };
-  reset: () => void;
+  retry: () => void;
 }) {
   useEffect(() => {
     rapporterFeil(error);
@@ -22,7 +22,7 @@ export default function GlobalError({
         <Heading level='1' size='large' spacing>
           Noe gikk galt
         </Heading>
-        <Button onClick={reset}>Prøv igjen</Button>
+        <Button onClick={retry}>Prøv igjen</Button>
       </body>
     </html>
   );
