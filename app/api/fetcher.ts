@@ -1,5 +1,6 @@
 import { kastError } from '../util/kastError';
 import { getBasePath } from '../util/miljø';
+import { rapporterApiFeil } from '@/app/util/apm';
 import { logger } from '@navikt/next-logger';
 import { ZodSchema } from 'zod';
 
@@ -25,6 +26,7 @@ const getAPI = async (url: string) => {
   });
 
   if (!response.ok) {
+    rapporterApiFeil(response.status, response.url);
     let errorDetails = '';
     const contentType = response.headers.get('content-type');
 
@@ -71,7 +73,9 @@ export const deleteApi = async (url: string) => {
 
   if (response.ok) {
     return await response.json();
-  } else if (response.status === 404) {
+  }
+  rapporterApiFeil(response.status, response.url);
+  if (response.status === 404) {
     throw new Error('404');
   } else if (response.status === 403) {
     throw new Error('403');
@@ -105,7 +109,9 @@ export const postApi = async (
 
   if (response.ok) {
     return await response.json();
-  } else if (response.status === 404) {
+  }
+  rapporterApiFeil(response.status, response.url);
+  if (response.status === 404) {
     throw new Error('404');
   } else if (response.status === 403) {
     throw new Error('403');
@@ -166,7 +172,9 @@ export const putApi = async (
       return await response.json();
     }
     return response.status;
-  } else if (response.status === 404) {
+  }
+  rapporterApiFeil(response.status, response.url);
+  if (response.status === 404) {
     throw new Error('404');
   } else if (response.status === 403) {
     throw new Error('403');
