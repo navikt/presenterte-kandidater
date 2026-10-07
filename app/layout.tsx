@@ -2,26 +2,39 @@ import { ApplikasjonsContextProvider } from './ApplikasjonsContext';
 import Header from './components/Header';
 import './globals.css';
 import { hentMiljø, Miljø } from './util/miljø';
+import ApmRutetracker from '@/app/components/ApmRutetracker';
 import NotifikasjonProvider from '@/app/components/NotifikasjonProvider';
+import RotFeilgrense from '@/app/components/RotFeilgrense';
+import { versionFromImage } from '@nais/apm';
 import '@navikt/ds-css';
 import { Loader } from '@navikt/ds-react';
 import { fetchDecoratorReact } from '@navikt/nav-dekoratoren-moduler/ssr';
 import '@navikt/virksomhetsvelger/dist/assets/style.css';
 import type { Metadata } from 'next';
 import Script from 'next/script';
+import { connection } from 'next/server';
 import { NuqsAdapter } from 'nuqs/adapters/next';
 import { Suspense } from 'react';
-import { ErrorBoundary } from 'react-error-boundary';
 
-export const metadata: Metadata = {
-  title: 'Foreslåtte kandidater',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  await connection();
+  return {
+    title: 'Foreslåtte kandidater',
+    other: {
+      'nais-app': process.env.NAIS_APP_NAME ?? 'presenterte-kandidater',
+      'nais-team': 'toi',
+      'nais-cluster': process.env.NAIS_CLUSTER_NAME ?? 'local',
+      'nais-version': versionFromImage(process.env.NAIS_APP_IMAGE) ?? 'local',
+      ...(process.env.NAIS_FRONTEND_TELEMETRY_COLLECTOR_URL && {
+        'nais-telemetry-url': process.env.NAIS_FRONTEND_TELEMETRY_COLLECTOR_URL,
+      }),
+    },
+  };
+}
 
 function RootSuspense({ children }: { children: React.ReactNode }) {
   return (
-    <ErrorBoundary
-      fallback={<div>Noe gikk galt ved lasting av applikasjonen.</div>}
-    >
+    <RotFeilgrense>
       <Suspense
         fallback={
           <div className='flex justify-center'>
@@ -33,7 +46,7 @@ function RootSuspense({ children }: { children: React.ReactNode }) {
           <ApplikasjonsContextProvider>{children}</ApplikasjonsContextProvider>
         </NuqsAdapter>
       </Suspense>
-    </ErrorBoundary>
+    </RotFeilgrense>
   );
 }
 
@@ -89,6 +102,9 @@ export default async function RootLayout({
         <Decorator.HeadAssets />
       </head>
       <body className='min-h-screen bg-gray-100' data-testid='app-root'>
+        {process.env.NEXT_PUBLIC_PLAYWRIGHT_TEST_MODE !== 'true' && (
+          <ApmRutetracker />
+        )}
         <div data-pa11y-ignore='decorator-header'>
           <Decorator.Header />
         </div>

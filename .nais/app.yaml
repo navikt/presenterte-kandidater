@@ -50,6 +50,9 @@ spec:
     - name: NOTIFIKASJON_API_URL
       value: http://notifikasjon-bruker-api.fager
   observability:
+    autoInstrumentation:
+      enabled: true
+      runtime: nodejs
     logging:
       destinations:
         - id: loki
