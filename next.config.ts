@@ -7,7 +7,9 @@ const nextConfig = {
     process.env.NEXT_PUBLIC_PLAYWRIGHT_TEST_MODE === 'true'
       ? ''
       : '/kandidatliste',
-  assetPrefix: '/kandidatliste',
+  assetPrefix: process.env.CDN_ASSET_PREFIX ?? '/kandidatliste',
+  crossOrigin: 'anonymous',
+  productionBrowserSourceMaps: true,
   reactStrictMode: true,
   experimental: {
     optimizePackageImports: ['@navikt/ds-react', '@navikt/aksel-icons'],
