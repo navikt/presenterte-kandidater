@@ -6,12 +6,13 @@ on:
 jobs:
   build-and-deploy:
     name: 🤖
-    uses: navikt/toi-frontend-workflows/.github/workflows/build-and-deploy-nextjs.yaml@v3.2
+    uses: navikt/toi-frontend-workflows/.github/workflows/build-and-deploy-nextjs.yaml@v3.3
     with:
+      cdn-upload: true
       baseimage: europe-north1-docker.pkg.dev/cgr-nav/pull-through/nav.no/node:24
       dev-vars-path: '.nais/dev-gcp.json'
       prod-vars-path: '.nais/prod-gcp.json'
-      deploy-dev-branch: 'apm'
+      deploy-dev-branch: 'cdn'
       a11y-command: 'pnpm a11y'
       playwright-command: 'pnpm test'
       playwright-snapshots: true
