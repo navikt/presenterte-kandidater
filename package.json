@@ -15,7 +15,7 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@nais/apm": "0.4.0",
+    "@nais/apm": "0.7.3",
     "@navikt/aksel-icons": "^8.16.2",
     "@navikt/arbeidsgiver-notifikasjon-widget": "^8.0.5",
     "@navikt/ds-css": "^8.16.2",
