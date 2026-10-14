@@ -14,5 +14,21 @@ test.describe('Kandidatlister', () => {
     await expect(page.getByText('Vilkår for tjenesten')).toBeVisible();
   });
 
+  test('mobilvisning viser innhold uten horisontal scrolling', async ({
+    page,
+    isMobile,
+    viewport,
+  }) => {
+    test.skip(!isMobile, 'Gjelder mobilvisning');
+    if (!viewport) {
+      throw new Error('Mobiltesten krever en konfigurert skjermstørrelse');
+    }
+    await expect(page.getByText('Vilkår for tjenesten')).toBeVisible();
+    const innholdsbredde = await page.evaluate(
+      () => document.documentElement.scrollWidth,
+    );
+    expect(innholdsbredde).toBeLessThanOrEqual(viewport.width);
+  });
+
   snapshotTest(test);
 });

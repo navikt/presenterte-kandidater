@@ -22,8 +22,7 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
   retries: process.env.CI ? 1 : 0,
-  /* Bruk 50% av tilgjengelige CPUer i CI for parallellkjøring */
-  workers: process.env.CI ? '50%' : undefined,
+  workers: process.env.CI ? '100%' : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
     [
@@ -55,13 +54,36 @@ export default defineConfig({
         viewport: { width: 1440, height: 1080 },
       },
     },
+    {
+      name: 'firefox-desktop',
+      use: {
+        ...devices['Desktop Firefox'],
+        viewport: { width: 1440, height: 1080 },
+      },
+    },
+    {
+      name: 'webkit-desktop',
+      use: {
+        ...devices['Desktop Safari'],
+        viewport: { width: 1440, height: 1080 },
+      },
+    },
+    {
+      name: 'chromium-mobile',
+      use: { ...devices['Pixel 7'] },
+    },
+    {
+      name: 'webkit-mobile',
+      use: { ...devices['iPhone 13'] },
+    },
   ],
 
   /* I CI startes serveren av next-testserver-actionen, lokalt starter Playwright den selv */
   webServer: process.env.CI
     ? undefined
     : {
-        command: `bash -c "PID=\$(lsof -ti tcp:${PLAYWRIGHT_PORT} || true); if [ -n \"$PID\" ]; then kill -9 $PID; fi; NEXT_PUBLIC_PLAYWRIGHT_TEST_MODE=true next dev -p ${PLAYWRIGHT_PORT}"`,
+        command: `pnpm exec next dev -p ${PLAYWRIGHT_PORT}`,
+        env: { NEXT_PUBLIC_PLAYWRIGHT_TEST_MODE: 'true' },
         url: `http://localhost:${PLAYWRIGHT_PORT}`,
         reuseExistingServer: true,
         timeout: 120 * 1000,
