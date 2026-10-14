@@ -20,6 +20,26 @@ pnpm dev
 
 ```
 
+## Playwright
+
+Testene kjøres i Chromium, Firefox og WebKit (Safari-motoren), både lokalt og i CI.
+Mobilvisning testes også med Pixel 7 (Chromium) og iPhone 13 (WebKit).
+CI kjører med fire shards og 100 % workers per shard.
+Dette er emulering av skjermstørrelse, touch og nettleser, ikke fysiske enheter.
+
+```bash
+pnpm exec playwright install chromium firefox webkit
+pnpm test
+```
+
+Playwright starter testserveren automatisk lokalt. For å kjøre bare én nettleser:
+`pnpm run test --project=webkit-desktop`.
+For mobilvisning: `pnpm run test --project=chromium-mobile`.
+`PLAYWRIGHT_PORT` kan overstyre standardporten 1337 når flere apper testes samtidig.
+
+Visuelle snapshots kjøres bare i CI. CI oppdaterer snapshots per nettleser
+automatisk, og committer dem på grener utenom main.
+
 ## Hvordan teste manuelt i dev-miljøet
 
 Du trenger en testvirksomhet, samt en testperson som har rettigheter til å se virksomhetens kandidatlister.
