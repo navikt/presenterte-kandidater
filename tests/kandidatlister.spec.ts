@@ -1,5 +1,6 @@
 import { gotoApp } from './gotoApp';
 import { snapshotTest } from './snapshotTest';
+import { tilgjengelighetstest } from '@navikt/toi-next-frontend/a11y';
 import { expect, test } from '@playwright/test';
 
 const VIRKSOMHET = '811076902';
@@ -31,4 +32,5 @@ test.describe('Kandidatlister', () => {
   });
 
   snapshotTest(test);
+  tilgjengelighetstest(test, { reflow: true });
 });

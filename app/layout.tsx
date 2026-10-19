@@ -105,7 +105,7 @@ export default async function RootLayout({
         {process.env.NEXT_PUBLIC_PLAYWRIGHT_TEST_MODE !== 'true' && (
           <ApmRutetracker />
         )}
-        <div data-pa11y-ignore='decorator-header'>
+        <div data-axe-ignore>
           <Decorator.Header />
         </div>
         <NotifikasjonProvider>
@@ -120,7 +120,7 @@ export default async function RootLayout({
             </div>
           </RootSuspense>
         </NotifikasjonProvider>
-        <div data-pa11y-ignore='decorator-footer'>
+        <div data-axe-ignore>
           <Decorator.Footer />
         </div>
         {!erLokalt && <Decorator.Scripts loader={Script} />}
