@@ -25,5 +25,5 @@ test.describe('Kandidatvisning', () => {
   });
 
   snapshotTest(test);
-  tilgjengelighetstest(test, { reflow: true });
+  tilgjengelighetstest(test, { utvidet: true, reflow: true });
 });
