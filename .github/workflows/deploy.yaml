@@ -13,10 +13,9 @@ jobs:
       dev-vars-path: '.nais/dev-gcp.json'
       prod-vars-path: '.nais/prod-gcp.json'
       deploy-dev-branch: 'cdn'
-      a11y-command: 'pnpm run test:a11y'
       playwright-command: >-
         pnpm exec playwright install --with-deps firefox webkit &&
-        pnpm run test --grep-invert @a11y
+        pnpm run test
       playwright-snapshots: true
       playwright-shards: 4
     secrets: inherit
