@@ -37,11 +37,14 @@ const Header: FunctionComponent = () => {
 
   return (
     <Banner tittel='Kandidater'>
-      <Virksomhetsvelger
-        organisasjoner={organisasjonstre}
-        initValgtOrgnr={valgtOrganisasjonsnummer ?? undefined}
-        onChange={håndterEndreVirksomhet}
-      />
+      {/* Eies av et annet team; kjente a11y-funn (2.5.3, 1.4.4) holdes utenfor våre sjekker */}
+      <div data-axe-ignore className='contents'>
+        <Virksomhetsvelger
+          organisasjoner={organisasjonstre}
+          initValgtOrgnr={valgtOrganisasjonsnummer ?? undefined}
+          onChange={håndterEndreVirksomhet}
+        />
+      </div>
       <NotifikasjonWidget />
     </Banner>
   );

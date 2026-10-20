@@ -40,7 +40,7 @@ const GruppeMedKandidater: React.FC<GruppeMedKandidaterProps> = ({
           </div>
         </Accordion.Header>
         <Accordion.Content>
-          <ul className='list-none p-0 m-0'>
+          <ul className='list-none p-0 m-0 [overflow-wrap:anywhere]'>
             {kandidaterMedGittStatus.map((kandidat) => (
               <Kandidatsammendrag
                 key={kandidat.kandidat.uuid}
