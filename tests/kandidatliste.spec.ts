@@ -17,5 +17,5 @@ test.describe('Kandidatliste for stilling', () => {
   });
 
   snapshotTest(test);
-  tilgjengelighetstest(test, { reflow: true });
+  tilgjengelighetstest(test, { utvidet: true, reflow: true });
 });
