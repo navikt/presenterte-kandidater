@@ -4,7 +4,7 @@
  * Endepunkt /useOrganisasjoner
  */
 import { PresenterteKandidaterAPI } from '../../api-routes';
-import { getAPIwithSchema } from '../../fetcher';
+import { getAPIwithSchema, skalPrøvePåNytt } from '../../fetcher';
 import useSWRImmutable from 'swr/immutable';
 import { z } from 'zod';
 
@@ -27,4 +27,5 @@ export const useUseOrganisasjoner = () =>
   useSWRImmutable(
     useOrganisasjonerEndepunkt,
     getAPIwithSchema(OrganisasjonerSchema),
+    { shouldRetryOnError: skalPrøvePåNytt },
   );

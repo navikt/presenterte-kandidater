@@ -1,8 +1,33 @@
 import { kastError } from '../util/kastError';
+import { lagZodFeillogg } from '../util/loggformat';
 import { getBasePath } from '../util/miljø';
+import { PresenterteKandidaterAPI } from './api-routes';
 import { rapporterApiFeil } from '@/app/util/apm';
 import { logger } from '@navikt/next-logger';
-import { ZodSchema } from 'zod';
+import { ZodError, ZodSchema } from 'zod';
+
+const loggZodFeil = (url: string, error: ZodError, data: unknown) => {
+  const { melding, felt } = lagZodFeillogg(
+    url,
+    error,
+    data,
+    PresenterteKandidaterAPI.internUrl,
+  );
+  logger.error(felt, melding);
+};
+
+/** 4xx-feil som 401 og 403 blir ikke bedre av å prøve igjen. */
+export const skalPrøvePåNytt = (error: unknown) =>
+  !(
+    error instanceof kastError &&
+    error.statuskode >= 400 &&
+    error.statuskode < 500
+  );
+
+const lesJsonHvisFinnes = async (response: Response) => {
+  const tekst = await response.text();
+  return tekst ? JSON.parse(tekst) : undefined;
+};
 
 export const getAPIwithSchema = <T>(
   schema: ZodSchema<T>,
@@ -13,7 +38,7 @@ export const getAPIwithSchema = <T>(
     const zodResult = schema.safeParse(data);
 
     if (zodResult.error) {
-      logger.error(zodResult.error, 'Feil ved validering av API-respons');
+      loggZodFeil(url, zodResult.error, data);
     }
     return data;
   };
@@ -47,22 +72,7 @@ const getAPI = async (url: string) => {
     throw error;
   }
 
-  if (response.ok) {
-    const responseData = await response.json();
-    if (responseData.status === 403 || responseData.status === 401) {
-      const error = new kastError({
-        url: response.url,
-        statuskode: responseData.status,
-      });
-      throw error;
-    } else {
-      return responseData;
-    }
-  } else {
-    throw new Error(
-      `Feil respons fra server: (http-status: ${response.status})`,
-    );
-  }
+  return lesJsonHvisFinnes(response);
 };
 
 export const deleteApi = async (url: string) => {
@@ -72,7 +82,7 @@ export const deleteApi = async (url: string) => {
   });
 
   if (response.ok) {
-    return await response.json();
+    return lesJsonHvisFinnes(response);
   }
   rapporterApiFeil(response.status, response.url);
   if (response.status === 404) {
@@ -108,7 +118,7 @@ export const postApi = async (
   });
 
   if (response.ok) {
-    return await response.json();
+    return lesJsonHvisFinnes(response);
   }
   rapporterApiFeil(response.status, response.url);
   if (response.status === 404) {
@@ -139,7 +149,7 @@ export const postApiWithSchema = <T>(
     const zodResult = schema.safeParse(data);
 
     if (zodResult.error) {
-      logger.error(zodResult.error, 'Feil ved validering av API-respons');
+      loggZodFeil(props.url, zodResult.error, data);
     }
 
     return data;
