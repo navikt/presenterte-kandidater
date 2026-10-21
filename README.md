@@ -40,6 +40,10 @@ For mobilvisning: `pnpm run test --project=chromium-mobile`.
 Visuelle snapshots kjøres bare i CI. CI oppdaterer snapshots per nettleser
 automatisk, og committer dem på grener utenom main.
 
+## Tilgjengelighet
+
+[A11Y-STATEMENT.md](./A11Y-STATEMENT.md) viser hva tilgjengelighetstestene sjekker automatisk, og hvordan du tester hvert WCAG-kriterium i tilgjengelighetserklæringen manuelt.
+
 ## Hvordan teste manuelt i dev-miljøet
 
 Du trenger en testvirksomhet, samt en testperson som har rettigheter til å se virksomhetens kandidatlister.
