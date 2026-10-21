@@ -55,13 +55,9 @@ export default function EndreVurdering({
   return (
     <form action={handleSubmit}>
       <div className='hidden md:block print:hidden '>
-        <div className='mb-4'>
-          <Label>
-            Vurdering av kandidat til stilling «{kandidatliste.tittel}»
-          </Label>
-        </div>
         <ToggleGroup
           className='bg-white'
+          label={`Vurdering av kandidat til stilling «${kandidatliste.tittel}»`}
           value={vurdering}
           onChange={setVurdering}
         >

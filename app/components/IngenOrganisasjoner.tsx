@@ -3,12 +3,12 @@ import type { FunctionComponent } from 'react';
 
 const IngenOrganisasjoner: FunctionComponent = () => {
   return (
-    <main className='side kandidatlister'>
+    <div className='side kandidatlister'>
       <Heading level='2' size='small'>
         Ikke tilgang
       </Heading>
       <BodyShort>Du representerer ingen organisasjoner</BodyShort>
-    </main>
+    </div>
   );
 };
 
