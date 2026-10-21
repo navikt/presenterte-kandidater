@@ -114,7 +114,10 @@ export default async function RootLayout({
               <div className='w-full border-b'>
                 <Header />
               </div>
-              <main className='flex flex-col max-w-[56rem] mb-12 md:mx-auto md:my-4 md:p-4'>
+              <main
+                id='maincontent'
+                className='flex flex-col max-w-[56rem] mb-12 md:mx-auto md:my-4 md:p-4'
+              >
                 {children}
               </main>
             </div>

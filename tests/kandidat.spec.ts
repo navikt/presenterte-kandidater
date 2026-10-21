@@ -24,6 +24,21 @@ test.describe('Kandidatvisning', () => {
     ).toBeVisible();
   });
 
+  test('vurderingsvalgene er en navngitt gruppe', async ({ page }) => {
+    await expect(
+      page.getByRole('radiogroup', {
+        name: /^Vurdering av kandidat til stilling/,
+      }),
+    ).toBeVisible();
+  });
+
+  test('hovedinnholdet er målet for «Hopp til hovedinnhold»', async ({
+    page,
+  }) => {
+    await expect(page.locator('main#maincontent')).toHaveCount(1);
+    await expect(page.locator('main')).toHaveCount(1);
+  });
+
   snapshotTest(test);
   tilgjengelighetstest(test, { utvidet: true, reflow: true });
 });
