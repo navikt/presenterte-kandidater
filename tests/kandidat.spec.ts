@@ -1,6 +1,9 @@
 import { gotoApp } from './gotoApp';
 import { snapshotTest } from './snapshotTest';
-import { tilgjengelighetstest } from '@navikt/toi-next-frontend/a11y';
+import {
+  sjekkDialog,
+  tilgjengelighetstest,
+} from '@navikt/toi-next-frontend/a11y';
 import { expect, test } from '@playwright/test';
 
 const VIRKSOMHET = '811076902';
@@ -40,5 +43,17 @@ test.describe('Kandidatvisning', () => {
   });
 
   snapshotTest(test);
+  test(
+    'slettemodalen er tilgjengelig (2.1.2, 2.4.3, 4.1.2)',
+    { tag: '@a11y' },
+    async ({ page, browserName }) => {
+      test.skip(browserName !== 'chromium', 'Kjøres bare i Chromium');
+      await sjekkDialog(
+        page,
+        page.getByRole('button', { name: 'Slett kandidat' }),
+      );
+    },
+  );
+
   tilgjengelighetstest(test, { utvidet: true, reflow: true });
 });
