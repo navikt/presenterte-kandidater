@@ -42,7 +42,7 @@ automatisk, og committer dem på grener utenom main.
 
 ## Tilgjengelighet
 
-[A11Y-STATEMENT.md](./A11Y-STATEMENT.md) viser hva tilgjengelighetstestene sjekker automatisk, og hvordan du tester hvert WCAG-kriterium i tilgjengelighetserklæringen manuelt.
+Guiden for tilgjengelighetserklæringen ligger på [Trello](https://trello.com/c/uRLODCwg). Den viser hva tilgjengelighetstestene sjekker automatisk, og hvordan du tester hvert WCAG-kriterium manuelt.
 
 ## Hvordan teste manuelt i dev-miljøet
 

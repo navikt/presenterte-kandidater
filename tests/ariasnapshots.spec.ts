@@ -8,7 +8,9 @@ const KANDIDAT_ID = '23d45ba2-ce9e-446e-9137-5ebb44bf6490';
 // Aria-snapshots viser navn, roller og overskrifter i små deler av appen, så
 // endringer blir synlige i review (1.1.1, 1.3.1, 2.4.6 og 4.1.2).
 // Datoer og ID-er står ikke i snapshotene, eller er erstattet med regex.
-// Se A11Y-STATEMENT.md for hvordan du oppdaterer dem.
+// Oppdater dem med
+// pnpm exec playwright test tests/ariasnapshots.spec.ts --project=chromium-desktop --update-snapshots --update-source-method=overwrite
+// og les diffen før du committer.
 test.describe('Aria-snapshots', { tag: '@a11y' }, () => {
   test.beforeEach(({}, testInfo) => {
     test.skip(

@@ -13,8 +13,9 @@ jobs:
       dev-vars-path: '.nais/dev-gcp.json'
       prod-vars-path: '.nais/prod-gcp.json'
       deploy-dev-branch: 'cdn'
+      # apt-speilet kan henge i mange minutter. timeout gjør at jobben feiler i stedet for å henge.
       playwright-command: >-
-        pnpm exec playwright install --with-deps firefox webkit &&
+        timeout 10m pnpm exec playwright install --with-deps firefox webkit &&
         pnpm run test
       playwright-snapshots: true
       playwright-shards: 4
