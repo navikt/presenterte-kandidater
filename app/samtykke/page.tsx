@@ -23,16 +23,19 @@ export default function Samtykke() {
 
   const { valgtOrganisasjonsnummer } = useApplikasjonContext();
 
-  const [feilmelding, setFeilmelding] = useState<string>();
+  const [feltfeil, setFeltfeil] = useState<string>();
+  const [lagrefeil, setLagrefeil] = useState<string>();
 
   const hentSamtykke = useHentSamtykke();
   const giSamtykke = useGiSamtykke();
   async function handleSubmit(formData: FormData) {
     const harGodkjent = formData.get('samtykke') === 'true';
     if (!harGodkjent) {
-      setFeilmelding('Du må huke av for å godta vilkårene.');
+      setFeltfeil('Du må huke av for å godta vilkårene.');
       return;
     }
+    setFeltfeil(undefined);
+    setLagrefeil(undefined);
 
     giSamtykke
       .trigger()
@@ -42,7 +45,7 @@ export default function Samtykke() {
         });
       })
       .catch(() => {
-        setFeilmelding('Klarte ikke å lagre samtykke.');
+        setLagrefeil('Klarte ikke å lagre samtykke. Prøv igjen.');
       });
   }
 
@@ -146,14 +149,18 @@ export default function Samtykke() {
 
             {!harSamtykket && (
               <form action={handleSubmit}>
-                <CheckboxGroup hideLegend legend='Godkjenner du vilkårene?'>
+                <CheckboxGroup
+                  hideLegend
+                  legend='Godkjenner du vilkårene?'
+                  error={feltfeil}
+                >
                   <Checkbox name='samtykke' value='true'>
                     Jeg har lest og godtar vilkårene.
                   </Checkbox>
                 </CheckboxGroup>
-                {feilmelding && (
-                  <BodyShort className='text-red-800 italic'>
-                    {feilmelding}
+                {lagrefeil && (
+                  <BodyShort role='alert' className='text-red-800 italic'>
+                    {lagrefeil}
                   </BodyShort>
                 )}
                 <Button type='submit' className='mt-8'>
