@@ -23,6 +23,8 @@ export default defineConfig({
   /* Retry on CI only */
   retries: process.env.CI ? 1 : 0,
   workers: process.env.CI ? '100%' : undefined,
+  /* Stopp hele kjøringen i CI hvis den henger, i stedet for å vente på jobbens tidsgrense */
+  globalTimeout: process.env.CI ? 15 * 60 * 1000 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
     [
