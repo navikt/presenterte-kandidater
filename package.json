@@ -24,7 +24,7 @@
     "@navikt/nav-dekoratoren-moduler": "^4.5.0",
     "@navikt/next-logger": "^5.0.1",
     "@navikt/oasis": "^4.2.2",
-    "@navikt/toi-next-frontend": "0.12.1",
+    "@navikt/toi-next-frontend": "0.13.0",
     "@navikt/virksomhetsvelger": "^2.0.6",
     "@tailwindcss/postcss": "^4.3.3",
     "html-react-parser": "^6.1.7",
