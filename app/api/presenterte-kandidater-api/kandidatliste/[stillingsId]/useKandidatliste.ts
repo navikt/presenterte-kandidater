@@ -3,7 +3,7 @@
 /**
  * Endepunkt /useKandidatliste
  */
-import { getAPIwithSchema } from '../../../fetcher';
+import { getAPIwithSchema, skalPrøvePåNytt } from '../../../fetcher';
 import {
   kandidatlisteEndepunkt,
   KandidatlisteForStillingSchema,
@@ -14,4 +14,5 @@ export const useUseKandidatliste = (stillingId: string) =>
   useSWRImmutable(
     stillingId ? kandidatlisteEndepunkt(stillingId) : null,
     getAPIwithSchema(KandidatlisteForStillingSchema),
+    { shouldRetryOnError: skalPrøvePåNytt },
   );

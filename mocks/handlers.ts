@@ -6,6 +6,9 @@ import { mockedeNotifikasjoner } from './mockNotifikasjoner';
 import mockedeOrganisasjoner from './mockOrganisasjoner';
 import { http, HttpResponse } from 'msw';
 
+/** Stillings-ID som gir 403 fra backend, brukt for å teste feilhåndtering. */
+export const STILLING_ID_UTEN_TILGANG = '00000000-0000-4000-8000-000000000403';
+
 export const handlers = [
   http.get('*/organisasjoner', () => {
     return HttpResponse.json(mockedeOrganisasjoner);
@@ -23,6 +26,13 @@ export const handlers = [
     const url = new URL(request.url);
     const virksomhetsnummer = url.searchParams.get('virksomhetsnummer');
     return HttpResponse.json(mockedeKandidatlistesammendrag(virksomhetsnummer));
+  }),
+
+  http.get(`*/kandidatliste/${STILLING_ID_UTEN_TILGANG}`, () => {
+    return HttpResponse.json(
+      { message: 'Ingen tilgang til kandidatlisten' },
+      { status: 403, statusText: 'Forbidden' },
+    );
   }),
 
   http.get('*/kandidatliste/:stillingsId', ({ params }) => {

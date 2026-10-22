@@ -1,7 +1,7 @@
 /**
  * Endepunkt /useKandidatlister
  */
-import { getAPIwithSchema } from '../../fetcher';
+import { getAPIwithSchema, skalPrøvePåNytt } from '../../fetcher';
 import {
   kandidatlisterEndepunkt,
   KandidatlisterSchema,
@@ -12,5 +12,6 @@ export const useUseKandidatlister = (virksomhetsNummer: string | null) => {
   return useSWRImmutable(
     virksomhetsNummer ? kandidatlisterEndepunkt(virksomhetsNummer) : null,
     getAPIwithSchema(KandidatlisterSchema),
+    { shouldRetryOnError: skalPrøvePåNytt },
   );
 };
