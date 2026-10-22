@@ -1,4 +1,8 @@
 import KandidatlisteVisning from './KandidatlisteVisning';
+import { sidetittel } from '@/app/util/sidetittel';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = { title: sidetittel('Kandidatliste') };
 
 export default async function KandidaterForKandidatliste({
   params,
