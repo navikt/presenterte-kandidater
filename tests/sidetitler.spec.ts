@@ -29,4 +29,44 @@ test.describe('Sidetitler (WCAG 2.4.2)', { tag: '@a11y' }, () => {
       await expect(page).toHaveTitle(`${tittel} – Foreslåtte kandidater`);
     });
   }
+
+  for (const [sti, tittelEtterSamtykke] of [
+    [`/?virksomhet=${VIRKSOMHET}`, 'Kandidatlister'],
+    [
+      `/${STILLING}/kandidat/${KANDIDAT}?virksomhet=${VIRKSOMHET}`,
+      'Kandidatlister',
+    ],
+  ]) {
+    test(`samtykkeskjemaet på ${sti.split('?')[0]} har tittelen «Vilkår» til brukeren har samtykket`, async ({
+      page,
+    }) => {
+      let harSamtykket = false;
+      await page.route('**/hentsamtykke', (route) =>
+        route.fulfill({ json: { harSamtykket } }),
+      );
+      await page.route('**/samtykke', (route) => {
+        if (route.request().method() !== 'POST') return route.fallback();
+        harSamtykket = true;
+        return route.fulfill({ json: {} });
+      });
+
+      await gotoApp(page, sti);
+      await expect(
+        page.getByRole('button', { name: 'Godta vilkår' }),
+      ).toBeVisible();
+      await expect(page).toHaveTitle('Vilkår – Foreslåtte kandidater');
+
+      await page
+        .getByRole('checkbox', { name: 'Jeg har lest og godtar vilkårene.' })
+        .check();
+      await page.getByRole('button', { name: 'Godta vilkår' }).click();
+
+      await expect(
+        page.getByRole('button', { name: 'Godta vilkår' }),
+      ).toBeHidden();
+      await expect(page).toHaveTitle(
+        `${tittelEtterSamtykke} – Foreslåtte kandidater`,
+      );
+    });
+  }
 });

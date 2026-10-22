@@ -5,6 +5,7 @@ import { useHentSamtykke } from '../api/presenterte-kandidater-api/hentsamtykke/
 import { useGiSamtykke } from '../api/presenterte-kandidater-api/samtykke/useGiSamtykke';
 import SWRLaster from '../components/SWRLaster';
 import Tilbakelenke from '../components/TilbakeLenke';
+import { fullSidetittel, VILKÅR } from '../util/sidetittel';
 import {
   BodyLong,
   BodyShort,
@@ -16,10 +17,27 @@ import {
   Link as NavLink,
 } from '@navikt/ds-react';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+
+// ApplikasjonsContext viser skjemaet på URL-en brukeren åpnet når samtykke
+// mangler, så tittelen settes her og ikke bare i metadata for /samtykke.
+function useVilkårstittel() {
+  useEffect(() => {
+    const forrigeTittel = document.title;
+    const vilkårstittel = fullSidetittel(VILKÅR);
+    document.title = vilkårstittel;
+    return () => {
+      // Har Next allerede satt tittelen til en ny side, skal den stå.
+      if (document.title === vilkårstittel) {
+        document.title = forrigeTittel;
+      }
+    };
+  }, []);
+}
 
 export default function Samtykke() {
   const router = useRouter();
+  useVilkårstittel();
 
   const { valgtOrganisasjonsnummer } = useApplikasjonContext();
 

@@ -65,6 +65,8 @@ Hver kjøring legger ved `fokusrekkefølge.txt` i rapporten. Den er nyttig når 
 | Én kandidat                    | Kandidat – Foreslåtte kandidater       |
 | Samtykkesiden                  | Vilkår – Foreslåtte kandidater         |
 
+Mangler samtykke, viser appen samtykkeskjemaet på URL-en brukeren åpnet. Da settes tittelen til «Vilkår – Foreslåtte kandidater» mens skjemaet vises, og testen sjekker at siden får riktig tittel etter samtykke.
+
 Titlene sendes til Umami med hver sidevisning, så de skal aldri inneholde navn på personer.
 
 ### Sjekker for interaksjoner
