@@ -2,6 +2,8 @@ import { gotoApp } from './gotoApp';
 import { snapshotTest } from './snapshotTest';
 import {
   sjekkDialog,
+  sjekkPekerfølsomtInnhold,
+  sjekkTilgjengelighet,
   tilgjengelighetstest,
 } from '@navikt/toi-next-frontend/a11y';
 import { expect, test } from '@playwright/test';
@@ -52,6 +54,38 @@ test.describe('Kandidatvisning', () => {
         page,
         page.getByRole('button', { name: 'Slett kandidat' }),
       );
+    },
+  );
+
+  test(
+    'hjelpeteksten på e-postadressen er tilgjengelig (1.4.13)',
+    { tag: '@a11y' },
+    async ({ page, browserName }) => {
+      test.skip(browserName !== 'chromium', 'Kjøres bare i Chromium');
+      await page
+        .getByRole('button', { name: 'Vis kontaktinformasjon' })
+        .click();
+      const epostlenke = page.getByRole('link', {
+        name: 'kristoffer@kandidat.no',
+      });
+      await expect(epostlenke).toHaveAccessibleDescription(
+        'Skriv en e-post til kandidaten',
+      );
+      await sjekkPekerfølsomtInnhold(page, epostlenke);
+    },
+  );
+
+  test(
+    'åpen kontaktinformasjon er tilgjengelig',
+    { tag: '@a11y' },
+    async ({ page }, testInfo) => {
+      await page
+        .getByRole('button', { name: 'Vis kontaktinformasjon' })
+        .click();
+      await expect(
+        page.getByRole('link', { name: 'kristoffer@kandidat.no' }),
+      ).toBeVisible();
+      await sjekkTilgjengelighet(page, {}, testInfo);
     },
   );
 
