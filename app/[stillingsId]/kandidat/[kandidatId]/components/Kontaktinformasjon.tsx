@@ -43,6 +43,7 @@ const Kontaktinformasjon: React.FC<KontaktinformasjonProps> = ({
           </BodyShort>
           <BodyShort as='dd'>
             <Tooltip
+              describesChild
               className='py-2 px-4'
               content='Skriv en e-post til kandidaten'
             >
