@@ -1,8 +1,28 @@
+import {
+  lagProxyFeillogg,
+  lagProxyNettverksfeillogg,
+} from '../util/loggformat';
 import { erLokalt } from '../util/miljø';
 import { Iroute } from './api-routes';
 import { logger } from '@navikt/next-logger';
-import { getToken, requestOboToken, TokenResult } from '@navikt/oasis';
+import {
+  expiresIn,
+  getToken,
+  requestOboToken,
+  TokenResult,
+} from '@navikt/oasis';
 import { NextResponse } from 'next/server';
+
+const NULL_BODY_STATUSER = [204, 205, 304];
+
+const erUtløpt = (token: string) => {
+  if (token === 'DEV') return false;
+  try {
+    return expiresIn(token) <= 0;
+  } catch {
+    return false;
+  }
+};
 
 const isAbortLikeError = (error: unknown): boolean => {
   if (!error || typeof error !== 'object') {
@@ -41,7 +61,7 @@ export const proxyWithOBO = async (
       ? ({ ok: true, token: 'DEV' } as TokenResult)
       : await requestOboToken(token, proxy.scope);
   } catch (error) {
-    logger.error(error, 'Feil ved henting av OBO-token:');
+    logger.error({ err: error }, 'Henting av OBO-token feilet med unntak');
     return NextResponse.json(
       { beskrivelse: 'Kunne ikke hente OBO-token' },
       { status: 500 },
@@ -49,7 +69,17 @@ export const proxyWithOBO = async (
   }
 
   if (!obo.ok || !obo.token) {
-    logger.error(obo, 'Ugyldig OBO-token mottatt:');
+    if (erUtløpt(token)) {
+      logger.info('Kunne ikke hente OBO-token fordi økten er utløpt');
+      return NextResponse.json(
+        { beskrivelse: 'Økten er utløpt' },
+        { status: 401 },
+      );
+    }
+    logger.error(
+      { err: obo.ok ? undefined : obo.error },
+      'Kunne ikke hente OBO-token',
+    );
     return NextResponse.json(
       { beskrivelse: 'Ugyldig OBO-token mottatt' },
       { status: 500 },
@@ -66,6 +96,9 @@ export const proxyWithOBO = async (
   const requestUrl = lokalt
     ? `http://mock-api${path}${originalUrl.search}`
     : newUrl;
+
+  const tjeneste = proxy.internUrl.split('/').pop() || 'backend';
+  const loggUrl = customRoute ?? `${path}${originalUrl.search}`;
 
   try {
     const originalHeaders = new Headers(req.headers);
@@ -85,27 +118,26 @@ export const proxyWithOBO = async (
     }
 
     const response = await fetch(requestUrl, fetchOptions);
-
-    if (!response.ok) {
-      const { status, statusText, url, body, ok, headers } = response;
-
-      logger.error(
-        {
-          headers,
-          status,
-          statusText,
-          url,
-          tilUrl: requestUrl,
-          fraUrl: originalUrl,
-          body,
-          ok,
-        },
-        'Responsen er ikke OK i proxy',
-      );
-    }
-
+    const { status } = response;
     const contentType = response.headers.get('Content-Type');
     const responseText = await response.text();
+
+    if (!response.ok) {
+      const { nivå, melding, felt } = lagProxyFeillogg({
+        tjeneste,
+        metode: req.method,
+        url: loggUrl,
+        status,
+        statusText: response.statusText,
+        responstekst: responseText,
+        utløptØkt: status === 401 && erUtløpt(token),
+      });
+      logger[nivå](felt, melding);
+    }
+
+    if (NULL_BODY_STATUSER.includes(status)) {
+      return new NextResponse(null, { status });
+    }
 
     // workaround da backend av og til returnerer application/json selv om det ikke er respons.
     if (
@@ -114,27 +146,26 @@ export const proxyWithOBO = async (
       responseText
     ) {
       const data = JSON.parse(responseText);
-      return NextResponse.json(data);
+      return NextResponse.json(data, { status });
     } else if (!responseText) {
-      return NextResponse.json({
-        status: response.status,
-        message: 'No content',
-      });
+      return NextResponse.json({ status, message: 'No content' }, { status });
     }
 
-    return NextResponse.json({
-      status: response.status,
-      message: 'Non-JSON content received',
-    });
+    return NextResponse.json(
+      { status, message: 'Non-JSON content received' },
+      { status },
+    );
   } catch (error: unknown) {
-    const message = `Feil ved proxying av forespørselen til url: ${requestUrl} fra url: ${originalUrl}`;
+    const { melding, felt } = lagProxyNettverksfeillogg({
+      tjeneste,
+      metode: req.method,
+      url: loggUrl,
+    });
 
     if (isAbortLikeError(error)) {
-      logger.info({ error }, message);
-    } else if (error instanceof Error) {
-      logger.error(error, message);
+      logger.info({ ...felt, err: error }, melding);
     } else {
-      logger.error({ msg: 'Unknown error', error }, message);
+      logger.error({ ...felt, err: error }, melding);
     }
 
     return NextResponse.json(

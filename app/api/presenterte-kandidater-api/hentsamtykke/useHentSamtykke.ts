@@ -2,7 +2,7 @@
  * Endepunkt /useHentSamtykke
  */
 import { PresenterteKandidaterAPI } from '../../api-routes';
-import { getAPIwithSchema } from '../../fetcher';
+import { getAPIwithSchema, skalPrøvePåNytt } from '../../fetcher';
 import useSWRImmutable from 'swr/immutable';
 import { z } from 'zod';
 
@@ -18,5 +18,6 @@ export const useHentSamtykke = () => {
   return useSWRImmutable(
     hentSamtykkeEndepunkt,
     getAPIwithSchema(HentSamtykkeSchema),
+    { shouldRetryOnError: skalPrøvePåNytt },
   );
 };
