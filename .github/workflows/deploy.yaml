@@ -12,7 +12,7 @@ jobs:
       baseimage: europe-north1-docker.pkg.dev/cgr-nav/pull-through/nav.no/node:24
       dev-vars-path: '.nais/dev-gcp.json'
       prod-vars-path: '.nais/prod-gcp.json'
-      deploy-dev-branch: 'cdn'
+      deploy-dev-branch: 'oppgrader-avhengigheter'
       # apt-speilet kan henge i mange minutter. timeout gjør at jobben feiler i stedet for å henge.
       playwright-command: >-
         timeout 10m pnpm exec playwright install --with-deps firefox webkit &&
