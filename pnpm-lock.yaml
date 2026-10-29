@@ -162,6 +162,8 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+packageExtensionsChecksum: sha256-yLO5QkdMhgLLK5YkyVhlYWDsLO46kcsCETMi0pu79Cw=
+
 importers:
 
   .:
@@ -239,6 +241,9 @@ importers:
       '@eslint/eslintrc':
         specifier: ^3.3.7
         version: 3.3.7(supports-color@7.2.0)
+      '@navikt/browserslist-config-public':
+        specifier: 0.3.0
+        version: 0.3.0
       '@playwright/test':
         specifier: ^1.63.0
         version: 1.63.0
@@ -882,6 +887,18 @@ packages:
       '@navikt/nav-dekoratoren-moduler': '>=3.2.3'
       react: 18 || 19
       react-dom: 18 || 19
+
+  '@navikt/browserslist-config-public@0.3.0':
+    resolution: {integrity: sha512-SeACoelh2Ant5tSmJo8d+L80q895qp/wsp4weVGQePHRZdayI07tLNlELa3Dggw35FtntdOv34Cifo+akd7aaA==, tarball: https://npm.pkg.github.com/download/@navikt/browserslist-config-public/0.3.0/331c71da9f450d816cfd894b8aa338658f87c8db}
+    engines: {node: '>=24'}
+    peerDependencies:
+      astro: '>=7'
+      vite: '>=7'
+    peerDependenciesMeta:
+      astro:
+        optional: true
+      vite:
+        optional: true
 
   '@navikt/ds-css@8.16.2':
     resolution: {integrity: sha512-RMKKQ1OTXGPwSGPsWEvOXpRTxA+QhnHc4oGG0ePg7AeeGQvYE/VjtySL2ddOYwAR8BygyvuB/sDrjm5AkQQ0cw==, tarball: https://npm.pkg.github.com/download/@navikt/ds-css/8.16.2/a132ee47c528af289b89dd5d806ac1abfc937e44}
@@ -4022,6 +4039,8 @@ snapshots:
       - graphql-ws
       - rxjs
       - subscriptions-transport-ws
+
+  '@navikt/browserslist-config-public@0.3.0': {}
 
   '@navikt/ds-css@8.16.2': {}
 
