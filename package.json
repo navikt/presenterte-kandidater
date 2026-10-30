@@ -2,6 +2,9 @@
   "name": "presenterte-kandidater",
   "version": "0.1.0",
   "private": true,
+  "browserslist": [
+    "extends @navikt/browserslist-config-public"
+  ],
   "packageManager": "pnpm@12.4.1",
   "scripts": {
     "dev": "next dev --turbopack -p 1337",
@@ -41,6 +44,7 @@
   "devDependencies": {
     "@axe-core/playwright": "^4.14.0",
     "@eslint/eslintrc": "^3.3.7",
+    "@navikt/browserslist-config-public": "0.3.0",
     "@playwright/test": "^1.63.0",
     "@trivago/prettier-plugin-sort-imports": "^6.0.2",
     "@types/node": "^26.5.1",

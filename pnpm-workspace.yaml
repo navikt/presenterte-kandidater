@@ -1,5 +1,13 @@
 packages:
   - '.'
+packageExtensions:
+  # Registry-metadata mangler optional-flaggene fra pakkens package.json.
+  '@navikt/browserslist-config-public@0.3.0':
+    peerDependenciesMeta:
+      astro:
+        optional: true
+      vite:
+        optional: true
 minimumReleaseAge: 4320 # minutter (3 dager)
 minimumReleaseAgeExclude:
   - '@navikt/*'

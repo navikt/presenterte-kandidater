@@ -77,6 +77,27 @@ Se f.eks fetch() som bruker getBasePath() for å bygge opp url til APIet.
 
 Oasis håndterer autorisasjon og proxying av forespørsler til APIet er gjort i app/api/oboProxy.ts.
 
+### Nettlesermål og begrensninger
+
+Appen bruker `@navikt/browserslist-config-public` gjennom `browserslist` i
+`package.json`. Pakkens offisielle dokumentasjon kan leses med
+`pnpm view @navikt/browserslist-config-public@0.3.0 readme`.
+[Next.js leser konfigurasjonen](https://nextjs.org/docs/architecture/supported-browsers)
+og bruker målene i Turbopack-bygget. Det trengs ingen egen innstilling i `next.config.ts`.
+Versjon 0.3.0 angir Chrome og Edge 108, Firefox 121, Safari og iOS Safari 16,
+Opera 94 og Samsung Internet 21 som minimum.
+
+Dette er kompileringsmål, ikke en garanti for at hele appen fungerer i alle disse
+versjonene. [Tailwind CSS 4 krever nyere nettlesere](https://tailwindcss.com/docs/compatibility):
+Chrome 111, Safari 16.4 og Firefox 128. Tailwinds interne CSS-behandling følger
+ikke Browserslist-konfigurasjonen. Next.js oppgir også Chrome/Edge 111 og Safari
+16.4 som støttede minimumsversjoner. Konfigurasjonen legger ikke automatisk til
+polyfills for alle JavaScript- og nettleser-API-er.
+
+Playwright tester nyere Chromium-, Firefox- og WebKit-versjoner, ikke de eldste
+versjonene i nettlesermålene. Full støtte på Navs minimumsversjoner er derfor ikke
+verifisert.
+
 ## Kode generert av GitHub Copilot
 Dette repoet bruker GitHub Copilot til å generere kode.
 
