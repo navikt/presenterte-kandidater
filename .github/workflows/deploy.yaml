@@ -14,6 +14,7 @@ jobs:
       prod-vars-path: '.nais/prod-gcp.json'
       deploy-dev-branch: 'ta-i-bruk-browserslist-config-public'
       playwright-command: pnpm run test
+      a11y-command: pnpm run test:a11y
       playwright-github-report: true
       playwright-shards: 4
     secrets: inherit
