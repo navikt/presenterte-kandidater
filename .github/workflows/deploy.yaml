@@ -6,18 +6,15 @@ on:
 jobs:
   build-and-deploy:
     name: 🤖
-    uses: navikt/toi-frontend-workflows/.github/workflows/build-and-deploy-nextjs.yaml@v3.5
+    uses: navikt/toi-frontend-workflows/.github/workflows/build-and-deploy-nextjs.yaml@pilot-node-26
     with:
       cdn-upload: true
-      baseimage: europe-north1-docker.pkg.dev/cgr-nav/pull-through/nav.no/node:24
+      baseimage: europe-north1-docker.pkg.dev/cgr-nav/pull-through/nav.no/node:26
       dev-vars-path: '.nais/dev-gcp.json'
       prod-vars-path: '.nais/prod-gcp.json'
       deploy-dev-branch: 'ta-i-bruk-browserslist-config-public'
-      # apt-speilet kan henge i mange minutter. timeout gjør at jobben feiler i stedet for å henge.
-      playwright-command: >-
-        timeout 10m pnpm exec playwright install --with-deps firefox webkit &&
-        pnpm run test
-      playwright-snapshots: true
+      playwright-command: pnpm run test
+      playwright-github-report: true
       playwright-shards: 4
     secrets: inherit
     permissions:
