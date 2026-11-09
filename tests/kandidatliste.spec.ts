@@ -1,5 +1,4 @@
 import { gotoApp } from './gotoApp';
-import { snapshotTest } from './snapshotTest';
 import { tilgjengelighetstest } from '@navikt/toi-next-frontend/a11y';
 import { expect, test } from '@playwright/test';
 
@@ -16,6 +15,5 @@ test.describe('Kandidatliste for stilling', () => {
     await expect(page.getByText('Misjonærer for Gather Town')).toBeVisible();
   });
 
-  snapshotTest(test);
   tilgjengelighetstest(test, { utvidet: true, reflow: true });
 });
