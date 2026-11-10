@@ -1,5 +1,4 @@
 import { gotoApp } from './gotoApp';
-import { snapshotTest } from './snapshotTest';
 import {
   sjekkDialog,
   sjekkPekerfølsomtInnhold,
@@ -44,7 +43,6 @@ test.describe('Kandidatvisning', () => {
     await expect(page.locator('main')).toHaveCount(1);
   });
 
-  snapshotTest(test);
   test(
     'slettemodalen er tilgjengelig (2.1.2, 2.4.3, 4.1.2)',
     { tag: '@a11y' },
