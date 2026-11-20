@@ -12,7 +12,7 @@ jobs:
       baseimage: europe-north1-docker.pkg.dev/cgr-nav/pull-through/nav.no/node:26
       dev-vars-path: '.nais/dev-gcp.json'
       prod-vars-path: '.nais/prod-gcp.json'
-      deploy-dev-branch: 'ta-i-bruk-browserslist-config-public'
+      deploy-dev-branch: 'kortere-cv-tilgang-91-dager'
       playwright-command: pnpm run test
       playwright-shards: 4
     secrets: inherit

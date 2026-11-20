@@ -131,7 +131,7 @@ export default function Samtykke() {
             </Heading>
             <ul className={'list-disc list-inside'}>
               <li>
-                CV-ene slettes automatisk seks måneder etter at de er mottatt.
+                CV-ene slettes automatisk tre måneder etter at de er mottatt.
                 Hvis du ikke lenger har behov for CV-ene, skal du slette dem og
                 ikke vente på den automatiske slettingen.
               </li>
