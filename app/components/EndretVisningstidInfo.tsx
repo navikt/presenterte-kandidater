@@ -1,7 +1,7 @@
 import { InformationSquareIcon } from '@navikt/aksel-icons';
 import { BodyLong, InfoCard } from '@navikt/ds-react';
 
-// Midlertidig melding om at CV-er nå vises i tre måneder. Fjernes seks uker
+// Midlertidig melding om at CV-er nå vises i 90 dager. Fjernes seks uker
 // etter at endringen er rullet ut.
 const EndretVisningstidInfo = () => (
   <InfoCard data-color='info' className='[overflow-wrap:anywhere]'>
@@ -12,7 +12,7 @@ const EndretVisningstidInfo = () => (
     </InfoCard.Header>
     <InfoCard.Content>
       <BodyLong spacing>
-        Oversendte CV-er vil nå være tilgjengelige på denne siden i tre måneder,
+        Oversendte CV-er vil nå være tilgjengelige på denne siden i 90 dager,
         mot tidligere seks måneder.
       </BodyLong>
       <BodyLong spacing>
