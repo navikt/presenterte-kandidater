@@ -64,7 +64,7 @@ test.describe('Loggformat for proxy', () => {
 
   test('korter ned responsteksten og fjerner personopplysninger', () => {
     expect(
-      kortResponstekst('Fant ikke 12345678901 eller ola@nav.no i 010190 12345'),
+      kortResponstekst('Fant ikke 00000000002 eller ola@nav.no i 000000 00001'),
     ).toBe('Fant ikke [fnr] eller [e-post] i [fnr]');
 
     const lang = kortResponstekst('x'.repeat(1000));
@@ -124,7 +124,7 @@ test.describe('Loggformat for Zod-feil', () => {
 
   test('tar ikke med verdier eller spørreparametre i meldingen', () => {
     const listeschema = z.array(z.object({ navn: z.string() }));
-    const data = { hemmelig: '12345678901' };
+    const data = { hemmelig: '00000000002' };
     const resultat = listeschema.safeParse(data);
 
     const { melding, felt } = lagZodFeillogg(
@@ -137,7 +137,7 @@ test.describe('Loggformat for Zod-feil', () => {
     expect(melding).toBe(
       'Uventet format på svar fra /kandidatlister: (rot) (forventet array, fikk object)',
     );
-    expect(JSON.stringify(felt)).not.toContain('12345678901');
+    expect(JSON.stringify(felt)).not.toContain('00000000002');
     expect(JSON.stringify(felt)).not.toContain('811076902');
   });
 
